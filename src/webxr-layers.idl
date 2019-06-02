@@ -1,0 +1,254 @@
+typedef (WebGLRenderingContext or WebGL2RenderingContext) XRWebGLRenderingContext;
+
+dictionary XRLayerInit {
+  boolean chromaticAberrationCorrection = false;
+  boolean blendTextureSourceAlpha = false;
+};
+
+[
+    SecureContext,
+    Exposed=Window,
+    Constructor(XRSession session, XRWebGLRenderingContext context, optional XRLayerInit imageInit)
+] interface XRLayer {
+  readonly attribute boolean chromaticAberrationCorrection;
+  readonly attribute boolean blendTextureSourceAlpha;
+  
+  void requestUpdate();
+};
+
+enum XRLayerEyeVisibility {
+  "both",
+  "left",
+  "right" 
+};
+
+[
+    SecureContext,
+    Exposed=Window
+] interface XRLayerImageSource {
+};
+
+/////////////////////////
+dictionary XRLayerTextureImageInit {
+  unsigned long textureWidth;
+  unsigned long textureHeight;
+  boolean alpha = true;
+  boolean cube = false;
+};
+
+[
+    SecureContext,
+    Exposed=Window,
+    Constructor(XRSession session, XRWebGLRenderingContext context, optional XRLayerTextureImageInit imageInit)
+] interface XRLayerTextureImage : XRLayerImageSource {
+  readonly attribute XRWebGLRenderingContext context;
+  readonly attribute unsigned long textureWidth;
+  readonly attribute unsigned long textureHeight;
+  readonly attribute unsigned long textureInternalFormat;
+  readonly attribute WebGLTexture texture;
+  readonly attribute boolean cube;
+};
+
+/////////////////////////
+dictionary XRLayerTextureArrayImageInit {
+  boolean antialias = true;
+  unsigned long arrayTextureWidth;
+  unsigned long arrayTextureHeight;
+  unsigned long arrayTextureDepth;
+  boolean alpha = true;
+};
+
+[
+    SecureContext,
+    Exposed=Window,
+    Constructor(XRSession session, XRWebGLRenderingContext context, optional XRLayerTextureArrayImageInit imageInit)
+] interface XRLayerTextureArrayImage : XRLayerImageSource {
+  readonly attribute XRWebGLRenderingContext context;
+  readonly attribute unsigned long arrayTextureWidth;
+  readonly attribute unsigned long arrayTextureHeight;
+  readonly attribute unsigned long arrayTextureDepth;
+  readonly attribute unsigned long arrayTextureInternalFormat;
+  readonly attribute WebGLTexture arrayTexture;
+};
+
+/////////////////////////
+dictionary XRLayerFramebufferImageInit {
+  boolean antialias = true;
+  boolean depth = true;
+  boolean stencil = false;
+  boolean alpha = true;
+  boolean multiview = false;
+  unsigned long framebufferWidth;
+  unsigned long framebufferHeight;
+};
+
+[
+    SecureContext,
+    Exposed=Window,
+    Constructor(XRSession session, XRWebGLRenderingContext context, optional XRLayerFramebufferImageInit imageInit)
+] interface XRLayerFramebufferImage : XRLayerImageSource {
+  readonly attribute XRWebGLRenderingContext context;
+  readonly attribute boolean antialias;
+  readonly attribute boolean depth;
+  readonly attribute boolean stencil;
+  readonly attribute boolean alpha;
+  readonly attribute boolean multiview;
+
+  readonly attribute unsigned long framebufferWidth;
+  readonly attribute unsigned long framebufferHeight;
+  readonly attribute WebGLFramebuffer framebuffer;
+};
+
+/////////////////////////
+dictionary XRLayerDOMImageInit {
+  DOMString     url;
+  unsigned long width  = 0;
+  unsigned long height = 0;
+};
+
+[
+    SecureContext,
+    Exposed=Window,
+    Constructor(XRSession session, XRWebGLRenderingContext context, optional XRLayerDOMImageInit imageInit)
+] interface XRLayerDOMSource : XRLayerImageSource {
+  readonly attribute DOMString     url;
+  readonly attribute unsigned long width;
+  readonly attribute unsigned long height;
+};
+
+/////////////////////////
+dictionary XRLayerVideoSourceInit {
+  HTMLVideoElement video;
+};
+
+
+[
+    SecureContext,
+    Exposed=Window,
+    Constructor(XRSession session, XRWebGLRenderingContext context, optional XRLayerVideoSourceInit imageInit)
+] interface XRLayerVideoSource : XRLayerImageSource {
+  HTMLVideoElement video;
+};
+
+//////////////////////////
+[
+    SecureContext,
+    Exposed=Window,
+    Constructor(XRLayerImageSource imageSource, optional sequence<float> imageRect, optional long arrayIndex)
+] interface XRLayerSubImage {
+  readonly attribute XRLayerImageSource imageSource;
+  readonly attribute FrozenArray<float> imageRectUV; // 2D rect in UV space
+  readonly attribute long imageArrayIndex;
+};
+
+/////////////////////////
+dictionary XRQuadLayerInit {
+  (XRLayerSubImage or XRLayerImageSource) image;
+  XRLayerEyeVisibility eyeVisibility = "both";
+  XRSpace              space;
+  XRRigidTransform?    pose;
+  float                width;
+  float                height;
+};
+
+[
+    SecureContext,
+    Exposed=Window,
+    Constructor(XRSession session, XRWebGLRenderingContext context, optional XRQuadLayerInit layerInit)
+] interface XRQuadLayer : XRLayer {
+
+  readonly attribute XRLayerSubImage      subImage;
+
+  readonly attribute XRLayerEyeVisibility eyeVisibility;
+  readonly attribute XRSpace              space;
+  readonly attribute XRRigidTransform?    pose;
+  readonly attribute float                width;
+  readonly attribute float                height;
+
+  XRViewport? getViewport(XRView view);
+};
+
+
+/////////////////////////
+dictionary XRCylinderLayerInit {
+  (XRLayerSubImage or XRLayerImageSource) image;
+  XRLayerEyeVisibility eyeVisibility = "both";
+  XRSpace              space;
+  XRRigidTransform?    pose;
+  float                radius;
+  float                centralAngle;
+  float                aspectRatio;
+};
+
+[
+    SecureContext,
+    Exposed=Window,
+    Constructor(XRSession session, XRWebGLRenderingContext context, optional XRCylinderLayerInit layerInit)
+] interface XRCylinderLayer : XRLayer {
+
+  readonly attribute XRLayerSubImage      subImage;
+
+  readonly attribute XRLayerEyeVisibility eyeVisibility;
+  readonly attribute XRSpace              space;
+  readonly attribute XRRigidTransform?    pose;
+  readonly attribute float                radius;
+  readonly attribute float                centralAngle;
+  readonly attribute float                aspectRatio;
+
+  XRViewport? getViewport(XRView view);
+};
+
+/////////////////////////
+dictionary XREquirectLayerInit {
+  (XRLayerSubImage or XRLayerImageSource) image;
+  XRLayerEyeVisibility eyeVisibility = "both";
+  XRSpace              space;
+  XRRigidTransform?    pose;
+
+  DOMPoint             scale;  // x,y
+  DOMPoint             biasUV; // x,y
+};
+
+[
+    SecureContext,
+    Exposed=Window,
+    Constructor(XRSession session, XRWebGLRenderingContext context, optional XREquirectLayerInit layerInit)
+] interface XREquirectLayer : XRLayer {
+
+  readonly attribute XRLayerSubImage   subImage;
+
+  readonly attribute XRLayerEyeVisibility eyeVisibility;
+  readonly attribute XRSpace           space;
+  readonly attribute XRRigidTransform? pose;
+  readonly attribute DOMPointReadOnly  scale;  //2f
+  readonly attribute DOMPointReadOnly  biasUV; //2f
+
+  XRViewport? getViewport(XRView view);
+};
+
+/////////////////////////
+dictionary XRCubeLayerInit {
+  XRLayerImageSource   image;
+  XRLayerEyeVisibility eyeVisibility = "both";
+  XRSpace              space;
+  DOMPoint             orientation; 
+  DOMPoint             offset; 
+};
+
+[
+    SecureContext,
+    Exposed=Window,
+    Constructor(XRSession session, XRWebGLRenderingContext context, optional XRCubeLayerInit layerInit)
+] interface XRCubeLayer : XRLayer {
+
+  readonly attribute XRLayerImageSource   image;
+
+  readonly attribute XRLayerEyeVisibility eyeVisibility;
+  readonly attribute XRSpace              space;
+
+  readonly attribute DOMPointReadOnly     orientation; 
+  readonly attribute DOMPointReadOnly     offset; 
+
+  XRViewport? getViewport(XRView view);
+};
+
