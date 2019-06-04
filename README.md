@@ -51,12 +51,10 @@ To support multiple layers the following changes are proposed:
 viewer.
 * Introduce a way to determine which layers are supported and what is the maximum amount of the layers supported (fingerprinting?);
 * Add common properties to [XRLayer](https://immersive-web.github.io/webxr/#xrlayer-interface) (such as chromatic aberration or alpha blending flags);
-* Introduce a concept of "image source" for layers and a way to create / request image sources from the UA;
-* Optionally, change [XRWebGLLayer](https://immersive-web.github.io/webxr/#xrwebgllayer-interface) to comply with the new concepts of XRLayer and image source. Or, we can leave it as is and replace it with a different layer once we are ready.
 
 The proposed IDL at the end of this document is for a reference only and not final by any means.
 
-#### Changes in XRRenderState
+### Changes in XRRenderState
 
 The proposed change to replace the [baseLayer](https://immersive-web.github.io/webxr/#dom-xrrenderstate-baselayer) in [XRRenderStateInit](https://immersive-web.github.io/webxr/#xrrenderstate-interface) and [XRRenderState](https://immersive-web.github.io/webxr/#xrrenderstate-interface) by the sequence of [XRLayer](https://immersive-web.github.io/webxr/#xrlayer-interface)s.
 
@@ -72,21 +70,12 @@ dictionary XRRenderStateInit {
 };
 ```
 
-#### Drawing layers 
+### Layers composition 
 As was mentioned before, the drawing algorithm is a simple "painter's algorithm" where layers render in order of their appearance in the sequence, with the 0th layer drawn first (usually, the 0th layer is the eye-buffer one). Each successive layer potentially overwriting the destination layers whether or not the new layers are virtually closer to the viewer. There is no depth testing between the layers. 
 Layer's visibility is controlled by presence (or absence) the layer in the sequence. To hide or show a layer - call [updateRenderState](https://immersive-web.github.io/webxr/#dom-xrsession-updaterenderstate) and provide a new sequence of layers.
 
-#### Adding layers capabilities
+### Adding layers capabilities
 > **TODO** Introduce a way to determine which layers are supported and what is the maximum amount of the layers supported (fingerprinting?) 
-
-#### Additions to XRLayer / XRLayerInit
-Some common properties and methods could be added to XRLayer / XRLayerInit. See [here](details.md) for more details.
-
-#### Layer image source
-Layers require image source that is used for the rendering. In order to achieve maximum performance and to avoid extra texture copies, the image sources might be implemented as direct compositor swapchains under-the-hood. See [here](details.md) for more details. 
-
-#### Optional changes to XRWebGLLayer
-Once image source concept is introduced, shouldn't we modify XRWebGLLayer to use it instead of explicit reference to framebuffer or texture array (for the XRWebGLArrayLayer)? By doing this, we could avoid introducing an extra XRWebGLArrayLayer type for multiview support in this case. Alternatively, we can introduce a new layer type.
 
 ## IDL (excerpts)
 
@@ -106,15 +95,16 @@ partial dictionary XRRenderStateInit {
 };
 
 ```
-More complete IDL (but still - very much preliminary and WIP) could be found [here](details.md).
 
-#### TO DO
+## TO DO
 This is a Work-In-Progress document and the following topics are not covered in details here. The topics which will be touched in separate documents:
 * Specify each layer type (quad, cylinder, equirect, cubemap), provide details for properties / methods for each layer;
 * DOM layers details; 
 * Video layer details; 
 * Hit-testable layers.
 * Provide full IDL.
+* Based on the foundation described in this document, a next set of functionality is being explored [here](details.md) that goes into more details about common parts of a multilayer system and enumerates potential layer types.```
+
 
 ## References
 * [Khronos OpenXR API](https://www.khronos.org/openxr)
