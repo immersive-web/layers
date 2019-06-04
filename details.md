@@ -1,3 +1,17 @@
+### Additional changes
+* Introduce a concept of "image source" for layers and a way to create / request image sources from the UA;
+* Optionally, change [XRWebGLLayer](https://immersive-web.github.io/webxr/#xrwebgllayer-interface) to comply with the new concepts of XRLayer and image source. Or, we can leave it as is and replace it with a different layer once we are ready.
+
+#### Additions to XRLayer / XRLayerInit
+Some common properties and methods could be added to XRLayer / XRLayerInit. See [here](details.md) for more details.
+
+#### Layer image source
+Layers require image source that is used for the rendering. In order to achieve maximum performance and to avoid extra texture copies, the image sources might be implemented as direct compositor swapchains under-the-hood. See [here](details.md) for more details. 
+
+#### Optional changes to XRWebGLLayer
+Once image source concept is introduced, shouldn't we modify XRWebGLLayer to use it instead of explicit reference to framebuffer or texture array (for the XRWebGLArrayLayer)? By doing this, we could avoid introducing an extra XRWebGLArrayLayer type for multiview support in this case. Alternatively, we can introduce a new layer type.
+
+
 ### Proposed types of layers
 Not all layers are going to be supported by all hardware/browsers. We would need to figure out the bare minimum of layer types to be supported. I have the following ones in mind: the transparent or opaque quadrilateral, cubemap, cylindrical and equirect layers. Additionally, we might want to replace the `XRWebGLLayer` by the another layer that uses image source instead of an opaque framebuffer.
 
