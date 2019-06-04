@@ -35,7 +35,7 @@ The purpose of this document is to unlock the ability for User Agents to experim
 * Define ways to get layers capabilities, such as maximum number of supported layers, supported types of layers, etc;
 * Make sure the layers' part of the WebXR spec is extensible for any future additions and minimizing need for breaking changes in future. The modified API should be compatible with all User Agents whether they support multiple layers or not. 
 
-## Non-gials
+## Non-goals
 * This document doesn't provide definitions for any specific layer types.
 * Particular details of implementation will be provided in a different [document](details.md)
 
