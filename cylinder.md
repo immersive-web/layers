@@ -16,33 +16,3 @@ The cylinder-specific attributes are as follows:
 
 > **TODO** Hittestable / interactive layers with using `XRLayerDOMImage`?
 
-## IDL
-```webidl
-dictionary XRCylinderLayerInit {
-  (XRLayerSubImage or XRLayerImageSource) image;
-  XRLayerEyeVisibility eyeVisibility = "both";
-  XRSpace              space;
-  XRRigidTransform?    pose;
-  float                radius;
-  float                centralAngle;
-  float                aspectRatio;
-};
-
-[
-    SecureContext,
-    Exposed=Window,
-    Constructor(XRSession session, XRWebGLRenderingContext context, optional XRCylinderLayerInit layerInit)
-] interface XRCylinderLayer : XRLayer {
-
-  readonly attribute XRLayerSubImage      subImage;
-
-  readonly attribute XRLayerEyeVisibility eyeVisibility;
-  readonly attribute XRSpace              space;
-  readonly attribute XRRigidTransform?    pose;
-  readonly attribute float                radius;
-  readonly attribute float                centralAngle;
-  readonly attribute float                aspectRatio;
-
-  XRViewport? getViewport(XRView view);
-};
-```

@@ -29,6 +29,3 @@ One of the very common use cases of WebXR is 180 and/or 360 photos or videos, bo
 Another example where composition layers are going to shine is displaying text or high resolution textures in the virtual world. Since composition layers allow to sample source texture at full resolution without multiple re-samplings the readability of the text is going to be significantly improved.
 
 
-This proposal consists of  the several documents:
-* [Multi layers](multi-layer.md) - the general information about the proposed layers
-* [Layers core](layers-core.md) - describes the core elements of the layers.
