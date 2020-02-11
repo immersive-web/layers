@@ -138,9 +138,10 @@ xrSession.requestAnimationFrame(onXRFrame);
 function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
-  gl.bindFramebuffer(gl.FRAMEBUFFER, xrGfx.getCurrentFramebuffer(layer));
   for (let view in xrViewerPose.views) {
-    let viewport = layer.getViewSubImage(view).viewport;
+    let subImage = layer.getViewSubImage(view)
+    gl.bindFramebuffer(gl.FRAMEBUFFER, subImage.frameBuffer);
+    let viewport = subImage.viewport;
     gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
     
     // Render from the viewpoint of xrView
@@ -167,11 +168,12 @@ xrSession.requestAnimationFrame(onXRFrame);
 function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
-  gl.bindFramebuffer(gl.FRAMEBUFFER, xrGfx.getCurrentFramebuffer(quadLayer));
   for (let view in xrViewerPose.views) {
     let subImage = quadLayer.getViewSubImage(view);
 
     if (subImage.primary) {
+      gl.bindFramebuffer(gl.FRAMEBUFFER, subImage.framebuffer);
+      let viewport = subImage.viewport;
       gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
       
       // Render content for view.eye
@@ -189,8 +191,11 @@ function onXRFrame(time, xrFrame) {
 
 dictionary XRSubImage {
   XRViewport viewport;
-  unsigned long imageIndex;
+  unsigned long? imageIndex; // for texture array
   boolean primary;
+  WebGLTexture? colorTexture;
+  WebGLTexture? depthStencilTextur;
+  WebGLFramebuffer? framebuffer;
 }
 
 interface XRLayer {
@@ -248,6 +253,7 @@ interface XRCubeLayer extends XRLayer {
 dictionary XRLayerInit {
   required unsigned int pixelWidth;
   required unsigned int pixelHeight;
+  boolean framebuffer = true; // should it be false?
   boolean stereo = false;
   boolean depth = true;
   boolean stencil = false;
@@ -264,8 +270,6 @@ interface XRWebGLGraphicsBinding {
   Promise<XRQuadLayer> requestQuadLayer(XRLayerInit init);
   Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
   Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
-
-  WebGLFramebuffer? getCurrentFramebuffer(XRLayer layer);
 }
 
 interface XRWebGL2GraphicsBinding {
@@ -276,9 +280,6 @@ interface XRWebGL2GraphicsBinding {
   Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
   Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
   Promise<XRCubeLayer> requestCubeLayer(XRLayerInit init); // Note only available with WebGL 2
-
-  WebGLTexture? getCurrentColorTexture(XRLayer layer);
-  WebGLTexture? getCurrentDepthStencilTexture(XRLayer layer);
 }
 ```
 
@@ -287,4 +288,5 @@ interface XRWebGL2GraphicsBinding {
   - Sensible defaults of all the layer values.
   - Do we need an attribte to communicate max number of supported layers?
   - Do we need to report on the layer source whether or not it's mono/stereo, since the XR device may force a downgrade?
-  - Depth: Should we consider allowing a separate layer for this like OpenXR does, or continue pattern of allowing it's use by default (implies most layer types need to be able to allocate both a color and depth/stencil buffer)
+  - Depth: Should we consider allowing a separate layer for this like OpenXR does, or continue pattern of allowing it's use by default (implies most layer types need to be able to allocate both a color and depth/stencil buffer)-
+  - Should there be a way to explicitly dispose of a layer?
