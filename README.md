@@ -32,41 +32,13 @@ Another example where composition layers are going to shine is displaying text o
 
 Using the Layers API consists of three primary steps:
 
-  1. Creating, positioning, and sizing the layers to be shown.
-  1. Creating graphics API resources to back the layers.
+  1. Creating the layers with a given graphics API.
+  1. Positioning the layers and adding them to the session's layers array.
   1. Rendering to the graphics API resources during the frame loop.
-
-### Layer creation
-
-Layers are created by the `XRSession`, using the `requestLayer()` series of fuctions, patterned after the `requestReferenceSpace()` method. Unlike other `request...` methods this function does not return a `Promise`, since it's expected that layer construction will be fairly lightweight. It may return `null`, however, if the `XRSession` does not support the requested layer type. The only layer type that _must_ be supported is `"projection"`. The returned instance depends on the requested type, with each layer type corresponding to it's own interfaces which extends `XRLayer`.
-
-```js
-// Returns an XRProjectionLayer instance
-const projectionLayer = xrSesssion.requestLayer('projection');
-```
-
-This explainer will not cover the details of every possible layer. For additional details please see the separate explainers for each layer type:
-
-  - XRProjectionLayer
-  - [XRQuadLayer](./quad.md)
-  - [XRCylinderLayer](./cylinder.md)
-  - [XREquirectLayer](./equirect.md)
-  - [XRCubeLayer](./cubemap.md)
-
-Layers are not presented to the XR device until they have been added to the `layers` `XRRenderState` property with the `updateRenderState()` method. Setting the `layers` array will override the `baseLayer` if one is present, with `baseLayer` reporting the first element in the `layers` array. Layers will be presented in the order they are given in the `layers` array, with each layers being given in "back-to-front" order. Layers may have alpha blending applied if the layer's `blendSourceAlpha` attribute is `true`, but no depth testing may be performed between layers.
-
-```js
-const projectionLayer = xrSesssion.requestLayer('projection');
-const quadLayer = xrSesssion.requestLayer('quad');
-
-xrSession.updateRenderState({ layers: [projectionLayer, quadLayer] });
-```
-
-`updateRenderState()` _may_ throw an exception if more layers are specified than the `XRSession` supports simultaneously.
 
 ### Graphics API binding
 
-On their own, layers have no visual data, and will be ignored during compositing until provided with a backing `XRLayerSource`. A layer source is typically a GPU resource, like a texture, provided by one of the Web platform's graphics APIs. In order to specify which API is providing the layer sources an `XRGraphicsBinding` instance for the API in question must be created. For example, creating a graphics binding fow WebGL would function like this:
+When a layers is created it is typically backed a GPU resource, like a texture, provided by one of the Web platform's graphics APIs. In order to specify which API is providing the layer's GPU resources an `XRGraphicsBinding` instance for the API in question must be created. For example, creating a graphics binding for WebGL would function like this:
 
 ```js
 const canvas = document.createElement('canvas');
@@ -94,45 +66,71 @@ Each graphics API may have unique requirements that must be satisfied before a c
 
 Any interaction between the `XRSession` the graphics API, such as allocating or retrieving textures, will go through this `XRGraphicsBinding` instance, and the exact mechanics of the interaction will typically be API specific. This allows the rest of the WebXR API to be graphics API agnostic and more easily adapt to future advances in rendering techniques.
 
-## Layer source allocation
+## Layer creation
 
-Once an `XRGraphicsBinding` instance has been acquired, it can be used to create backing `XRLayerSource`s for each layer. What form this takes depends on the API being used, but is generally expected to be a texture or other render target expressed using the APIs native interfaces.
+Once an `XRGraphicsBinding` instance has been acquired, it can be used to create a variety of `XRLayer`s. Any layers created by that graphics binding will then be able to query associated GPU resources each frame, generally expected to be a texture or other render target expressed using the APIs native interfaces.
 
-In all cases a `set____LayerSource` method will be called with the layer that the layer source is being created for, as well as any additional information needed to create the appropriate graphics resources. The method will return a promise that will resolve to the associated `XRLayerSource` type once the graphics resources have been created and the layer is ready to begin presenting images provided by the new layer source.
+The various layer types are created with the  `request____Layer` series of methods on the `XRGraphicsBinding` instance. Information about the graphics resources required, such as whether or not to allocate a depth buffer or alpha channel, are passed in at layer creation time and will be immutable for the lifetime of the layer. The method will return a promise that will resolve to the associated `XRLayer` type once the graphics resources have been created and the layer is ready to be displayed.
 
 ```js
 const xrGfx = new XRWebGLGraphicsBinding(xrSession, gl);
-
-const layer = xrSession.requestLayer('projection');
-const source = await xrGfx.setFramebufferLayerSource(layer, { alpha: false });
+const layer = await xrGfx.requestProjectionLayer({ alpha: false });
 ```
 
-If a layer source had previously been created for the passed layer it will become detached and the associated graphics resources discarded once the new layer source has been resolved. Creationg of new layer sources must not resolve until any pending `XRFrame` has been processed.
-
-Depending on the layer type that the layer source is being created for, additional data may need to be provided in order to allocate graphics resources appropriately. For instance, layer types other than `"projection"` must be given an explicit pixel width and height, as well as whether or not the image should be stereo or mono. This is because those properties cannot be inferred from the hardware or layer type as they can with a `"projection"` layer.
+Layer types other than an `XRProjectionLayer` must be given an explicit pixel width and height, as well as whether or not the image should be stereo or mono. This is because those properties cannot be inferred from the hardware or layer type as they can with an `XRProjectionLayer`.
 
 ```js
 const xrGfx = new XRWebGLGraphicsBinding(xrSession, gl);
-
-const layer = xrSession.requestLayer('quad');
-const isStereo = true;
-const source = await xrGfx.setFramebufferLayerSource(layer, 1024, 768, { stereo: true });
+const layer = xrGfx.requestQuadLayer({ pixelWidth: 1024, pixelHeight: 768, stereo: true });
 ```
 
 Passing `true` for stereo here indicates that you are able to provide stereo imagery for this layer source, but if the XR device is unable to display stereo imagery it may automatically force the layer to be created as mono instead to reduce memory and rendering overhead. Layers that are created as mono will never be automatically changed to stereo, regardless of hardware capabilities.
 
+Some layer types may not be supported by either the `XRGraphicsBinding` or the `XRSession`. If the `XRGraphicsBinding` doesn't support a layer type it will simply lack a method for creating that layer type. If the `XRSession` doesn't support a layer type the returned Promise will reject. `XRProjectionLayer` _must_ be supported by all `XRSession`s and `XRGraphicsBinding`s.
+
+## Layer positioning and shape
+
+Non projection layers each have attributes that control where the layer is shown and how it's shaped. For example, the positioning of an `XRQuadLayer` is handled like so:
+
+```js
+const quadLayer = xrGfx.requestQuadLayer({ pixelWidth: 512, pixelHeight: 512, stereo: false });
+// Position 2 meters away from the origin of xrReferenceSpace with a width and height of 1.5 meters
+quadLayer.referenceSpace = xrReferenceSpace;
+quadLayer.transform = new XRRigidTransform({z: -2});
+quadLayer.width = 1.5;
+quadLayer.height = 1.5;
+```
+
+This explainer will not cover the details of positioning and shaping every possible layer. For additional details please see the separate explainers for each layer type:
+
+  - [XRQuadLayer](./quad.md)
+  - [XRCylinderLayer](./cylinder.md)
+  - [XREquirectLayer](./equirect.md)
+  - [XRCubeLayer](./cubemap.md)
+
+## Setting the layers array
+
+Layers are not presented to the XR device until they have been added to the `layers` `XRRenderState` property with the `updateRenderState()` method. Setting the `layers` array will override the `baseLayer` if one is present, with `baseLayer` reporting the first element in the `layers` array. Layers will be presented in the order they are given in the `layers` array, with layers being given in "back-to-front" order. Layers may have alpha blending applied if the layer's `blendSourceAlpha` attribute is `true`, but no depth testing may be performed between layers.
+
+```js
+const projectionLayer = xrGfx.requestProjectionLayer();
+const quadLayer = xrGfx.requestQuadLayer({ pixelWidth: 1024, pixelHeight: 1024 });
+
+xrSession.updateRenderState({ layers: [projectionLayer, quadLayer] });
+```
+
+`updateRenderState()` _may_ throw an exception if more layers are specified than the `XRSession` supports simultaneously.
+
 ## Rendering
 
-During `XRFrame` processing each layer source can be updated with new imagery. Calling `getViewSubImage()` with a view from the `XRFrame` will return an `XRSubImage` indicating what section of the associated graphics resources will be presented to the view's associated physical display. If a layer source has not yet been set for the layer `getSubImage()` with return an `XRSubImage` with all values set to zero or false.
+During `XRFrame` processing each layer can be updated with new imagery. Calling `getViewSubImage()` with a view from the `XRFrame` will return an `XRSubImage` indicating what section of the associated graphics resources will be presented to the view's associated physical display. If a layer source has not yet been set for the layer `getSubImage()` with return an `XRSubImage` with all values set to zero or false.
 
-Every layer source will also have a `getCurrent_____()` method that retrieves the graphics resources that should be rendered to for the current `XRFrame`. Calling this method indicates that the imagery should be updated, otherwise any previous rendering will be displayed again, reprojected if necessary.
+Every `XRGraphicsBinding` instance will also have a `getCurrent_____()` method that retrieves the graphics resources associated with a particular layer that should be rendered to for the current `XRFrame`. Calling this method indicates that the imagery should be updated, otherwise any previous rendering will be displayed again, reprojected if necessary.
 
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const xrGfx = new XRWebGLGraphicsBinding(xrSession, gl);
-
-const layer = xrSession.requestLayer('projection');
-const source = await xrGfx.setFramebufferLayerSource(layer);
+const layer = xrGfx.requestProjectionLayer();
 
 xrSession.updateRenderState({ layers: [layer] });
 xrSession.requestAnimationFrame(onXRFrame);
@@ -140,7 +138,7 @@ xrSession.requestAnimationFrame(onXRFrame);
 function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
-  gl.bindFramebuffer(gl.FRAMEBUFFER, source.getCurrentFramebuffer());
+  gl.bindFramebuffer(gl.FRAMEBUFFER, xrGfx.getCurrentFramebuffer(layer));
   for (let view in xrViewerPose.views) {
     let viewport = layer.getViewSubImage(view).viewport;
     gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
@@ -156,13 +154,12 @@ In some cases, such as a mono `XRQuadLayer` being shown on a stereo device, mult
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const xrGfx = new XRWebGLGraphicsBinding(xrSession, gl);
 
-const quadLayer = xrSession.requestLayer('quad');
+const quadLayer = xrGfx.requestQuadLayer({ pixelWidth: 512, pixelHeight: 512, stereo: false });
 // Position 2 meters away from the origin with a width and height of 1.5 meters
+quadLayer.referenceSpace = xrReferenceSpace;
 quadLayer.transform = new XRRigidTransform({z: -2});
 quadLayer.width = 1.5;
 quadLayer.height = 1.5;
-
-const quadSource = await xrGfx.setFramebufferLayerSource(quadLayer, 512, 512, { stereo: false });
 
 xrSession.updateRenderState({ layers: [quadLayer] });
 xrSession.requestAnimationFrame(onXRFrame);
@@ -170,7 +167,7 @@ xrSession.requestAnimationFrame(onXRFrame);
 function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
-  gl.bindFramebuffer(gl.FRAMEBUFFER, quadSource.getCurrentFramebuffer());
+  gl.bindFramebuffer(gl.FRAMEBUFFER, xrGfx.getCurrentFramebuffer(quadLayer));
   for (let view in xrViewerPose.views) {
     let subImage = quadLayer.getViewSubImage(view);
 
@@ -187,29 +184,17 @@ function onXRFrame(time, xrFrame) {
 
 ```webidl
 //
-// Session extensions
-//
-
-partial interface XRSession {
-  [NewObject] XRLayer? requestLayer(XRLayerType type);
-}
-
-//
 // Layer interface
 //
-
-enum XRLayerType {
-  "projection",
-  "quad",
-  "cylinder",
-  "equirect",
-  "cube"
-}
 
 interface XRLayer {
   XRSubImage? getViewSubImage(XRView view);
 
-  XRReferenceSpace referenceSpace;
+  readonly attribute unsigned long pixelWidth;
+  readonly attribute unsigned long pixelHeight;
+  readonly attribute unsigned long arraySize;
+  readonly attribute boolean ignoreDepthValues;
+
   boolean blendTextureSourceAlpha = false;
   boolean chromaticAberrationCorrection = false;
 }
@@ -234,6 +219,7 @@ interface XRQuadLayer extends XRLayer {
 }
 
 interface XRCylinderLayer extends XRLayer {
+  XRReferenceSpace referenceSpace;
   attribute XRRigidTransform transform;
   attribute float radius = 1;
   attribute float centralAngle = Math.PI * 0.5;
@@ -241,6 +227,7 @@ interface XRCylinderLayer extends XRLayer {
 }
 
 interface XREquirectLayer extends XRLayer {
+  XRReferenceSpace referenceSpace;
   attribute XRRigidTransform transform;
   attribute float radius = 1;
   attribute float scaleX = 1;
@@ -250,17 +237,17 @@ interface XREquirectLayer extends XRLayer {
 }
 
 interface XRCubeLayer extends XRLayer {
+  XRReferenceSpace referenceSpace;
   attribute DOMPoint orientation;
 }
-
-typedef (XRQuadLayer or XRCylinderLayer or XREquirectLayer or XRCubeLayer)
-        XRNonProjectionLayer; // Would love a better term for this!
 
 //
 // Graphics Bindings
 //
 
 dictionary XRWebGLLayerSourceInit {
+  required unsigned int pixelWidth;
+  required unsigned int pixelHeight;
   boolean stereo = false;
   boolean depth = true;
   boolean stencil = false;
@@ -273,43 +260,25 @@ interface XRWebGLGraphicsBinding {
 
   double getNativeProjectionScaleFactor();
 
-  Promise<XRWebGLFramebufferLayerSource> setFramebufferLayerSource(
-      XRProjectionLayer layer, XRWebGLLayerInit init);
-  Promise<XRWebGLFramebufferLayerSource> setFramebufferLayerSource(
-      XRNonProjectionLayer layer, int pixelWidth, int pixelHeight, XRWebGLLayerSourceInit init);
+  Promise<XRProjectionLayer> requestProjectionLayer(XRWebGLLayerInit init); // Note different dictionary
+  Promise<XRQuadLayer> requestQuadLayer(XRWebGLLayerSourceInit init);
+  Promise<XRCylinderLayer> requestCylinderLayer(XRWebGLLayerSourceInit init);
+  Promise<XREquirectLayer> requestEquirectLayer(XRWebGLLayerSourceInit init);
+
+  WebGLFramebuffer? getCurrentFramebuffer(XRLayer layer);
 }
 
-interface XRWebGL2GraphicsBinding extends XRWebGLGraphicsBinding {
+interface XRWebGL2GraphicsBinding {
   constructor(XRSession session, WebGL2RenderingContext context);
 
-  Promise<XRWebGLTextureLayerSource> setTextureLayerSource(
-      XRProjectionLayer layer, XRWebGLLayerInit init);
-  Promise<XRWebGLTextureLayerSource> setTextureLayerSource(
-      XRNonProjectionLayer layer, int pixelWidth, int pixelHeight, XRWebGLLayerSourceInit init);
-}
+  Promise<XRProjectionLayer> requestProjectionLayer(XRWebGLLayerInit init);
+  Promise<XRQuadLayer> requestQuadLayer(XRWebGLLayerSourceInit init);
+  Promise<XRCylinderLayer> requestCylinderLayer(XRWebGLLayerSourceInit init);
+  Promise<XREquirectLayer> requestEquirectLayer(XRWebGLLayerSourceInit init);
+  Promise<XRCubeLayer> requestCubeLayer(XRWebGLLayerSourceInit init); // Note only available with WebGL 2
 
-//
-// Layer Sources
-//
-
-interface XRLayerSource {
-  readonly attribute unsigned long width;
-  readonly attribute unsigned long height;
-  readonly attribute unsigned long arraySize;
-
-  readonly attribute boolean ignoreDepthValues;
-}
-
-interface XRWebGLFramebufferLayerSource extends XRLayerSource {
-  // Getter function serves as flag that layer will be written to this frame.
-  WebGLFramebuffer? getCurrentFramebuffer();
-
-  readonly attribute boolean antialias;
-}
-
-interface XRWebGLTextureLayerSource extends XRLayerSource {
-  WebGLTexture? getCurrentColorTexture();
-  WebGLTexture? getCurrentDepthStencilTexture();
+  WebGLTexture? getCurrentColorTexture(XRLayer layer);
+  WebGLTexture? getCurrentDepthStencilTexture(XRLayer layer);
 }
 ```
 
