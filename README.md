@@ -187,6 +187,12 @@ function onXRFrame(time, xrFrame) {
 // Layer interface
 //
 
+dictionary XRSubImage {
+  XRViewport viewport;
+  unsigned long imageIndex;
+  boolean primary;
+}
+
 interface XRLayer {
   XRSubImage? getViewSubImage(XRView view);
 
@@ -197,12 +203,6 @@ interface XRLayer {
 
   boolean blendTextureSourceAlpha = false;
   boolean chromaticAberrationCorrection = false;
-}
-
-interface XRSubImage {
-  readonly attribute XRViewport viewport;
-  readonly attribute unsigned long imageIndex;
-  readonly attribute boolean primary;
 }
 
 //
@@ -245,7 +245,7 @@ interface XRCubeLayer extends XRLayer {
 // Graphics Bindings
 //
 
-dictionary XRWebGLLayerSourceInit {
+dictionary XRLayerInit {
   required unsigned int pixelWidth;
   required unsigned int pixelHeight;
   boolean stereo = false;
@@ -261,9 +261,9 @@ interface XRWebGLGraphicsBinding {
   double getNativeProjectionScaleFactor();
 
   Promise<XRProjectionLayer> requestProjectionLayer(XRWebGLLayerInit init); // Note different dictionary
-  Promise<XRQuadLayer> requestQuadLayer(XRWebGLLayerSourceInit init);
-  Promise<XRCylinderLayer> requestCylinderLayer(XRWebGLLayerSourceInit init);
-  Promise<XREquirectLayer> requestEquirectLayer(XRWebGLLayerSourceInit init);
+  Promise<XRQuadLayer> requestQuadLayer(XRLayerInit init);
+  Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
+  Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
 
   WebGLFramebuffer? getCurrentFramebuffer(XRLayer layer);
 }
@@ -272,10 +272,10 @@ interface XRWebGL2GraphicsBinding {
   constructor(XRSession session, WebGL2RenderingContext context);
 
   Promise<XRProjectionLayer> requestProjectionLayer(XRWebGLLayerInit init);
-  Promise<XRQuadLayer> requestQuadLayer(XRWebGLLayerSourceInit init);
-  Promise<XRCylinderLayer> requestCylinderLayer(XRWebGLLayerSourceInit init);
-  Promise<XREquirectLayer> requestEquirectLayer(XRWebGLLayerSourceInit init);
-  Promise<XRCubeLayer> requestCubeLayer(XRWebGLLayerSourceInit init); // Note only available with WebGL 2
+  Promise<XRQuadLayer> requestQuadLayer(XRLayerInit init);
+  Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
+  Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
+  Promise<XRCubeLayer> requestCubeLayer(XRLayerInit init); // Note only available with WebGL 2
 
   WebGLTexture? getCurrentColorTexture(XRLayer layer);
   WebGLTexture? getCurrentDepthStencilTexture(XRLayer layer);
