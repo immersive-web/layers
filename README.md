@@ -189,7 +189,7 @@ function onXRFrame(time, xrFrame) {
 // Layer interface
 //
 
-dictionary XRSubImage {
+interface XRSubImage {
   XRViewport viewport;
   boolean primary; // ??
   WebGLTexture? colorTexture;
