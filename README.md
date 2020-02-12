@@ -139,7 +139,7 @@ function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
   for (let view in xrViewerPose.views) {
-    let subImage = layer.getViewSubImage(view)
+    let subImage = xrGfx.getViewSubImage(layer, view)
     gl.bindFramebuffer(gl.FRAMEBUFFER, subImage.frameBuffer);
     let viewport = subImage.viewport;
     gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
@@ -169,7 +169,7 @@ function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
   for (let view in xrViewerPose.views) {
-    let subImage = quadLayer.getViewSubImage(view);
+    let subImage = xrGfx.getViewSubImage(quadLayer, view);
 
     if (subImage.primary) {
       gl.bindFramebuffer(gl.FRAMEBUFFER, subImage.framebuffer);
@@ -199,8 +199,6 @@ dictionary XRSubImage {
 }
 
 interface XRLayer {
-  XRSubImage? getViewSubImage(XRView view);
-
   readonly attribute unsigned long pixelWidth;
   readonly attribute unsigned long pixelHeight;
   readonly attribute unsigned long arraySize;
@@ -270,6 +268,8 @@ interface XRWebGLGraphicsBinding {
   Promise<XRQuadLayer> requestQuadLayer(XRLayerInit init);
   Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
   Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
+  
+  XRSubImage? getViewSubImage(XRLayer layer, XRView view);
 }
 
 interface XRWebGL2GraphicsBinding {
@@ -280,6 +280,8 @@ interface XRWebGL2GraphicsBinding {
   Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
   Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
   Promise<XRCubeLayer> requestCubeLayer(XRLayerInit init); // Note only available with WebGL 2
+  
+  XRSubImage? getViewSubImage(XRLayer layer, XRView view);
 }
 ```
 
