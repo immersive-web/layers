@@ -190,11 +190,17 @@ function onXRFrame(time, xrFrame) {
 //
 
 interface XRSubImage {
-  XRViewport viewport;
-  boolean primary; // ??
-  WebGLTexture? colorTexture;
-  WebGLTexture? depthStencilTexture;
-  WebGLFramebuffer? framebuffer;
+  readonly attribute XRViewport viewport;
+}
+
+interface XRWebGLFramebufferSubImage : XRSubImage {
+  readonly attribute WebGLFramebuffer framebuffer;
+}
+
+interface XRWebGLTextureSubImage : XRSubImage {
+  readonly attribute unsigned long imageIndex;
+  readonly attribute WebGLTexture colorTexture;
+  readonly attribute WebGLTexture depthTexture;
 }
 
 interface XRLayer {
@@ -267,7 +273,8 @@ interface XRWebGLGraphicsBinding {
   Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
   Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
   
-  XRSubImage? getViewSubImage(XRLayer layer, XRView view);
+  XRSubImage? getViewSubImage(XRLayer layer); // for mono layers
+  XRSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
 }
 
 interface XRWebGL2GraphicsBinding {
@@ -279,7 +286,8 @@ interface XRWebGL2GraphicsBinding {
   Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
   Promise<XRCubeLayer> requestCubeLayer(XRLayerInit init); // Note only available with WebGL 2
   
-  XRSubImage? getViewSubImage(XRLayer layer);
+  XRSubImage? getViewSubImage(XRLayer layer); // for mono layers and stereo + texture array
+  XRSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers (only framebuffer?)
 }
 ```
 
