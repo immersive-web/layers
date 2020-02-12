@@ -191,17 +191,15 @@ function onXRFrame(time, xrFrame) {
 
 dictionary XRSubImage {
   XRViewport viewport;
-  unsigned long? imageIndex; // for texture array
-  boolean primary;
+  boolean primary; // ??
   WebGLTexture? colorTexture;
-  WebGLTexture? depthStencilTextur;
+  WebGLTexture? depthStencilTexture;
   WebGLFramebuffer? framebuffer;
 }
 
 interface XRLayer {
   readonly attribute unsigned long pixelWidth;
   readonly attribute unsigned long pixelHeight;
-  readonly attribute unsigned long arraySize;
   readonly attribute boolean ignoreDepthValues;
 
   boolean blendTextureSourceAlpha = false;
@@ -281,7 +279,7 @@ interface XRWebGL2GraphicsBinding {
   Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
   Promise<XRCubeLayer> requestCubeLayer(XRLayerInit init); // Note only available with WebGL 2
   
-  XRSubImage? getViewSubImage(XRLayer layer, XRView view);
+  XRSubImage? getViewSubImage(XRLayer layer);
 }
 ```
 
