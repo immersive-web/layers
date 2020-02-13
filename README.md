@@ -38,62 +38,68 @@ Using the Layers API consists of three primary steps:
 
 ### Graphics API binding
 
-When a layers is created it is typically backed a GPU resource, like a texture, provided by one of the Web platform's graphics APIs. In order to specify which API is providing the layer's GPU resources an `XRGraphicsBinding` instance for the API in question must be created. For example, creating a graphics binding for WebGL would function like this:
+When a layer is created it is backed by a GPU resource, typically a texture, provided by one of the Web platform's graphics APIs. In order to specify which API is providing the layer's GPU resources an Layer Factory for the API in question must be created. For example, creating a layer factory for WebGL would function like this:
 
 ```js
 const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl', { xrCompatible: true });
-const xrGfx = new XRWebGLFramebufferLayerFactory(xrSession, gl);
+const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
 ```
 
-A session that wanted to take advantage of WebGL 2.0 techniques would alternatively create a `XRWebGL2GraphicsBinding` like so:
+The same layer factory could also accept WebGL 2.0 contexts.
 
-```js
-const canvas = document.createElement('canvas');
-const gl = canvas.getContext('webgl2', { xrCompatible: true });
-const xrGfx = new XRWebGLFramebufferLayerFactory(xrSession, gl);
-```
-
-And a theoretical WebGPU graphics binding (which is not being proposed at this time and is offered only for illustrative purposes) may look like this:
+Future graphics APIs will interface with WebXR in the same way. A theoretical WebGPU graphics binding (which is not being proposed at this time and is offered only for illustrative purposes) may look like this:
 
 ```js
 const gpuAdapter = await navigator.gpu.requestAdapter({ xrCompatible: true });
 const gpuDevice = await gpuAdapter.requestDevice();
-const xrGfx = new XRWebGPUGraphicsBinding(xrSession, gpuDevice);
+const glLayerFactory = new XRWebGPULayerFactory(xrSession, gpuDevice);
 ```
 
-Each graphics API may have unique requirements that must be satisfied before a context can be used in the creation of an `XRGraphicsBinding`. For example, a `WebGLRenderingContext` must have its `xrCompatible` flag set prior to being passed to the constructor of the `XRWebGLGraphicsBinding` instance.
+Each graphics API may have unique requirements that must be satisfied before a context can be used in the creation of a layer factory. For example, a `WebGLRenderingContext` must have its `xrCompatible` flag set prior to being passed to the constructor of the `XRWebGLLayerFactory` instance.
 
-Any interaction between the `XRSession` the graphics API, such as allocating or retrieving textures, will go through this `XRGraphicsBinding` instance, and the exact mechanics of the interaction will typically be API specific. This allows the rest of the WebXR API to be graphics API agnostic and more easily adapt to future advances in rendering techniques.
+Any interaction between the `XRSession` the graphics API, such as allocating or retrieving textures, will go through this `XRWebGLLayerFactory` instance, and the exact mechanics of the interaction will typically be API specific. This allows the rest of the WebXR API to be graphics API agnostic and more easily adapt to future advances in rendering techniques.
 
 ## Layer creation
 
-Once an `XRGraphicsBinding` instance has been acquired, it can be used to create a variety of `XRLayer`s. Any layers created by that graphics binding will then be able to query associated GPU resources each frame, generally expected to be a texture or other render target expressed using the APIs native interfaces.
+Once a layer factory instance has been acquired, it can be used to create a variety of `XRLayer`s. Any layers created by that layer factory will then be able to query the associated GPU resources each frame, generally expected to be the native API's texture interface.
 
-The various layer types are created with the  `request____Layer` series of methods on the `XRGraphicsBinding` instance. Information about the graphics resources required, such as whether or not to allocate a depth buffer or alpha channel, are passed in at layer creation time and will be immutable for the lifetime of the layer. The method will return a promise that will resolve to the associated `XRLayer` type once the graphics resources have been created and the layer is ready to be displayed.
+The various layer types are created with the  `request____Layer` series of methods on the layer factory instance. Information about the graphics resources required, such as whether or not to allocate a depth buffer or alpha channel, are passed in at layer creation time and will be immutable for the lifetime of the layer. The method will return a promise that will resolve to the associated `XRLayer` type once the graphics resources have been created and the layer is ready to be displayed.
+
+The graphics API the layer factory was created with may also require API-specific information be provided. For instance, the `XRWebGLLayerFactory` requires that the texture target desired be specified.
 
 ```js
-const xrGfx = new XRWebGLFramebufferLayerFactory(xrSession, gl);
-const layer = await xrGfx.requestProjectionLayer({ alpha: false });
+const canvas = document.createElement('canvas');
+const gl = canvas.getContext('webgl', { xrCompatible: true });
+const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
+const layer = await glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D, { alpha: false });
+```
+
+This will allocate a layer that supplies a 2D texture as it's output surface, which will then be subdivided into viewports for each `XRView`. If the context passed into the `XRWebGLLayerFactory` was a WebGL 2.0 the developer could optionally choose to allocate a texture array instead, in which every `XRView` will be rendered into a separate level of the array. This allows for some rendering optimizations, such as the use of the `OVR_multiview` extension, to be used.
+
+```js
+const canvas = document.createElement('canvas');
+const gl = canvas.getContext('webgl2', { xrCompatible: true });
+const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
+const layer = await glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D_ARRAY, { alpha: false });
 ```
 
 Layer types other than an `XRProjectionLayer` must be given an explicit pixel width and height, as well as whether or not the image should be stereo or mono. This is because those properties cannot be inferred from the hardware or layer type as they can with an `XRProjectionLayer`.
 
 ```js
-const xrGfx = new XRWebGLTextureLayerFactory(xrSession, gl);
-const layer = xrGfx.requestQuadLayer({ pixelWidth: 1024, pixelHeight: 768, stereo: true });
+const layer = glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, { pixelWidth: 1024, pixelHeight: 768, stereo: true });
 ```
 
-Passing `true` for stereo here indicates that you are able to provide stereo imagery for this layer source, but if the XR device is unable to display stereo imagery it may automatically force the layer to be created as mono instead to reduce memory and rendering overhead. Layers that are created as mono will never be automatically changed to stereo, regardless of hardware capabilities.
+Passing `true` for stereo here indicates that you are able to provide stereo imagery for this layer, but if the XR device is unable to display stereo imagery it may automatically force the layer to be created as mono instead to reduce memory and rendering overhead. Layers that are created as mono will never be automatically changed to stereo, regardless of hardware capabilities. Developers can check the `stereo` attribte of the resulting layer to determine if the layer was allocated with resources for stereo or mono rendering.
 
-Some layer types may not be supported by either the `XRWebGLFramebufferLayerFactory`, `XRWebGLTextureLayerFactory` or the `XRSession`. If the `LayerFactory` doesn't support a layer type it will simply lack a method for creating that layer type. If the `XRSession` doesn't support a layer type the returned Promise will reject. `XRProjectionLayer` _must_ be supported by all `XRSession`s and `XRWebGLFramebufferLayerFactory`s.
+Some layer types may not be supported by the `XRSession`. If a layer type isn't supported the returned `Promise` will reject. `XRProjectionLayer` _must_ be supported by all `XRSession`s.
 
 ## Layer positioning and shape
 
-Non projection layers each have attributes that control where the layer is shown and how it's shaped. For example, the positioning of an `XRQuadLayer` is handled like so:
+Non-projection layers each have attributes that control where the layer is shown and how it's shaped. For example, the positioning of an `XRQuadLayer` is handled like so:
 
 ```js
-const quadLayer = xrGfx.requestQuadLayer({ pixelWidth: 512, pixelHeight: 512, stereo: false });
+const quadLayer = glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, { pixelWidth: 512, pixelHeight: 512 });
 // Position 2 meters away from the origin of xrReferenceSpace with a width and height of 1.5 meters
 quadLayer.referenceSpace = xrReferenceSpace;
 quadLayer.transform = new XRRigidTransform({z: -2});
@@ -112,9 +118,11 @@ This explainer will not cover the details of positioning and shaping every possi
 
 Layers are not presented to the XR device until they have been added to the `layers` `XRRenderState` property with the `updateRenderState()` method. Setting the `layers` array will override the `baseLayer` if one is present, with `baseLayer` reporting the first element in the `layers` array. Layers will be presented in the order they are given in the `layers` array, with layers being given in "back-to-front" order. Layers may have alpha blending applied if the layer's `blendSourceAlpha` attribute is `true`, but no depth testing may be performed between layers.
 
+In addition to the `XRLayer`-derived types, the existing `XRWebGLLayer` may be passed to the layers array as well. This layer type remains useful as a mechanism for rendering antialiased content with WebGL 1.0 contexts. `XRWebGLLayer` functions as an `XRProjectionLayer`, but they are kept as distinct types for better forwards compatibility.
+
 ```js
-const projectionLayer = xrGfx.requestProjectionLayer();
-const quadLayer = xrGfx.requestQuadLayer({ pixelWidth: 1024, pixelHeight: 1024 });
+const projectionLayer = new XRWebGLLayer(xrSession, gl);
+const quadLayer = glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, { pixelWidth: 1024, pixelHeight: 1024 });
 
 xrSession.updateRenderState({ layers: [projectionLayer, quadLayer] });
 ```
@@ -123,12 +131,15 @@ xrSession.updateRenderState({ layers: [projectionLayer, quadLayer] });
 
 ## Rendering
 
-During `XRFrame` processing each layer can be updated with new imagery. Calling `getViewSubImage()` with a view from the `XRFrame` will return an `XRSubImage` indicating what section of the associated graphics resources will be presented to the view's associated physical display. If a layer source has not yet been set for the layer `getSubImage()` with return an `XRSubImage` with all values set to zero or false.
+During `XRFrame` processing each layer can be updated with new imagery. Calling `getViewSubImage()` with a view from the `XRFrame` will return an `XRSubImage` indicating the textures to use as the render target and what portion of the texture will be presented to the `XRView`'s associated physical display.
+
+WebGL layers allocated with the `TEXTURE_2D` target will provide sub images with a unique, non-overlapping `viewport` and `imageIndex` of `0` for each `XRView`.
 
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
-const xrGfx = new XRWebGLFramebufferLayerFactory(xrSession, gl);
-const layer = xrGfx.requestProjectionLayer();
+const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
+const layer = glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D);
+const framebuffer = gl.createFramebuffer();
 
 xrSession.updateRenderState({ layers: [layer] });
 xrSession.requestAnimationFrame(onXRFrame);
@@ -136,10 +147,16 @@ xrSession.requestAnimationFrame(onXRFrame);
 function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
+  gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+
+  let subImage = glLayerFactory.getSubImage(layer);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
+    subImage.colorTexture, 0);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT,
+    subImage.depthStencilTexture, 0);
+
   for (let view in xrViewerPose.views) {
-    let subImage = xrGfx.getViewSubImage(layer, view)
-    gl.bindFramebuffer(gl.FRAMEBUFFER, subImage.frameBuffer);
-    let viewport = subImage.viewport;
+    let viewport = glLayerFactory.getViewSubImage(layer, view).viewport;
     gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
     
     // Render from the viewpoint of xrView
@@ -147,18 +164,49 @@ function onXRFrame(time, xrFrame) {
 }
 ```
 
-In some cases, such as a mono `XRQuadLayer` being shown on a stereo device, multiple `XRView`s may return the same `XRSubImage` values. To avoid rendering the same view multiple times in these scenarios the `primary` attribute of the `XRSubImage` will be be set to `false` for all but one of the overlapping views. (It should be noted that `XRProjectionLayer`s will never return `XRSubImage`s with `primary` set to false.)
+WebGL layers allocated with the `TEXTURE_2D_ARRAY` target will provide sub images with the same `viewport` and a unique `imageIndex` indicating the texture layer to render to for each `XRView`.
 
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
-const xrGfx = new XRWebGLFramebufferLayerFactory(xrSession, gl);
+const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
+const layer = glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D_ARRAY);
+const framebuffer = gl.createFramebuffer();
 
-const quadLayer = xrGfx.requestQuadLayer({ pixelWidth: 512, pixelHeight: 512, stereo: false });
+xrSession.updateRenderState({ layers: [layer] });
+xrSession.requestAnimationFrame(onXRFrame);
+
+function onXRFrame(time, xrFrame) {
+  xrSession.requestAnimationFrame(onXRFrame);
+
+  gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+  let viewport = glLayerFactory.getSubImage(layer).viewport;
+  gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
+
+  for (let view in xrViewerPose.views) {
+    let subImage = glLayerFactory.getViewSubImage(layer, view);
+    gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
+      subImage.colorTexture, 0, subImage.imageIndex);
+    gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT,
+      subImage.depthStencilTexture, 0, subImage.imageIndex);
+    
+    // Render from the viewpoint of xrView
+  }
+}
+```
+
+For some non-projection layers, such as a mono `XRQuadLayer` being shown on a stereo device, multiple `XRView`s may return the same `XRSubImage` values. To avoid rendering the same view multiple times in these scenarios mono layers can be rendered just once using the `XRSubImage` provided by the the layer factory's `getSubImage()` method.
+
+```js
+// Render Loop for a projection layer with a WebGL framebuffer source.
+const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
+const quadLayer = xrGfx.requestQuadLayer(gl.TEXTURE_2D, { pixelWidth: 512, pixelHeight: 512, stereo: false });
 // Position 2 meters away from the origin with a width and height of 1.5 meters
 quadLayer.referenceSpace = xrReferenceSpace;
 quadLayer.transform = new XRRigidTransform({z: -2});
 quadLayer.width = 1.5;
 quadLayer.height = 1.5;
+
+const framebuffer = gl.createFramebuffer();
 
 xrSession.updateRenderState({ layers: [quadLayer] });
 xrSession.requestAnimationFrame(onXRFrame);
@@ -166,17 +214,14 @@ xrSession.requestAnimationFrame(onXRFrame);
 function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
-  for (let view in xrViewerPose.views) {
-    let subImage = xrGfx.getViewSubImage(quadLayer, view);
-
-    if (subImage.primary) {
-      gl.bindFramebuffer(gl.FRAMEBUFFER, subImage.framebuffer);
-      let viewport = subImage.viewport;
-      gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+  let subImage = xrGfx.getSubImage(quadLayer);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
+    subImage.colorTexture, 0);
+  let viewport = subImage.viewport;
+  gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
       
-      // Render content for view.eye
-    }
-  }
+  // Render content for the quad layer
 }
 ```
 
@@ -189,14 +234,10 @@ function onXRFrame(time, xrFrame) {
 
 interface XRSubImage {
   readonly attribute XRViewport viewport;
-}
-
-interface XRWebGLFramebufferSubImage : XRSubImage {
-  readonly attribute WebGLFramebuffer framebuffer;
-}
-
-interface XRWebGLTextureSubImage : XRSubImage {
   readonly attribute unsigned long imageIndex;
+}
+
+interface XRWebGLSubImage : XRSubImage {
   readonly attribute WebGLTexture colorTexture;
   readonly attribute WebGLTexture? depthStencilTexture;
 }
@@ -260,42 +301,35 @@ interface XRCubeLayer extends XRLayer {
 // Graphics Bindings
 //
 
+dictionary XRProjectionLayerInit {
+  boolean depth = true;
+  boolean stencil = false;
+  boolean alpha = true;
+  double scaleFactor = 1.0;
+}
+
 dictionary XRLayerInit {
   required unsigned int pixelWidth;
   required unsigned int pixelHeight;
   boolean stereo = false;
-  boolean depth = true;
+  boolean depth = false; // This is a change from typical WebGL initialization, but feels approrpriate.
   boolean stencil = false;
   boolean alpha = true;
 }
 
-interface XRWebGLTextureLayerFactory {
+interface XRWebGLLayerFactory {
   constructor(XRSession session, XRWebGLRenderingContext context);
 
   double getNativeProjectionScaleFactor();
 
-  Promise<XRProjectionLayer> requestProjectionLayer(XRWebGLLayerInit init); // Note different dictionary
-  Promise<XRQuadLayer> requestQuadLayer(XRLayerInit init);
-  Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
-  Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
-  Promise<XRCubeLayer> requestCubeLayer(XRLayerInit init); // Note only available with WebGL 2
+  Promise<XRProjectionLayer> requestProjectionLayer(GLenum textureTarget, XRProjectionLayerInit init);
+  Promise<XRQuadLayer> requestQuadLayer(GLenum textureTarget, XRLayerInit init);
+  Promise<XRCylinderLayer> requestCylinderLayer(GLenum textureTarget, XRLayerInit init);
+  Promise<XREquirectLayer> requestEquirectLayer(GLenum textureTarget, XRLayerInit init);
+  Promise<XRCubeLayer> requestCubeLayer(XRLayerInit init);
 
-  XRWebGLTextureSubImage? getViewSubImage(XRLayer layer); // for mono layers
-  XRWebGLTextureSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
-}
-
-interface XRWebGLFramebufferLayerFactory {
-  constructor(XRSession session, XRWebGLRenderingContext context);
-
-  double getNativeProjectionScaleFactor();
-
-  Promise<XRProjectionLayer> requestProjectionLayer(XRWebGLLayerInit init);
-  Promise<XRQuadLayer> requestQuadLayer(XRLayerInit init);
-  Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
-  Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
-
-  XRWebGLFramebufferSubImage? getViewSubImage(XRLayer layer); // for mono layers
-  XRWebGLFramebufferSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
+  XRWebGLSubImage? getSubImage(XRLayer layer); // for mono layers
+  XRWebGLSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
 }
 ```
 
