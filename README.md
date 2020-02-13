@@ -43,7 +43,7 @@ When a layers is created it is typically backed a GPU resource, like a texture, 
 ```js
 const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl', { xrCompatible: true });
-const xrGfx = new XRWebGLGraphicsBinding(xrSession, gl);
+const xrGfx = new XRWebGLFramebufferLayerFactory(xrSession, gl);
 ```
 
 A session that wanted to take advantage of WebGL 2.0 techniques would alternatively create a `XRWebGL2GraphicsBinding` like so:
@@ -51,7 +51,7 @@ A session that wanted to take advantage of WebGL 2.0 techniques would alternativ
 ```js
 const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl2', { xrCompatible: true });
-const xrGfx = new XRWebGL2GraphicsBinding(xrSession, gl);
+const xrGfx = new XRWebGLFramebufferLayerFactory(xrSession, gl);
 ```
 
 And a theoretical WebGPU graphics binding (which is not being proposed at this time and is offered only for illustrative purposes) may look like this:
@@ -73,20 +73,20 @@ Once an `XRGraphicsBinding` instance has been acquired, it can be used to create
 The various layer types are created with the  `request____Layer` series of methods on the `XRGraphicsBinding` instance. Information about the graphics resources required, such as whether or not to allocate a depth buffer or alpha channel, are passed in at layer creation time and will be immutable for the lifetime of the layer. The method will return a promise that will resolve to the associated `XRLayer` type once the graphics resources have been created and the layer is ready to be displayed.
 
 ```js
-const xrGfx = new XRWebGLGraphicsBinding(xrSession, gl);
+const xrGfx = new XRWebGLFramebufferLayerFactory(xrSession, gl);
 const layer = await xrGfx.requestProjectionLayer({ alpha: false });
 ```
 
 Layer types other than an `XRProjectionLayer` must be given an explicit pixel width and height, as well as whether or not the image should be stereo or mono. This is because those properties cannot be inferred from the hardware or layer type as they can with an `XRProjectionLayer`.
 
 ```js
-const xrGfx = new XRWebGLGraphicsBinding(xrSession, gl);
+const xrGfx = new XRWebGLTextureLayerFactory(xrSession, gl);
 const layer = xrGfx.requestQuadLayer({ pixelWidth: 1024, pixelHeight: 768, stereo: true });
 ```
 
 Passing `true` for stereo here indicates that you are able to provide stereo imagery for this layer source, but if the XR device is unable to display stereo imagery it may automatically force the layer to be created as mono instead to reduce memory and rendering overhead. Layers that are created as mono will never be automatically changed to stereo, regardless of hardware capabilities.
 
-Some layer types may not be supported by either the `XRGraphicsBinding` or the `XRSession`. If the `XRGraphicsBinding` doesn't support a layer type it will simply lack a method for creating that layer type. If the `XRSession` doesn't support a layer type the returned Promise will reject. `XRProjectionLayer` _must_ be supported by all `XRSession`s and `XRGraphicsBinding`s.
+Some layer types may not be supported by either the `XRWebGLFramebufferLayerFactory`, `XRWebGLTextureLayerFactory` or the `XRSession`. If the `LayerFactory` doesn't support a layer type it will simply lack a method for creating that layer type. If the `XRSession` doesn't support a layer type the returned Promise will reject. `XRProjectionLayer` _must_ be supported by all `XRSession`s and `XRWebGLFramebufferLayerFactory`s.
 
 ## Layer positioning and shape
 
@@ -125,11 +125,9 @@ xrSession.updateRenderState({ layers: [projectionLayer, quadLayer] });
 
 During `XRFrame` processing each layer can be updated with new imagery. Calling `getViewSubImage()` with a view from the `XRFrame` will return an `XRSubImage` indicating what section of the associated graphics resources will be presented to the view's associated physical display. If a layer source has not yet been set for the layer `getSubImage()` with return an `XRSubImage` with all values set to zero or false.
 
-Every `XRGraphicsBinding` instance will also have a `getCurrent_____()` method that retrieves the graphics resources associated with a particular layer that should be rendered to for the current `XRFrame`. Calling this method indicates that the imagery should be updated, otherwise any previous rendering will be displayed again, reprojected if necessary.
-
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
-const xrGfx = new XRWebGLGraphicsBinding(xrSession, gl);
+const xrGfx = new XRWebGLFramebufferLayerFactory(xrSession, gl);
 const layer = xrGfx.requestProjectionLayer();
 
 xrSession.updateRenderState({ layers: [layer] });
@@ -153,7 +151,7 @@ In some cases, such as a mono `XRQuadLayer` being shown on a stereo device, mult
 
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
-const xrGfx = new XRWebGLGraphicsBinding(xrSession, gl);
+const xrGfx = new XRWebGLFramebufferLayerFactory(xrSession, gl);
 
 const quadLayer = xrGfx.requestQuadLayer({ pixelWidth: 512, pixelHeight: 512, stereo: false });
 // Position 2 meters away from the origin with a width and height of 1.5 meters
@@ -200,7 +198,7 @@ interface XRWebGLFramebufferSubImage : XRSubImage {
 interface XRWebGLTextureSubImage : XRSubImage {
   readonly attribute unsigned long imageIndex;
   readonly attribute WebGLTexture colorTexture;
-  readonly attribute WebGLTexture depthTexture;
+  readonly attribute WebGLTexture? depthTexture;
 }
 
 interface XRLayer {
@@ -271,6 +269,7 @@ interface XRWebGLTextureLayerFactory {
   Promise<XRQuadLayer> requestQuadLayer(XRLayerInit init);
   Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
   Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
+  Promise<XRCubeLayer> requestCubeLayer(XRLayerInit init); // Note only available with WebGL 2
   
   XRWebGLTextureSubImage? getViewSubImage(XRLayer layer); // for mono layers
   XRWebGLTextureSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
@@ -283,7 +282,6 @@ interface XRWebGLFramebufferLayerFactory {
   Promise<XRQuadLayer> requestQuadLayer(XRLayerInit init);
   Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
   Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
-  Promise<XRCubeLayer> requestCubeLayer(XRLayerInit init); // Note only available with WebGL 2
   
   XRWebGLFramebufferSubImage? getViewSubImage(XRLayer layer); // for mono layers
   XRWebGLFramebufferSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
