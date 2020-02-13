@@ -198,16 +198,17 @@ interface XRWebGLFramebufferSubImage : XRSubImage {
 interface XRWebGLTextureSubImage : XRSubImage {
   readonly attribute unsigned long imageIndex;
   readonly attribute WebGLTexture colorTexture;
-  readonly attribute WebGLTexture? depthTexture;
+  readonly attribute WebGLTexture? depthStencilTexture;
 }
 
 interface XRLayer {
   readonly attribute unsigned long pixelWidth;
   readonly attribute unsigned long pixelHeight;
-  readonly attribute boolean ignoreDepthValues;
 
   boolean blendTextureSourceAlpha = false;
   boolean chromaticAberrationCorrection = false;
+
+  void destroy();
 }
 
 //
@@ -215,16 +216,21 @@ interface XRLayer {
 //
 
 interface XRProjectionLayer extends XRLayer {
+  readonly attribute boolean ignoreDepthValues;
 }
 
 interface XRQuadLayer extends XRLayer {
+  readonly attribute boolean stereo;
   attribute XRRigidTransform transform;
+
   attribute float width = 1;
   attribute float height = 1;
 }
 
 interface XRCylinderLayer extends XRLayer {
+  readonly attribute boolean stereo;
   XRReferenceSpace referenceSpace;
+
   attribute XRRigidTransform transform;
   attribute float radius = 1;
   attribute float centralAngle = Math.PI * 0.5;
@@ -232,7 +238,9 @@ interface XRCylinderLayer extends XRLayer {
 }
 
 interface XREquirectLayer extends XRLayer {
+  readonly attribute boolean stereo;
   XRReferenceSpace referenceSpace;
+
   attribute XRRigidTransform transform;
   attribute float radius = 1;
   attribute float scaleX = 1;
@@ -242,7 +250,9 @@ interface XREquirectLayer extends XRLayer {
 }
 
 interface XRCubeLayer extends XRLayer {
+  readonly attribute boolean stereo;
   XRReferenceSpace referenceSpace;
+
   attribute DOMPoint orientation;
 }
 
@@ -257,7 +267,6 @@ dictionary XRLayerInit {
   boolean depth = true;
   boolean stencil = false;
   boolean alpha = true;
-  boolean ignoreDepthValues = false;
 }
 
 interface XRWebGLTextureLayerFactory {
@@ -270,7 +279,7 @@ interface XRWebGLTextureLayerFactory {
   Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
   Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
   Promise<XRCubeLayer> requestCubeLayer(XRLayerInit init); // Note only available with WebGL 2
-  
+
   XRWebGLTextureSubImage? getViewSubImage(XRLayer layer); // for mono layers
   XRWebGLTextureSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
 }
@@ -278,11 +287,13 @@ interface XRWebGLTextureLayerFactory {
 interface XRWebGLFramebufferLayerFactory {
   constructor(XRSession session, XRWebGLRenderingContext context);
 
+  double getNativeProjectionScaleFactor();
+
   Promise<XRProjectionLayer> requestProjectionLayer(XRWebGLLayerInit init);
   Promise<XRQuadLayer> requestQuadLayer(XRLayerInit init);
   Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
   Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
-  
+
   XRWebGLFramebufferSubImage? getViewSubImage(XRLayer layer); // for mono layers
   XRWebGLFramebufferSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
 }
@@ -292,6 +303,3 @@ interface XRWebGLFramebufferLayerFactory {
 
   - Sensible defaults of all the layer values.
   - Do we need an attribte to communicate max number of supported layers?
-  - Do we need to report on the layer source whether or not it's mono/stereo, since the XR device may force a downgrade?
-  - Depth: Should we consider allowing a separate layer for this like OpenXR does, or continue pattern of allowing it's use by default (implies most layer types need to be able to allocate both a color and depth/stencil buffer)-
-  - Should there be a way to explicitly dispose of a layer?
