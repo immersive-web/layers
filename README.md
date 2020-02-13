@@ -253,8 +253,8 @@ interface XRCubeLayer extends XRLayer {
 //
 
 dictionary XRLayerInit {
-  required unsigned int pixelWidth;
-  required unsigned int pixelHeight;
+  unsigned int pixelWidth;
+  unsigned int pixelHeight;
   boolean stereo = false;
   boolean depth = true;
   boolean stencil = false;
