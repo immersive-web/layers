@@ -255,7 +255,6 @@ interface XRCubeLayer extends XRLayer {
 dictionary XRLayerInit {
   required unsigned int pixelWidth;
   required unsigned int pixelHeight;
-  boolean framebuffer = true; // should it be false?
   boolean stereo = false;
   boolean depth = true;
   boolean stencil = false;
@@ -263,8 +262,8 @@ dictionary XRLayerInit {
   boolean ignoreDepthValues = false;
 }
 
-interface XRWebGLGraphicsBinding {
-  constructor(XRSession session, WebGLRenderingContext context);
+interface XRWebGLTextureLayerFactory {
+  constructor(XRSession session, XRWebGLRenderingContext context);
 
   double getNativeProjectionScaleFactor();
 
@@ -273,12 +272,12 @@ interface XRWebGLGraphicsBinding {
   Promise<XRCylinderLayer> requestCylinderLayer(XRLayerInit init);
   Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
   
-  XRSubImage? getViewSubImage(XRLayer layer); // for mono layers
-  XRSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
+  XRWebGLTextureSubImage? getViewSubImage(XRLayer layer); // for mono layers
+  XRWebGLTextureSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
 }
 
-interface XRWebGL2GraphicsBinding {
-  constructor(XRSession session, WebGL2RenderingContext context);
+interface XRWebGLFramebufferLayerFactory {
+  constructor(XRSession session, XRWebGLRenderingContext context);
 
   Promise<XRProjectionLayer> requestProjectionLayer(XRWebGLLayerInit init);
   Promise<XRQuadLayer> requestQuadLayer(XRLayerInit init);
@@ -286,8 +285,8 @@ interface XRWebGL2GraphicsBinding {
   Promise<XREquirectLayer> requestEquirectLayer(XRLayerInit init);
   Promise<XRCubeLayer> requestCubeLayer(XRLayerInit init); // Note only available with WebGL 2
   
-  XRSubImage? getViewSubImage(XRLayer layer); // for mono layers and stereo + texture array
-  XRSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers (only framebuffer?)
+  XRWebGLFramebufferSubImage? getViewSubImage(XRLayer layer); // for mono layers
+  XRWebGLFramebufferSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
 }
 ```
 
