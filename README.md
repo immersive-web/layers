@@ -237,52 +237,52 @@ function onXRFrame(time, xrFrame) {
 interface XRSubImage {
   readonly attribute XRViewport viewport;
   readonly attribute unsigned long imageIndex;
-}
+};
 
 interface XRWebGLSubImage : XRSubImage {
   readonly attribute WebGLTexture colorTexture;
   readonly attribute WebGLTexture? depthStencilTexture;
-}
+};
 
 interface XRLayer {
   readonly attribute unsigned long pixelWidth;
   readonly attribute unsigned long pixelHeight;
 
-  boolean blendTextureSourceAlpha = false;
-  boolean chromaticAberrationCorrection = false;
+  attribute boolean blendTextureSourceAlpha;
+  attribute boolean chromaticAberrationCorrection;
 
   void destroy();
-}
+};
 
 //
 // Layer types
 //
 
-interface XRProjectionLayer extends XRLayer {
+interface XRProjectionLayer : XRLayer {
   readonly attribute boolean ignoreDepthValues;
 }
 
-interface XRQuadLayer extends XRLayer {
+interface XRQuadLayer : XRLayer {
   readonly attribute boolean stereo;
   attribute XRRigidTransform transform;
 
-  attribute float width = 1;
-  attribute float height = 1;
-}
+  attribute float width;
+  attribute float height;
+};
 
-interface XRCylinderLayer extends XRLayer {
+interface XRCylinderLayer : XRLayer {
   readonly attribute boolean stereo;
-  XRReferenceSpace referenceSpace;
+  attribute XRReferenceSpace referenceSpace;
 
   attribute XRRigidTransform transform;
-  attribute float radius = 1;
-  attribute float centralAngle = Math.PI * 0.5;
-  attribute float aspectRatio = 1;
-}
+  attribute float radius;
+  attribute float centralAngle;
+  attribute float aspectRatio;
+};
 
-interface XREquirectLayer extends XRLayer {
+interface XREquirectLayer : XRLayer {
   readonly attribute boolean stereo;
-  XRReferenceSpace referenceSpace;
+  attribute XRReferenceSpace referenceSpace;
 
   attribute XRRigidTransform transform;
   attribute float radius = 1;
@@ -290,14 +290,14 @@ interface XREquirectLayer extends XRLayer {
   attribute float scaleY = 1;
   attribute float biasX = 0;
   attribute float biasY = 0;
-}
+};
 
-interface XRCubeLayer extends XRLayer {
+interface XRCubeLayer : XRLayer {
   readonly attribute boolean stereo;
-  XRReferenceSpace referenceSpace;
+  attribute XRReferenceSpace referenceSpace;
 
   attribute DOMPoint orientation;
-}
+};
 
 //
 // Graphics Bindings
@@ -308,7 +308,7 @@ dictionary XRProjectionLayerInit {
   boolean stencil = false;
   boolean alpha = true;
   double scaleFactor = 1.0;
-}
+};
 
 dictionary XRLayerInit {
   required unsigned int pixelWidth;
@@ -317,7 +317,7 @@ dictionary XRLayerInit {
   boolean depth = false; // This is a change from typical WebGL initialization, but feels approrpriate.
   boolean stencil = false;
   boolean alpha = true;
-}
+};
 
 interface XRWebGLLayerFactory {
   constructor(XRSession session, XRWebGLRenderingContext context);
@@ -332,7 +332,7 @@ interface XRWebGLLayerFactory {
 
   XRWebGLSubImage? getSubImage(XRLayer layer); // for mono layers
   XRWebGLSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
-}
+};
 ```
 
 ## Appendix B: Open Questions
