@@ -199,7 +199,9 @@ For some non-projection layers, such as a mono `XRQuadLayer` being shown on a st
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
-const quadLayer = xrGfx.requestQuadLayer(gl.TEXTURE_2D, { pixelWidth: 512, pixelHeight: 512, stereo: false });
+const quadLayer = glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, {
+  pixelWidth: 512, pixelHeight: 512, stereo: false
+});
 // Position 2 meters away from the origin with a width and height of 1.5 meters
 quadLayer.referenceSpace = xrReferenceSpace;
 quadLayer.transform = new XRRigidTransform({z: -2});
@@ -215,7 +217,7 @@ function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
-  let subImage = xrGfx.getSubImage(quadLayer);
+  let subImage = glLayerFactory.getSubImage(quadLayer);
   gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
     subImage.colorTexture, 0);
   let viewport = subImage.viewport;
