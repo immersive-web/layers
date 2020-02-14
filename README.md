@@ -3,13 +3,13 @@
 ## Why layers? What are the benefits?
 Other XR APIs (such as OpenXR, Oculus PC & Mobile SDKs, Unreal & Unity game engines, more? tbd) support so called 'composition' layers. The benefits of layers are as follows:
 * Performance and judder
-  
+
   Composition layers are presented at the frame rate of the compositor (i.e. native refresh rate of HMD) rather than at the application frame rate. Even when the application is not updating the layer's rendering at the native refresh rate of the compositor, the compositor still might be able to re-project the existing rendering to the proper pose. This means smoother rendering and less judder.
-  
+
   A powerful feature of layers is that each of them may have different resolution. This allows the application to scale down the main eye buffer resolution on low performance systems, but keeping essential information, such as text or a map, in a different layer at a higher resolution.
 
-* Legibility / visual fidelity 
-  
+* Legibility / visual fidelity
+
   The resolution for eye-buffers for 3D world rendering can be set to relatively low values especially on low performance systems. It would be impossible to render high fidelity content, such as text, in this case. As it was mentioned above, each layer may have its own resolution and it will be re-sampled only once by the compositor (in contrary to the traditional approach with rendering layers via WebGL where the layer's content got re-sampled at least twice: once when rendering into WebGL eye-buffer (and losing a lot of details due to limited eye-buffer resolution) and the second time by the compositor).
 
 * Power consumption / battery life
@@ -87,7 +87,7 @@ const layer = await glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D_ARRAY, {
 Layer types other than an `XRProjectionLayer` must be given an explicit pixel width and height, as well as whether or not the image should be stereo or mono. This is because those properties cannot be inferred from the hardware or layer type as they can with an `XRProjectionLayer`.
 
 ```js
-const layer = glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, { pixelWidth: 1024, pixelHeight: 768, stereo: true });
+const layer = await glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, { pixelWidth: 1024, pixelHeight: 768, stereo: true });
 ```
 
 Passing `true` for stereo here indicates that you are able to provide stereo imagery for this layer, but if the XR device is unable to display stereo imagery it may automatically force the layer to be created as mono instead to reduce memory and rendering overhead. Layers that are created as mono will never be automatically changed to stereo, regardless of hardware capabilities. Developers can check the `stereo` attribte of the resulting layer to determine if the layer was allocated with resources for stereo or mono rendering.
@@ -99,7 +99,7 @@ Some layer types may not be supported by the `XRSession`. If a layer type isn't 
 Non-projection layers each have attributes that control where the layer is shown and how it's shaped. For example, the positioning of an `XRQuadLayer` is handled like so:
 
 ```js
-const quadLayer = glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, { pixelWidth: 512, pixelHeight: 512 });
+const quadLayer = await glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, { pixelWidth: 512, pixelHeight: 512 });
 // Position 2 meters away from the origin of xrReferenceSpace with a width and height of 1.5 meters
 quadLayer.referenceSpace = xrReferenceSpace;
 quadLayer.transform = new XRRigidTransform({z: -2});
@@ -122,7 +122,7 @@ In addition to the `XRLayer`-derived types, the existing `XRWebGLLayer` may be p
 
 ```js
 const projectionLayer = new XRWebGLLayer(xrSession, gl);
-const quadLayer = glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, { pixelWidth: 1024, pixelHeight: 1024 });
+const quadLayer = await glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, { pixelWidth: 1024, pixelHeight: 1024 });
 
 xrSession.updateRenderState({ layers: [projectionLayer, quadLayer] });
 ```
@@ -138,7 +138,7 @@ WebGL layers allocated with the `TEXTURE_2D` target will provide sub images with
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
-const layer = glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D);
+const layer = await glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D);
 const framebuffer = gl.createFramebuffer();
 
 xrSession.updateRenderState({ layers: [layer] });
@@ -158,7 +158,7 @@ function onXRFrame(time, xrFrame) {
   for (let view in xrViewerPose.views) {
     let viewport = glLayerFactory.getViewSubImage(layer, view).viewport;
     gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
-    
+
     // Render from the viewpoint of xrView
   }
 }
@@ -169,7 +169,7 @@ WebGL layers allocated with the `TEXTURE_2D_ARRAY` target will provide sub image
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
-const layer = glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D_ARRAY);
+const layer = await glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D_ARRAY);
 const framebuffer = gl.createFramebuffer();
 
 xrSession.updateRenderState({ layers: [layer] });
@@ -188,7 +188,7 @@ function onXRFrame(time, xrFrame) {
       subImage.colorTexture, 0, subImage.imageIndex);
     gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT,
       subImage.depthStencilTexture, 0, subImage.imageIndex);
-    
+
     // Render from the viewpoint of xrView
   }
 }
@@ -199,7 +199,7 @@ For some non-projection layers, such as a mono `XRQuadLayer` being shown on a st
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
-const quadLayer = glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, {
+const quadLayer = await glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, {
   pixelWidth: 512, pixelHeight: 512, stereo: false
 });
 // Position 2 meters away from the origin with a width and height of 1.5 meters
@@ -222,7 +222,7 @@ function onXRFrame(time, xrFrame) {
     subImage.colorTexture, 0);
   let viewport = subImage.viewport;
   gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
-      
+
   // Render content for the quad layer
 }
 ```
