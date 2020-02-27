@@ -322,7 +322,7 @@ dictionary XRLayerInit {
 interface XRWebGLLayerFactory {
   constructor(XRSession session, XRWebGLRenderingContext context);
 
-  readonly attribute nativeProjectionScaleFactor;
+  readonly attribute double nativeProjectionScaleFactor;
 
   Promise<XRProjectionLayer> requestProjectionLayer(GLenum textureTarget, XRProjectionLayerInit init);
   Promise<XRQuadLayer> requestQuadLayer(GLenum textureTarget, XRLayerInit init);
