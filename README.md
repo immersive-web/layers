@@ -311,8 +311,8 @@ dictionary XRProjectionLayerInit {
 };
 
 dictionary XRLayerInit {
-  required unsigned int pixelWidth;
-  required unsigned int pixelHeight;
+  required unsigned long pixelWidth;
+  required unsigned long pixelHeight;
   boolean stereo = false;
   boolean depth = false; // This is a change from typical WebGL initialization, but feels approrpriate.
   boolean stencil = false;
@@ -322,7 +322,7 @@ dictionary XRLayerInit {
 interface XRWebGLLayerFactory {
   constructor(XRSession session, XRWebGLRenderingContext context);
 
-  double getNativeProjectionScaleFactor();
+  readonly attribute nativeProjectionScaleFactor;
 
   Promise<XRProjectionLayer> requestProjectionLayer(GLenum textureTarget, XRProjectionLayerInit init);
   Promise<XRQuadLayer> requestQuadLayer(GLenum textureTarget, XRLayerInit init);
