@@ -148,15 +148,14 @@ function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
-
-  let subImage = glLayerFactory.getSubImage(layer);
-  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
-    subImage.colorTexture, 0);
-  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT,
-    subImage.depthStencilTexture, 0);
-
+ 
   for (let view in xrViewerPose.views) {
-    let viewport = glLayerFactory.getViewSubImage(layer, view).viewport;
+    let subImage = glLayerFactory.getViewSubImage(layer, view);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
+      gl.TEXTURE_2D, subImage.colorTexture, 0);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT,
+      gl.TEXTURE_2D, subImage.depthStencilTexture, 0);  
+    let viewport = subImage.viewport;
     gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
 
     // Render from the viewpoint of xrView
