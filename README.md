@@ -133,7 +133,7 @@ xrSession.updateRenderState({ layers: [projectionLayer, quadLayer] });
 
 During `XRFrame` processing each layer can be updated with new imagery. Calling `getViewSubImage()` with a view from the `XRFrame` will return an `XRSubImage` indicating the textures to use as the render target and what portion of the texture will be presented to the `XRView`'s associated physical display.
 
-WebGL layers allocated with the `TEXTURE_2D` target will provide sub images with a unique, non-overlapping `viewport` and `imageIndex` of `0` for each `XRView`.
+WebGL layers allocated with the `TEXTURE_2D` target will provide sub images with a `viewport` and an `imageIndex` of `0` for each `XRView`.
 
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
