@@ -133,7 +133,7 @@ xrSession.updateRenderState({ layers: [projectionLayer, quadLayer] });
 
 During `XRFrame` processing each layer can be updated with new imagery. Calling `getViewSubImage()` with a view from the `XRFrame` will return an `XRSubImage` indicating the textures to use as the render target and what portion of the texture will be presented to the `XRView`'s associated physical display.
 
-WebGL layers allocated with the `TEXTURE_2D` target will provide sub images with a `viewport` and an `imageIndex` of `0` for each `XRView`.
+WebGL layers allocated with the `TEXTURE_2D` target will provide sub images with a `viewport` and an `imageIndex` of `0` for each `XRView`. Note that the `colorTexture` and `depthStencilTexture` can be different between the views.
 
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
@@ -163,7 +163,7 @@ function onXRFrame(time, xrFrame) {
 }
 ```
 
-WebGL layers allocated with the `TEXTURE_2D_ARRAY` target will provide sub images with the same `viewport` and a unique `imageIndex` indicating the texture layer to render to for each `XRView`.
+WebGL layers allocated with the `TEXTURE_2D_ARRAY` target will provide sub images with the same `viewport` and a unique `imageIndex` indicating the texture layer to render to for each `XRView`. Note that the `colorTexture` and `depthStencilTexture` are the same between views, just the `imageIndex` is different.
 
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
