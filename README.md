@@ -148,13 +148,13 @@ function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
- 
+
   for (let view in xrViewerPose.views) {
     let subImage = glLayerFactory.getViewSubImage(layer, view);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
       gl.TEXTURE_2D, subImage.colorTexture, 0);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT,
-      gl.TEXTURE_2D, subImage.depthStencilTexture, 0);  
+      gl.TEXTURE_2D, subImage.depthStencilTexture, 0);
     let viewport = subImage.viewport;
     gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
 
@@ -225,6 +225,34 @@ function onXRFrame(time, xrFrame) {
   // Render content for the quad layer
 }
 ```
+
+## Video layers
+
+Video playback is a very common use case in VR, especially with 180, 360, and stereo videos. While videos can be displayed by copying the video output frame-by-frame over to WebGL textures this has several downsides, including introducing extra copies, introducing stutter or becoming de-synced from the audio due to limits on when you can copy the texture, and inability to display encrypted media. As a result having a method for presenting videos directly as a layer offers an opportunity to make video playback easier, faster, and higher quality.
+
+To create video layers, an `XRMediaLayerFactory` must be created, similar to the `XRWebGLLayerFactory`.
+
+```js
+const mediaLayerFactory = new XRMediaLayerFactory(xrSession);
+```
+
+The `XRMediaLayerFactory` can then be used to create `XRQuadLayer`s, `XRCylinderLayer`s, and `XREquirectLayer`s that display a given video element. (`XRProjectionLayer`s cannot be created with an `XRMediaLayerFactory`, given the requirements for how they must respond to the viewer's movement. `XRCubeLayer`s cannot be created with an `XRMediaLayerFactory` since the ideal layout isn't clear, but may be added at a later time.)
+
+```js
+const video = document.createElement('video');
+video.src = 'never-gonna-give-you-up.mp4';
+const layer = await mediaLayerFactory.requestQuadVideoLayer(video);
+```
+
+That layer can then be added to the layers list like any of the WebGL layers above, and even intermixed with layers created by an `XRWebGLLayerFactory`. Once the video layer has been added to the session's layer list it will continuously display the current frame of the video element with no additional interaction from the API. Playback is controlled via the standard `HTMLVideoElement` controls.
+
+Videos may also contain stereo data, typically encoded with both eye's video information embedded in a single video frame either side-by-side or one on top of the other. In order to display these properly the layout of the stereo streams needs to be specified, like so:
+
+```js
+const layer = await mediaLayerFactory.requestQuadVideoLayer(video, { layout: 'stereo-top-bottom' });
+```
+
+This will then cause only the top half of the video to show to the left eye and the bottom half of the video to show to the right eye. If more complex layouts are required than are described by the `XRMediaLayout` enum then the video must be manually rendered using an `XRWebGLLayerFactory` layer instead.
 
 ## Appendix A: Proposed IDL
 
@@ -331,6 +359,25 @@ interface XRWebGLLayerFactory {
 
   XRWebGLSubImage? getSubImage(XRLayer layer); // for mono layers
   XRWebGLSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
+};
+
+enum XRMediaLayout {
+  "mono",
+  "stereo-left-right",
+  "stereo-top-bottom"
+};
+
+dictionary XRMediaLayerInit {
+  XRMediaLayout layout = "mono";
+  boolean invertStereo = false;
+};
+
+interface XRMediaLayerFactory {
+  constructor(XRSession session);
+
+  Promise<XRQuadLayer> requestQuadVideoLayer(HTMLVideoElement video, optional XRMediaLayerInit init = {});
+  Promise<XRCylinderLayer> requestCylinderVideoLayer(HTMLVideoElement video, optional XRMediaLayerInit init = {});
+  Promise<XREquirectLayer> requestEquirectVideoLayer(HTMLVideoElement video, optional XRMediaLayerInit init = {});
 };
 ```
 
