@@ -312,11 +312,11 @@ interface XREquirectLayer : XRLayer {
   attribute XRReferenceSpace referenceSpace;
 
   attribute XRRigidTransform transform;
-  attribute float radius = 1;
-  attribute float scaleX = 1;
-  attribute float scaleY = 1;
-  attribute float biasX = 0;
-  attribute float biasY = 0;
+  attribute float radius;
+  attribute float scaleX;
+  attribute float scaleY;
+  attribute float biasX;
+  attribute float biasY;
 };
 
 interface XRCubeLayer : XRLayer {

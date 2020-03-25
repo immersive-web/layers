@@ -1,0 +1,502 @@
+<pre class="metadata">
+Shortname: webxrlayers-1
+Title: WebXR Layers API Level 1
+Group: immersivewebwg
+Status: DREAM
+TR:
+ED:
+Previous Version:
+Repository: immersive-web/layers
+Level: 1
+Mailing List Archives: https://lists.w3.org/Archives/Public/public-immersive-web/
+
+Editor: Rik Cabanier, Oculus https://oculus.com, cabanier@fb.com
+
+Abstract: This specification describes support for accessing the geometry of real world objects during a WebXR session.
+</pre>
+
+<pre class="link-defaults">
+spec:infra;
+    type:dfn; text:string
+</pre>
+
+<pre class="anchors">
+</pre>
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+
+<style>
+  .unstable::before {
+    content: "This section is not stable";
+    display: block;
+    font-weight: bold;
+    text-align: right;
+    color: red;
+  }
+  .unstable {
+    border: thin solid pink;
+    border-radius: .5em;
+    padding: .5em;
+    margin: .5em calc(-0.5em - 1px);
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='290'><text transform='rotate(-45)' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='70' y='210' opacity='.1'>Unstable</text></svg>");
+    background-repeat: repeat;
+    background-color: #FFF4F4;
+  }
+  .unstable h3:first-of-type {
+    margin-top: 0.5rem;
+  }
+
+  .unstable.example:not(.no-marker)::before {
+    content: "Example " counter(example) " (Unstable)";
+    float: none;
+  }
+
+  .non-normative::before {
+    content: "This section is non-normative.";
+    font-style: italic;
+  }
+  .tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  .tg th {
+    border-style: solid;
+    border-width: 1px;
+    background: #90b8de;
+    color: #fff;
+    font-family: sans-serif;
+    font-weight: bold;
+    border-color: grey;
+  }
+  .tg td {
+    padding: 4px 5px;
+    background-color: rgb(221, 238, 255);
+    font-family: monospace;
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+    overflow: hidden;
+    word-break: normal;
+  }
+</style>
+
+Introduction {#intro}
+============
+
+<section class="non-normative">
+
+The spec adds support of `composition` layers to the WebXR spec. The benefits of layers are as follows:
+
+ * <b>Performance and judder</b> Composition layers are presented at the frame rate of the compositor (i.e. native refresh rate of HMD) rather than at the application frame rate.
+ Even when the application is not updating the layer's rendering at the native refresh rate of the compositor, the compositor might be able to re-project the existing
+ rendering to the proper pose. This results in smoother rendering and less judder. Another feature of layers is that each of them can have different resolution. This allows the
+ application to scale down the main eye buffer resolution on low performance systems, but keeping essential information, such as text or a map, in its own layer at a higher
+ resolution.
+
+ * <b>Legibility/vsisual fidelity</b> The resolution for eye-buffers for 3D world rendering can be set to relatively low values especially on low performance systems. It would
+ be impossible to render high fidelity content, such as text, in this case. Each layer may have its own resolution and it will be re-sampled only once by the compositor (in contrary
+ to the traditional approach with rendering layers via WebGL where the layer's content got re-sampled at least twice: once when rendering into WebGL
+ eye-buffer (and losing a lot of details due to limited eye-buffer resolution) and the second time by the compositor).
+
+ * <b>Power consumption / battery life</b> Due to reduced rendering pipeline, the lack of double sampling and no need to update the layer's rendering each frame, the power
+ consumption is expected to be improved.
+
+ * <b>Latency</b> Pose sampling for composition layers may occur at the very end of the frame and then certain reprojection techniques could be used to update the layer's pose to
+ match it with the most recent HMD pose. This may significantly reduce the effective latency for the layers' rendering and as a result improve overall experience.
+
+ISSUE: how are the controllers drawn? Should they be optional, always there or drawn by the author?
+
+ISSUE: how to do hit testing? Should it be done by the UA?
+
+</section>
+
+
+
+Terminology {#terminology}
+-----------
+
+Application flow {#applicationflow}
+----------------
+
+<section class="non-normative">
+
+If an author wants to use layers, they have to go through these steps:
+ 1. request support through {{XRPermissionDescriptor/requiredFeatures}} or {{XRPermissionDescriptor/optionalFeatures}} in {{XRSystem/requestSession()}}
+ 1. create a XRWebGLLayerFactory or XRMediaLayerFactory
+ 1. create layers with these factories
+ 1. add the layers to {{XRRenderStateInit}} and call {{XRSession/updateRenderState()}}
+ 1. during {{XRSession/requestAnimationFrame()}} for webgl layers, draw content each gl layer
+</section>
+
+Model {#model}
+======
+
+The application MUST enable layer support through the {{XRSessionInit/domOverlay}} dictionary.
+
+In order for the applications to signal their interest in using anchors during a session, 
+the session must be requested with appropriate [=feature descriptor=]. The string <dfn>layers</dfn> is introduced 
+by this module as a new valid feature descriptor for WebXR Layers feature.
+
+<div class="example">
+The following code requests layers as an optional feature.
+
+<pre highlight="js">
+navigator.xr.requestSession('immersive-vr', {
+    optionalFeatures: ['layers']
+  }
+</pre>
+</div>
+
+Layers are only supported for XRSessions created with XRSessionMode of {{XRSessionMode/"immersive-vr"}} 
+or {{XRSessionMode/"immersive-ar"}}. {{XRSessionMode/"inline"}} sessions must not support layers.
+
+Layer types
+===========
+
+Mono and stereo layers {#monovsstereo}
+----------------------
+A stereo layer must supply a different view to render to for each eye. Stereo layers should be refreshed 
+close to the device's native frame rate.
+
+A mono layers must supply a single view which is shown to each eye. There is no requirement to refresh mono 
+layers repeatedly.
+
+The [=XR Compositor=] must ensure that layers are presented correctly in stereo to the observer.
+
+XRLayer {#xrlayer}
+-------
+Every layer except XRWebGLLayer is derived from XRLayer.
+XRLayer defines a set of common attributes and behaviors acress all layer types.
+
+<pre class="idl">
+interface XRLayer {
+  readonly attribute unsigned long pixelWidth;
+  readonly attribute unsigned long pixelHeight;
+
+  attribute boolean blendTextureSourceAlpha;
+  attribute boolean chromaticAberrationCorrection;
+
+  void destroy();
+};
+</pre>
+
+The <dfn attribute for="XRLayer">pixelWidth</dfn> and <dfn attribute for="XRLayer">pixelHeight</dfn> attributes 
+return the width and height of the GL attachments, respectively. If there are no attachments, they will return 0.
+
+The <dfn attribute for="XRLayer">blendTextureSourceAlpha</dfn> attribute enables the layer’s texture alpha channel.
+
+The <dfn attribute for="XRLayer">chromaticAberrationCorrection</dfn> attribute enables optical chromatic 
+aberration correction for the layer when not done by default.
+
+{{destroy()}} will delete the underlying attachments. If there are no attachments, this function does nothing.
+
+XRProjectionLayer {#xrprojectionlayer}
+-----------------
+A XRProjectionLayer is a layer that fills the entire view of the observer.
+Projection layer must always run stereo and should be refreshed close to the device's native frame rate.
+
+<pre class="idl">
+interface XRProjectionLayer : XRLayer {
+  readonly attribute boolean ignoreDepthValues;
+}
+</pre>
+
+The <dfn attribute for="XRProjectionLayer">ignoreDepthValues</dfn> attribute, if <code>true</code>, indicates the 
+[=XR Compositor=] MUST NOT make use of values in the depth buffer attachment when rendering. When the attribute 
+is <code>false</code> it indicates that the content of the depth buffer attachment will be used by the 
+[=XR Compositor=] and is expected to be representative of the scene rendered into the layer.
+
+XRQuadLayer {#xrquadlayer}
+-----------
+A XRQuadLayer renders a layer that takes up a flat rectangular space in the virtual environment.
+Only the front of the layer must be visible; the back face must not be drawn by the [=XR Compositor=].
+
+A XRQuadLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position 
+of a quad refers to the center of the quad.
+
+<pre class="idl">
+interface XRQuadLayer : XRLayer {
+  readonly attribute boolean stereo;
+  attribute XRReferenceSpace referenceSpace;
+  attribute XRRigidTransform transform;
+
+  attribute float width;
+  attribute float height;
+};
+</pre>
+
+The <dfn attribute for="XRQuadLayer">stereo</dfn> attribute returns if the layer is rendered in stereo. 
+
+The <dfn attribute for="XRQuadLayer">transform</dfn> attribute sets and returns the offset and orientation relative to the
+<dfn attribute for="XRQuadLayer">referenceSpace</dfn> attribute.
+
+The <dfn attribute for="XRQuadLayer">width</dfn> and <dfn attribute for="XRQuadLayer">height</dfn> attributes 
+set and return the width and height of the layer in meters.
+
+XRCylinderLayer {#xrcylinderayer}
+---------------
+A XRCylinderLayer renders a layer that takes up a curved rectangular space in the virtual environment.
+Only the front of the layer must be visible; the back face must not be drawn by the [=XR Compositor=].
+
+A XRCylinderLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position 
+of the cylinder refers to the center of the quad.
+
+<pre class="idl">
+interface XRCylinderLayer : XRLayer {
+  readonly attribute boolean stereo;
+  attribute XRReferenceSpace referenceSpace;
+  attribute XRRigidTransform transform;
+
+  attribute float radius;
+  attribute float centralAngle;
+  attribute float aspectRatio;
+};
+</pre>
+
+The <dfn attribute for="XRCylinderLayer">stereo</dfn> attribute returns if the layer is rendered in stereo. 
+
+The <dfn attribute for="XRCylinderLayer">transform</dfn> attribute sets and returns the offset and orientation relative to the
+<dfn attribute for="XRCylinderLayer">referenceSpace</dfn> attribute.
+
+The <dfn attribute for="XRCylinderLayer">radius</dfn> attribute controls the radius in meters of the cylinder.
+
+The <dfn attribute for="XRCylinderLayer">centralAngle</dfn> attribute controls the angle in degrees of the visible section of the cylinder.
+It grows symmetrically around the 0 angle.
+
+The <dfn attribute for="XRCylinderLayer">aspectRatio</dfn> attribute controls the ratio of the visible cylinder section.
+
+<img src="images/cylinder_layer_params.png" style="width:80%"/>
+
+XREquirectLayer {#xrequirectlayer}
+---------------
+A XREquirectLayer renders a layer where the [=XR Compositor=] must map an equirectangular coded data onto the inside of a sphere.
+
+ISSUE: this section needs clarification
+
+<pre class="idl">
+interface XREquirectLayer : XRLayer {
+  readonly attribute boolean stereo;
+  attribute XRReferenceSpace referenceSpace;
+  attribute XRRigidTransform transform;
+
+  attribute float radius;
+  attribute float scaleX;
+  attribute float scaleY;
+  attribute float biasX ;
+  attribute float biasY;
+};
+</pre>
+
+The <dfn attribute for="XREquirectLayer">stereo</dfn> attribute returns if the layer is rendered in stereo. 
+
+The <dfn attribute for="XREquirectLayer">transform</dfn> attribute sets and returns the offset and orientation relative to the
+<dfn attribute for="XRCylinderLayer">referenceSpace</dfn> attribute.
+
+The <dfn attribute for="XREquirectLayer">radius</dfn> attribute is the non-negative radius of the sphere. Values of less than or 
+equal to zero or infinity are treated as an infinite sphere.
+
+The <dfn attribute for="XREquirectLayer">scaleX</dfn> and <dfn attribute for="XREquirectLayer">scaleY</dfn> attributes 
+set and return a scale of the texture coordinates after the mapping to 2D.
+
+The <dfn attribute for="XREquirectLayer">biasX</dfn> and <dfn attribute for="XREquirectLayer">biasY</dfn> attributes 
+set and return a bias of the texture coordinates after the mapping to 2D.
+
+XRCubeLayer {#xcubelayer}
+-----------
+A XREquirectLayer renders a layer where the [=XR Compositor=] renders directly from a cubemap.
+
+ISSUE: this section needs clarification
+
+<pre class="idl">interface XRCubeLayer : XRLayer {
+  readonly attribute boolean stereo;
+  attribute XRReferenceSpace referenceSpace;
+  attribute DOMPoint orientation;
+};
+</pre>
+
+The <dfn attribute for="XRCubeLayer">stereo</dfn> attribute returns if the layer is rendered in stereo. 
+
+The <dfn attribute for="XRCubeLayer">orientation</dfn> attribute sets and returns the orientation relative to the
+<dfn attribute for="XRCubeLayer">referenceSpace</dfn> attribute.
+
+Initialisation {#initialisation}
+==============
+
+
+
+
+<pre class="idl">
+//
+// Layer interface
+//
+
+interface XRSubImage {
+  readonly attribute XRViewport viewport;
+  readonly attribute unsigned long imageIndex;
+};
+
+interface XRWebGLSubImage : XRSubImage {
+  readonly attribute WebGLTexture colorTexture;
+  readonly attribute WebGLTexture? depthStencilTexture;
+};
+
+//
+// Graphics Bindings
+//
+
+dictionary XRProjectionLayerInit {
+  boolean depth = true;
+  boolean stencil = false;
+  boolean alpha = true;
+  double scaleFactor = 1.0;
+};
+
+dictionary XRLayerInit {
+  required unsigned long pixelWidth;
+  required unsigned long pixelHeight;
+  boolean stereo = false;
+  boolean depth = false; // This is a change from typical WebGL initialization, but feels approrpriate.
+  boolean stencil = false;
+  boolean alpha = true;
+};
+
+interface XRWebGLLayerFactory {
+  constructor(XRSession session, XRWebGLRenderingContext context);
+
+  readonly attribute double nativeProjectionScaleFactor;
+
+  Promise<XRProjectionLayer> requestProjectionLayer(GLenum textureTarget, XRProjectionLayerInit init);
+  Promise<XRQuadLayer> requestQuadLayer(GLenum textureTarget, XRLayerInit init);
+  Promise<XRCylinderLayer> requestCylinderLayer(GLenum textureTarget, XRLayerInit init);
+  Promise<XREquirectLayer> requestEquirectLayer(GLenum textureTarget, XRLayerInit init);
+  Promise<XRCubeLayer> requestCubeLayer(XRLayerInit init);
+
+  XRWebGLSubImage? getSubImage(XRLayer layer); // for mono layers
+  XRWebGLSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
+};
+
+enum XRMediaLayout {
+  "mono",
+  "stereo-left-right",
+  "stereo-top-bottom"
+};
+
+dictionary XRMediaLayerInit {
+  XRMediaLayout layout = "mono";
+  boolean invertStereo = false;
+};
+
+interface XRMediaLayerFactory {
+  constructor(XRSession session);
+
+  Promise<XRQuadLayer> requestQuadVideoLayer(HTMLVideoElement video, optional XRMediaLayerInit init = {});
+  Promise<XRCylinderLayer> requestCylinderVideoLayer(HTMLVideoElement video, optional XRMediaLayerInit init = {});
+  Promise<XREquirectLayer> requestEquirectVideoLayer(HTMLVideoElement video, optional XRMediaLayerInit init = {});
+};
+
+</pre>
+
+<div class="example">
+The following code creates an {{immersive-vr}} {{XRSession}} with support for layers.
+<pre highlight="js">
+let xrSession;
+
+navigator.xr.requestSession("immersive-vr", {
+    requiredFeatures: ['layers']}).then((session) => {
+  xrSession = session;
+});
+</pre>
+</div>
+
+<div class="example">
+Set up the initial layer state with no layers in the scene.
+<pre highlight="js">
+
+let glCanvas = document.createElement("canvas");
+let gl = glCanvas.getContext("webgl", { xrCompatible: true });
+xrSession.updateRenderState({
+  context: gl,
+  layers: []});
+
+</pre>
+</div>
+
+<div class="example">
+Set up the initial layer state with a single quad layer in the scene.
+<pre highlight="js">
+
+let glCanvas = document.createElement("canvas");
+let gl = glCanvas.getContext("webgl", { xrCompatible: true });
+let quad_layer = await xrSession.requestQuadLayer({
+  width: 1,
+  height: 1});
+xrSession.updateRenderState({
+  context: gl,
+  layers: [ quad_layer ] });
+
+</pre>
+</div>
+
+<div class="example">
+Set up the initial layer state with a cylinder layer with a video in the scene.
+<pre highlight="js">
+
+let video = document.createElement('video');
+video.loop = true;
+video.src = 'sample.webm';
+video.play();
+
+let glCanvas = document.createElement("canvas");
+let gl = glCanvas.getContext("webgl", { xrCompatible: true });
+let quad_layer = await xrSession.requestVideoLayer({
+  width: 1,
+  height: 1,
+  videoElement: video});
+xrSession.updateRenderState({
+  context: gl,
+  layers: [ quad_layer ] });
+
+</pre>
+</div>
+
+<div class="example">
+Set up the initial layer state with a quad and a projection layer and fill them with a random color.
+<pre highlight="js">
+function fill_texture(gl, texture) {
+  let fb = gl.createFramebuffer();
+  gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER,
+    gl.COLOR_ATTACHMENT0,
+    gl.TEXTURE_2D,
+    texture,
+    0);
+  let time = Date.now();
+  gl.clearColor(Math.cos(time / 2000),
+    Math.cos(time / 4000),
+    Math.cos(time / 6000));
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.deleteFramebuffer(fb);
+}
+
+let glCanvas = document.createElement("canvas");
+let gl = glCanvas.getContext("webgl", { xrCompatible: true });
+let cylinder_layer = await xrSession.requestCylinderLayer({
+  radius: .4,
+  centralAngle: Math.PI / 2,
+  aspectRatio: 2});
+let quad_layer = await xrSession.requestQuadLayer({
+  width: 1,
+  height: 1});
+xrSession.updateRenderState({
+  context: gl,
+  layers: [ cylinder_layer, quad_layer ] });
+fill_texture(gl, cylinder_layer.texture);
+fill_texture(gl, quad_layer.texture);
+</pre>
+</div>
+
+
+
+Security and Privacy Considerations {#security}
+===============================================
