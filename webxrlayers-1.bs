@@ -21,11 +21,29 @@ spec:infra;
 </pre>
 
 <pre class="anchors">
+spec: WebXR Device API - Level 1; urlPrefix: https://www.w3.org/TR/webxr/#
+    type: dfn; text: feature descriptor
+    type: dfn; text: xr compositor
+    type: dfn; text: recommended WebGL framebuffer resolution
+    type: dfn; text: native WebGL framebuffer resolution
+    type: dfn; text: immersive session
+    type: dfn; text: xr compatible
+    type: dfn; text: "xr device"
+    type: dfn; text: ended
+    type: dfn; text: context
+    type: dfn; text: session
 spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: interface; text: WebGLFramebuffer; url: WebGLFramebuffer
     type: interface; text: WebGLTexture; url: WebGLTexture
     type: interface; text: WebGLRenderingContext; url: WebGLRenderingContext
     type: interface; text: WebGLRenderingContextBase; url: WebGLRenderingContextBase
+    type: interface; text: GLenum
+spec: WebGL 2.0; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/2.0/
+    type: interface; text: WebGL2RenderingContext; url: WebGL2RenderingContext
+</pre>
+
+<pre class=link-defaults>
+    spec:webxr-ar-module-1; type:enum-value; text:"immersive-ar"
 </pre>
 
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -135,9 +153,7 @@ If an author wants to use layers, they have to go through these steps:
 Model {#model}
 ======
 
-The application MUST enable layer support through the {{XRSessionInit/domOverlay}} dictionary.
-
-In order for the applications to signal their interest in using anchors during a session, 
+In order for the applications to signal their interest in using layers during a session, 
 the session must be requested with appropriate [=feature descriptor=]. The string <dfn>layers</dfn> is introduced 
 by this module as a new valid feature descriptor for WebXR Layers feature.
 
@@ -167,7 +183,7 @@ layers repeatedly.
 
 The [=XR Compositor=] must ensure that layers are presented correctly in stereo to the observer.
 
-XRLayer {#xrlayer}
+XRLayer {#xrlayertype}
 -------
 Every layer except XRWebGLLayer is derived from XRLayer.
 XRLayer defines a set of common attributes and behaviors acress all layer types.
@@ -200,7 +216,7 @@ of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
 Each {{XRLayer}} has an associated <dfn for="XRLayer">session</dfn>, which is the 
 {{XRSession}} it was created with.
 
-XRProjectionLayer {#xrprojectionlayer}
+XRProjectionLayer {#xrprojectionlayertype}
 -----------------
 A XRProjectionLayer is a layer that fills the entire view of the observer.
 Projection layer must always run stereo and should be refreshed close to the device's native frame rate.
@@ -216,7 +232,7 @@ The <dfn attribute for="XRProjectionLayer">ignoreDepthValues</dfn> attribute, if
 is <code>false</code> it indicates that the content of the depth buffer attachment will be used by the 
 [=XR Compositor=] and is expected to be representative of the scene rendered into the layer.
 
-XRQuadLayer {#xrquadlayer}
+XRQuadLayer {#xrquadlayertype}
 -----------
 A XRQuadLayer renders a layer that takes up a flat rectangular space in the virtual environment.
 Only the front of the layer must be visible; the back face must not be drawn by the [=XR Compositor=].
@@ -243,7 +259,7 @@ The <dfn attribute for="XRQuadLayer">transform</dfn> attribute sets and returns 
 The <dfn attribute for="XRQuadLayer">width</dfn> and <dfn attribute for="XRQuadLayer">height</dfn> attributes 
 set and return the width and height of the layer in meters.
 
-XRCylinderLayer {#xrcylinderayer}
+XRCylinderLayer {#xrcylinderayertype}
 ---------------
 A XRCylinderLayer renders a layer that takes up a curved rectangular space in the virtual environment.
 Only the front of the layer must be visible; the back face must not be drawn by the [=XR Compositor=].
@@ -277,7 +293,7 @@ The <dfn attribute for="XRCylinderLayer">aspectRatio</dfn> attribute controls th
 
 <img src="images/cylinder_layer_params.png" style="width:80%"/>
 
-XREquirectLayer {#xrequirectlayer}
+XREquirectLayer {#xrequirectlayertype}
 ---------------
 A XREquirectLayer renders a layer where the [=XR Compositor=] must map an equirectangular coded data onto the inside of a sphere.
 
@@ -311,7 +327,7 @@ set and return a scale of the texture coordinates after the mapping to 2D.
 The <dfn attribute for="XREquirectLayer">biasX</dfn> and <dfn attribute for="XREquirectLayer">biasY</dfn> attributes 
 set and return a bias of the texture coordinates after the mapping to 2D.
 
-XRCubeLayer {#xcubelayer}
+XRCubeLayer {#xcubelayertype}
 -----------
 A XREquirectLayer renders a layer where the [=XR Compositor=] renders directly from a cubemap.
 
@@ -334,7 +350,7 @@ Rendering {#rendering}
 =========
 
 
-XRSubImage {#xrsubimage}
+XRSubImage {#xrsubimagetype}
 ----------
 The {{XRSubImage}} object represents what viewport of the GPU texture to use.
 
@@ -350,7 +366,7 @@ The <dfn attribute for="XRSubImage">viewport</dfn> attribute returns the {{XRVie
 
 ISSUE: is imageIndex needed?
 
-XRWebGLSubImage {#xrwebglsubimage}
+XRWebGLSubImage {#xrwebglsubimagetype}
 ---------------
 The {{XRWebGLSubImage}} object is used during rendering of the layer.
 
@@ -399,7 +415,7 @@ The method will return a promise that will resolve to the associated XRLayer typ
 Some layer types may not be supported by the {{XRSession}}. If a layer type isn't supported the returned Promise will reject. {{XRProjectionLayer}} must be supported by all {{XRSession}}s.
 </section>
 
-XRProjectionLayerInit {#xrprojectionlayerinit}
+XRProjectionLayerInit {#xrprojectionlayerinittype}
 ---------------------
 The {{XRProjectionLayerInit}} dictionary represents a set of configurable values that describe how a {{XRProjectionLayer}}
 is initialized.
@@ -413,16 +429,16 @@ dictionary XRProjectionLayerInit {
 };
 </pre>
 
-The <dfn attribute for="XRProjectionLayerInit">depth</dfn> attribute defines if the {{XRProjectionLayer}} will have a depth buffer.
+The <dfn dict-member for="XRProjectionLayerInit">depth</dfn> attribute defines if the {{XRProjectionLayer}} will have a depth buffer.
 
-The <dfn attribute for="XRProjectionLayerInit">stencil</dfn> attribute defines if the {{XRProjectionLayer}} will have a stencil buffer.
+The <dfn dict-member for="XRProjectionLayerInit">stencil</dfn> attribute defines if the {{XRProjectionLayer}} will have a stencil buffer.
 
-The <dfn attribute for="XRProjectionLayerInit">alpha</dfn> attribute defines if the {{XRProjectionLayer}} will have an alpha channel.
+The <dfn dict-member for="XRProjectionLayerInit">alpha</dfn> attribute defines if the {{XRProjectionLayer}} will have an alpha channel.
 
-The <dfn attribute for="XRProjectionLayerInit">scaleFactor</dfn> attribute defines the value that the |session|'s 
+The <dfn dict-member for="XRProjectionLayerInit">scaleFactor</dfn> attribute defines the value that the |session|'s 
 [=recommended WebGL framebuffer resolution=] must be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
 
-XRLayerInit {#xrlayerinit}
+XRLayerInit {#xrlayerinittype}
 ---------------------
 The {{XRLayerInit}} dictionary represents a set of configurable values that describe how {{XRQuadLayer}}, {{XRCylinderLayer}}, {{XREquirectLayer}}
 and {{XRCubeLayer}} are initialized.
@@ -438,18 +454,18 @@ dictionary XRLayerInit {
 };
 </pre>
 
-the <dfn attribute for="XRLayerInit">pixelWidth</dfn> and <dfn attribute for="XRLayerInit">pixelHeight</dfn> attributes define 
+the <dfn dict-member for="XRLayerInit">pixelWidth</dfn> and <dfn dict-member for="XRLayerInit">pixelHeight</dfn> attributes define 
 the rectangular dimensions of the {{XRLayer}}
 
-The <dfn attribute for="XRLayerInit">depth</dfn> attribute defines if the {{XRLayer}} view will have a depth buffer.
+The <dfn dict-member for="XRLayerInit">depth</dfn> attribute defines if the {{XRLayer}} view will have a depth buffer.
 
-The <dfn attribute for="XRLayerInit">stencil</dfn> attribute defines if the {{XRLayer}} view will have a stencil buffer.
+The <dfn dict-member for="XRLayerInit">stencil</dfn> attribute defines if the {{XRLayer}} view will have a stencil buffer.
 
-The <dfn attribute for="XRLayerInit">alpha</dfn> attribute defines if the {{XRLayer}} view will have an alpha channel.
+The <dfn dict-member for="XRLayerInit">alpha</dfn> attribute defines if the {{XRLayer}} view will have an alpha channel.
 
-XRWebGLLayerFactory {#xrwebgllayerfactory}
+XRWebGLLayerFactory {#xrwebgllayerfactorytype}
 -------------------
-The {{XRWebGLLayerFactory}} object is used to create layers that have a {{WebGL}} backend.
+The {{XRWebGLLayerFactory}} object is used to create layers that have a GPU backend.
 
 <pre class="idl">
 interface XRWebGLLayerFactory {
@@ -478,8 +494,8 @@ of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
 Each {{XRWebGLLayerFactory}} has an associated <dfn for="XRWebGLLayerFactory">session</dfn>, which is the 
 {{XRSession}} it was created with.
 
-Each {{XRLayer}} created through {{XRWebGLLayerFactory}} has an <dfn for="XRLayer/colorTextures">|array| of {{WebGLTexture}}</dfn> for color textures and 
-an |array| of {{WebGLTexture}} for depth/stencil textures.
+Each {{XRLayer}} created through {{XRWebGLLayerFactory}} has an internal <dfn for="XRLayer">colorTextures</dfn> which is an |array| of {{WebGLTexture}} for color textures and 
+an internal <dfn for="XRLayer">depthStencilTextures</dfn> whcih is an |array| of {{WebGLTexture}}</dfn>for depth/stencil textures.
 
 <div class="algorithm" data-algorithm="construct-webgl-layer">
 
@@ -501,8 +517,8 @@ ISSUE: can a user construct more than 1 factory?
 The {{nativeProjectionScaleFactor}} function returns the value that the |session|'s [=recommended WebGL framebuffer resolution=] 
 must be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
 
-<div class="algorithm" data-algorithm="requestProjectionLayer">
-The <dfn method for="XRWebGLLayerFactory">requestProjectionLayer()</dfn> method creates a new {{XRProjectionLayer}}.
+<div class="algorithm" data-algorithm="requestProjectionLayerAlgo">
+The <dfn method for="XRWebGLLayerFactory">requestProjectionLayer(GLenum textureTarget, optional XRProjectionLayerInit init)</dfn> method creates a new {{XRProjectionLayer}}.
 
 When this method is invoked, it MUST run the following steps:
 
@@ -515,29 +531,29 @@ When this method is invoked, it MUST run the following steps:
     1. Initialize |layer|'s [=XRProjectionLayer/session=] to |session|.
     1. Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} as follows:
         <dl class="switch">
-        <dt> If |layerInit|'s {{XRProjectionLayerInit/ignoreDepthValues}} value is <code>false</code> and the [=XR Compositor=] will make use of depth values
+        <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} value is <code>false</code> and the [=XR Compositor=] will make use of depth values
         <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>false</code>
         <dt> Otherwise
         <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>true</code>
         </dl>
-    1. Initialize |layer|'s {{XRProjectionLayer/colorTextures}} as follows:
+    1. Initialize |layer|'s {{XRLayer/colorTextures}} as follows:
          <dl class="switch">
          <dt> If [=XRProjectionLayer/context=] is a {{WebGL2RenderingContext}} and textureTarget is TEXTURE_2D_ARRAY
          <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
          <dt> Else if textureTarget is TEXTURE_2D
-         <dd> Initialize |layer|'s {{XRProjectionLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
+         <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
          <dt> Otherwise
          <dd> throw an {{InvalidStateError}} and abort these steps.
          <dd> 
          </dl>
-    1. Initialize |layer|'s {{XRProjectionLayer/depthStencilTextures}} as follows:
+    1. Initialize |layer|'s {{XRLayer/depthStencilTextures}} as follows:
         <dl class="switch">
         <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set
-        <dd> Initialize |layer|'s {{XRProjectionLayer/depthStencilTextures}} to an empty |array|
+        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|
         <dt> Else if [=XRProjectionLayer/context=] value is a {{WebGL2RenderingContext}} and textureTarget is TEXTURE_2D_ARRAY
-        <dd> Initialize |layer|'s {{XRProjectionLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
+        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
         <dt> Else if textureTarget is TEXTURE_2D
-        <dd> Initialize |layer|'s {{XRProjectionLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
+        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
         <dt> Otherwise
         <dd> throw an {{InvalidStateError}} and abort these steps.
         </dl>
@@ -553,7 +569,7 @@ ISSUE: define how scaleFactor works
 ISSUE: define "opaque" {{WebGLTexture}}
 
 <div class="algorithm" data-algorithm="requestQuadLayer">
-The <dfn method for="XRWebGLLayerFactory">requestQuadLayer()</dfn> method creates a new {{XRQuadLayer}}.
+The <dfn method for="XRWebGLLayerFactory">requestQuadLayer(GLenum textureTarget, XRLayerInit init)</dfn> method creates a new {{XRQuadLayer}}.
 
 When this method is invoked, it MUST run the following steps:
 
@@ -565,24 +581,24 @@ When this method is invoked, it MUST run the following steps:
     1. Let |layer| be a new {{XRQuadLayer}}
     1. Initialize |layer|'s [=XRQuadLayer/context=] to |context|.
     1. Initialize |layer|'s [=XRQuadLayer/session=] to |session|.
-    1. Initialize |layer|'s {{XRQuadLayer/colorTextures}} as follows:
+    1. Initialize |layer|'s {{XRLayer/colorTextures}} as follows:
         <dl class="switch">
          <dt> If [=XRQuadLayer/context=] is a {{WebGL2RenderingContext}} and textureTarget is TEXTURE_2D_ARRAY
-         <dd> Initialize |layer|'s {{XRQuadLayer/colorTextures}} to a |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRLayerInit/alpha}} values.
+         <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRLayerInit/alpha}} values.
          <dt> Else if textureTarget is TEXTURE_2D
-         <dd> Initialize |layer|'s {{XRQuadLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRLayerInit/alpha}} values.
+         <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRLayerInit/alpha}} values.
          <dt> Otherwise
          <dd> throw an {{InvalidStateError}} and abort these steps.
          <dd> 
          </dl>
-    1. Initialize |layer|'s {{XRQuadLayer/depthStencilTextures}} as follows:
+    1. Initialize |layer|'s {{XRLayer/depthStencilTextures}} as follows:
         <dl class="switch">
         <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set
-        <dd> Initialize |layer|'s {{XRQuadLayer/depthStencilTextures}} to an empty |array|
+        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|
         <dt> Else if [=XRQuadLayer/context=] value is a {{WebGL2RenderingContext}} and textureTarget is TEXTURE_2D_ARRAY
-        <dd> Initialize |layer|'s {{XRQuadLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
+        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
         <dt> Else if textureTarget is TEXTURE_2D
-        <dd> Initialize |layer|'s {{XRQuadLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
+        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
         <dt> Otherwise
         <dd> throw an {{InvalidStateError}} and abort these steps.
         </dl>
@@ -596,52 +612,52 @@ When this method is invoked, it MUST run the following steps:
 NOTE: how can we list all the other layer creation methods without repeating?
 
 <div class="algorithm" data-algorithm="getSubImage">
-The <dfn method for="XRWebGLLayerFactory">getSubImage()</dfn> method creates a new {{XRWebGLSubImage}}.
+The <dfn method for="XRWebGLLayerFactory">getSubImage(XRLayer layer)</dfn> method creates a new {{XRWebGLSubImage}}.
 
 When this method is invoked, it MUST run the following steps:
 
   1. Let |subimage| be a new {{XRWebGLSubImage}}
   1. If |layer| is a {{XRProjectionLayer}}, throw an {{InvalidStateError}} and abort these steps.
   1. If |layer|'s stereo attribute is true, throw an {{InvalidStateError}} and abort these steps.
-  1. Initialize |subimage|'s {{XRSubImage/colorTexture}} with the layer's colorTexture
-  1. Initialize |subimage|'s {{XRQuadLayer/depthStencilTextures}} as follows:
+  1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the layer's colorTexture
+  1. Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} as follows:
       <dl class="switch">If the layer has a depthStencilTexture
-      <dd> Initialize |subimage|'s {{XRSubImage/depthStencilTextures}} with the layer's depthStencilTexture
-      <dt> Otherwise
-      <dd> Initialize |subimage|'s {{XRSubImage/depthStencilTextures}} with null
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the layer's depthStencilTexture
+      <dt> Otherwises
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with null
   1. return |subimage|
 
 </div>
 
 <div class="algorithm" data-algorithm="getViewSubImage">
-The <dfn method for="XRWebGLLayerFactory">getViewSubImage()</dfn> method creates a new {{XRWebGLSubImage}}.
+The <dfn method for="XRWebGLLayerFactory">getViewSubImage(XRLayer layer, XRView view)</dfn> method creates a new {{XRWebGLSubImage}}.
 
 When this method is invoked, it MUST run the following steps:
 
   1. Let |subimage| be a new {{XRWebGLSubImage}}
   1. If |layer| is a not {{XRProjectionLayer}} and the stereo attribute is false, throw an {{InvalidStateError}} and abort these steps.
-  1. Initialize |subimage|'s {{XRSubImage/colorTexture}} as follows:
+  1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
     <dl class="switch">
       <dt class="switch">If the |layer |was created with a textureTarget of TEXTURE_2D_ARRAY
-      <dd> Initialize |subimage|'s {{XRSubImage/colorTexture}} with the colorTexture
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture
       <dt> Otherwise
-      <dd> Initialize |subimage|'s {{XRSubImage/colorTexture}} with the colorTexture that corresponds to the |view|
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture that corresponds to the |view|
     </dl>
-  1. Initialize |subimage|'s {{XRQuadLayer/depthStencilTexture}} as follows:
+  1. Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |layer| has no {{XRQuadLayer/depthStencilTexture}}
-      <dd> Initialize |subimage|'s {{XRSubImage/depthStencilTexture}} with null
+      <dt class="switch">If the |layer| has no {{XRWebGLSubImage/depthStencilTexture}}
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with null
       <dt> Else if the |layer| was created with a textureTarget of TEXTURE_2D_ARRAY
-      <dd> Initialize |subimage|'s {{XRSubImage/depthStencilTexture}} with the depthStencilTexture
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture
       <dt> Otherwise
-      <dd> Initialize |subimage|'s {{XRSubImage/depthStencilTexture}} with the depthStencilTexture that corresponds to the |view|
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture that corresponds to the |view|
     </dl>
-  1. Initialize |subimage|'s {{XRSubImage/imageIndex}} as follows:
+  1. Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} as follows:
     <dl class="switch">
       <dt class="switch">If the |layer| was created with a textureTarget of TEXTURE_2D_ARRAY
-      <dd> Initialize |subimage|'s {{XRSubImage/imageIndex}} with the offset that corresponds to the |view|
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with the offset that corresponds to the |view|
       <dt> Otherwise
-      <dd> Initialize |subimage|'s {{XRSubImage/imageIndex}} with null
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with null
     </dl>
   1. return |subimage|
 
@@ -650,7 +666,7 @@ When this method is invoked, it MUST run the following steps:
 Video layer creation {#videolayer}
 ====================
 
-XRMediaLayout {#xrmedialayout}
+XRMediaLayout {#xrmedialayouttype}
 -------------
 The {{XRMediaLayout}} enum defines the layout of the video.
 
@@ -666,7 +682,7 @@ enum XRMediaLayout {
  - A media layout of <dfn enum-value for="XRMediaLayout">stereo-left-right</dfn> indicates that the video is in stereo and divided left to right.
  - A media layout of <dfn enum-value for="XRMediaLayout">stereo-top-bottom</dfn> indicates that the video is in stereo and divided top to bottom.
 
-XRMediaLayerInit {#xrmedialayerinit}
+XRMediaLayerInit {#xrmedialayerinittype}
 ----------------
 The {{XRMediaLayerInit}} dictionary represents a set of configurable values that describe how a {{XRLayer}} containing a video
 is initialized.
@@ -678,12 +694,12 @@ dictionary XRMediaLayerInit {
 };
 </pre>
 
-The <dfn attribute for="XRMediaLayerInit">layout</dfn> attribute defines the layout of the video in the {{XRLayer}}.
+The <dfn dict-member for="XRMediaLayerInit">layout</dfn> attribute defines the layout of the video in the {{XRLayer}}.
 
-The <dfn attribute for="XRMediaLayerInit">invertStereo</dfn> attribute defines if natural location of each view in the video
+The <dfn dict-member for="XRMediaLayerInit">invertStereo</dfn> attribute defines if natural location of each view in the video
 should be inverted.
 
-XRMediaLayerFactory {#xrmedialayerfactory}
+XRMediaLayerFactory {#xrmedialayerfactorytype}
 -------------------
 The {{XRWebGLLayerFactory}} object is used to create layers that display the content of an {{HTMLVideoElement}}
 .
