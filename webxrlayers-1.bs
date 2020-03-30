@@ -38,8 +38,10 @@ spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: interface; text: WebGLRenderingContext; url: WebGLRenderingContext
     type: interface; text: WebGLRenderingContextBase; url: WebGLRenderingContextBase
     type: interface; text: GLenum
+    type: typedef; text: TEXTURE_2D; url: 5.14
 spec: WebGL 2.0; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/2.0/
     type: interface; text: WebGL2RenderingContext; url: WebGL2RenderingContext
+    type: typedef; text: TEXTURE_2D_ARRY; url: 3.7
 </pre>
 
 <pre class=link-defaults>
@@ -154,7 +156,7 @@ Model {#model}
 ======
 
 In order for the applications to signal their interest in using layers during a session, 
-the session must be requested with appropriate [=feature descriptor=]. The string <dfn>layers</dfn> is introduced 
+the session MUST be requested with appropriate [=feature descriptor=]. The string <dfn>layers</dfn> is introduced 
 by this module as a new valid feature descriptor for WebXR Layers feature.
 
 <div class="example">
@@ -168,20 +170,20 @@ navigator.xr.requestSession('immersive-vr', {
 </div>
 
 Layers are only supported for XRSessions created with XRSessionMode of {{XRSessionMode/"immersive-vr"}} 
-or {{XRSessionMode/"immersive-ar"}}. {{XRSessionMode/"inline"}} sessions must not support layers.
+or {{XRSessionMode/"immersive-ar"}}. {{XRSessionMode/"inline"}} sessions MUST not support layers.
 
 Layer types {#xrlayertypes}
 ===========
 
 Mono and stereo layers {#monovsstereo}
 ----------------------
-A stereo layer must supply a different view to render to for each eye. Stereo layers should be refreshed 
+A stereo layer MUST supply a different view to render to for each eye. Stereo layers should be refreshed 
 close to the device's native frame rate.
 
-A mono layers must supply a single view which is shown to each eye. There is no requirement to refresh mono 
+A mono layer MUST supply a single view which is shown to each eye. There is no requirement to refresh mono 
 layers repeatedly.
 
-The [=XR Compositor=] must ensure that layers are presented correctly in stereo to the observer.
+The [=XR Compositor=] MUST ensure that layers are presented correctly in stereo to the observer.
 
 XRLayer {#xrlayertype}
 -------
@@ -205,8 +207,10 @@ return the width and height of the GL attachments, respectively. If there are no
 
 The <dfn attribute for="XRLayer">blendTextureSourceAlpha</dfn> attribute enables the layer’s texture alpha channel.
 
-The <dfn attribute for="XRLayer">chromaticAberrationCorrection</dfn> attribute enables optical chromatic 
-aberration correction for the layer when not done by default.
+The <dfn attribute for="XRLayer">chromaticAberrationCorrection</dfn> attribute is a hit for the [=XR Compositor=] to
+enable optical chromatic aberration correction for the layer. Only valid if this isn't done by default.
+
+ISSUE: describe what chromaticAberrationCorrection does.
 
 {{destroy()}} will delete the underlying attachments. If there are no attachments, this function does nothing.
 
@@ -218,8 +222,8 @@ Each {{XRLayer}} has an associated <dfn for="XRLayer">session</dfn>, which is th
 
 XRProjectionLayer {#xrprojectionlayertype}
 -----------------
-A XRProjectionLayer is a layer that fills the entire view of the observer.
-Projection layer must always run stereo and should be refreshed close to the device's native frame rate.
+An {{XRProjectionLayer}} is a layer that fills the entire view of the observer.
+Projection layers should be refreshed close to the device's native frame rate.
 
 <pre class="idl">
 interface XRProjectionLayer : XRLayer {
@@ -234,8 +238,8 @@ is <code>false</code> it indicates that the content of the depth buffer attachme
 
 XRQuadLayer {#xrquadlayertype}
 -----------
-A XRQuadLayer renders a layer that takes up a flat rectangular space in the virtual environment.
-Only the front of the layer must be visible; the back face must not be drawn by the [=XR Compositor=].
+A {{XRQuadLayer}} renders a layer that takes up a flat rectangular space in the virtual environment.
+Only the front of the layer MUST be visible; the back face MUST not be drawn by the [=XR Compositor=].
 
 A XRQuadLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position 
 of a quad refers to the center of the quad.
@@ -261,8 +265,8 @@ set and return the width and height of the layer in meters.
 
 XRCylinderLayer {#xrcylinderayertype}
 ---------------
-A XRCylinderLayer renders a layer that takes up a curved rectangular space in the virtual environment.
-Only the front of the layer must be visible; the back face must not be drawn by the [=XR Compositor=].
+A {{XRCylinderLayer}} renders a layer that takes up a curved rectangular space in the virtual environment.
+Only the front of the layer MUST be visible; the back face MUST not be drawn by the [=XR Compositor=].
 
 A XRCylinderLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position 
 of the cylinder refers to the center of the quad.
@@ -295,7 +299,7 @@ The <dfn attribute for="XRCylinderLayer">aspectRatio</dfn> attribute controls th
 
 XREquirectLayer {#xrequirectlayertype}
 ---------------
-A XREquirectLayer renders a layer where the [=XR Compositor=] must map an equirectangular coded data onto the inside of a sphere.
+A {{XREquirectLayer}} renders a layer where the [=XR Compositor=] MUST map an equirectangular coded data onto the inside of a sphere.
 
 ISSUE: this section needs clarification
 
@@ -329,7 +333,7 @@ set and return a bias of the texture coordinates after the mapping to 2D.
 
 XRCubeLayer {#xcubelayertype}
 -----------
-A XREquirectLayer renders a layer where the [=XR Compositor=] renders directly from a cubemap.
+A {{XREquirectLayer}} renders a layer where the [=XR Compositor=] renders directly from a cubemap.
 
 ISSUE: this section needs clarification
 
@@ -384,7 +388,7 @@ The <dfn attribute for="XRWebGLSubImage">depthStencilTexture</dfn> attribute ret
 If the layer was created without depth/stencil, this attribute returns null.
 
 The <dfn attribute for="XRWebGLSubImage">imageIndex</dfn> attribute returns the offset into the texture array. Valid only for layers 
-that were requested with TEXTURE_2D_ARRAY.
+that were requested with {{TEXTURE_2D_ARRAY}}.
 
 This {{XRWebGLSubImage/colorTexture}} and {{XRWebGLSubImage/depthStencilTexture}} are only valid during 
 {{XRSession/requestAnimationFrame()}} callback and becomes invalid as soon as the callback returns.
@@ -436,7 +440,7 @@ The <dfn dict-member for="XRProjectionLayerInit">stencil</dfn> attribute defines
 The <dfn dict-member for="XRProjectionLayerInit">alpha</dfn> attribute defines if the {{XRProjectionLayer}} will have an alpha channel.
 
 The <dfn dict-member for="XRProjectionLayerInit">scaleFactor</dfn> attribute defines the value that the |session|'s 
-[=recommended WebGL framebuffer resolution=] must be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
+[=recommended WebGL framebuffer resolution=] must be multiplied by determining the resolution of the layer's attachments.
 
 XRLayerInit {#xrlayerinittype}
 ---------------------
@@ -505,7 +509,8 @@ MUST perform the following steps when invoked:
   1. Let |factory| be a new {{XRWebGLLayerFactory}}
   1. If |session|'s [=ended=] value is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw an {{InvalidStateError}} and abort these steps.
-  1. If |session| is not an [=immersive session=] or |context|'s [=XR compatible=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. If |session| is not an [=immersive session=], throw an {{InvalidStateError}} and abort these steps.
+  1. If |context|'s [=XR compatible=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |factory|'s [=XRWebGLLayer/context=] to |context|.
   1. Initialize |factory|'s [=XRWebGLLayer/session=] to |session|.
   1. Return |factory|.
@@ -515,7 +520,7 @@ MUST perform the following steps when invoked:
 ISSUE: can a user construct more than 1 factory?
 
 The {{nativeProjectionScaleFactor}} function returns the value that the |session|'s [=recommended WebGL framebuffer resolution=] 
-must be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
+MUST be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
 
 <div class="algorithm" data-algorithm="requestProjectionLayerAlgo">
 The <dfn method for="XRWebGLLayerFactory">requestProjectionLayer(GLenum textureTarget, optional XRProjectionLayerInit init)</dfn> method creates a new {{XRProjectionLayer}}.
@@ -523,8 +528,10 @@ The <dfn method for="XRWebGLLayerFactory">requestProjectionLayer(GLenum textureT
 When this method is invoked, it MUST run the following steps:
 
   1. Let |promise| be [=a new Promise=].
-  1. If |session|'s [=ended=] value is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
-  1. If |context| is lost, throw an {{InvalidStateError}} and abort these steps.  
+  1. Let |session| be the target {{XRWebGLLayerFactory}}'s [=XRWebGLLayerFactory/session=].
+  1. Let |context| be the target {{XRWebGLLayerFactory}}'s [=XRWebGLLayerFactory/context=].
+  1. If |session|'s [=ended=] value is <code>true</code>, [=reject=] |promise| with an {{InvalidStateError}} and return it.
+  1. If |context| is lost, [=reject=] |promise| with an {{InvalidStateError}} and return it.
   1. Run the following steps [=in parallel=]:
     1. Let |layer| be a new {{XRProjectionLayer}}
     1. Initialize |layer|'s [=XRProjectionLayer/context=] to |context|.
@@ -538,24 +545,24 @@ When this method is invoked, it MUST run the following steps:
         </dl>
     1. Initialize |layer|'s {{XRLayer/colorTextures}} as follows:
          <dl class="switch">
-         <dt> If [=XRProjectionLayer/context=] is a {{WebGL2RenderingContext}} and textureTarget is TEXTURE_2D_ARRAY
+         <dt> If [=XRProjectionLayer/context=] is a {{WebGL2RenderingContext}} and textureTarget is {{TEXTURE_2D_ARRAY}}
          <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
-         <dt> Else if textureTarget is TEXTURE_2D
+         <dt> Else if textureTarget is {{TEXTURE_2D}}
          <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
          <dt> Otherwise
-         <dd> throw an {{InvalidStateError}} and abort these steps.
+         <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
          <dd> 
          </dl>
     1. Initialize |layer|'s {{XRLayer/depthStencilTextures}} as follows:
         <dl class="switch">
         <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|
-        <dt> Else if [=XRProjectionLayer/context=] value is a {{WebGL2RenderingContext}} and textureTarget is TEXTURE_2D_ARRAY
+        <dt> Else if [=XRProjectionLayer/context=] value is a {{WebGL2RenderingContext}} and textureTarget is {{TEXTURE_2D_ARRAY}}
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
-        <dt> Else if textureTarget is TEXTURE_2D
+        <dt> Else if textureTarget is {{TEXTURE_2D}}
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
         <dt> Otherwise
-        <dd> throw an {{InvalidStateError}} and abort these steps.
+        <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
         </dl>
     1. Allocate and initialize resources compatible with |session|'s [=XRSession/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
     1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
@@ -575,32 +582,34 @@ When this method is invoked, it MUST run the following steps:
 
   1. Let |promise| be [=a new Promise=].
   1. If the device does not support the creation of {{XRQuadLayer}}, throw an {{NotSupportedError}} and abort these steps.
-  1. If |session|'s [=ended=] value is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
-  1. If |context| is lost, throw an {{InvalidStateError}} and abort these steps.  
+  1. Let |session| be the target {{XRWebGLLayerFactory}}'s [=XRWebGLLayerFactory/session=].
+  1. Let |context| be the target {{XRWebGLLayerFactory}}'s [=XRWebGLLayerFactory/context=].
+  1. If |session|'s [=ended=] value is <code>true</code>, [=reject=] |promise| with an {{InvalidStateError}} and return it.
+  1. If |context| is lost, [=reject=] |promise| with an {{InvalidStateError}} and return it.
   1. Run the following steps [=in parallel=]:
     1. Let |layer| be a new {{XRQuadLayer}}
     1. Initialize |layer|'s [=XRQuadLayer/context=] to |context|.
     1. Initialize |layer|'s [=XRQuadLayer/session=] to |session|.
     1. Initialize |layer|'s {{XRLayer/colorTextures}} as follows:
         <dl class="switch">
-         <dt> If [=XRQuadLayer/context=] is a {{WebGL2RenderingContext}} and textureTarget is TEXTURE_2D_ARRAY
+         <dt> If [=XRQuadLayer/context=] is a {{WebGL2RenderingContext}} and textureTarget is {{TEXTURE_2D_ARRAY}}
          <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRLayerInit/alpha}} values.
-         <dt> Else if textureTarget is TEXTURE_2D
+         <dt> Else if textureTarget is {{TEXTURE_2D}}
          <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRLayerInit/alpha}} values.
          <dt> Otherwise
-         <dd> throw an {{InvalidStateError}} and abort these steps.
+         <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
          <dd> 
          </dl>
     1. Initialize |layer|'s {{XRLayer/depthStencilTextures}} as follows:
         <dl class="switch">
         <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set or the [=XR Compositor=] does not make use of depth values
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|
-        <dt> Else if [=XRQuadLayer/context=] value is a {{WebGL2RenderingContext}} and textureTarget is TEXTURE_2D_ARRAY
+        <dt> Else if [=XRQuadLayer/context=] value is a {{WebGL2RenderingContext}} and textureTarget is {{TEXTURE_2D_ARRAY}}
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
-        <dt> Else if textureTarget is TEXTURE_2D
+        <dt> Else if textureTarget is {{TEXTURE_2D}}
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
         <dt> Otherwise
-        <dd> throw an {{InvalidStateError}} and abort these steps.
+        <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
         </dl>
     1. Allocate and initialize resources compatible with |session|'s [=XRSession/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
     1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
@@ -638,7 +647,7 @@ When this method is invoked, it MUST run the following steps:
   1. If |layer| is a not {{XRProjectionLayer}} and the stereo attribute is false, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |layer |was created with a textureTarget of TEXTURE_2D_ARRAY
+      <dt class="switch">If the |layer |was created with a textureTarget of {{TEXTURE_2D_ARRAY}}
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture
       <dt> Otherwise
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture that corresponds to the |view|
@@ -647,14 +656,14 @@ When this method is invoked, it MUST run the following steps:
     <dl class="switch">
       <dt class="switch">If the |layer|'s {{XRLayer/depthStencilTextures}} is an empty array.
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with null
-      <dt> Else if the |layer| was created with a textureTarget of TEXTURE_2D_ARRAY
+      <dt> Else if the |layer| was created with a textureTarget of {{TEXTURE_2D_ARRAY}}
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture
       <dt> Otherwise
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture that corresponds to the |view|
     </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |layer| was created with a textureTarget of TEXTURE_2D_ARRAY
+      <dt class="switch">If the |layer| was created with a textureTarget of {{TEXTURE_2D_ARRAY}}
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with the offset that corresponds to the |view|
       <dt> Otherwise
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with null
@@ -724,7 +733,7 @@ Security and Privacy Considerations {#security}
 Timing of the composition {#xrcompositiontiming}
 -------------------------
 
-Composition timing must be independent of the content that is rendered.
-Moreover, content in a layer must not be observable in other layers.
+Composition timing MUST be independent of the content that is rendered.
+Moreover, content in a layer MUST not be observable in other layers.
 
 If possible, composition of layers should happen outside the browser to reduce risk of timing attacks or other security vulnerabilities.
