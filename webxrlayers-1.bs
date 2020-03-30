@@ -593,7 +593,7 @@ When this method is invoked, it MUST run the following steps:
          </dl>
     1. Initialize |layer|'s {{XRLayer/depthStencilTextures}} as follows:
         <dl class="switch">
-        <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set
+        <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set or the [=XR Compositor=] does not make use of depth values
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|
         <dt> Else if [=XRQuadLayer/context=] value is a {{WebGL2RenderingContext}} and textureTarget is TEXTURE_2D_ARRAY
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
@@ -645,7 +645,7 @@ When this method is invoked, it MUST run the following steps:
     </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |layer| has no {{XRWebGLSubImage/depthStencilTexture}}
+      <dt class="switch">If the |layer|'s {{XRLayer/depthStencilTextures}} is an empty array.
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with null
       <dt> Else if the |layer| was created with a textureTarget of TEXTURE_2D_ARRAY
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture
