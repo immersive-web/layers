@@ -117,7 +117,7 @@ The spec adds support of `composition` layers to the WebXR spec. The benefits of
     application to scale down the main eye buffer resolution on low performance systems, but keeping essential information, such as text or a map, in its own layer at a higher
     resolution.
 
- * <b>Legibility/vsisual fidelity</b> The resolution for eye-buffers for 3D world rendering can be set to relatively low values especially on low performance systems. It would
+ * <b>Legibility/visual fidelity</b> The resolution for eye-buffers for 3D world rendering can be set to relatively low values especially on low performance systems. It would
     be impossible to render high fidelity content, such as text, in this case. Each layer may have its own resolution and it will be re-sampled only once by the compositor (in contrary
     to the traditional approach with rendering layers via WebGL where the layer's content got re-sampled at least twice: once when rendering into WebGL
     eye-buffer (and losing a lot of details due to limited eye-buffer resolution) and the second time by the compositor).

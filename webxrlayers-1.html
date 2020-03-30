@@ -1223,7 +1223,7 @@ Possible extra rowspan handling
 </style>
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version c80ee3ab, updated Thu Mar 26 10:21:28 2020 -0700" name="generator">
-  <meta content="9088210b8b0b4e1cf8a708fa26520607083bc837" name="document-revision">
+  <meta content="ac16b436c509edaa77066f61e94ea81a85ababa9" name="document-revision">
   <link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
   <link href="favicon-96x96.png" rel="icon" sizes="96x96" type="image/png">
 <style>
@@ -1654,7 +1654,7 @@ rendering to the proper pose. This results in smoother rendering and less judder
 application to scale down the main eye buffer resolution on low performance systems, but keeping essential information, such as text or a map, in its own layer at a higher
 resolution.</p>
      <li data-md>
-      <p><b>Legibility/vsisual fidelity</b> The resolution for eye-buffers for 3D world rendering can be set to relatively low values especially on low performance systems. It would
+      <p><b>Legibility/visual fidelity</b> The resolution for eye-buffers for 3D world rendering can be set to relatively low values especially on low performance systems. It would
 be impossible to render high fidelity content, such as text, in this case. Each layer may have its own resolution and it will be re-sampled only once by the compositor (in contrary
 to the traditional approach with rendering layers via WebGL where the layer’s content got re-sampled at least twice: once when rendering into WebGL
 eye-buffer (and losing a lot of details due to limited eye-buffer resolution) and the second time by the compositor).</p>
