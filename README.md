@@ -178,7 +178,7 @@ function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
-  let viewport = glLayerFactory.getSubImage(layer).viewport;
+  let viewport = glLayerFactory.getSubImage(layer, xrFrame).viewport;
   gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
 
   for (let view in xrViewerPose.views) {
@@ -216,7 +216,7 @@ function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
-  let subImage = glLayerFactory.getSubImage(quadLayer);
+  let subImage = glLayerFactory.getSubImage(quadLayer, xrFrame);
   gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
     subImage.colorTexture, 0);
   let viewport = subImage.viewport;
@@ -357,7 +357,7 @@ interface XRWebGLLayerFactory {
   Promise<XREquirectLayer> requestEquirectLayer(GLenum textureTarget, XRLayerInit init);
   Promise<XRCubeLayer> requestCubeLayer(XRLayerInit init);
 
-  XRWebGLSubImage? getSubImage(XRLayer layer); // for mono layers
+  XRWebGLSubImage? getSubImage(XRLayer layer, XRFrame frame); // for mono layers
   XRWebGLSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
 };
 
