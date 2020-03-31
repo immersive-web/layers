@@ -1223,7 +1223,7 @@ Possible extra rowspan handling
 </style>
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <meta content="Bikeshed version c80ee3ab, updated Thu Mar 26 10:21:28 2020 -0700" name="generator">
-  <meta content="aecf0469217864010c124d0a6fc215bb73d8c26e" name="document-revision">
+  <meta content="b9fdc47bc3e80ed7eb9c8a5f64e6de2435ed7ee9" name="document-revision">
   <link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
   <link href="favicon-96x96.png" rel="icon" sizes="96x96" type="image/png">
 <style>
@@ -1537,7 +1537,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-03-30">30 March 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-03-31">31 March 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Previous Versions:
@@ -1725,7 +1725,7 @@ enable optical chromatic aberration correction for the layer. Only valid if this
    <p><code class="idl"><a data-link-type="idl" href="#dom-xrlayer-destroy" id="ref-for-dom-xrlayer-destroy">destroy()</a></code> will delete the underlying attachments. If there are no attachments, this function does nothing.</p>
    <p>Each <code class="idl"><a data-link-type="idl" href="#xrlayer" id="ref-for-xrlayer">XRLayer</a></code> has a <dfn data-dfn-for="XRLayer" data-dfn-type="dfn" data-noexport id="xrlayer-context">context<a class="self-link" href="#xrlayer-context"></a></dfn> object which is an instance
 of either a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContext" id="ref-for-WebGLRenderingContext">WebGLRenderingContext</a></code> or a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext">WebGL2RenderingContext</a></code>.</p>
-   <p>Each <code class="idl"><a data-link-type="idl" href="#xrlayer" id="ref-for-xrlayer①">XRLayer</a></code> has an associated <dfn data-dfn-for="XRLayer" data-dfn-type="dfn" data-noexport id="xrlayer-session">session<a class="self-link" href="#xrlayer-session"></a></dfn>, which is the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession">XRSession</a></code> it was created with.</p>
+   <p>Each <code class="idl"><a data-link-type="idl" href="#xrlayer" id="ref-for-xrlayer①">XRLayer</a></code> has an associated <dfn class="dfn-paneled" data-dfn-for="XRLayer" data-dfn-type="dfn" data-noexport id="xrlayer-session">session</dfn>, which is the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession">XRSession</a></code> it was created with.</p>
    <h3 class="heading settled" data-level="3.3" id="xrprojectionlayertype"><span class="secno">3.3. </span><span class="content">XRProjectionLayer</span><a class="self-link" href="#xrprojectionlayertype"></a></h3>
     An <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer">XRProjectionLayer</a></code> is a layer that fills the entire view of the observer.
 Projection layers should be refreshed close to the device’s native frame rate. 
@@ -1896,8 +1896,8 @@ the rectangular dimensions of the <code class="idl"><a data-link-type="idl" href
                                                <a class="n" data-link-type="idl-name" href="#dictdef-xrlayerinit" id="ref-for-dictdef-xrlayerinit③"><c- n>XRLayerInit</c-></a> <dfn class="idl-code" data-dfn-for="XRWebGLLayerFactory/requestEquirectLayer(textureTarget, init)" data-dfn-type="argument" data-export id="dom-xrwebgllayerfactory-requestequirectlayer-texturetarget-init-init"><code><c- g>init</c-></code><a class="self-link" href="#dom-xrwebgllayerfactory-requestequirectlayer-texturetarget-init-init"></a></dfn>);
   <c- b>Promise</c->&lt;<a class="n" data-link-type="idl-name" href="#xrcubelayer" id="ref-for-xrcubelayer①"><c- n>XRCubeLayer</c-></a>> <dfn class="idl-code" data-dfn-for="XRWebGLLayerFactory" data-dfn-type="method" data-export data-lt="requestCubeLayer(init)" id="dom-xrwebgllayerfactory-requestcubelayer"><code><c- g>requestCubeLayer</c-></code><a class="self-link" href="#dom-xrwebgllayerfactory-requestcubelayer"></a></dfn>(<a class="n" data-link-type="idl-name" href="#dictdef-xrlayerinit" id="ref-for-dictdef-xrlayerinit④"><c- n>XRLayerInit</c-></a> <dfn class="idl-code" data-dfn-for="XRWebGLLayerFactory/requestCubeLayer(init)" data-dfn-type="argument" data-export id="dom-xrwebgllayerfactory-requestcubelayer-init-init"><code><c- g>init</c-></code><a class="self-link" href="#dom-xrwebgllayerfactory-requestcubelayer-init-init"></a></dfn>);
 
-  <a class="n" data-link-type="idl-name" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage①"><c- n>XRWebGLSubImage</c-></a>? <a class="idl-code" data-link-type="method" href="#dom-xrwebgllayerfactory-getsubimage" id="ref-for-dom-xrwebgllayerfactory-getsubimage"><c- g>getSubImage</c-></a>(<a class="n" data-link-type="idl-name" href="#xrlayer" id="ref-for-xrlayer①④"><c- n>XRLayer</c-></a> <dfn class="idl-code" data-dfn-for="XRWebGLLayerFactory/getSubImage(layer)" data-dfn-type="argument" data-export id="dom-xrwebgllayerfactory-getsubimage-layer-layer"><code><c- g>layer</c-></code><a class="self-link" href="#dom-xrwebgllayerfactory-getsubimage-layer-layer"></a></dfn>); // for mono layers
-  <a class="n" data-link-type="idl-name" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage②"><c- n>XRWebGLSubImage</c-></a>? <a class="idl-code" data-link-type="method" href="#dom-xrwebgllayerfactory-getviewsubimage" id="ref-for-dom-xrwebgllayerfactory-getviewsubimage"><c- g>getViewSubImage</c-></a>(<a class="n" data-link-type="idl-name" href="#xrlayer" id="ref-for-xrlayer①⑤"><c- n>XRLayer</c-></a> <dfn class="idl-code" data-dfn-for="XRWebGLLayerFactory/getViewSubImage(layer, view)" data-dfn-type="argument" data-export id="dom-xrwebgllayerfactory-getviewsubimage-layer-view-layer"><code><c- g>layer</c-></code><a class="self-link" href="#dom-xrwebgllayerfactory-getviewsubimage-layer-view-layer"></a></dfn>, <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrview" id="ref-for-xrview①"><c- n>XRView</c-></a> <dfn class="idl-code" data-dfn-for="XRWebGLLayerFactory/getViewSubImage(layer, view)" data-dfn-type="argument" data-export id="dom-xrwebgllayerfactory-getviewsubimage-layer-view-view"><code><c- g>view</c-></code><a class="self-link" href="#dom-xrwebgllayerfactory-getviewsubimage-layer-view-view"></a></dfn>); // for stereo layers
+  <a class="n" data-link-type="idl-name" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage①"><c- n>XRWebGLSubImage</c-></a>? <a class="idl-code" data-link-type="method" href="#dom-xrwebgllayerfactory-getsubimage" id="ref-for-dom-xrwebgllayerfactory-getsubimage"><c- g>getSubImage</c-></a>(<a class="n" data-link-type="idl-name" href="#xrlayer" id="ref-for-xrlayer①④"><c- n>XRLayer</c-></a> <dfn class="idl-code" data-dfn-for="XRWebGLLayerFactory/getSubImage(layer, frame)" data-dfn-type="argument" data-export id="dom-xrwebgllayerfactory-getsubimage-layer-frame-layer"><code><c- g>layer</c-></code><a class="self-link" href="#dom-xrwebgllayerfactory-getsubimage-layer-frame-layer"></a></dfn>, <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrframe" id="ref-for-xrframe"><c- n>XRFrame</c-></a> <dfn class="idl-code" data-dfn-for="XRWebGLLayerFactory/getSubImage(layer, frame)" data-dfn-type="argument" data-export id="dom-xrwebgllayerfactory-getsubimage-layer-frame-frame"><code><c- g>frame</c-></code><a class="self-link" href="#dom-xrwebgllayerfactory-getsubimage-layer-frame-frame"></a></dfn>);
+  <a class="n" data-link-type="idl-name" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage②"><c- n>XRWebGLSubImage</c-></a>? <a class="idl-code" data-link-type="method" href="#dom-xrwebgllayerfactory-getviewsubimage" id="ref-for-dom-xrwebgllayerfactory-getviewsubimage"><c- g>getViewSubImage</c-></a>(<a class="n" data-link-type="idl-name" href="#xrlayer" id="ref-for-xrlayer①⑤"><c- n>XRLayer</c-></a> <dfn class="idl-code" data-dfn-for="XRWebGLLayerFactory/getViewSubImage(layer, view)" data-dfn-type="argument" data-export id="dom-xrwebgllayerfactory-getviewsubimage-layer-view-layer"><code><c- g>layer</c-></code><a class="self-link" href="#dom-xrwebgllayerfactory-getviewsubimage-layer-view-layer"></a></dfn>, <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrview" id="ref-for-xrview①"><c- n>XRView</c-></a> <dfn class="idl-code" data-dfn-for="XRWebGLLayerFactory/getViewSubImage(layer, view)" data-dfn-type="argument" data-export id="dom-xrwebgllayerfactory-getviewsubimage-layer-view-view"><code><c- g>view</c-></code><a class="self-link" href="#dom-xrwebgllayerfactory-getviewsubimage-layer-view-view"></a></dfn>);
 };
 </pre>
    <p>Each <code class="idl"><a data-link-type="idl" href="#xrwebgllayerfactory" id="ref-for-xrwebgllayerfactory③">XRWebGLLayerFactory</a></code> has a <dfn class="dfn-paneled" data-dfn-for="XRWebGLLayerFactory" data-dfn-type="dfn" data-noexport id="xrwebgllayerfactory-context">context</dfn> object which is an instance
@@ -2057,7 +2057,7 @@ MUST perform the following steps when invoked:</p>
    </div>
    <p class="note" role="note"><span>NOTE:</span> how can we list all the other layer creation methods without repeating?</p>
    <div class="algorithm" data-algorithm="getSubImage">
-     The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLLayerFactory" data-dfn-type="method" data-export data-lt="getSubImage(layer)" id="dom-xrwebgllayerfactory-getsubimage"><code>getSubImage(XRLayer layer)</code></dfn> method creates a new <code class="idl"><a data-link-type="idl" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage③">XRWebGLSubImage</a></code>. 
+     The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLLayerFactory" data-dfn-type="method" data-export data-lt="getSubImage(layer, frame)" id="dom-xrwebgllayerfactory-getsubimage"><code>getSubImage(XRLayer layer, XRFrame frame)</code></dfn> method creates a new <code class="idl"><a data-link-type="idl" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage③">XRWebGLSubImage</a></code>. 
     <p>When this method is invoked, it MUST run the following steps:</p>
     <ol>
      <li data-md>
@@ -2066,6 +2066,10 @@ MUST perform the following steps when invoked:</p>
       <p>If <var>layer</var> is a <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer⑨">XRProjectionLayer</a></code>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror①②">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>layer</var>’s stereo attribute is true, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror①③">InvalidStateError</a></code> and abort these steps.</p>
+     <li data-md>
+      <p>If <var>frame</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrframe-session" id="ref-for-dom-xrframe-session">session</a></code> is not equal to <var>layer</var>’s <a data-link-type="dfn" href="#xrlayer-session" id="ref-for-xrlayer-session">session</a>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror①④">InvalidStateError</a></code> and abort these steps.</p>
+     <li data-md>
+      <p>If <var>frame</var>’s <a data-link-type="dfn">active</a> boolean is <code>false</code>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror①⑤">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture②">colorTexture</a></code> with the layer’s colorTexture</p>
      <li data-md>
@@ -2087,11 +2091,13 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Let <var>subimage</var> be a new <code class="idl"><a data-link-type="idl" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage⑥">XRWebGLSubImage</a></code></p>
      <li data-md>
-      <p>If <var>layer</var> is a not <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer①⓪">XRProjectionLayer</a></code> and the stereo attribute is false, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror①④">InvalidStateError</a></code> and abort these steps.</p>
+      <p>If <var>layer</var> is a not <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer①⓪">XRProjectionLayer</a></code> and the stereo attribute is false, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror①⑥">InvalidStateError</a></code> and abort these steps.</p>
+     <li data-md>
+      <p>let <var>frame</var> be <var>view</var>’s <code class="idl"><a data-link-type="idl">frame</a></code></p>
      <li data-md>
       <p>Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture③">colorTexture</a></code> as follows:</p>
       <dl class="switch">
-       <dt class="switch">If the |layer |was created with a textureTarget of <code class="idl"><a data-link-type="idl">TEXTURE_2D_ARRAY</a></code> 
+       <dt class="switch">If the <var>layer</var> was created with a textureTarget of <code class="idl"><a data-link-type="idl">TEXTURE_2D_ARRAY</a></code> 
        <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture④">colorTexture</a></code> with the colorTexture 
        <dt> Otherwise 
        <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture⑤">colorTexture</a></code> with the colorTexture that corresponds to the <var>view</var> 
@@ -2202,7 +2208,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <li><a href="#dom-xrwebglsubimage-depthstenciltexture">depthStencilTexture</a><span>, in §4.2</span>
    <li><a href="#xrlayer-depthstenciltextures">depthStencilTextures</a><span>, in §5.4</span>
    <li><a href="#dom-xrlayer-destroy">destroy()</a><span>, in §3.2</span>
-   <li><a href="#dom-xrwebgllayerfactory-getsubimage">getSubImage(layer)</a><span>, in §5.4</span>
+   <li><a href="#dom-xrwebgllayerfactory-getsubimage">getSubImage(layer, frame)</a><span>, in §5.4</span>
    <li><a href="#dom-xrwebgllayerfactory-getviewsubimage">getViewSubImage(layer, view)</a><span>, in §5.4</span>
    <li><a href="#dom-xrquadlayer-height">height</a><span>, in §3.4</span>
    <li><a href="#dom-xrprojectionlayer-ignoredepthvalues">ignoreDepthValues</a><span>, in §3.3</span>
@@ -2361,7 +2367,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <aside class="dfn-panel" data-for="term-for-invalidstateerror">
    <a href="https://heycam.github.io/webidl/#invalidstateerror">https://heycam.github.io/webidl/#invalidstateerror</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-invalidstateerror">5.4. XRWebGLLayerFactory</a> <a href="#ref-for-invalidstateerror①">(2)</a> <a href="#ref-for-invalidstateerror②">(3)</a> <a href="#ref-for-invalidstateerror③">(4)</a> <a href="#ref-for-invalidstateerror④">(5)</a> <a href="#ref-for-invalidstateerror⑤">(6)</a> <a href="#ref-for-invalidstateerror⑥">(7)</a> <a href="#ref-for-invalidstateerror⑦">(8)</a> <a href="#ref-for-invalidstateerror⑧">(9)</a> <a href="#ref-for-invalidstateerror⑨">(10)</a> <a href="#ref-for-invalidstateerror①⓪">(11)</a> <a href="#ref-for-invalidstateerror①①">(12)</a> <a href="#ref-for-invalidstateerror①②">(13)</a> <a href="#ref-for-invalidstateerror①③">(14)</a> <a href="#ref-for-invalidstateerror①④">(15)</a>
+    <li><a href="#ref-for-invalidstateerror">5.4. XRWebGLLayerFactory</a> <a href="#ref-for-invalidstateerror①">(2)</a> <a href="#ref-for-invalidstateerror②">(3)</a> <a href="#ref-for-invalidstateerror③">(4)</a> <a href="#ref-for-invalidstateerror④">(5)</a> <a href="#ref-for-invalidstateerror⑤">(6)</a> <a href="#ref-for-invalidstateerror⑥">(7)</a> <a href="#ref-for-invalidstateerror⑦">(8)</a> <a href="#ref-for-invalidstateerror⑧">(9)</a> <a href="#ref-for-invalidstateerror⑨">(10)</a> <a href="#ref-for-invalidstateerror①⓪">(11)</a> <a href="#ref-for-invalidstateerror①①">(12)</a> <a href="#ref-for-invalidstateerror①②">(13)</a> <a href="#ref-for-invalidstateerror①③">(14)</a> <a href="#ref-for-invalidstateerror①④">(15)</a> <a href="#ref-for-invalidstateerror①⑤">(16)</a> <a href="#ref-for-invalidstateerror①⑥">(17)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-notsupportederror">
@@ -2443,6 +2449,12 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-dom-xrsessionmode-inline">2. Model</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-xrframe">
+   <a href="https://immersive-web.github.io/webxr/#xrframe">https://immersive-web.github.io/webxr/#xrframe</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-xrframe">5.4. XRWebGLLayerFactory</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-xrreferencespace">
    <a href="https://immersive-web.github.io/webxr/#xrreferencespace">https://immersive-web.github.io/webxr/#xrreferencespace</a><b>Referenced in:</b>
    <ul>
@@ -2517,6 +2529,12 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <a href="https://immersive-web.github.io/webxr/#dom-xrpermissiondescriptor-requiredfeatures">https://immersive-web.github.io/webxr/#dom-xrpermissiondescriptor-requiredfeatures</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-xrpermissiondescriptor-requiredfeatures">1.2. Application flow</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-xrframe-session">
+   <a href="https://immersive-web.github.io/webxr/#dom-xrframe-session">https://immersive-web.github.io/webxr/#dom-xrframe-session</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrframe-session">5.4. XRWebGLLayerFactory</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-xrsession-updaterenderstate">
@@ -2626,6 +2644,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <ul>
      <li><span class="dfn-paneled" id="term-for-dom-xrsessionmode-immersive-vr" style="color:initial">"immersive-vr"</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrsessionmode-inline" style="color:initial">"inline"</span>
+     <li><span class="dfn-paneled" id="term-for-xrframe" style="color:initial">XRFrame</span>
      <li><span class="dfn-paneled" id="term-for-xrreferencespace" style="color:initial">XRReferenceSpace</span>
      <li><span class="dfn-paneled" id="term-for-dictdef-xrrenderstateinit" style="color:initial">XRRenderStateInit</span>
      <li><span class="dfn-paneled" id="term-for-xrrigidtransform" style="color:initial">XRRigidTransform</span>
@@ -2637,6 +2656,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
      <li><span class="dfn-paneled" id="term-for-dom-xrsession-requestanimationframe" style="color:initial">requestAnimationFrame(callback)</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrsystem-requestsession" style="color:initial">requestSession(mode)</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrpermissiondescriptor-requiredfeatures" style="color:initial">requiredFeatures</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrframe-session" style="color:initial">session</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrsession-updaterenderstate" style="color:initial">updateRenderState()</span>
     </ul>
    <li>
@@ -2765,8 +2785,8 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
                                                <a class="n" data-link-type="idl-name" href="#dictdef-xrlayerinit"><c- n>XRLayerInit</c-></a> <a href="#dom-xrwebgllayerfactory-requestequirectlayer-texturetarget-init-init"><code><c- g>init</c-></code></a>);
   <c- b>Promise</c->&lt;<a class="n" data-link-type="idl-name" href="#xrcubelayer"><c- n>XRCubeLayer</c-></a>> <a href="#dom-xrwebgllayerfactory-requestcubelayer"><code><c- g>requestCubeLayer</c-></code></a>(<a class="n" data-link-type="idl-name" href="#dictdef-xrlayerinit"><c- n>XRLayerInit</c-></a> <a href="#dom-xrwebgllayerfactory-requestcubelayer-init-init"><code><c- g>init</c-></code></a>);
 
-  <a class="n" data-link-type="idl-name" href="#xrwebglsubimage"><c- n>XRWebGLSubImage</c-></a>? <a class="idl-code" data-link-type="method" href="#dom-xrwebgllayerfactory-getsubimage"><c- g>getSubImage</c-></a>(<a class="n" data-link-type="idl-name" href="#xrlayer"><c- n>XRLayer</c-></a> <a href="#dom-xrwebgllayerfactory-getsubimage-layer-layer"><code><c- g>layer</c-></code></a>); // for mono layers
-  <a class="n" data-link-type="idl-name" href="#xrwebglsubimage"><c- n>XRWebGLSubImage</c-></a>? <a class="idl-code" data-link-type="method" href="#dom-xrwebgllayerfactory-getviewsubimage"><c- g>getViewSubImage</c-></a>(<a class="n" data-link-type="idl-name" href="#xrlayer"><c- n>XRLayer</c-></a> <a href="#dom-xrwebgllayerfactory-getviewsubimage-layer-view-layer"><code><c- g>layer</c-></code></a>, <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrview"><c- n>XRView</c-></a> <a href="#dom-xrwebgllayerfactory-getviewsubimage-layer-view-view"><code><c- g>view</c-></code></a>); // for stereo layers
+  <a class="n" data-link-type="idl-name" href="#xrwebglsubimage"><c- n>XRWebGLSubImage</c-></a>? <a class="idl-code" data-link-type="method" href="#dom-xrwebgllayerfactory-getsubimage"><c- g>getSubImage</c-></a>(<a class="n" data-link-type="idl-name" href="#xrlayer"><c- n>XRLayer</c-></a> <a href="#dom-xrwebgllayerfactory-getsubimage-layer-frame-layer"><code><c- g>layer</c-></code></a>, <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrframe"><c- n>XRFrame</c-></a> <a href="#dom-xrwebgllayerfactory-getsubimage-layer-frame-frame"><code><c- g>frame</c-></code></a>);
+  <a class="n" data-link-type="idl-name" href="#xrwebglsubimage"><c- n>XRWebGLSubImage</c-></a>? <a class="idl-code" data-link-type="method" href="#dom-xrwebgllayerfactory-getviewsubimage"><c- g>getViewSubImage</c-></a>(<a class="n" data-link-type="idl-name" href="#xrlayer"><c- n>XRLayer</c-></a> <a href="#dom-xrwebgllayerfactory-getviewsubimage-layer-view-layer"><code><c- g>layer</c-></code></a>, <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrview"><c- n>XRView</c-></a> <a href="#dom-xrwebgllayerfactory-getviewsubimage-layer-view-view"><code><c- g>view</c-></code></a>);
 };
 
 <c- b>enum</c-> <a href="#enumdef-xrmedialayout"><code><c- g>XRMediaLayout</c-></code></a> {
@@ -2848,6 +2868,12 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <b><a href="#dom-xrlayer-chromaticaberrationcorrection">#dom-xrlayer-chromaticaberrationcorrection</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-xrlayer-chromaticaberrationcorrection">3.2. XRLayer</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="xrlayer-session">
+   <b><a href="#xrlayer-session">#xrlayer-session</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-xrlayer-session">5.4. XRWebGLLayerFactory</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="xrprojectionlayer">

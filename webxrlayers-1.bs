@@ -487,8 +487,8 @@ interface XRWebGLLayerFactory {
                                                XRLayerInit init);
   Promise&lt;XRCubeLayer&gt; requestCubeLayer(XRLayerInit init);
 
-  XRWebGLSubImage? getSubImage(XRLayer layer); // for mono layers
-  XRWebGLSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
+  XRWebGLSubImage? getSubImage(XRLayer layer, XRFrame frame);
+  XRWebGLSubImage? getViewSubImage(XRLayer layer, XRView view);
 };
 </pre>
 
@@ -603,7 +603,7 @@ When this method is invoked, it MUST run the following steps:
     1. Initialize |layer|'s {{XRLayer/depthStencilTextures}} as follows:
         <dl class="switch">
         <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set or the [=XR Compositor=] does not make use of depth values
-        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|
+        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|.
         <dt> Else if [=XRQuadLayer/context=] value is a {{WebGL2RenderingContext}} and textureTarget is {{TEXTURE_2D_ARRAY}}
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
         <dt> Else if textureTarget is {{TEXTURE_2D}}
@@ -621,19 +621,21 @@ When this method is invoked, it MUST run the following steps:
 NOTE: how can we list all the other layer creation methods without repeating?
 
 <div class="algorithm" data-algorithm="getSubImage">
-The <dfn method for="XRWebGLLayerFactory">getSubImage(XRLayer layer)</dfn> method creates a new {{XRWebGLSubImage}}.
+The <dfn method for="XRWebGLLayerFactory">getSubImage(XRLayer layer, XRFrame frame)</dfn> method creates a new {{XRWebGLSubImage}}.
 
 When this method is invoked, it MUST run the following steps:
 
   1. Let |subimage| be a new {{XRWebGLSubImage}}
   1. If |layer| is a {{XRProjectionLayer}}, throw an {{InvalidStateError}} and abort these steps.
   1. If |layer|'s stereo attribute is true, throw an {{InvalidStateError}} and abort these steps.
-  1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the layer's colorTexture
+  1. If |frame|'s {{XRFrame/session}} is not equal to |layer|'s [=XRLayer/session=], throw an {{InvalidStateError}} and abort these steps.
+  1. If |frame|'s [=XRFrame/active=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the layer's colorTexture.
   1. Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} as follows:
       <dl class="switch">If the layer has a depthStencilTexture
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the layer's depthStencilTexture
-      <dt> Otherwises
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with null
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the layer's depthStencilTexture.
+      <dt> Otherwise
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with null.
   1. return |subimage|
 
 </div>
@@ -645,28 +647,31 @@ When this method is invoked, it MUST run the following steps:
 
   1. Let |subimage| be a new {{XRWebGLSubImage}}
   1. If |layer| is a not {{XRProjectionLayer}} and the stereo attribute is false, throw an {{InvalidStateError}} and abort these steps.
+  1. let |frame| be |view|'s {{XRView/frame}}
+  1. If |frame|'s {{XRFrame/session}} is not equal to |layer|'s [=XRLayer/session=], throw an {{InvalidStateError}} and abort these steps.
+  1. If |frame|'s [=XRFrame/active=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |layer |was created with a textureTarget of {{TEXTURE_2D_ARRAY}}
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture
+      <dt class="switch">If the |layer| was created with a textureTarget of {{TEXTURE_2D_ARRAY}}
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture.
       <dt> Otherwise
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture that corresponds to the |view|
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture that corresponds to the |view|.
     </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} as follows:
     <dl class="switch">
       <dt class="switch">If the |layer|'s {{XRLayer/depthStencilTextures}} is an empty array.
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with null
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with null.
       <dt> Else if the |layer| was created with a textureTarget of {{TEXTURE_2D_ARRAY}}
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture.
       <dt> Otherwise
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture that corresponds to the |view|
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture that corresponds to the |view|.
     </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} as follows:
     <dl class="switch">
       <dt class="switch">If the |layer| was created with a textureTarget of {{TEXTURE_2D_ARRAY}}
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with the offset that corresponds to the |view|
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with the offset that corresponds to the |view|.
       <dt> Otherwise
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with null
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with null.
     </dl>
   1. return |subimage|
 
