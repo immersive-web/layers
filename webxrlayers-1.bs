@@ -659,7 +659,7 @@ When this method is invoked, it MUST run the following steps:
   1. let |frame| be |view|'s {{XRView/frame}}
   1. If |frame|'s {{XRFrame/session}} is not equal to |layer|'s [=XRLayer/session=], throw an {{InvalidStateError}} and abort these steps.
   1. If |frame|'s [=XRFrame/active=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
-  1. If |frame|'s [=animationFrame=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. If |frame|'s [=XRFrame/animationFrame=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
     <dl class="switch">
       <dt class="switch">If the |layer| was created with a textureTarget of {{TEXTURE_2D_ARRAY}}
