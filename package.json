@@ -1,0 +1,8 @@
+{
+  "name": "webxr-layers-module",
+  "description": "WebXR Layers Module - Level 1",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "make"
+  }
+}
