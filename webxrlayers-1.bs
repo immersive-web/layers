@@ -558,7 +558,9 @@ When this method is invoked, it MUST run the following steps:
     1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
     1. Initialize |layer|'s {{XRLayer/depthStencilTextures}} as follows:
         <dl class="switch">
-        <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set or |depthsupport| is false
+        <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} or {{XRProjectionLayerInit/stencil}} are set and |depthsupport| is false
+        <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
+        <dt> Else if |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|
         <dt> Else if [=XRProjectionLayer/context=] value is a {{WebGL2RenderingContext}} and textureTarget is {{TEXTURE_2D_ARRAY}}
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
@@ -606,7 +608,9 @@ When this method is invoked, it MUST run the following steps:
     1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
     1. Initialize |layer|'s {{XRLayer/depthStencilTextures}} as follows:
         <dl class="switch">
-        <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set or |depthsupport| is false
+        <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} or {{XRProjectionLayerInit/stencil}} are set and |depthsupport| is false
+        <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
+        <dt> Else if |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|.
         <dt> Else if [=XRQuadLayer/context=] value is a {{WebGL2RenderingContext}} and textureTarget is {{TEXTURE_2D_ARRAY}}
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
