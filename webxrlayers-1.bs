@@ -638,7 +638,7 @@ When this method is invoked, it MUST run the following steps:
   1. If |layer|'s stereo attribute is true, throw an {{InvalidStateError}} and abort these steps.
   1. If |frame|'s {{XRFrame/session}} is not equal to |layer|'s [=XRLayer/session=], throw an {{InvalidStateError}} and abort these steps.
   1. If |frame|'s [=XRFrame/active=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
-  1. If |frame|'s [=animationFrame=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. If |frame|'s [=XRFrame/animationFrame=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the layer's colorTexture.
   1. Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} as follows:
       <dl class="switch">If the layer has a depthStencilTexture
