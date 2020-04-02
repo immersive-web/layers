@@ -534,6 +534,7 @@ When this method is invoked, it MUST run the following steps:
   1. Let |context| be the target {{XRWebGLLayerFactory}}'s [=XRWebGLLayerFactory/context=].
   1. If |session|'s [=ended=] value is <code>true</code>, [=reject=] |promise| with an {{InvalidStateError}} and return it.
   1. If |context| is lost, [=reject=] |promise| with an {{InvalidStateError}} and return it.
+  1. Let |bufferSize| be the [=recommended WebGL framebuffer resolution=] multiplied by |init|'s {{XRProjectionLayerInit/scaleFactor}}.
   1. Run the following steps [=in parallel=]:
     1. Let |layer| be a new {{XRProjectionLayer}}
     1. Initialize |layer|'s [=XRProjectionLayer/context=] to |context|.
@@ -548,9 +549,9 @@ When this method is invoked, it MUST run the following steps:
     1. Initialize |layer|'s {{XRLayer/colorTextures}} as follows:
          <dl class="switch">
          <dt> If [=XRProjectionLayer/context=] is a {{WebGL2RenderingContext}} and textureTarget is {{TEXTURE_2D_ARRAY}}
-         <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
+         <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
          <dt> Else if textureTarget is {{TEXTURE_2D}}
-         <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
+         <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
          <dt> Otherwise
          <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
          <dd> 
@@ -563,9 +564,9 @@ When this method is invoked, it MUST run the following steps:
         <dt> Else if |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|
         <dt> Else if [=XRProjectionLayer/context=] value is a {{WebGL2RenderingContext}} and textureTarget is {{TEXTURE_2D_ARRAY}}
-        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
+        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a texture array with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
         <dt> Else if textureTarget is {{TEXTURE_2D}}
-        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
+        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as 2D texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
         <dt> Otherwise
         <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
         </dl>
