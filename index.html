@@ -1536,7 +1536,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-04-01">1 April 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-04-02">2 April 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Previous Versions:
@@ -1943,6 +1943,8 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If <var>context</var> is lost, <a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject①">reject</a> <var>promise</var> with an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror⑤">InvalidStateError</a></code> and return it.</p>
      <li data-md>
+      <p>Let <var>bufferSize</var> be the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#recommended-webgl-framebuffer-resolution" id="ref-for-recommended-webgl-framebuffer-resolution②">recommended WebGL framebuffer resolution</a> multiplied by <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-scalefactor" id="ref-for-dom-xrprojectionlayerinit-scalefactor①">scaleFactor</a></code>.</p>
+     <li data-md>
       <p>Run the following steps <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel">in parallel</a>:</p>
       <ol>
        <li data-md>
@@ -1963,9 +1965,9 @@ MUST perform the following steps when invoked:</p>
         <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl">colorTextures</a></code> as follows:</p>
         <dl class="switch">
          <dt> If <a data-link-type="dfn">context</a> is a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext②">WebGL2RenderingContext</a></code> and textureTarget is <code class="idl"><a data-link-type="idl">TEXTURE_2D_ARRAY</a></code> 
-         <dd> Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl">colorTextures</a></code> to a <var>array</var> with a single new instance of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑥">WebGLTexture</a></code> created as a texture array with <var>context</var> and <var>layerInit</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-alpha" id="ref-for-dom-xrprojectionlayerinit-alpha①">alpha</a></code> values. 
+         <dd> Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl">colorTextures</a></code> to a <var>array</var> with a single new instance of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑥">WebGLTexture</a></code> created as a texture array with <var>context</var>, the dimensions <var>bufferSize</var> and <var>layerInit</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-alpha" id="ref-for-dom-xrprojectionlayerinit-alpha①">alpha</a></code> values. 
          <dt> Else if textureTarget is <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14">TEXTURE_2D</a></code> 
-         <dd> Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl">colorTextures</a></code> to a <var>array</var> with 2 new instances of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑦">WebGLTexture</a></code> created as 2D texture with <var>context</var> and <var>layerInit</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-alpha" id="ref-for-dom-xrprojectionlayerinit-alpha②">alpha</a></code> values. 
+         <dd> Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl">colorTextures</a></code> to a <var>array</var> with 2 new instances of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑦">WebGLTexture</a></code> created as 2D texture with <var>context</var>, the dimensions <var>bufferSize</var> and <var>layerInit</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-alpha" id="ref-for-dom-xrprojectionlayerinit-alpha②">alpha</a></code> values. 
          <dt> Otherwise 
          <dd> <a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject②">reject</a> <var>promise</var> with an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror⑥">InvalidStateError</a></code> and return it. 
          <dd>
@@ -1980,9 +1982,9 @@ MUST perform the following steps when invoked:</p>
          <dt> Else if <var>layerInit</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-depth" id="ref-for-dom-xrprojectionlayerinit-depth③">depth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-stencil" id="ref-for-dom-xrprojectionlayerinit-stencil②">stencil</a></code> are not set 
          <dd> Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl">depthStencilTextures</a></code> to an empty <var>array</var> 
          <dt> Else if <a data-link-type="dfn">context</a> value is a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext④">WebGL2RenderingContext</a></code> and textureTarget is <code class="idl"><a data-link-type="idl">TEXTURE_2D_ARRAY</a></code> 
-         <dd> Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl">depthStencilTextures</a></code> to an <var>array</var> with a single new instance of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑧">WebGLTexture</a></code> created as a texture array with <var>context</var> and <var>layerInit</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-depth" id="ref-for-dom-xrprojectionlayerinit-depth④">depth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-stencil" id="ref-for-dom-xrprojectionlayerinit-stencil③">stencil</a></code> values. 
+         <dd> Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl">depthStencilTextures</a></code> to an <var>array</var> with a single new instance of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑧">WebGLTexture</a></code> created as a texture array with <var>context</var>, the dimensions <var>bufferSize</var> and <var>layerInit</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-depth" id="ref-for-dom-xrprojectionlayerinit-depth④">depth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-stencil" id="ref-for-dom-xrprojectionlayerinit-stencil③">stencil</a></code> values. 
          <dt> Else if textureTarget is <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14①">TEXTURE_2D</a></code> 
-         <dd> Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl">depthStencilTextures</a></code> to an <var>array</var> with 2 new instances of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑨">WebGLTexture</a></code> created as 2D texture with <var>context</var> and <var>layerInit</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-depth" id="ref-for-dom-xrprojectionlayerinit-depth⑤">depth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-stencil" id="ref-for-dom-xrprojectionlayerinit-stencil④">stencil</a></code> values. 
+         <dd> Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl">depthStencilTextures</a></code> to an <var>array</var> with 2 new instances of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑨">WebGLTexture</a></code> created as 2D texture with <var>context</var>, the dimensions <var>bufferSize</var> and <var>layerInit</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-depth" id="ref-for-dom-xrprojectionlayerinit-depth⑤">depth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-stencil" id="ref-for-dom-xrprojectionlayerinit-stencil④">stencil</a></code> values. 
          <dt> Otherwise 
          <dd> <a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject④">reject</a> <var>promise</var> with an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror⑧">InvalidStateError</a></code> and return it. 
         </dl>
@@ -2592,7 +2594,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <a href="https://www.w3.org/TR/webxr/#recommended-webgl-framebuffer-resolution">https://www.w3.org/TR/webxr/#recommended-webgl-framebuffer-resolution</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-recommended-webgl-framebuffer-resolution">5.2. XRProjectionLayerInit</a>
-    <li><a href="#ref-for-recommended-webgl-framebuffer-resolution①">5.4. XRWebGLLayerFactory</a>
+    <li><a href="#ref-for-recommended-webgl-framebuffer-resolution①">5.4. XRWebGLLayerFactory</a> <a href="#ref-for-recommended-webgl-framebuffer-resolution②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-xr-compatible">
@@ -3158,6 +3160,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <b><a href="#dom-xrprojectionlayerinit-scalefactor">#dom-xrprojectionlayerinit-scalefactor</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-xrprojectionlayerinit-scalefactor">5.2. XRProjectionLayerInit</a>
+    <li><a href="#ref-for-dom-xrprojectionlayerinit-scalefactor①">5.4. XRWebGLLayerFactory</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dictdef-xrlayerinit">
