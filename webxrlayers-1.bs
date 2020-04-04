@@ -500,6 +500,10 @@ of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
 Each {{XRWebGLLayerFactory}} has an associated <dfn for="XRWebGLLayerFactory">session</dfn>, which is the 
 {{XRSession}} it was created with.
 
+NOTE: it is possible to create more than one {{XRWebGLLayerFactory}}. Any layer created with an instance of {{XRWebGLLayerFactory}} can be used
+ with layers created with other instances of {{XRWebGLLayerFactory}} as long as they were created with the same [=XRWebGLLayer/context=] and 
+ [=XRWebGLLayer/session=]. The lifetime of layers or {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLLayerFactory}} that created them.
+
 Each {{XRLayer}} created through {{XRWebGLLayerFactory}} has an internal <dfn for="XRLayer">colorTextures</dfn> which is an |array| of {{WebGLTexture}} for color textures and 
 an internal <dfn for="XRLayer">depthStencilTextures</dfn> whcih is an |array| of {{WebGLTexture}}</dfn>for depth/stencil textures.
 
@@ -518,8 +522,6 @@ MUST perform the following steps when invoked:
   1. Return |factory|.
 
 </div>
-
-ISSUE: can a user construct more than 1 factory?
 
 The {{nativeProjectionScaleFactor}} function returns the value that the |session|'s [=recommended WebGL framebuffer resolution=] 
 MUST be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
@@ -726,8 +728,12 @@ should be inverted.
 
 XRMediaLayerFactory {#xrmedialayerfactorytype}
 -------------------
-The {{XRWebGLLayerFactory}} object is used to create layers that display the content of an {{HTMLVideoElement}}
-.
+The {{XRWebGLLayerFactory}} object is used to create layers that display the content of an {{HTMLVideoElement}}.
+
+NOTE: it is possible to create more than one {{XRMediaLayerFactory}}. Any layer created with an instance of {{XRMediaLayerFactory}} can be used
+with layers created with other instances of {{XRMediaLayerFactory}} as long as they were created with the same [=XRWebGLLayer/session=]. 
+The lifetime of layers is not tied to the lifetime of the {{XRMediaLayerFactory}} that created them.
+
 <pre class="idl">
 interface XRMediaLayerFactory {
   constructor(XRSession session);
