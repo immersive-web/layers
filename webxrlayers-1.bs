@@ -500,7 +500,7 @@ of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
 Each {{XRWebGLLayerFactory}} has an associated <dfn for="XRWebGLLayerFactory">session</dfn>, which is the 
 {{XRSession}} it was created with.
 
-NOTE: it is possible to create more than one {{XRWebGLLayerFactory}}. Any layer created with an instance of {{XRWebGLLayerFactory}} can 
+NOTE: It is possible to create more than one {{XRWebGLLayerFactory}}. Any layer created with an instance of {{XRWebGLLayerFactory}} can 
 be used with another instance of {{XRWebGLLayerFactory}} as long as both were created with the same [=XRWebGLLayer/session=]. The lifetime 
 of layers or instances of {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLLayerFactory}} that created them.
 
@@ -728,9 +728,9 @@ should be inverted.
 
 XRMediaLayerFactory {#xrmedialayerfactorytype}
 -------------------
-The {{XRWebGLLayerFactory}} object is used to create layers that display the content of an {{HTMLVideoElement}}.
+The {{XRMediaLayerFactory}} object is used to create layers that display the content of an {{HTMLVideoElement}}.
 
-NOTE: it is possible to create more than one {{XRMediaLayerFactory}}. The lifetime of layers is not tied to the lifetime of
+NOTE: It is possible to create more than one {{XRMediaLayerFactory}}. The lifetime of layers is not tied to the lifetime of
 the {{XRMediaLayerFactory}} that created them.
 
 <pre class="idl">
