@@ -501,8 +501,8 @@ Each {{XRWebGLLayerFactory}} has an associated <dfn for="XRWebGLLayerFactory">se
 {{XRSession}} it was created with.
 
 NOTE: It is possible to create more than one {{XRWebGLLayerFactory}}. Any layer created with an instance of {{XRWebGLLayerFactory}} can 
-be used with another instance of {{XRWebGLLayerFactory}} as long as both were created with the same [=XRWebGLLayer/session=]. The lifetime 
-of layers or instances of {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLLayerFactory}} that created them.
+be used with another instance of {{XRWebGLLayerFactory}} as long as both were created with the same [=XRWebGLLayerFactory/session=] and the same 
+[=XRWebGLLayerFactory/context=]. The lifetime of layers or instances of {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLLayerFactory}} that created them.
 
 Each {{XRLayer}} created through {{XRWebGLLayerFactory}} has an internal <dfn for="XRLayer">colorTextures</dfn> which is an |array| of {{WebGLTexture}} for color textures and 
 an internal <dfn for="XRLayer">depthStencilTextures</dfn> whcih is an |array| of {{WebGLTexture}}</dfn>for depth/stencil textures.
@@ -579,8 +579,6 @@ When this method is invoked, it MUST run the following steps:
 
 </div>
 
-ISSUE: define how scaleFactor works
-
 ISSUE: define "opaque" {{WebGLTexture}}
 
 <div class="algorithm" data-algorithm="requestQuadLayer">
@@ -642,6 +640,8 @@ When this method is invoked, it MUST run the following steps:
   1. If |frame|'s {{XRFrame/session}} is not equal to |layer|'s [=XRLayer/session=], throw an {{InvalidStateError}} and abort these steps.
   1. If |frame|'s [=XRFrame/active=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. If |frame|'s [=XRFrame/animationFrame=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. If [=XRWebGLLayerFactory/session=] is not equal to |layer|'s [=XRLayer/session=], throw an {{InvalidStateError}} and abort these steps.
+  1. If [=XRWebGLLayerFactory/context=] is not equal to |layer|'s [=XRLayer/context=], throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the layer's colorTexture.
   1. Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} as follows:
       <dl class="switch">If the layer has a depthStencilTexture
@@ -663,6 +663,8 @@ When this method is invoked, it MUST run the following steps:
   1. If |frame|'s {{XRFrame/session}} is not equal to |layer|'s [=XRLayer/session=], throw an {{InvalidStateError}} and abort these steps.
   1. If |frame|'s [=XRFrame/active=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. If |frame|'s [=XRFrame/animationFrame=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. If [=XRWebGLLayerFactory/session=] is not equal to |layer|'s [=XRLayer/session=], throw an {{InvalidStateError}} and abort these steps.
+  1. If [=XRWebGLLayerFactory/context=] is not equal to |layer|'s [=XRLayer/context=], throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
     <dl class="switch">
       <dt class="switch">If the |layer| was created with a textureTarget of {{TEXTURE_2D_ARRAY}}
