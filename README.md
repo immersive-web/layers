@@ -95,7 +95,7 @@ Passing `true` for stereo here indicates that you are able to provide stereo ima
 Some layer types may not be supported by the `XRSession`. If a layer type isn't supported the returned `Promise` will reject. `XRProjectionLayer` _must_ be supported by all `XRSession`s.
 
 The `XRLayerLayout` attribute determines how the GPU resources of the layers are allocated.
-* mono: a single texture is allocated
+* mono: a single texture is allocated and presented to both eyes.
 * stereo: the UA decides how it allocates the texture (1 or 2) and the layout (top/bottom or left/right) This is the required layout for texture arrays
 * stereo-left-to-right: a single texture is allocated. Left eye gets the left area of the texture, right eye the right
 * stereo-top-bottom: a single texture is allocated. Left eye gets the top area of the texture, right eye the bottom
