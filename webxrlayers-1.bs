@@ -688,7 +688,7 @@ When this method is invoked, it MUST run the following steps:
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |layer| was created with a textureTarget of {{TEXTURE_2D_ARRAY}}
+      <dt class="switch">If the |layer| was created with a textureTarget of {{"texture-array"}}
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture.
       <dt> Otherwise
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture that corresponds to the |view|.
@@ -697,14 +697,14 @@ When this method is invoked, it MUST run the following steps:
     <dl class="switch">
       <dt class="switch">If the |layer|'s {{XRLayer/depthStencilTextures}} is an empty array.
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with null.
-      <dt> Else if the |layer| was created with a textureTarget of {{TEXTURE_2D_ARRAY}}
+      <dt> Else if the |layer| was created with a textureTarget of {{"texture-array"}}
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture.
       <dt> Otherwise
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture that corresponds to the |view|.
     </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |layer| was created with a textureTarget of {{TEXTURE_2D_ARRAY}}
+      <dt class="switch">If the |layer| was created with a textureTarget of {{"texture-array"}}
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with the offset that corresponds to the |view|.
       <dt> Otherwise
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with null.
