@@ -492,13 +492,13 @@ interface XRWebGLLayerFactory {
 
   readonly attribute double nativeProjectionScaleFactor;
 
-  Promise&lt;XRProjectionLayer&gt; requestProjectionLayer(XRTextureType textureTarget,
+  Promise&lt;XRProjectionLayer&gt; requestProjectionLayer(XRTextureType textureType,
                                                    optional XRProjectionLayerInit init);
-  Promise&lt;XRQuadLayer&gt; requestQuadLayer(XRTextureType textureTarget,
+  Promise&lt;XRQuadLayer&gt; requestQuadLayer(XRTextureType textureType,
                                        XRLayerInit init);
-  Promise&lt;XRCylinderLayer&gt; requestCylinderLayer(XRTextureType textureTarget,
+  Promise&lt;XRCylinderLayer&gt; requestCylinderLayer(XRTextureType textureType,
                                                XRLayerInit init);
-  Promise&lt;XREquirectLayer&gt; requestEquirectLayer(XRTextureType textureTarget,
+  Promise&lt;XREquirectLayer&gt; requestEquirectLayer(XRTextureType textureType,
                                                XRLayerInit init);
   Promise&lt;XRCubeLayer&gt; requestCubeLayer(XRLayerInit init);
 
@@ -540,7 +540,7 @@ The {{nativeProjectionScaleFactor}} function returns the value that the |session
 MUST be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
 
 <div class="algorithm" data-algorithm="requestProjectionLayerAlgo">
-The <dfn method for="XRWebGLLayerFactory">requestProjectionLayer(GLenum textureTarget, optional XRProjectionLayerInit init)</dfn> method creates a new {{XRProjectionLayer}}.
+The <dfn method for="XRWebGLLayerFactory">requestProjectionLayer(GLenum textureType, optional XRProjectionLayerInit init)</dfn> method creates a new {{XRProjectionLayer}}.
 
 When this method is invoked, it MUST run the following steps:
 
@@ -563,9 +563,9 @@ When this method is invoked, it MUST run the following steps:
         </dl>
     1. Initialize |layer|'s {{XRLayer/colorTextures}} as follows:
          <dl class="switch">
-         <dt> If [=XRProjectionLayer/context=] is a {{WebGL2RenderingContext}} and |textureTarget| is {{"texture-array"}}
+         <dt> If [=XRProjectionLayer/context=] is a {{WebGL2RenderingContext}} and |textureType| is {{"texture-array"}}
          <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with a single new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
-         <dt> Else if |textureTarget| is {{"texture"}}
+         <dt> Else if |textureType| is {{"texture"}}
          <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
          <dt> Otherwise
          <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
@@ -578,9 +578,9 @@ When this method is invoked, it MUST run the following steps:
         <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
         <dt> Else if |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|
-        <dt> Else if [=XRProjectionLayer/context=] value is a {{WebGL2RenderingContext}} and |textureTarget| is {{"texture-array"}}
+        <dt> Else if [=XRProjectionLayer/context=] value is a {{WebGL2RenderingContext}} and |textureType| is {{"texture-array"}}
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
-        <dt> Else if |textureTarget| is {{"texture"}}
+        <dt> Else if |textureType| is {{"texture"}}
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
         <dt> Otherwise
         <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
@@ -597,7 +597,7 @@ ISSUE: define "opaque" {{WebGLTexture}}
 ISSUE: fix case where a side-by-side texture is allocated
 
 <div class="algorithm" data-algorithm="requestQuadLayer">
-The <dfn method for="XRWebGLLayerFactory">requestQuadLayer(GLenum textureTarget, XRLayerInit init)</dfn> method creates a new {{XRQuadLayer}}.
+The <dfn method for="XRWebGLLayerFactory">requestQuadLayer(GLenum textureType, XRLayerInit init)</dfn> method creates a new {{XRQuadLayer}}.
 
 When this method is invoked, it MUST run the following steps:
 
@@ -613,9 +613,9 @@ When this method is invoked, it MUST run the following steps:
     1. Initialize |layer|'s [=XRQuadLayer/session=] to |session|.
     1. Initialize |layer|'s {{XRLayer/colorTextures}} as follows:
         <dl class="switch">
-         <dt> If [=XRQuadLayer/context=] is a {{WebGL2RenderingContext}} and textureTarget is {{"texture-array"}}
+         <dt> If [=XRQuadLayer/context=] is a {{WebGL2RenderingContext}} and textureType is {{"texture-array"}}
          <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with a single new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with |context| and |layerInit|'s {{XRLayerInit/alpha}} values.
-         <dt> Else if textureTarget is {{"texture"}}
+         <dt> Else if textureType is {{"texture"}}
          <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |layerInit|'s {{XRLayerInit/alpha}} values.
          <dt> Otherwise
          <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
@@ -628,9 +628,9 @@ When this method is invoked, it MUST run the following steps:
         <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
         <dt> Else if |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|.
-        <dt> Else if [=XRQuadLayer/context=] value is a {{WebGL2RenderingContext}} and textureTarget is {{"texture-array"}}
+        <dt> Else if [=XRQuadLayer/context=] value is a {{WebGL2RenderingContext}} and textureType is {{"texture-array"}}
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} array with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
-        <dt> Else if textureTarget is {{"texture"}}
+        <dt> Else if textureType is {{"texture"}}
         <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
         <dt> Otherwise
         <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
@@ -688,7 +688,7 @@ When this method is invoked, it MUST run the following steps:
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |layer| was created with a textureTarget of {{"texture-array"}}
+      <dt class="switch">If the |layer| was created with a textureType of {{"texture-array"}}
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture.
       <dt> Otherwise
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture that corresponds to the |view|.
@@ -697,14 +697,14 @@ When this method is invoked, it MUST run the following steps:
     <dl class="switch">
       <dt class="switch">If the |layer|'s {{XRLayer/depthStencilTextures}} is an empty array.
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with null.
-      <dt> Else if the |layer| was created with a textureTarget of {{"texture-array"}}
+      <dt> Else if the |layer| was created with a textureType of {{"texture-array"}}
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture.
       <dt> Otherwise
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture that corresponds to the |view|.
     </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |layer| was created with a textureTarget of {{"texture-array"}}
+      <dt class="switch">If the |layer| was created with a textureType of {{"texture-array"}}
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with the offset that corresponds to the |view|.
       <dt> Otherwise
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with null.
