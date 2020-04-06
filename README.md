@@ -258,7 +258,7 @@ Videos may also contain stereo data, typically encoded with both eye's video inf
 const layer = await mediaLayerFactory.requestQuadVideoLayer(video, { layout: 'stereo-top-bottom' });
 ```
 
-This will then cause only the top half of the video to show to the left eye and the bottom half of the video to show to the right eye. If more complex layouts are required than are described by the `XRMediaLayout` enum then the video must be manually rendered using an `XRWebGLLayerFactory` layer instead.
+This will then cause only the top half of the video to show to the left eye and the bottom half of the video to show to the right eye. If more complex layouts are required than are described by the `XRLayerLayout` enum then the video must be manually rendered using an `XRWebGLLayerFactory` layer instead.
 
 ## Appendix A: Proposed IDL
 
@@ -374,14 +374,8 @@ interface XRWebGLLayerFactory {
   XRWebGLSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
 };
 
-enum XRMediaLayout {
-  "mono",
-  "stereo-left-right",
-  "stereo-top-bottom"
-};
-
 dictionary XRMediaLayerInit {
-  XRMediaLayout layout = "mono";
+  XRLayerLayout layout = "mono";
   boolean invertStereo = false;
 };
 
