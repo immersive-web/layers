@@ -87,12 +87,18 @@ const layer = await glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D_ARRAY, {
 Layer types other than an `XRProjectionLayer` must be given an explicit pixel width and height, as well as whether or not the image should be stereo or mono. This is because those properties cannot be inferred from the hardware or layer type as they can with an `XRProjectionLayer`.
 
 ```js
-const layer = await glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, { pixelWidth: 1024, pixelHeight: 768, stereo: true });
+const layer = await glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, { pixelWidth: 1024, pixelHeight: 768, layout: "stereo" });
 ```
 
 Passing `true` for stereo here indicates that you are able to provide stereo imagery for this layer, but if the XR device is unable to display stereo imagery it may automatically force the layer to be created as mono instead to reduce memory and rendering overhead. Layers that are created as mono will never be automatically changed to stereo, regardless of hardware capabilities. Developers can check the `stereo` attribte of the resulting layer to determine if the layer was allocated with resources for stereo or mono rendering.
 
 Some layer types may not be supported by the `XRSession`. If a layer type isn't supported the returned `Promise` will reject. `XRProjectionLayer` _must_ be supported by all `XRSession`s.
+
+The `XRLayerLayout` attribute determines how the GPU resources of the layers are allocated.
+* mono: a single texture is allocated and presented to both eyes.
+* stereo: the UA decides how it allocates the texture (1 or 2) and the layout (top/bottom or left/right) This is the required layout for texture arrays
+* stereo-left-to-right: a single texture is allocated. Left eye gets the left area of the texture, right eye the right
+* stereo-top-bottom: a single texture is allocated. Left eye gets the top area of the texture, right eye the bottom
 
 ## Layer positioning and shape
 
@@ -199,7 +205,7 @@ For some non-projection layers, such as a mono `XRQuadLayer` being shown on a st
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
 const quadLayer = await glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, {
-  pixelWidth: 512, pixelHeight: 512, stereo: false
+  pixelWidth: 512, pixelHeight: 512
 });
 // Position 2 meters away from the origin with a width and height of 1.5 meters
 quadLayer.referenceSpace = xrReferenceSpace;
@@ -252,7 +258,7 @@ Videos may also contain stereo data, typically encoded with both eye's video inf
 const layer = await mediaLayerFactory.requestQuadVideoLayer(video, { layout: 'stereo-top-bottom' });
 ```
 
-This will then cause only the top half of the video to show to the left eye and the bottom half of the video to show to the right eye. If more complex layouts are required than are described by the `XRMediaLayout` enum then the video must be manually rendered using an `XRWebGLLayerFactory` layer instead.
+This will then cause only the top half of the video to show to the left eye and the bottom half of the video to show to the right eye. If more complex layouts are required than are described by the `XRLayerLayout` enum then the video must be manually rendered using an `XRWebGLLayerFactory` layer instead.
 
 ## Appendix A: Proposed IDL
 
@@ -285,12 +291,19 @@ interface XRLayer {
 // Layer types
 //
 
+enum XRLayerLayout {
+  "mono",
+  "stereo",
+  "stereo-left-right",
+  "stereo-top-bottom"
+};
+
 interface XRProjectionLayer : XRLayer {
   readonly attribute boolean ignoreDepthValues;
 }
 
 interface XRQuadLayer : XRLayer {
-  readonly attribute boolean stereo;
+  readonly attribute XRLayerLayout layout;
   attribute XRRigidTransform transform;
 
   attribute float width;
@@ -298,7 +311,7 @@ interface XRQuadLayer : XRLayer {
 };
 
 interface XRCylinderLayer : XRLayer {
-  readonly attribute boolean stereo;
+  readonly attribute XRLayerLayout layout;
   attribute XRReferenceSpace referenceSpace;
 
   attribute XRRigidTransform transform;
@@ -308,7 +321,7 @@ interface XRCylinderLayer : XRLayer {
 };
 
 interface XREquirectLayer : XRLayer {
-  readonly attribute boolean stereo;
+  readonly attribute XRLayerLayout layout;
   attribute XRReferenceSpace referenceSpace;
 
   attribute XRRigidTransform transform;
@@ -320,7 +333,7 @@ interface XREquirectLayer : XRLayer {
 };
 
 interface XRCubeLayer : XRLayer {
-  readonly attribute boolean stereo;
+  readonly attribute XRLayerLayout layout;
   attribute XRReferenceSpace referenceSpace;
 
   attribute DOMPoint orientation;
@@ -340,8 +353,8 @@ dictionary XRProjectionLayerInit {
 dictionary XRLayerInit {
   required unsigned long pixelWidth;
   required unsigned long pixelHeight;
-  boolean stereo = false;
-  boolean depth = false; // This is a change from typical WebGL initialization, but feels approrpriate.
+  XRLayerLayout layout = "mono";
+  boolean depth = false; // This is a change from typical WebGL initialization, but feels appropriate.
   boolean stencil = false;
   boolean alpha = true;
 };
@@ -361,14 +374,8 @@ interface XRWebGLLayerFactory {
   XRWebGLSubImage? getViewSubImage(XRLayer layer, XRView view); // for stereo layers
 };
 
-enum XRMediaLayout {
-  "mono",
-  "stereo-left-right",
-  "stereo-top-bottom"
-};
-
 dictionary XRMediaLayerInit {
-  XRMediaLayout layout = "mono";
+  XRLayerLayout layout = "mono";
   boolean invertStereo = false;
 };
 
