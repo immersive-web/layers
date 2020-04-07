@@ -427,7 +427,7 @@ graphics API agnostic and more easily adapt to future advances in rendering tech
 Once a {{XRWebGLBinding}} instance has been acquired, it can be used to create a variety of {{XRLayer}}. Any layers created by that instance will then be able 
 to query the associated GPU resources each frame, generally expected to be the native API's texture interface.
 
-The various layer types are created with the request____Layer series of methods on the {{XRWebGLBinding}} instance. Information about the graphics resources required, 
+The various layer types are created with the create____Layer series of methods on the {{XRWebGLBinding}} instance. Information about the graphics resources required,
 such as whether or not to allocate a depth buffer or alpha channel, are passed in at layer creation time and will be immutable for the lifetime of the layer.
 The method will return the associated XRLayer type.
 
@@ -492,15 +492,15 @@ interface XRWebGLBinding {
 
   readonly attribute double nativeProjectionScaleFactor;
 
-  XRProjectionLayer requestProjectionLayer(XRTextureType textureType,
-                                            optional XRProjectionLayerInit init);
-  XRQuadLayer requestQuadLayer(XRTextureType textureType,
-                                XRLayerInit init);
-  XRCylinderLayer requestCylinderLayer(XRTextureType textureType,
-                                        XRLayerInit init);
-  XREquirectLayer requestEquirectLayer(XRTextureType textureType,
-                                        XRLayerInit init);
-  XRCubeLayer requestCubeLayer(XRLayerInit init);
+  XRProjectionLayer createProjectionLayer(XRTextureType textureType,
+                                          optional XRProjectionLayerInit init);
+  XRQuadLayer createQuadLayer(XRTextureType textureType,
+                              XRLayerInit init);
+  XRCylinderLayer createCylinderLayer(XRTextureType textureType,
+                                      XRLayerInit init);
+  XREquirectLayer createEquirectLayer(XRTextureType textureType,
+                                      XRLayerInit init);
+  XRCubeLayer createCubeLayer(XRLayerInit init);
 
   XRWebGLSubImage getSubImage(XRLayer layer, XRFrame frame);
   XRWebGLSubImage getViewSubImage(XRLayer layer, XRView view);
@@ -539,8 +539,8 @@ MUST perform the following steps when invoked:
 The {{nativeProjectionScaleFactor}} function returns the value that the |session|'s [=recommended WebGL framebuffer resolution=] 
 MUST be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
 
-<div class="algorithm" data-algorithm="requestProjectionLayerAlgo">
-The <dfn method for="XRWebGLBinding">requestProjectionLayer(GLenum textureType, optional XRProjectionLayerInit init)</dfn> method creates a new {{XRProjectionLayer}}.
+<div class="algorithm" data-algorithm="createProjectionLayerAlgo">
+The <dfn method for="XRWebGLBinding">createProjectionLayer(GLenum textureType, optional XRProjectionLayerInit init)</dfn> method creates a new {{XRProjectionLayer}}.
 
 When this method is invoked, it MUST run the following steps:
 
@@ -592,8 +592,8 @@ ISSUE: define "opaque" {{WebGLTexture}}
 
 ISSUE: fix case where a side-by-side texture is allocated
 
-<div class="algorithm" data-algorithm="requestQuadLayer">
-The <dfn method for="XRWebGLBinding">requestQuadLayer(GLenum textureType, XRLayerInit init)</dfn> method creates a new {{XRQuadLayer}}.
+<div class="algorithm" data-algorithm="createQuadLayer">
+The <dfn method for="XRWebGLBinding">createQuadLayer(GLenum textureType, XRLayerInit init)</dfn> method creates a new {{XRQuadLayer}}.
 
 When this method is invoked, it MUST run the following steps:
 
@@ -752,12 +752,12 @@ the {{XRMediaBinding}} that created them.
 interface XRMediaBinding {
   constructor(XRSession session);
 
-  XRQuadLayer requestQuadVideoLayer(HTMLVideoElement video,
-                                    optional XRMediaLayerInit init = {});
-  XRCylinderLayer requestCylinderVideoLayer(HTMLVideoElement video,
-                                            optional XRMediaLayerInit init = {});
-  XREquirectLayer requestEquirectVideoLayer(HTMLVideoElement video,
-                                            optional XRMediaLayerInit init = {});
+  XRQuadLayer createQuadVideoLayer(HTMLVideoElement video,
+                                   optional XRMediaLayerInit init = {});
+  XRCylinderLayer createCylinderVideoLayer(HTMLVideoElement video,
+                                           optional XRMediaLayerInit init = {});
+  XREquirectLayer createEquirectVideoLayer(HTMLVideoElement video,
+                                           optional XRMediaLayerInit init = {});
 };
 
 </pre>
