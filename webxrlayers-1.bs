@@ -147,8 +147,8 @@ Application flow {#applicationflow}
 
 If an author wants to use layers, they have to go through these steps:
  1. request support through {{XRPermissionDescriptor/requiredFeatures}} or {{XRPermissionDescriptor/optionalFeatures}} in {{XRSystem/requestSession()}}
- 1. create a XRWebGLLayerFactory or XRMediaLayerFactory
- 1. create layers with these factories
+ 1. create a {{XRWebGLBinding}} or {{XRMediaBinding}}
+ 1. create layers with these objects
  1. add the layers to {{XRRenderStateInit}} and call {{XRSession/updateRenderState()}}
  1. during {{XRSession/requestAnimationFrame()}} for webgl layers, draw content each gl layer
 
@@ -416,18 +416,18 @@ Overview {#xrgpulayeroverview}
 <section class="non-normative">
 
 When a layer is created it is backed by a GPU resource, typically a texture, provided by one of the Web platform's graphics APIs. In order to 
-specify which API is providing the layer's GPU resources an Layer Factory for the API in question must be created.
-Each graphics API may have unique requirements that must be satisfied before a context can be used in the creation of a layer factory. For example, 
-a {{WebGLRenderingContext}} must have its xrCompatible flag set prior to being passed to the constructor of the {{XRWebGLLayerFactory}} instance.
+specify which API is providing the layer's GPU resources a {{XRWebGLBinding}} for the API in question must be created.
+Each graphics API may have unique requirements that must be satisfied before a context can be used in the creation of a layer. For example, 
+a {{WebGLRenderingContext}} must have its xrCompatible flag set prior to being passed to the constructor of the {{XRWebGLBinding}} instance.
 
-Any interaction between the {{XRSession}} the graphics API, such as allocating or retrieving textures, will go through this {{XRWebGLLayerFactory}} instance, and the exact mechanics 
+Any interaction between the {{XRSession}} the graphics API, such as allocating or retrieving textures, will go through this {{XRWebGLBinding}} instance, and the exact mechanics 
 of the interaction will typically be API specific. This allows the rest of the WebXR API to be 
 graphics API agnostic and more easily adapt to future advances in rendering techniques.
 
-Once a layer factory instance has been acquired, it can be used to create a variety of {{XRLayer}}. Any layers created by that layer factory will then be able 
+Once a {{XRWebGLBinding}} instance has been acquired, it can be used to create a variety of {{XRLayer}}. Any layers created by that instance will then be able 
 to query the associated GPU resources each frame, generally expected to be the native API's texture interface.
 
-The various layer types are created with the request____Layer series of methods on the layer factory instance. Information about the graphics resources required, 
+The various layer types are created with the request____Layer series of methods on the {{XRWebGLBinding}} instance. Information about the graphics resources required, 
 such as whether or not to allocate a depth buffer or alpha channel, are passed in at layer creation time and will be immutable for the lifetime of the layer.
 The method will return the associated XRLayer type.
 
@@ -482,12 +482,12 @@ The <dfn dict-member for="XRLayerInit">stencil</dfn> attribute defines if the {{
 
 The <dfn dict-member for="XRLayerInit">alpha</dfn> attribute defines if the {{XRLayer}} view will have an alpha channel.
 
-XRWebGLLayerFactory {#xrwebgllayerfactorytype}
+XRWebGLBinding {#XRWebGLBindingtype}
 -------------------
-The {{XRWebGLLayerFactory}} object is used to create layers that have a GPU backend.
+The {{XRWebGLBinding}} object is used to create layers that have a GPU backend.
 
 <pre class="idl">
-interface XRWebGLLayerFactory {
+interface XRWebGLBinding {
   constructor(XRSession session, XRWebGLRenderingContext context);
 
   readonly attribute double nativeProjectionScaleFactor;
@@ -507,32 +507,32 @@ interface XRWebGLLayerFactory {
 };
 </pre>
 
-Each {{XRWebGLLayerFactory}} has a <dfn for="XRWebGLLayerFactory">context</dfn> object which is an instance 
+Each {{XRWebGLBinding}} has a <dfn for="XRWebGLBinding">context</dfn> object which is an instance 
 of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
 
-Each {{XRWebGLLayerFactory}} has an associated <dfn for="XRWebGLLayerFactory">session</dfn>, which is the 
+Each {{XRWebGLBinding}} has an associated <dfn for="XRWebGLBinding">session</dfn>, which is the 
 {{XRSession}} it was created with.
 
-NOTE: It is possible to create more than one {{XRWebGLLayerFactory}}. Any layer created with an instance of {{XRWebGLLayerFactory}} can 
-be used with another instance of {{XRWebGLLayerFactory}} as long as both were created with the same [=XRWebGLLayerFactory/session=] and the same 
-[=XRWebGLLayerFactory/context=]. The lifetime of layers or instances of {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLLayerFactory}} that created them.
+NOTE: It is possible to create more than one {{XRWebGLBinding}}. Any layer created with an instance of {{XRWebGLBinding}} can 
+be used with another instance of {{XRWebGLBinding}} as long as both were created with the same [=XRWebGLBinding/session=] and the same 
+[=XRWebGLBinding/context=]. The lifetime of layers or instances of {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLBinding}} that created them.
 
-Each {{XRLayer}} created through {{XRWebGLLayerFactory}} has an internal <dfn for="XRLayer">colorTextures</dfn> which is an |array| of {{WebGLTexture}} for color textures and 
+Each {{XRLayer}} created through {{XRWebGLBinding}} has an internal <dfn for="XRLayer">colorTextures</dfn> which is an |array| of {{WebGLTexture}} for color textures and 
 an internal <dfn for="XRLayer">depthStencilTextures</dfn> whcih is an |array| of {{WebGLTexture}}</dfn>for depth/stencil textures.
 
 <div class="algorithm" data-algorithm="construct-webgl-layer">
 
-The <dfn constructor for="XRWebGLLayerFactory">XRWebGLLayerFactory(|session|, |context|)</dfn> constructor 
+The <dfn constructor for="XRWebGLBinding">XRWebGLBinding(|session|, |context|)</dfn> constructor 
 MUST perform the following steps when invoked:
 
-  1. Let |factory| be a new {{XRWebGLLayerFactory}}
+  1. Let |binding| be a new {{XRWebGLBinding}}
   1. If |session|'s [=ended=] value is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw an {{InvalidStateError}} and abort these steps.
   1. If |session| is not an [=immersive session=], throw an {{InvalidStateError}} and abort these steps.
   1. If |context|'s [=XR compatible=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
-  1. Initialize |factory|'s [=XRWebGLLayer/context=] to |context|.
-  1. Initialize |factory|'s [=XRWebGLLayer/session=] to |session|.
-  1. Return |factory|.
+  1. Initialize |binding|'s [=XRWebGLLayer/context=] to |context|.
+  1. Initialize |binding|'s [=XRWebGLLayer/session=] to |session|.
+  1. Return |binding|.
 
 </div>
 
@@ -540,12 +540,12 @@ The {{nativeProjectionScaleFactor}} function returns the value that the |session
 MUST be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
 
 <div class="algorithm" data-algorithm="requestProjectionLayerAlgo">
-The <dfn method for="XRWebGLLayerFactory">requestProjectionLayer(GLenum textureType, optional XRProjectionLayerInit init)</dfn> method creates a new {{XRProjectionLayer}}.
+The <dfn method for="XRWebGLBinding">requestProjectionLayer(GLenum textureType, optional XRProjectionLayerInit init)</dfn> method creates a new {{XRProjectionLayer}}.
 
 When this method is invoked, it MUST run the following steps:
 
-  1. Let |session| be the target {{XRWebGLLayerFactory}}'s [=XRWebGLLayerFactory/session=].
-  1. Let |context| be the target {{XRWebGLLayerFactory}}'s [=XRWebGLLayerFactory/context=].
+  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
+  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
   1. Let |bufferSize| be the [=recommended WebGL framebuffer resolution=] multiplied by |init|'s {{XRProjectionLayerInit/scaleFactor}}.
   1. Let |layer| be a new {{XRProjectionLayer}}
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
@@ -593,13 +593,13 @@ ISSUE: define "opaque" {{WebGLTexture}}
 ISSUE: fix case where a side-by-side texture is allocated
 
 <div class="algorithm" data-algorithm="requestQuadLayer">
-The <dfn method for="XRWebGLLayerFactory">requestQuadLayer(GLenum textureType, XRLayerInit init)</dfn> method creates a new {{XRQuadLayer}}.
+The <dfn method for="XRWebGLBinding">requestQuadLayer(GLenum textureType, XRLayerInit init)</dfn> method creates a new {{XRQuadLayer}}.
 
 When this method is invoked, it MUST run the following steps:
 
   1. If the device does not support the creation of a {{XRQuadLayer}}, throw an {{NotSupportedError}} and abort these steps.
-  1. Let |session| be the target {{XRWebGLLayerFactory}}'s [=XRWebGLLayerFactory/session=].
-  1. Let |context| be the target {{XRWebGLLayerFactory}}'s [=XRWebGLLayerFactory/context=].
+  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
+  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a new {{XRQuadLayer}}
@@ -640,18 +640,18 @@ ISSUE: fix case where a side-by-side texture is allocated
 
 <div class="algorithm" data-algorithm="check-subimage-state">
 
-To <dfn>validate the state of the XRWebGLSubImage creation function</dfn> of a {{XRWebGLLayerFactory}} |factory| with parameters of {{XRLayer}} |layer| and {{XRFrame}} |frame|, the user agent MUST run the following steps:
+To <dfn>validate the state of the XRWebGLSubImage creation function</dfn> of a {{XRWebGLBinding}} |binding| with parameters of {{XRLayer}} |layer| and {{XRFrame}} |frame|, the user agent MUST run the following steps:
   1. If |frame|'s {{XRFrame/session}} is not equal to |layer|'s [=XRLayer/session=], return <code>false</code> and abort these steps.
   1. If |frame|'s [=XRFrame/active=] boolean is <code>false</code>, return <code>false</code> and abort these steps.
   1. If |frame|'s [=XRFrame/animationFrame=] boolean is <code>false</code>, return <code>false</code> and abort these steps.
-  1. If |factory|'s [=XRWebGLLayerFactory/session=] is not equal to |layer|'s [=XRLayer/session=], return <code>false</code> and abort these steps.
-  1. If |factory|'s [=XRWebGLLayerFactory/context=] is not equal to |layer|'s [=XRLayer/context=], return <code>false</code> and abort these steps.
+  1. If |binding|'s [=XRWebGLBinding/session=] is not equal to |layer|'s [=XRLayer/session=], return <code>false</code> and abort these steps.
+  1. If |binding|'s [=XRWebGLBinding/context=] is not equal to |layer|'s [=XRLayer/context=], return <code>false</code> and abort these steps.
   1. return <code>true</code>
 
 </div>
 
 <div class="algorithm" data-algorithm="getSubImage">
-The <dfn method for="XRWebGLLayerFactory">getSubImage(XRLayer layer, XRFrame frame)</dfn> method creates a new {{XRWebGLSubImage}}.
+The <dfn method for="XRWebGLBinding">getSubImage(XRLayer layer, XRFrame frame)</dfn> method creates a new {{XRWebGLSubImage}}.
 
 When this method is invoked, it MUST run the following steps:
 
@@ -670,7 +670,7 @@ When this method is invoked, it MUST run the following steps:
 </div>
 
 <div class="algorithm" data-algorithm="getViewSubImage">
-The <dfn method for="XRWebGLLayerFactory">getViewSubImage(XRLayer layer, XRView view)</dfn> method creates a new {{XRWebGLSubImage}}.
+The <dfn method for="XRWebGLBinding">getViewSubImage(XRLayer layer, XRView view)</dfn> method creates a new {{XRWebGLSubImage}}.
 
 When this method is invoked, it MUST run the following steps:
 
@@ -741,15 +741,15 @@ The <dfn dict-member for="XRMediaLayerInit">layout</dfn> attribute defines the l
 The <dfn dict-member for="XRMediaLayerInit">invertStereo</dfn> attribute defines if natural location of each view in the video
 should be inverted.
 
-XRMediaLayerFactory {#xrmedialayerfactorytype}
+XRMediaBinding {#xrmediabindingtype}
 -------------------
-The {{XRMediaLayerFactory}} object is used to create layers that display the content of an {{HTMLVideoElement}}.
+The {{XRMediaBinding}} object is used to create layers that display the content of an {{HTMLVideoElement}}.
 
-NOTE: It is possible to create more than one {{XRMediaLayerFactory}}. The lifetime of layers is not tied to the lifetime of
-the {{XRMediaLayerFactory}} that created them.
+NOTE: It is possible to create more than one {{XRMediaBinding}}. The lifetime of layers is not tied to the lifetime of
+the {{XRMediaBinding}} that created them.
 
 <pre class="idl">
-interface XRMediaLayerFactory {
+interface XRMediaBinding {
   constructor(XRSession session);
 
   XRQuadLayer requestQuadVideoLayer(HTMLVideoElement video,

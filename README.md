@@ -43,7 +43,7 @@ When a layer is created it is backed by a GPU resource, typically a texture, pro
 ```js
 const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl', { xrCompatible: true });
-const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
+const glLayerFactory = new XRWebGLBinding(xrSession, gl);
 ```
 
 The same layer factory could also accept WebGL 2.0 contexts.
@@ -56,9 +56,9 @@ const gpuDevice = await gpuAdapter.requestDevice();
 const glLayerFactory = new XRWebGPULayerFactory(xrSession, gpuDevice);
 ```
 
-Each graphics API may have unique requirements that must be satisfied before a context can be used in the creation of a layer factory. For example, a `WebGLRenderingContext` must have its `xrCompatible` flag set prior to being passed to the constructor of the `XRWebGLLayerFactory` instance.
+Each graphics API may have unique requirements that must be satisfied before a context can be used in the creation of a layer factory. For example, a `WebGLRenderingContext` must have its `xrCompatible` flag set prior to being passed to the constructor of the `XRWebGLBinding` instance.
 
-Any interaction between the `XRSession` the graphics API, such as allocating or retrieving textures, will go through this `XRWebGLLayerFactory` instance, and the exact mechanics of the interaction will typically be API specific. This allows the rest of the WebXR API to be graphics API agnostic and more easily adapt to future advances in rendering techniques.
+Any interaction between the `XRSession` the graphics API, such as allocating or retrieving textures, will go through this `XRWebGLBinding` instance, and the exact mechanics of the interaction will typically be API specific. This allows the rest of the WebXR API to be graphics API agnostic and more easily adapt to future advances in rendering techniques.
 
 ## Layer creation
 
@@ -66,21 +66,21 @@ Once a layer factory instance has been acquired, it can be used to create a vari
 
 The various layer types are created with the  `request____Layer` series of methods on the layer factory instance. Information about the graphics resources required, such as whether or not to allocate a depth buffer or alpha channel, are passed in at layer creation time and will be immutable for the lifetime of the layer. The method will return a promise that will resolve to the associated `XRLayer` type once the graphics resources have been created and the layer is ready to be displayed.
 
-The graphics API the layer factory was created with may also require API-specific information be provided. For instance, the `XRWebGLLayerFactory` requires that the texture target desired be specified.
+The graphics API the layer factory was created with may also require API-specific information be provided. For instance, the `XRWebGLBinding` requires that the texture target desired be specified.
 
 ```js
 const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl', { xrCompatible: true });
-const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
+const glLayerFactory = new XRWebGLBinding(xrSession, gl);
 const layer = await glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D, { alpha: false });
 ```
 
-This will allocate a layer that supplies a 2D texture as it's output surface, which will then be subdivided into viewports for each `XRView`. If the context passed into the `XRWebGLLayerFactory` was a WebGL 2.0 the developer could optionally choose to allocate a texture array instead, in which every `XRView` will be rendered into a separate level of the array. This allows for some rendering optimizations, such as the use of the `OVR_multiview` extension, to be used.
+This will allocate a layer that supplies a 2D texture as it's output surface, which will then be subdivided into viewports for each `XRView`. If the context passed into the `XRWebGLBinding` was a WebGL 2.0 the developer could optionally choose to allocate a texture array instead, in which every `XRView` will be rendered into a separate level of the array. This allows for some rendering optimizations, such as the use of the `OVR_multiview` extension, to be used.
 
 ```js
 const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl2', { xrCompatible: true });
-const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
+const glLayerFactory = new XRWebGLBinding(xrSession, gl);
 const layer = await glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D_ARRAY, { alpha: false });
 ```
 
@@ -143,7 +143,7 @@ WebGL layers allocated with the `TEXTURE_2D` target will provide sub images with
 
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
-const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
+const glLayerFactory = new XRWebGLBinding(xrSession, gl);
 const layer = await glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D);
 const framebuffer = gl.createFramebuffer();
 
@@ -173,7 +173,7 @@ WebGL layers allocated with the `TEXTURE_2D_ARRAY` target will provide sub image
 
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
-const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
+const glLayerFactory = new XRWebGLBinding(xrSession, gl);
 const layer = await glLayerFactory.requestProjectionLayer(gl.TEXTURE_2D_ARRAY);
 const framebuffer = gl.createFramebuffer();
 
@@ -203,7 +203,7 @@ For some non-projection layers, such as a mono `XRQuadLayer` being shown on a st
 
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
-const glLayerFactory = new XRWebGLLayerFactory(xrSession, gl);
+const glLayerFactory = new XRWebGLBinding(xrSession, gl);
 const quadLayer = await glLayerFactory.requestQuadLayer(gl.TEXTURE_2D, {
   pixelWidth: 512, pixelHeight: 512
 });
@@ -236,13 +236,13 @@ function onXRFrame(time, xrFrame) {
 
 Video playback is a very common use case in VR, especially with 180, 360, and stereo videos. While videos can be displayed by copying the video output frame-by-frame over to WebGL textures this has several downsides, including introducing extra copies, introducing stutter or becoming de-synced from the audio due to limits on when you can copy the texture, and inability to display encrypted media. As a result having a method for presenting videos directly as a layer offers an opportunity to make video playback easier, faster, and higher quality.
 
-To create video layers, an `XRMediaLayerFactory` must be created, similar to the `XRWebGLLayerFactory`.
+To create video layers, an `XRMediaBinding` must be created, similar to the `XRWebGLBinding`.
 
 ```js
-const mediaLayerFactory = new XRMediaLayerFactory(xrSession);
+const mediaLayerFactory = new XRMediaBinding(xrSession);
 ```
 
-The `XRMediaLayerFactory` can then be used to create `XRQuadLayer`s, `XRCylinderLayer`s, and `XREquirectLayer`s that display a given video element. (`XRProjectionLayer`s cannot be created with an `XRMediaLayerFactory`, given the requirements for how they must respond to the viewer's movement. `XRCubeLayer`s cannot be created with an `XRMediaLayerFactory` since the ideal layout isn't clear, but may be added at a later time.)
+The `XRMediaBinding` can then be used to create `XRQuadLayer`s, `XRCylinderLayer`s, and `XREquirectLayer`s that display a given video element. (`XRProjectionLayer`s cannot be created with an `XRMediaBinding`, given the requirements for how they must respond to the viewer's movement. `XRCubeLayer`s cannot be created with an `XRMediaBinding` since the ideal layout isn't clear, but may be added at a later time.)
 
 ```js
 const video = document.createElement('video');
@@ -250,7 +250,7 @@ video.src = 'never-gonna-give-you-up.mp4';
 const layer = await mediaLayerFactory.requestQuadVideoLayer(video);
 ```
 
-That layer can then be added to the layers list like any of the WebGL layers above, and even intermixed with layers created by an `XRWebGLLayerFactory`. Once the video layer has been added to the session's layer list it will continuously display the current frame of the video element with no additional interaction from the API. Playback is controlled via the standard `HTMLVideoElement` controls.
+That layer can then be added to the layers list like any of the WebGL layers above, and even intermixed with layers created by an `XRWebGLBinding`. Once the video layer has been added to the session's layer list it will continuously display the current frame of the video element with no additional interaction from the API. Playback is controlled via the standard `HTMLVideoElement` controls.
 
 Videos may also contain stereo data, typically encoded with both eye's video information embedded in a single video frame either side-by-side or one on top of the other. In order to display these properly the layout of the stereo streams needs to be specified, like so:
 
@@ -258,7 +258,7 @@ Videos may also contain stereo data, typically encoded with both eye's video inf
 const layer = await mediaLayerFactory.requestQuadVideoLayer(video, { layout: 'stereo-top-bottom' });
 ```
 
-This will then cause only the top half of the video to show to the left eye and the bottom half of the video to show to the right eye. If more complex layouts are required than are described by the `XRLayerLayout` enum then the video must be manually rendered using an `XRWebGLLayerFactory` layer instead.
+This will then cause only the top half of the video to show to the left eye and the bottom half of the video to show to the right eye. If more complex layouts are required than are described by the `XRLayerLayout` enum then the video must be manually rendered using an `XRWebGLBinding` layer instead.
 
 ## Appendix A: Proposed IDL
 
@@ -359,7 +359,7 @@ dictionary XRLayerInit {
   boolean alpha = true;
 };
 
-interface XRWebGLLayerFactory {
+interface XRWebGLBinding {
   constructor(XRSession session, XRWebGLRenderingContext context);
 
   readonly attribute double nativeProjectionScaleFactor;
@@ -379,7 +379,7 @@ dictionary XRMediaLayerInit {
   boolean invertStereo = false;
 };
 
-interface XRMediaLayerFactory {
+interface XRMediaBinding {
   constructor(XRSession session);
 
   Promise<XRQuadLayer> requestQuadVideoLayer(HTMLVideoElement video, optional XRMediaLayerInit init = {});
