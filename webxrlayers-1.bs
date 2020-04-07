@@ -147,7 +147,7 @@ Application flow {#applicationflow}
 
 If an author wants to use layers, they have to go through these steps:
  1. request support through {{XRPermissionDescriptor/requiredFeatures}} or {{XRPermissionDescriptor/optionalFeatures}} in {{XRSystem/requestSession()}}
- 1. create a {{XRWebGLBinding}} or {{XRMediaLayerFactory}}
+ 1. create a {{XRWebGLBinding}} or {{XRMediaBinding}}
  1. create layers with these objects
  1. add the layers to {{XRRenderStateInit}} and call {{XRSession/updateRenderState()}}
  1. during {{XRSession/requestAnimationFrame()}} for webgl layers, draw content each gl layer
@@ -749,15 +749,15 @@ The <dfn dict-member for="XRMediaLayerInit">layout</dfn> attribute defines the l
 The <dfn dict-member for="XRMediaLayerInit">invertStereo</dfn> attribute defines if natural location of each view in the video
 should be inverted.
 
-XRMediaLayerFactory {#xrmedialayerfactorytype}
+XRMediaBinding {#xrmediabindingtype}
 -------------------
-The {{XRMediaLayerFactory}} object is used to create layers that display the content of an {{HTMLVideoElement}}.
+The {{XRMediaBinding}} object is used to create layers that display the content of an {{HTMLVideoElement}}.
 
-NOTE: It is possible to create more than one {{XRMediaLayerFactory}}. The lifetime of layers is not tied to the lifetime of
-the {{XRMediaLayerFactory}} that created them.
+NOTE: It is possible to create more than one {{XRMediaBinding}}. The lifetime of layers is not tied to the lifetime of
+the {{XRMediaBinding}} that created them.
 
 <pre class="idl">
-interface XRMediaLayerFactory {
+interface XRMediaBinding {
   constructor(XRSession session);
 
   Promise&lt;XRQuadLayer&gt; requestQuadVideoLayer(HTMLVideoElement video, 
