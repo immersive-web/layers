@@ -427,11 +427,11 @@ graphics API agnostic and more easily adapt to future advances in rendering tech
 Once a {{XRWebGLBinding}} instance has been acquired, it can be used to create a variety of {{XRLayer}}. Any layers created by that instance will then be able 
 to query the associated GPU resources each frame, generally expected to be the native API's texture interface.
 
-The various layer types are created with the request____Layer series of methods on the {{XRWebGLBinding}} instance. Information about the graphics resources required, 
+The various layer types are created with the create____Layer series of methods on the {{XRWebGLBinding}} instance. Information about the graphics resources required,
 such as whether or not to allocate a depth buffer or alpha channel, are passed in at layer creation time and will be immutable for the lifetime of the layer.
-The method will return a promise that will resolve to the associated XRLayer type once the graphics resources have been created and the layer is ready to be displayed.
+The method will return the associated XRLayer type.
 
-Some layer types may not be supported by the {{XRSession}}. If a layer type isn't supported the returned Promise will reject. {{XRProjectionLayer}} must be supported by all {{XRSession}}s.
+Some layer types may not be supported by the {{XRSession}}. If a layer type isn't supported the method will throw an exception. {{XRProjectionLayer}} MUST be supported by all {{XRSession}}s.
 </section>
 
 XRProjectionLayerInit {#xrprojectionlayerinittype}
@@ -492,18 +492,18 @@ interface XRWebGLBinding {
 
   readonly attribute double nativeProjectionScaleFactor;
 
-  Promise&lt;XRProjectionLayer&gt; requestProjectionLayer(XRTextureType textureType,
-                                                   optional XRProjectionLayerInit init);
-  Promise&lt;XRQuadLayer&gt; requestQuadLayer(XRTextureType textureType,
-                                       XRLayerInit init);
-  Promise&lt;XRCylinderLayer&gt; requestCylinderLayer(XRTextureType textureType,
-                                               XRLayerInit init);
-  Promise&lt;XREquirectLayer&gt; requestEquirectLayer(XRTextureType textureType,
-                                               XRLayerInit init);
-  Promise&lt;XRCubeLayer&gt; requestCubeLayer(XRLayerInit init);
+  XRProjectionLayer createProjectionLayer(XRTextureType textureType,
+                                          optional XRProjectionLayerInit init);
+  XRQuadLayer createQuadLayer(XRTextureType textureType,
+                              XRLayerInit init);
+  XRCylinderLayer createCylinderLayer(XRTextureType textureType,
+                                      XRLayerInit init);
+  XREquirectLayer createEquirectLayer(XRTextureType textureType,
+                                      XRLayerInit init);
+  XRCubeLayer createCubeLayer(XRLayerInit init);
 
-  XRWebGLSubImage? getSubImage(XRLayer layer, XRFrame frame);
-  XRWebGLSubImage? getViewSubImage(XRLayer layer, XRView view);
+  XRWebGLSubImage getSubImage(XRLayer layer, XRFrame frame);
+  XRWebGLSubImage getViewSubImage(XRLayer layer, XRView view);
 };
 </pre>
 
@@ -539,56 +539,52 @@ MUST perform the following steps when invoked:
 The {{nativeProjectionScaleFactor}} function returns the value that the |session|'s [=recommended WebGL framebuffer resolution=] 
 MUST be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
 
-<div class="algorithm" data-algorithm="requestProjectionLayerAlgo">
-The <dfn method for="XRWebGLBinding">requestProjectionLayer(GLenum textureType, optional XRProjectionLayerInit init)</dfn> method creates a new {{XRProjectionLayer}}.
+<div class="algorithm" data-algorithm="createProjectionLayerAlgo">
+The <dfn method for="XRWebGLBinding">createProjectionLayer(GLenum textureType, optional XRProjectionLayerInit init)</dfn> method creates a new {{XRProjectionLayer}}.
 
 When this method is invoked, it MUST run the following steps:
 
-  1. Let |promise| be [=a new Promise=].
   1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
   1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
-  1. If |session|'s [=ended=] value is <code>true</code>, [=reject=] |promise| with an {{InvalidStateError}} and return it.
-  1. If |context| is lost, [=reject=] |promise| with an {{InvalidStateError}} and return it.
   1. Let |bufferSize| be the [=recommended WebGL framebuffer resolution=] multiplied by |init|'s {{XRProjectionLayerInit/scaleFactor}}.
-  1. Run the following steps [=in parallel=]:
-    1. Let |layer| be a new {{XRProjectionLayer}}
-    1. Initialize |layer|'s [=XRProjectionLayer/context=] to |context|.
-    1. Initialize |layer|'s [=XRProjectionLayer/session=] to |session|.
-    1. Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} as follows:
+  1. Let |layer| be a new {{XRProjectionLayer}}
+  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
+  1. Initialize |layer|'s [=XRProjectionLayer/context=] to |context|.
+  1. Initialize |layer|'s [=XRProjectionLayer/session=] to |session|.
+  1. Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} as follows:
+      <dl class="switch">
+      <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} value is <code>false</code> and the [=XR Compositor=] will make use of depth values
+      <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>false</code>
+      <dt> Otherwise
+      <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>true</code>
+      </dl>
+  1. Initialize |layer|'s {{XRLayer/colorTextures}} as follows:
         <dl class="switch">
-        <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} value is <code>false</code> and the [=XR Compositor=] will make use of depth values
-        <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>false</code>
-        <dt> Otherwise
-        <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>true</code>
-        </dl>
-    1. Initialize |layer|'s {{XRLayer/colorTextures}} as follows:
-         <dl class="switch">
-         <dt> If [=XRProjectionLayer/context=] is a {{WebGL2RenderingContext}} and |textureType| is {{"texture-array"}}
-         <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with a single new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
-         <dt> Else if |textureType| is {{"texture"}}
-         <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
-         <dt> Otherwise
-         <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
-         <dd> 
-         </dl>
-    1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
-    1. Initialize |layer|'s {{XRLayer/depthStencilTextures}} as follows:
-        <dl class="switch">
-        <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} or {{XRProjectionLayerInit/stencil}} are set and |depthsupport| is false
-        <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
-        <dt> Else if |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set
-        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|
-        <dt> Else if [=XRProjectionLayer/context=] value is a {{WebGL2RenderingContext}} and |textureType| is {{"texture-array"}}
-        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
+        <dt> If [=XRProjectionLayer/context=] is a {{WebGL2RenderingContext}} and |textureType| is {{"texture-array"}}
+        <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with a single new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
         <dt> Else if |textureType| is {{"texture"}}
-        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
+        <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/alpha}} values.
         <dt> Otherwise
-        <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
+        <dd> Throw {{InvalidStateError}} and abort these steps.
         </dl>
-    1. Allocate and initialize resources compatible with |session|'s [=XRSession/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
-    1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
-    1. [=/Resolve=] |promise| with |layer|.
-  1. Return |promise|.
+  1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
+  1. Initialize |layer|'s {{XRLayer/depthStencilTextures}} as follows:
+      <dl class="switch">
+      <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} or {{XRProjectionLayerInit/stencil}} are set and |depthsupport| is false
+      <dd> Throw {{InvalidStateError}} and abort these steps.
+      <dt> Else if |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set
+      <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|
+      <dt> Else if [=XRProjectionLayer/context=] value is a {{WebGL2RenderingContext}} and |textureType| is {{"texture-array"}}
+      <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
+      <dt> Else if |textureType| is {{"texture"}}
+      <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context|, the dimensions |bufferSize| and |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} values.
+      <dt> Otherwise
+      <dd> Throw {{InvalidStateError}} and abort these steps.
+      </dl>
+  1. Allocate and initialize resources compatible with |session|'s [=XRSession/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
+  1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
+  1. Return |layer|.
 
 </div>
 
@@ -596,49 +592,45 @@ ISSUE: define "opaque" {{WebGLTexture}}
 
 ISSUE: fix case where a side-by-side texture is allocated
 
-<div class="algorithm" data-algorithm="requestQuadLayer">
-The <dfn method for="XRWebGLBinding">requestQuadLayer(GLenum textureType, XRLayerInit init)</dfn> method creates a new {{XRQuadLayer}}.
+<div class="algorithm" data-algorithm="createQuadLayer">
+The <dfn method for="XRWebGLBinding">createQuadLayer(GLenum textureType, XRLayerInit init)</dfn> method creates a new {{XRQuadLayer}}.
 
 When this method is invoked, it MUST run the following steps:
 
-  1. Let |promise| be [=a new Promise=].
   1. If the device does not support the creation of a {{XRQuadLayer}}, throw an {{NotSupportedError}} and abort these steps.
   1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
   1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
-  1. If |session|'s [=ended=] value is <code>true</code>, [=reject=] |promise| with an {{InvalidStateError}} and return it.
-  1. If |context| is lost, [=reject=] |promise| with an {{InvalidStateError}} and return it.
-  1. Run the following steps [=in parallel=]:
-    1. Let |layer| be a new {{XRQuadLayer}}
-    1. Initialize |layer|'s [=XRQuadLayer/context=] to |context|.
-    1. Initialize |layer|'s [=XRQuadLayer/session=] to |session|.
-    1. Initialize |layer|'s {{XRLayer/colorTextures}} as follows:
-        <dl class="switch">
-         <dt> If [=XRQuadLayer/context=] is a {{WebGL2RenderingContext}} and textureType is {{"texture-array"}}
-         <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with a single new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with |context| and |layerInit|'s {{XRLayerInit/alpha}} values.
-         <dt> Else if textureType is {{"texture"}}
-         <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |layerInit|'s {{XRLayerInit/alpha}} values.
-         <dt> Otherwise
-         <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
-         <dd> 
-         </dl>
-    1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
-    1. Initialize |layer|'s {{XRLayer/depthStencilTextures}} as follows:
-        <dl class="switch">
-        <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} or {{XRProjectionLayerInit/stencil}} are set and |depthsupport| is false
-        <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
-        <dt> Else if |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set
-        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|.
-        <dt> Else if [=XRQuadLayer/context=] value is a {{WebGL2RenderingContext}} and textureType is {{"texture-array"}}
-        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} array with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
+  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
+  1. Let |layer| be a new {{XRQuadLayer}}
+  1. Initialize |layer|'s [=XRQuadLayer/context=] to |context|.
+  1. Initialize |layer|'s [=XRQuadLayer/session=] to |session|.
+  1. Initialize |layer|'s {{XRLayer/colorTextures}} as follows:
+      <dl class="switch">
+        <dt> If [=XRQuadLayer/context=] is a {{WebGL2RenderingContext}} and textureType is {{"texture-array"}}
+        <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with a single new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with |context| and |layerInit|'s {{XRLayerInit/alpha}} values.
         <dt> Else if textureType is {{"texture"}}
-        <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
+        <dd> Initialize |layer|'s {{XRLayer/colorTextures}} to a |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |layerInit|'s {{XRLayerInit/alpha}} values.
         <dt> Otherwise
-        <dd> [=reject=] |promise| with an {{InvalidStateError}} and return it.
+        <dd> Throw {{InvalidStateError}} and abort these steps.
         </dl>
-    1. Allocate and initialize resources compatible with |session|'s [=XRSession/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
-    1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
-    1. [=/Resolve=] |promise| with |layer|.
-  1. Return |promise|.
+  1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
+  1. Initialize |layer|'s {{XRLayer/depthStencilTextures}} as follows:
+      <dl class="switch">
+      <dt> If |layerInit|'s {{XRProjectionLayerInit/depth}} or {{XRProjectionLayerInit/stencil}} are set and |depthsupport| is false
+      <dd> Throw {{InvalidStateError}} and abort these steps.
+      <dt> Else if |layerInit|'s {{XRProjectionLayerInit/depth}} and {{XRProjectionLayerInit/stencil}} are not set
+      <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an empty |array|.
+      <dt> Else if [=XRQuadLayer/context=] value is a {{WebGL2RenderingContext}} and textureType is {{"texture-array"}}
+      <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with a single new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} array with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
+      <dt> Else if textureType is {{"texture"}}
+      <dd> Initialize |layer|'s {{XRLayer/depthStencilTextures}} to an |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |layerInit|'s {{XRLayerInit/depth}}, {{XRLayerInit/stencil}}, {{XRLayerInit/pixelWidth}}, and {{XRLayerInit/pixelHeight}} values.
+      <dt> Otherwise
+      <dd> Throw {{InvalidStateError}} and abort these steps.
+      </dl>
+  1. Allocate and initialize resources compatible with |session|'s [=XRSession/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
+  1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
+  1. return |layer|.
 
 </div>
 
@@ -760,12 +752,12 @@ the {{XRMediaBinding}} that created them.
 interface XRMediaBinding {
   constructor(XRSession session);
 
-  Promise&lt;XRQuadLayer&gt; requestQuadVideoLayer(HTMLVideoElement video, 
-                                             optional XRMediaLayerInit init = {});
-  Promise&lt;XRCylinderLayer&gt; requestCylinderVideoLayer(HTMLVideoElement video, 
-                                                     optional XRMediaLayerInit init = {});
-  Promise&lt;XREquirectLayer&gt; requestEquirectVideoLayer(HTMLVideoElement video, 
-                                                     optional XRMediaLayerInit init = {});
+  XRQuadLayer createQuadVideoLayer(HTMLVideoElement video,
+                                   optional XRMediaLayerInit init = {});
+  XRCylinderLayer createCylinderVideoLayer(HTMLVideoElement video,
+                                           optional XRMediaLayerInit init = {});
+  XREquirectLayer createEquirectVideoLayer(HTMLVideoElement video,
+                                           optional XRMediaLayerInit init = {});
 };
 
 </pre>
