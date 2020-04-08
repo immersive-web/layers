@@ -72,7 +72,7 @@ The graphics API the layer factory was created with may also require API-specifi
 const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl', { xrCompatible: true });
 const glLayerFactory = new XRWebGLBinding(xrSession, gl);
-const layer = await glLayerFactory.createProjectionLayer(gl.TEXTURE_2D, { alpha: false });
+const layer = await glLayerFactory.createProjectionLayer("texture", { alpha: false });
 ```
 
 This will allocate a layer that supplies a 2D texture as it's output surface, which will then be subdivided into viewports for each `XRView`. If the context passed into the `XRWebGLBinding` was a WebGL 2.0 the developer could optionally choose to allocate a texture array instead, in which every `XRView` will be rendered into a separate level of the array. This allows for some rendering optimizations, such as the use of the `OVR_multiview` extension, to be used.
@@ -81,13 +81,13 @@ This will allocate a layer that supplies a 2D texture as it's output surface, wh
 const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl2', { xrCompatible: true });
 const glLayerFactory = new XRWebGLBinding(xrSession, gl);
-const layer = await glLayerFactory.createProjectionLayer(gl.TEXTURE_2D_ARRAY, { alpha: false });
+const layer = await glLayerFactory.createProjectionLayer("texture-array", { alpha: false });
 ```
 
 Layer types other than an `XRProjectionLayer` must be given an explicit pixel width and height, as well as whether or not the image should be stereo or mono. This is because those properties cannot be inferred from the hardware or layer type as they can with an `XRProjectionLayer`.
 
 ```js
-const layer = await glLayerFactory.createQuadLayer(gl.TEXTURE_2D, { pixelWidth: 1024, pixelHeight: 768, layout: "stereo" });
+const layer = await glLayerFactory.createQuadLayer("texture", { pixelWidth: 1024, pixelHeight: 768, layout: "stereo" });
 ```
 
 Passing `true` for stereo here indicates that you are able to provide stereo imagery for this layer, but if the XR device is unable to display stereo imagery it may automatically force the layer to be created as mono instead to reduce memory and rendering overhead. Layers that are created as mono will never be automatically changed to stereo, regardless of hardware capabilities. Developers can check the `stereo` attribte of the resulting layer to determine if the layer was allocated with resources for stereo or mono rendering.
@@ -105,7 +105,7 @@ The `XRLayerLayout` attribute determines how the GPU resources of the layers are
 Non-projection layers each have attributes that control where the layer is shown and how it's shaped. For example, the positioning of an `XRQuadLayer` is handled like so:
 
 ```js
-const quadLayer = await glLayerFactory.createQuadLayer(gl.TEXTURE_2D, { pixelWidth: 512, pixelHeight: 512 });
+const quadLayer = await glLayerFactory.createQuadLayer("texture", { pixelWidth: 512, pixelHeight: 512 });
 // Position 2 meters away from the origin of xrReferenceSpace with a width and height of 1.5 meters
 quadLayer.referenceSpace = xrReferenceSpace;
 quadLayer.transform = new XRRigidTransform({z: -2});
@@ -128,7 +128,7 @@ In addition to the `XRLayer`-derived types, the existing `XRWebGLLayer` may be p
 
 ```js
 const projectionLayer = new XRWebGLLayer(xrSession, gl);
-const quadLayer = await glLayerFactory.createQuadLayer(gl.TEXTURE_2D, { pixelWidth: 1024, pixelHeight: 1024 });
+const quadLayer = await glLayerFactory.createQuadLayer("texture", { pixelWidth: 1024, pixelHeight: 1024 });
 
 xrSession.updateRenderState({ layers: [projectionLayer, quadLayer] });
 ```
@@ -144,7 +144,7 @@ WebGL layers allocated with the `TEXTURE_2D` target will provide sub images with
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const glLayerFactory = new XRWebGLBinding(xrSession, gl);
-const layer = await glLayerFactory.createProjectionLayer(gl.TEXTURE_2D);
+const layer = await glLayerFactory.createProjectionLayer("texture");
 const framebuffer = gl.createFramebuffer();
 
 xrSession.updateRenderState({ layers: [layer] });
@@ -158,9 +158,9 @@ function onXRFrame(time, xrFrame) {
   for (let view in xrViewerPose.views) {
     let subImage = glLayerFactory.getViewSubImage(layer, view);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
-      gl.TEXTURE_2D, subImage.colorTexture, 0);
+      "texture", subImage.colorTexture, 0);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT,
-      gl.TEXTURE_2D, subImage.depthStencilTexture, 0);
+      "texture", subImage.depthStencilTexture, 0);
     let viewport = subImage.viewport;
     gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
 
@@ -174,7 +174,7 @@ WebGL layers allocated with the `TEXTURE_2D_ARRAY` target will provide sub image
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const glLayerFactory = new XRWebGLBinding(xrSession, gl);
-const layer = await glLayerFactory.createProjectionLayer(gl.TEXTURE_2D_ARRAY);
+const layer = await glLayerFactory.createProjectionLayer("texture-array");
 const framebuffer = gl.createFramebuffer();
 
 xrSession.updateRenderState({ layers: [layer] });
@@ -204,7 +204,7 @@ For some non-projection layers, such as a mono `XRQuadLayer` being shown on a st
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const glLayerFactory = new XRWebGLBinding(xrSession, gl);
-const quadLayer = await glLayerFactory.createQuadLayer(gl.TEXTURE_2D, {
+const quadLayer = await glLayerFactory.createQuadLayer("texture", {
   pixelWidth: 512, pixelHeight: 512
 });
 // Position 2 meters away from the origin with a width and height of 1.5 meters
@@ -277,7 +277,16 @@ interface XRWebGLSubImage : XRSubImage {
   readonly attribute WebGLTexture? depthStencilTexture;
 };
 
+enum XRLayerLayout {
+  "mono",
+  "stereo",
+  "stereo-left-right",
+  "stereo-top-bottom"
+};
+
+
 interface XRLayer {
+  readonly attribute XRLayerLayout layout;
   readonly attribute unsigned long pixelWidth;
   readonly attribute unsigned long pixelHeight;
 
@@ -291,19 +300,11 @@ interface XRLayer {
 // Layer types
 //
 
-enum XRLayerLayout {
-  "mono",
-  "stereo",
-  "stereo-left-right",
-  "stereo-top-bottom"
-};
-
 interface XRProjectionLayer : XRLayer {
   readonly attribute boolean ignoreDepthValues;
 }
 
 interface XRQuadLayer : XRLayer {
-  readonly attribute XRLayerLayout layout;
   attribute XRRigidTransform transform;
 
   attribute float width;
@@ -311,7 +312,6 @@ interface XRQuadLayer : XRLayer {
 };
 
 interface XRCylinderLayer : XRLayer {
-  readonly attribute XRLayerLayout layout;
   attribute XRReferenceSpace referenceSpace;
 
   attribute XRRigidTransform transform;
@@ -321,7 +321,6 @@ interface XRCylinderLayer : XRLayer {
 };
 
 interface XREquirectLayer : XRLayer {
-  readonly attribute XRLayerLayout layout;
   attribute XRReferenceSpace referenceSpace;
 
   attribute XRRigidTransform transform;
@@ -333,7 +332,6 @@ interface XREquirectLayer : XRLayer {
 };
 
 interface XRCubeLayer : XRLayer {
-  readonly attribute XRLayerLayout layout;
   attribute XRReferenceSpace referenceSpace;
 
   attribute DOMPoint orientation;
@@ -359,15 +357,20 @@ dictionary XRLayerInit {
   boolean alpha = true;
 };
 
+enum XRTextureType {
+  "texture",
+  "texture-array"
+};
+
 interface XRWebGLBinding {
   constructor(XRSession session, XRWebGLRenderingContext context);
 
   readonly attribute double nativeProjectionScaleFactor;
 
-  XRProjectionLayer createProjectionLayer(GLenum textureTarget, XRProjectionLayerInit init);
-  XRQuadLayer createQuadLayer(GLenum textureTarget, XRLayerInit init);
-  XRCylinderLayer createCylinderLayer(GLenum textureTarget, XRLayerInit init);
-  XREquirectLayer createEquirectLayer(GLenum textureTarget, XRLayerInit init);
+  XRProjectionLayer createProjectionLayer(XRTextureType textureType, XRProjectionLayerInit init);
+  XRQuadLayer createQuadLayer(XRTextureType textureType, XRLayerInit init);
+  XRCylinderLayer createCylinderLayer(XRTextureType textureType, XRLayerInit init);
+  XREquirectLayer createEquirectLayer(XRTextureType textureType, XRLayerInit init);
   XRCubeLayer createCubeLayer(XRLayerInit init);
 
   XRWebGLSubImage? getSubImage(XRLayer layer, XRFrame frame); // for mono layers
