@@ -223,7 +223,7 @@ interface XRLayer {
 };
 </pre>
 
-The <dfn attribute for="XREquirectLayer">layout</dfn> attribute returns the layout of the layer.
+The <dfn attribute for="XRLayer">layout</dfn> attribute returns the layout of the layer.
 
 The <dfn attribute for="XRLayer">pixelWidth</dfn> and <dfn attribute for="XRLayer">pixelHeight</dfn> attributes 
 return the width and height of the GL attachments, respectively. If there are no attachments, they will return 0.
