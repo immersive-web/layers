@@ -367,7 +367,7 @@ interface XRWebGLBinding {
 
   readonly attribute double nativeProjectionScaleFactor;
 
-  XRProjectionLayer createProjectionLayer(XRTextureType textureType, XRProjectionLayerInit init);
+  XRProjectionLayer createProjectionLayer(XRTextureType textureType, optional XRProjectionLayerInit init = {});
   XRQuadLayer createQuadLayer(XRTextureType textureType, XRLayerInit init);
   XRCylinderLayer createCylinderLayer(XRTextureType textureType, XRLayerInit init);
   XREquirectLayer createEquirectLayer(XRTextureType textureType, XRLayerInit init);
