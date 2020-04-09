@@ -17,7 +17,11 @@ Abstract: This specification describes support for accessing the geometry of rea
 
 <pre class="link-defaults">
 spec:infra;
-    type:dfn; text:string
+    type: dfn; text:string
+spec: webxr-1;
+    type: dfn; text: immersive xr device; for: XR
+    type: dfn; text: xr device; for: /
+    type: dfn; text: active; for: XRFrame
 </pre>
 
 <pre class="anchors">
@@ -28,10 +32,13 @@ spec: WebXR Device API - Level 1; urlPrefix: https://www.w3.org/TR/webxr/#
     type: dfn; text: native WebGL framebuffer resolution
     type: dfn; text: immersive session
     type: dfn; text: xr compatible
-    type: dfn; text: "xr device"
     type: dfn; text: ended
     type: dfn; text: context
     type: dfn; text: session
+    type: dfn; text: XRFrame/active
+    type: dfn; text: XRView/active
+    type: dfn; text: XRSession/requestAnimationFrame()
+    type: dfn; text: animationFrame
 spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: interface; text: WebGLFramebuffer; url: WebGLFramebuffer
     type: interface; text: WebGLTexture; url: WebGLTexture
@@ -377,7 +384,7 @@ interface XRSubImage {
 
 NOTE: this class is designed to accomodate future extensions
 
-The <dfn attribute for="XRSubImage">viewport</dfn> attribute returns the {{XRView}} to use when rendering the sub image.
+The <dfn attribute for="XRSubImage">viewport</dfn> attribute returns the {{XRViewport}} to use when rendering the sub image.
 
 ISSUE: is imageIndex needed?
 
@@ -519,18 +526,18 @@ interface XRWebGLBinding {
 };
 </pre>
 
-Each {{XRWebGLBinding}} has a <dfn for="XRWebGLBinding">context</dfn> object which is an instance 
+Each {{XRWebGLBinding}} has a <dfn>context</dfn> object which is an instance
 of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
 
-Each {{XRWebGLBinding}} has an associated <dfn for="XRWebGLBinding">session</dfn>, which is the 
+Each {{XRWebGLBinding}} has an associated <dfn>session</dfn>, which is the
 {{XRSession}} it was created with.
 
 NOTE: It is possible to create more than one {{XRWebGLBinding}}. Any layer created with an instance of {{XRWebGLBinding}} can 
-be used with another instance of {{XRWebGLBinding}} as long as both were created with the same [=XRWebGLBinding/session=] and the same 
-[=XRWebGLBinding/context=]. The lifetime of layers or instances of {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLBinding}} that created them.
+be used with another instance of {{XRWebGLBinding}} as long as both were created with the same {{session}} and the same 
+{{context}}. The lifetime of layers or instances of {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLBinding}} that created them.
 
 Each {{XRLayer}} created through {{XRWebGLBinding}} has an internal <dfn>colorTextures</dfn> array which is an |array| of {{WebGLTexture}} for color textures and 
-an internal <dfn>depthStencilTextures</dfn> which is an |array| of {{WebGLTexture}}</dfn>for depth/stencil textures.
+an internal <dfn>depthStencilTextures</dfn> which is an |array| of {{WebGLTexture}}</dfn> for depth/stencil textures.
 
 <div class="algorithm" data-algorithm="construct-webgl-layer">
 
@@ -542,8 +549,8 @@ MUST perform the following steps when invoked:
   1. If |context| is lost, throw an {{InvalidStateError}} and abort these steps.
   1. If |session| is not an [=immersive session=], throw an {{InvalidStateError}} and abort these steps.
   1. If |context|'s [=XR compatible=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
-  1. Initialize |binding|'s [=XRWebGLLayer/context=] to |context|.
-  1. Initialize |binding|'s [=XRWebGLLayer/session=] to |session|.
+  1. Initialize |binding|'s {{context}} to |context|.
+  1. Initialize |binding|'s {{session}} to |session|.
   1. Return |binding|.
 
 </div>
@@ -551,7 +558,7 @@ MUST perform the following steps when invoked:
 The {{nativeProjectionScaleFactor}} function returns the value that the |session|'s [=recommended WebGL framebuffer resolution=] 
 MUST be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
 
-<div class="algorithm" data-algorithm="determine-layout">
+<div class="algorithm" data-algorithm="determine the layout attribute">
 
 To <dfn>determine the layout attribute</dfn> using a {{XRTextureType}} |textureType|, a {{WebGL2RenderingContext}} |context| and a {{XRLayerInit}} |init|, the user agent MUST run the following steps:
   1. If |context| is a {{WebGL2RenderingContext}} and |textureType| is {{"texture-array"}}, throw {{InvalidStateError}} and abort these steps.
@@ -627,14 +634,14 @@ The <dfn method for="XRWebGLBinding">createProjectionLayer(XRTextureType |textur
 
 When this method is invoked, the user agent MUST run the following steps:
 
-  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
-  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
+  1. Let |session| be the target {{XRWebGLBinding}}'s {{session}}.
+  1. Let |context| be the target {{XRWebGLBinding}}'s {{context}}.
   1. Let |bufferSize| be the [=recommended WebGL framebuffer resolution=] multiplied by |init|'s {{XRProjectionLayerInit/scaleFactor}}.
   1. Let |layer| be a new {{XRProjectionLayer}}
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
-  1. Initialize |layer|'s [=XRProjectionLayer/context=] to |context|.
-  1. Initialize |layer|'s [=XRProjectionLayer/session=] to |session|.
+  1. Initialize |layer|'s [=XRLayer/context=] to |context|.
+  1. Initialize |layer|'s [=XRLayer/session=] to |session|.
   1. Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} as follows:
       <dl class="switch">
       <dt> If |init|'s {{XRProjectionLayerInit/depth}} value is <code>false</code> and the [=XR Compositor=] will make use of depth values
@@ -649,11 +656,11 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |helperInit|'s {{XRLayerInit/depth}} to |init|'s {{XRProjectionLayerInit/depth}}.
   1. Initialize |helperInit|'s {{XRLayerInit/stencil}} to |init|'s {{XRProjectionLayerInit/stencil}}.
   1. Initialize |helperInit|'s {{XRLayerInit/alpha}} to |init|'s {{XRProjectionLayerInit/alpha}}.
-  1. let |layout| be the result of [=determining the layout attribute=] with |textureType|, |context| and |helperInit|.
+  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |helperInit|.
   1. Initialize |layer|'s {{XRLayer/layout}} to |layout|.
   1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |helperInit|.
   1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layout|, |textureType|, |context| and |helperInit|.
-  1. Allocate and initialize resources compatible with |session|'s [=XRSession/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
+  1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. Return |layer|.
 
@@ -667,18 +674,18 @@ The <dfn method for="XRWebGLBinding">createQuadLayer(XRTextureType |textureType|
 When this method is invoked, the user agent MUST run the following steps:
 
   1. If the device does not support the creation of a {{XRQuadLayer}}, throw an {{NotSupportedError}} and abort these steps.
-  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
-  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
+  1. Let |session| be the target {{XRWebGLBinding}}'s {{session}}.
+  1. Let |context| be the target {{XRWebGLBinding}}'s {{context}}.
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a new {{XRQuadLayer}}.
   1. Initialize |layer|'s [=XRLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRLayer/session=] to |session|.
-  1. let |layout| be the result of [=determining the layout attribute=] with |textureType|, |context| and |init|.
+  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRLayer/layout}} to |layout|.
   1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |init|.
   1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layout|, |textureType|, |context| and |init|.
-  1. Allocate and initialize resources compatible with |session|'s [=XRSession/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
+  1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
 
@@ -694,33 +701,33 @@ To <dfn>validate the state of the XRWebGLSubImage creation function</dfn> of a {
   1. If |frame|'s {{XRFrame/session}} is not equal to |layer|'s [=XRLayer/session=], return <code>false</code> and abort these steps.
   1. If |frame|'s [=XRFrame/active=] boolean is <code>false</code>, return <code>false</code> and abort these steps.
   1. If |frame|'s [=XRFrame/animationFrame=] boolean is <code>false</code>, return <code>false</code> and abort these steps.
-  1. If |binding|'s [=XRWebGLBinding/session=] is not equal to |layer|'s [=XRLayer/session=], return <code>false</code> and abort these steps.
-  1. If |binding|'s [=XRWebGLBinding/context=] is not equal to |layer|'s [=XRLayer/context=], return <code>false</code> and abort these steps.
+  1. If |binding|'s {{session}} is not equal to |layer|'s [=XRLayer/session=], return <code>false</code> and abort these steps.
+  1. If |binding|'s {{context}} is not equal to |layer|'s [=XRLayer/context=], return <code>false</code> and abort these steps.
+  1. If the |layer|'s [=colorTextures=] array is empty or missing, return <code>false</code> and abort these steps.
   1. return <code>true</code>
 
 </div>
 
-<div class="algorithm" data-algorithm="getSubImage">
-The <dfn method for="XRWebGLBinding">getSubImage(XRLayer layer, XRFrame frame)</dfn> method creates a new {{XRWebGLSubImage}}.
+<div class="algorithm" data-algorithm="getSubImageAlgo">
+The <dfn method for="XRWebGLBinding">getSubImage(XRLayer |layer|, XRFrame |frame|)</dfn> method creates a new {{XRWebGLSubImage}}.
 
 When this method is invoked, it MUST run the following steps:
 
   1. Let |subimage| be a new {{XRWebGLSubImage}}
-  1. If |layer| is a {{XRProjectionLayer}}, throw an {{InvalidStateError}} and abort these steps.
   1. If |layer|'s {{XRLayer/layout}} attribute is {{XRLayerLayout/"stereo"}}, throw an {{InvalidStateError}} and abort these steps.
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
-  1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the layer's colorTexture.
+  1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the first element of the |layer|'s [=colorTextures=] array.
   1. Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} as follows:
       <dl class="switch">If the layer has a depthStencilTexture
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the layer's depthStencilTexture.
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the first element of the |layer|'s [=depthStencilTextures=] array.
       <dt> Otherwise
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with null.
   1. return |subimage|
 
 </div>
 
-<div class="algorithm" data-algorithm="getViewSubImage">
-The <dfn method for="XRWebGLBinding">getViewSubImage(XRLayer layer, XRView view)</dfn> method creates a new {{XRWebGLSubImage}}.
+<div class="algorithm" data-algorithm="getViewSubImageAlgo">
+The <dfn method for="XRWebGLBinding">getViewSubImage(XRLayer |layer|, XRView |view|)</dfn> method creates a new {{XRWebGLSubImage}}.
 
 When this method is invoked, it MUST run the following steps:
 
@@ -731,18 +738,19 @@ When this method is invoked, it MUST run the following steps:
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
     <dl class="switch">
       <dt class="switch">If the |layer| was created with a textureType of {{"texture-array"}}
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture.
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the first element of the |layer|'s [=colorTextures=] array.
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with the offset that corresponds with the |view|.
       <dt> Otherwise
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the colorTexture that corresponds to the |view|.
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the element of the |layer|'s [=colorTextures=] array that corresponds to the |view|.
     </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} as follows:
     <dl class="switch">
       <dt class="switch">If the |layer|'s [=depthStencilTextures=] is an empty array.
       <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with null.
       <dt> Else if the |layer| was created with a textureType of {{"texture-array"}}
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture.
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the first element of the |layer|'s [=depthStencilTextures=] array.
       <dt> Otherwise
-      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the depthStencilTexture that corresponds to the |view|.
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the element of the |layer|'s [=depthStencilTextures=] array that corresponds to the |view|.
     </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} as follows:
     <dl class="switch">
@@ -757,9 +765,10 @@ When this method is invoked, it MUST run the following steps:
 
 ISSUE: calculate viewport
 
+ISSUE: clarify what view to use
+
 Video layer creation {#videolayer}
 ====================
-
 
 XRMediaLayerInit {#xrmedialayerinittype}
 ----------------
