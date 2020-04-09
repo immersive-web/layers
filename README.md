@@ -158,9 +158,9 @@ function onXRFrame(time, xrFrame) {
   for (let view in xrViewerPose.views) {
     let subImage = glLayerFactory.getViewSubImage(layer, view);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
-      TEXTURE_2D, subImage.colorTexture, 0);
+      gl.TEXTURE_2D, subImage.colorTexture, 0);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT,
-      TEXTURE_2D, subImage.depthStencilTexture, 0);
+      gl.TEXTURE_2D, subImage.depthStencilTexture, 0);
     let viewport = subImage.viewport;
     gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
 
