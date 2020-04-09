@@ -122,7 +122,7 @@ This explainer will not cover the details of positioning and shaping every possi
 
 ## Setting the layers array
 
-Layers are not presented to the XR device until they have been added to the `layers` `XRRenderState` property with the `updateRenderState()` method. Setting the `layers` array will override the `baseLayer` if one is present, with `baseLayer` reporting the first element in the `layers` array. Layers will be presented in the order they are given in the `layers` array, with layers being given in "back-to-front" order. Layers may have alpha blending applied if the layer's `blendSourceAlpha` attribute is `true`, but no depth testing may be performed between layers.
+Layers are not presented to the XR device until they have been added to the `layers` `XRRenderState` property with the `updateRenderState()` method. Setting the `layers` array will override the `baseLayer` if one is present, with `baseLayer` reporting `null`. Layers will be presented in the order they are given in the `layers` array, with layers being given in "back-to-front" order. Layers may have alpha blending applied if the layer's `blendSourceAlpha` attribute is `true`, but no depth testing may be performed between layers.
 
 In addition to the `XRLayer`-derived types, the existing `XRWebGLLayer` may be passed to the layers array as well. This layer type remains useful as a mechanism for rendering antialiased content with WebGL 1.0 contexts. `XRWebGLLayer` functions as an `XRProjectionLayer`, but they are kept as distinct types for better forwards compatibility.
 
@@ -134,6 +134,8 @@ xrSession.updateRenderState({ layers: [projectionLayer, quadLayer] });
 ```
 
 `updateRenderState()` _may_ throw an exception if more layers are specified than the `XRSession` supports simultaneously.
+
+`updateRenderState()` _must_ throw an exception if both `layers` and `baseLayer` are specified.
 
 ## Rendering
 
