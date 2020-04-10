@@ -1931,7 +1931,7 @@ the rectangular dimensions of the <code class="idl"><a data-link-type="idl" href
 of either a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContext" id="ref-for-WebGLRenderingContext②">WebGLRenderingContext</a></code> or a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext①">WebGL2RenderingContext</a></code>.</p>
    <p>Each <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding⑧">XRWebGLBinding</a></code> has an associated <dfn data-dfn-type="dfn" data-noexport id="session">session<a class="self-link" href="#session"></a></dfn>, which is the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession⑤">XRSession</a></code> it was created with.</p>
    <p class="note" role="note"><span>NOTE:</span> It is possible to create more than one <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding⑨">XRWebGLBinding</a></code>. Any layer created with an instance of <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⓪">XRWebGLBinding</a></code> can
-be used with another instance of <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①①">XRWebGLBinding</a></code> as long as both were created with the same <code class="idl"><a data-link-type="idl" href="#dom-xrmediabinding-xrmediabinding-session-session" id="ref-for-dom-xrmediabinding-xrmediabinding-session-session">session</a></code> and the same <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context">context</a></code>. The lifetime of layers or instances of <code class="idl"><a data-link-type="idl" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage⑤">XRWebGLSubImage</a></code> is not tied to the lifetime of the <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①②">XRWebGLBinding</a></code> that created them.</p>
+be used with another instance of <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①①">XRWebGLBinding</a></code> as long as both were created with the same <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-session" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session">session</a></code> and the same <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context">context</a></code>. The lifetime of layers or instances of <code class="idl"><a data-link-type="idl" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage⑤">XRWebGLSubImage</a></code> is not tied to the lifetime of the <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①②">XRWebGLBinding</a></code> that created them.</p>
    <p>Each <code class="idl"><a data-link-type="idl" href="#xrlayer" id="ref-for-xrlayer①⑥">XRLayer</a></code> created through <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①③">XRWebGLBinding</a></code> has an internal <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="colortextures">colorTextures</dfn> array which is an <var>array</var> of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture④">WebGLTexture</a></code> for color textures and
 an internal <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="depthstenciltextures">depthStencilTextures</dfn> which is an <var>array</var> of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑤">WebGLTexture</a></code> for depth/stencil textures.</p>
    <div class="algorithm" data-algorithm="construct-webgl-layer">
@@ -1951,17 +1951,17 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Initialize <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context①">context</a></code> to <var>context</var>.</p>
      <li data-md>
-      <p>Initialize <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrmediabinding-xrmediabinding-session-session" id="ref-for-dom-xrmediabinding-xrmediabinding-session-session①">session</a></code> to <var>session</var>.</p>
+      <p>Initialize <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrmediabinding-xrmediabinding-session-session" id="ref-for-dom-xrmediabinding-xrmediabinding-session-session">session</a></code> to <var>session</var>.</p>
      <li data-md>
       <p>Return <var>binding</var>.</p>
     </ol>
    </div>
    <p>The <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-nativeprojectionscalefactor" id="ref-for-dom-xrwebglbinding-nativeprojectionscalefactor">nativeProjectionScaleFactor</a></code> function returns the value that the <var>session</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#recommended-webgl-framebuffer-resolution" id="ref-for-recommended-webgl-framebuffer-resolution①">recommended WebGL framebuffer resolution</a> MUST be multiplied by to yield the <var>session</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#native-webgl-framebuffer-resolution" id="ref-for-native-webgl-framebuffer-resolution">native WebGL framebuffer resolution</a>.</p>
    <div class="algorithm" data-algorithm="determine the layout attribute">
-    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="determine-the-layout-attribute">determine the layout attribute</dfn> using a <code class="idl"><a data-link-type="idl" href="#enumdef-xrtexturetype" id="ref-for-enumdef-xrtexturetype⑤">XRTextureType</a></code> <var>textureType</var>, a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext②">WebGL2RenderingContext</a></code> <var>context</var> and a <code class="idl"><a data-link-type="idl" href="#dictdef-xrlayerinit" id="ref-for-dictdef-xrlayerinit⑤">XRLayerInit</a></code> <var>init</var>, the user agent MUST run the following steps:</p>
+    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="determine-the-layout-attribute">determine the layout attribute</dfn> using a <code class="idl"><a data-link-type="idl" href="#enumdef-xrtexturetype" id="ref-for-enumdef-xrtexturetype⑤">XRTextureType</a></code> <var>textureType</var>, a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContext" id="ref-for-WebGLRenderingContext③">WebGLRenderingContext</a></code> <var>context</var> and a <code class="idl"><a data-link-type="idl" href="#dictdef-xrlayerinit" id="ref-for-dictdef-xrlayerinit⑤">XRLayerInit</a></code> <var>init</var>, the user agent MUST run the following steps:</p>
     <ol>
      <li data-md>
-      <p>If <var>context</var> is a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext③">WebGL2RenderingContext</a></code> and <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array②">"texture-array"</a></code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror④">InvalidStateError</a></code> and abort these steps.</p>
+      <p>If <var>context</var> is not a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext②">WebGL2RenderingContext</a></code> and <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array②">"texture-array"</a></code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror④">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>let <var>layout</var> be <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-layout" id="ref-for-dom-xrlayerinit-layout①">layout</a></code>.</p>
      <li data-md>
@@ -1970,28 +1970,28 @@ MUST perform the following steps when invoked:</p>
       <p>If <var>layout</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo" id="ref-for-dom-xrlayerlayout-stereo①">"stereo"</a></code>, run the following steps:</p>
       <ol>
        <li data-md>
-        <p>if <var>context</var> is a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext④">WebGL2RenderingContext</a></code>, return <var>layout</var> and abort these steps.</p>
+        <p>If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array③">"texture-array"</a></code>, return <var>layout</var> and abort these steps.</p>
        <li data-md>
-        <p>if the user agent prefers <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right①">"stereo-left-right"</a></code> layout, return <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right②">"stereo-left-right"</a></code> and abort these steps.</p>
+        <p>If the user agent prefers <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right①">"stereo-left-right"</a></code> layout, return <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right②">"stereo-left-right"</a></code> and abort these steps.</p>
        <li data-md>
-        <p>if the user agent prefers <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-top-bottom" id="ref-for-dom-xrlayerlayout-stereo-top-bottom①">"stereo-top-bottom"</a></code> layout, return <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-top-bottom" id="ref-for-dom-xrlayerlayout-stereo-top-bottom②">"stereo-top-bottom"</a></code> and abort these steps.</p>
+        <p>If the user agent prefers <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-top-bottom" id="ref-for-dom-xrlayerlayout-stereo-top-bottom①">"stereo-top-bottom"</a></code> layout, return <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-top-bottom" id="ref-for-dom-xrlayerlayout-stereo-top-bottom②">"stereo-top-bottom"</a></code> and abort these steps.</p>
       </ol>
      <li data-md>
-      <p>If <var>context</var> is a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext⑤">WebGL2RenderingContext</a></code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror⑤">InvalidStateError</a></code> and abort these steps.</p>
+      <p>If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array④">"texture-array"</a></code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror⑤">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>return <var>layout</var>.</p>
     </ol>
    </div>
    <p class="issue" id="issue-c5f51eda"><a class="self-link" href="#issue-c5f51eda"></a> special case UA behavior if the size causes the layout to change (ie if the requested width exceeds a limit with <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right③">"stereo-left-right"</a></code>)</p>
    <div class="algorithm" data-algorithm="create-color-textures">
-    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="allocate-color-textures">allocate color textures</dfn> using a <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-layout" id="ref-for-dom-xrlayerinit-layout②">layout</a></code> <var>layout</var>, a <code class="idl"><a data-link-type="idl" href="#enumdef-xrtexturetype" id="ref-for-enumdef-xrtexturetype⑥">XRTextureType</a></code> <var>textureType</var>, a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext⑥">WebGL2RenderingContext</a></code> <var>context</var> and a <code class="idl"><a data-link-type="idl" href="#dictdef-xrlayerinit" id="ref-for-dictdef-xrlayerinit⑥">XRLayerInit</a></code> <var>init</var>, the user agent MUST run the following steps:</p>
+    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="allocate-color-textures">allocate color textures</dfn> using a <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-layout" id="ref-for-dom-xrlayerinit-layout②">layout</a></code> <var>layout</var>, a <code class="idl"><a data-link-type="idl" href="#enumdef-xrtexturetype" id="ref-for-enumdef-xrtexturetype⑥">XRTextureType</a></code> <var>textureType</var>, a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext③">WebGL2RenderingContext</a></code> <var>context</var> and a <code class="idl"><a data-link-type="idl" href="#dictdef-xrlayerinit" id="ref-for-dictdef-xrlayerinit⑥">XRLayerInit</a></code> <var>init</var>, the user agent MUST run the following steps:</p>
     <ol>
      <li data-md>
       <p>let <var>array</var> be a new array.</p>
      <li data-md>
       <p>If <var>layout</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-mono" id="ref-for-dom-xrlayerlayout-mono②">mono</a></code>:</p>
       <dl class="switch">
-       <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array③">"texture-array"</a></code>: 
+       <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑤">"texture-array"</a></code>: 
        <dd> Initialize <var>array</var> with 1 new instance of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑥">WebGLTexture</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7①">TEXTURE_2D_ARRAY</a></code> texture with 1 internal texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha①">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-pixelwidth" id="ref-for-dom-xrlayerinit-pixelwidth①">pixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-pixelheight" id="ref-for-dom-xrlayerinit-pixelheight①">pixelHeight</a></code> values. 
        <dt> Otherwise 
        <dd> Initialize <var>array</var> with 1 new instance of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑦">WebGLTexture</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14①">TEXTURE_2D</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha②">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-pixelwidth" id="ref-for-dom-xrlayerinit-pixelwidth②">pixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-pixelheight" id="ref-for-dom-xrlayerinit-pixelheight②">pixelHeight</a></code> values. 
@@ -1999,7 +1999,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If <var>layout</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo" id="ref-for-dom-xrlayerlayout-stereo②">stereo</a></code>:</p>
       <dl class="switch">
-       <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array④">"texture-array"</a></code>: 
+       <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑥">"texture-array"</a></code>: 
        <dd> Initialize <var>array</var> with 1 new instance of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑧">WebGLTexture</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7②">TEXTURE_2D_ARRAY</a></code> texture with 2 internal textures using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha③">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-pixelwidth" id="ref-for-dom-xrlayerinit-pixelwidth③">pixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-pixelheight" id="ref-for-dom-xrlayerinit-pixelheight③">pixelHeight</a></code> values. 
        <dd> Return <var>array</var> and abort these steps. 
        <dt> Otherwise 
@@ -2015,20 +2015,20 @@ MUST perform the following steps when invoked:</p>
     </ol>
    </div>
    <div class="algorithm" data-algorithm="create-depth-textures">
-    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="allocate-depth-textures">allocate depth textures</dfn> using a <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-layout" id="ref-for-dom-xrlayerinit-layout③">layout</a></code> <var>layout</var>, a <code class="idl"><a data-link-type="idl" href="#enumdef-xrtexturetype" id="ref-for-enumdef-xrtexturetype⑦">XRTextureType</a></code> <var>textureType</var>, a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext⑦">WebGL2RenderingContext</a></code> <var>context</var> and a <code class="idl"><a data-link-type="idl" href="#dictdef-xrlayerinit" id="ref-for-dictdef-xrlayerinit⑦">XRLayerInit</a></code> <var>init</var>, the user agent MUST run the following steps:</p>
+    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="allocate-depth-textures">allocate depth textures</dfn> using a <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-layout" id="ref-for-dom-xrlayerinit-layout③">layout</a></code> <var>layout</var>, a <code class="idl"><a data-link-type="idl" href="#enumdef-xrtexturetype" id="ref-for-enumdef-xrtexturetype⑦">XRTextureType</a></code> <var>textureType</var>, a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext④">WebGL2RenderingContext</a></code> <var>context</var> and a <code class="idl"><a data-link-type="idl" href="#dictdef-xrlayerinit" id="ref-for-dictdef-xrlayerinit⑦">XRLayerInit</a></code> <var>init</var>, the user agent MUST run the following steps:</p>
     <ol>
      <li data-md>
       <p>let <var>array</var> be a new array.</p>
      <li data-md>
       <p>If <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-depth" id="ref-for-dom-xrlayerinit-depth①">depth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil①">stencil</a></code> are not set, return <var>array</var> and abort these steps.</p>
      <li data-md>
-      <p>let <var>depthsupport</var> be true if <var>context</var> is a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext⑧">WebGL2RenderingContext</a></code> or the <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/extensions/WEBGL_depth_texture/#webgl_depth_texture" id="ref-for-webgl_depth_texture">WEBGL_depth_texture</a></code> extension is enabled in <var>context</var>.</p>
+      <p>let <var>depthsupport</var> be true if <var>context</var> is a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext⑤">WebGL2RenderingContext</a></code> or the <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/extensions/WEBGL_depth_texture/#webgl_depth_texture" id="ref-for-webgl_depth_texture">WEBGL_depth_texture</a></code> extension is enabled in <var>context</var>.</p>
      <li data-md>
       <p>If <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-depth" id="ref-for-dom-xrlayerinit-depth②">depth</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil②">stencil</a></code> are set and <var>depthsupport</var> is false, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror⑥">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>layout</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-mono" id="ref-for-dom-xrlayerlayout-mono③">mono</a></code>:</p>
       <dl class="switch">
-       <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑤">"texture-array"</a></code>: 
+       <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑦">"texture-array"</a></code>: 
        <dd> Initialize <var>array</var> with 1 new instance of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture①②">WebGLTexture</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7③">TEXTURE_2D_ARRAY</a></code> texture with 1 internal texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil③">stencil</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-pixelwidth" id="ref-for-dom-xrlayerinit-pixelwidth⑦">pixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-pixelheight" id="ref-for-dom-xrlayerinit-pixelheight⑦">pixelHeight</a></code> values. 
        <dt> Otherwise 
        <dd> Initialize <var>array</var> with 1 new instance of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture①③">WebGLTexture</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14⑤">TEXTURE_2D</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil④">stencil</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-pixelwidth" id="ref-for-dom-xrlayerinit-pixelwidth⑧">pixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-pixelheight" id="ref-for-dom-xrlayerinit-pixelheight⑧">pixelHeight</a></code> values. 
@@ -2036,7 +2036,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If <var>layout</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo" id="ref-for-dom-xrlayerlayout-stereo③">stereo</a></code>:</p>
       <dl class="switch">
-       <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑥">"texture-array"</a></code>: 
+       <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑧">"texture-array"</a></code>: 
        <dd> Initialize <var>array</var> with 1 new instance of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture①④">WebGLTexture</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7④">TEXTURE_2D_ARRAY</a></code> texture with 2 internal textures using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil⑤">stencil</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-pixelwidth" id="ref-for-dom-xrlayerinit-pixelwidth⑨">pixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-pixelheight" id="ref-for-dom-xrlayerinit-pixelheight⑨">pixelHeight</a></code> values. 
        <dd> Return <var>array</var> and abort these steps. 
        <dt> Otherwise 
@@ -2056,7 +2056,7 @@ MUST perform the following steps when invoked:</p>
     <p>When this method is invoked, the user agent MUST run the following steps:</p>
     <ol>
      <li data-md>
-      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑤">XRWebGLBinding</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-session" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session">session</a></code>.</p>
+      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑤">XRWebGLBinding</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-xrmediabinding-xrmediabinding-session-session" id="ref-for-dom-xrmediabinding-xrmediabinding-session-session①">session</a></code>.</p>
      <li data-md>
       <p>Let <var>context</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑥">XRWebGLBinding</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context②">context</a></code>.</p>
      <li data-md>
@@ -2117,7 +2117,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If the device does not support the creation of a <code class="idl"><a data-link-type="idl" href="#xrquadlayer" id="ref-for-xrquadlayer④">XRQuadLayer</a></code>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑦">XRWebGLBinding</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-xrmediabinding-xrmediabinding-session-session" id="ref-for-dom-xrmediabinding-xrmediabinding-session-session②">session</a></code>.</p>
+      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑦">XRWebGLBinding</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-session" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session①">session</a></code>.</p>
      <li data-md>
       <p>Let <var>context</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑧">XRWebGLBinding</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context③">context</a></code>.</p>
      <li data-md>
@@ -2158,7 +2158,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If <var>frame</var>’s <a data-link-type="dfn">animationFrame</a> boolean is <code>false</code>, return <code>false</code> and abort these steps.</p>
      <li data-md>
-      <p>If <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-session" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session①">session</a></code> is not equal to <var>layer</var>’s <a data-link-type="dfn" href="#xrlayer-session" id="ref-for-xrlayer-session③">session</a>, return <code>false</code> and abort these steps.</p>
+      <p>If <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-session" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session②">session</a></code> is not equal to <var>layer</var>’s <a data-link-type="dfn" href="#xrlayer-session" id="ref-for-xrlayer-session③">session</a>, return <code>false</code> and abort these steps.</p>
      <li data-md>
       <p>If <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context④">context</a></code> is not equal to <var>layer</var>’s <a data-link-type="dfn" href="#xrlayer-context" id="ref-for-xrlayer-context②">context</a>, return <code>false</code> and abort these steps.</p>
      <li data-md>
@@ -2206,7 +2206,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture③">colorTexture</a></code> as follows:</p>
       <dl class="switch">
-       <dt class="switch">If the <var>layer</var> was created with a textureType of <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑦">"texture-array"</a></code> 
+       <dt class="switch">If the <var>layer</var> was created with a textureType of <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑨">"texture-array"</a></code> 
        <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture④">colorTexture</a></code> with the first element of the <var>layer</var>’s <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures④">colorTextures</a> array. 
        <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-imageindex" id="ref-for-dom-xrwebglsubimage-imageindex①">imageIndex</a></code> with the offset that corresponds with the <var>view</var>. 
        <dt> Otherwise 
@@ -2217,7 +2217,7 @@ MUST perform the following steps when invoked:</p>
       <dl class="switch">
        <dt class="switch">If the <var>layer</var>’s <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures③">depthStencilTextures</a> is an empty array. 
        <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture⑥">depthStencilTexture</a></code> with null. 
-       <dt> Else if the <var>layer</var> was created with a textureType of <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑧">"texture-array"</a></code> 
+       <dt> Else if the <var>layer</var> was created with a textureType of <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array①⓪">"texture-array"</a></code> 
        <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture⑦">depthStencilTexture</a></code> with the first element of the <var>layer</var>’s <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures④">depthStencilTextures</a> array. 
        <dt> Otherwise 
        <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture⑧">depthStencilTexture</a></code> with the element of the <var>layer</var>’s <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures⑤">depthStencilTextures</a> array that corresponds to the <var>view</var>. 
@@ -2225,7 +2225,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-imageindex" id="ref-for-dom-xrwebglsubimage-imageindex②">imageIndex</a></code> as follows:</p>
       <dl class="switch">
-       <dt class="switch">If the <var>layer</var> was created with a textureType of <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑨">"texture-array"</a></code> 
+       <dt class="switch">If the <var>layer</var> was created with a textureType of <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array①①">"texture-array"</a></code> 
        <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-imageindex" id="ref-for-dom-xrwebglsubimage-imageindex③">imageIndex</a></code> with the offset that corresponds to the <var>view</var>. 
        <dt> Otherwise 
        <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-imageindex" id="ref-for-dom-xrwebglsubimage-imageindex④">imageIndex</a></code> with null. 
@@ -2441,7 +2441,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <a href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext">https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-WebGL2RenderingContext">3.3. XRLayer</a>
-    <li><a href="#ref-for-WebGL2RenderingContext①">5.4. XRWebGLBinding</a> <a href="#ref-for-WebGL2RenderingContext②">(2)</a> <a href="#ref-for-WebGL2RenderingContext③">(3)</a> <a href="#ref-for-WebGL2RenderingContext④">(4)</a> <a href="#ref-for-WebGL2RenderingContext⑤">(5)</a> <a href="#ref-for-WebGL2RenderingContext⑥">(6)</a> <a href="#ref-for-WebGL2RenderingContext⑦">(7)</a> <a href="#ref-for-WebGL2RenderingContext⑧">(8)</a>
+    <li><a href="#ref-for-WebGL2RenderingContext①">5.4. XRWebGLBinding</a> <a href="#ref-for-WebGL2RenderingContext②">(2)</a> <a href="#ref-for-WebGL2RenderingContext③">(3)</a> <a href="#ref-for-WebGL2RenderingContext④">(4)</a> <a href="#ref-for-WebGL2RenderingContext⑤">(5)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-5.14">
@@ -2456,7 +2456,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <ul>
     <li><a href="#ref-for-WebGLRenderingContext">3.3. XRLayer</a>
     <li><a href="#ref-for-WebGLRenderingContext①">5.1. Overview</a>
-    <li><a href="#ref-for-WebGLRenderingContext②">5.4. XRWebGLBinding</a>
+    <li><a href="#ref-for-WebGLRenderingContext②">5.4. XRWebGLBinding</a> <a href="#ref-for-WebGLRenderingContext③">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-WebGLTexture">
@@ -3251,7 +3251,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <ul>
     <li><a href="#ref-for-dom-xrtexturetype-texture-array">4.2. XRWebGLSubImage</a>
     <li><a href="#ref-for-dom-xrtexturetype-texture-array①">4.3. XRTextureType</a>
-    <li><a href="#ref-for-dom-xrtexturetype-texture-array②">5.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrtexturetype-texture-array③">(2)</a> <a href="#ref-for-dom-xrtexturetype-texture-array④">(3)</a> <a href="#ref-for-dom-xrtexturetype-texture-array⑤">(4)</a> <a href="#ref-for-dom-xrtexturetype-texture-array⑥">(5)</a> <a href="#ref-for-dom-xrtexturetype-texture-array⑦">(6)</a> <a href="#ref-for-dom-xrtexturetype-texture-array⑧">(7)</a> <a href="#ref-for-dom-xrtexturetype-texture-array⑨">(8)</a>
+    <li><a href="#ref-for-dom-xrtexturetype-texture-array②">5.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrtexturetype-texture-array③">(2)</a> <a href="#ref-for-dom-xrtexturetype-texture-array④">(3)</a> <a href="#ref-for-dom-xrtexturetype-texture-array⑤">(4)</a> <a href="#ref-for-dom-xrtexturetype-texture-array⑥">(5)</a> <a href="#ref-for-dom-xrtexturetype-texture-array⑦">(6)</a> <a href="#ref-for-dom-xrtexturetype-texture-array⑧">(7)</a> <a href="#ref-for-dom-xrtexturetype-texture-array⑨">(8)</a> <a href="#ref-for-dom-xrtexturetype-texture-array①⓪">(9)</a> <a href="#ref-for-dom-xrtexturetype-texture-array①①">(10)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dictdef-xrprojectionlayerinit">
@@ -3349,7 +3349,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <aside class="dfn-panel" data-for="dom-xrwebglbinding-xrwebglbinding-session-context-session">
    <b><a href="#dom-xrwebglbinding-xrwebglbinding-session-context-session">#dom-xrwebglbinding-xrwebglbinding-session-context-session</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session">5.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session①">(2)</a>
+    <li><a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session">5.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session①">(2)</a> <a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrwebglbinding-xrwebglbinding-session-context-context">
@@ -3459,7 +3459,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <aside class="dfn-panel" data-for="dom-xrmediabinding-xrmediabinding-session-session">
    <b><a href="#dom-xrmediabinding-xrmediabinding-session-session">#dom-xrmediabinding-xrmediabinding-session-session</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session">5.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session①">(2)</a> <a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session②">(3)</a>
+    <li><a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session">5.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session①">(2)</a>
    </ul>
   </aside>
 <script>/* script-dfn-panel */
