@@ -23,6 +23,9 @@ spec: webxr-1;
     type: dfn; text: xr device; for: /
     type: dfn; text: active; for: XRFrame
     type: dfn; text: eye; for: XRView
+    type: dfn; text: initialize the render state
+    type: dfn; text: pending render state
+    type: dfn; text: apply the pending render state
 </pre>
 
 <pre class="anchors">
@@ -797,6 +800,69 @@ interface XRMediaBinding {
 
 </pre>
 
+WebXR Device API Integration {#webxrintegration}
+============================
+
+XRRenderState changes {#xrrenderstatechanges}
+---------------------
+This module extends the {{XRRenderStateInit}} and {{XRRenderState}} interfaces with a new optional array {{XRRenderStateInit/layers}} containing
+instances of {{XRLayer}} or {{XRWebGLLayer}}.
+
+<pre class="idl">
+typedef (XRWebGLLayer or XRLayer) XRGenericLayer;
+
+dictionary XRRenderStateInit {
+  double depthNear;
+  double depthFar;
+  double inlineVerticalFieldOfView;
+  XRWebGLLayer? baseLayer;
+  FrozenArray&lt;XRGenericLayer&gt;? layers;
+};
+
+[SecureContext, Exposed=Window] interface XRRenderState {
+  readonly attribute double depthNear;
+  readonly attribute double depthFar;
+  readonly attribute double? inlineVerticalFieldOfView;
+  readonly attribute XRWebGLLayer? baseLayer;
+  readonly attribute FrozenArray&lt;XRGenericLayer&gt;? layers;
+};
+</pre>
+
+The <dfn dict-member for="XRRenderStateInit">layers</dfn> is an array containing
+instances of {{XRLayer}} or {{XRWebGLLayer}} to hand to the [=XR Compositor=].
+
+The <dfn attribute for="XRRenderState">layers</dfn> attribute returns an array containing
+the instances of {{XRLayer}} or {{XRWebGLLayer}} that are displayed by the [=XR Compositor=].
+
+<div class="algorithm" data-algorithm="initialize-renderstate-for-layers">
+When an {{XRRenderState}} object |state| is created for an {{XRSession}} |session| with {{layers}} enabled, the user agent MUST <dfn dfn-for="layers">initialize the render state</dfn> by running the following steps:
+  1. Initialize |state| by running the steps to [=initialize the render state=].
+  1. Initialize |state|'s {{XRRenderState/layers}} to an empty array.
+
+</div>
+
+updateRenderState changes {#updaterenderstatechanges}
+-------------------------
+<div class="algorithm" data-algorithm="updateRenderState-for-layers">
+When the <dfn method for="XRSession" dfn-for="layers">updateRenderState(|newState|)</dfn> method is called on an {{XRSession}} |session|
+with {{layers}} enabled, the user agent MUST run the following steps:
+
+  1. Run {{XRSession/updateRenderState}} with |newState|.
+  1. If |newState|'s {{XRRenderStateInit/baseLayer}} is set, set |session|'s [=pending render state=] to <code>null</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. For each |layer| in |newState|'s {{XRRenderStateInit/layers}}:
+    1. If |layer|'s [=XRLayer/session=] is different from |session|, throw an {{InvalidStateError}} and abort these steps.
+  1. If |newState|'s {{XRRenderStateInit/layers}} array is set, set |session|'s [=pending render state=]'s {{XRRenderState/layers}} to |newState|'s {{XRRenderStateInit/layers}}.
+
+</div>
+
+<!--
+<div class="algorithm" data-algorithm="apply-pending-render-state-for-layers">
+
+When the {{XRSession}} MUST <dfn>apply the pending render state for an {{XRSession}} |session| with {{layers}} enabled</dfn>, the user agent MUST run the following steps:
+1. [=Apply the pending render state=] with |session|.
+
+</div>
+-->
 
 Security and Privacy Considerations {#security}
 ===============================================
