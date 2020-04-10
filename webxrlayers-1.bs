@@ -214,6 +214,8 @@ enum XRLayerLayout {
  - A layout of <dfn enum-value for="XRLayerLayout">stereo-left-right</dfn> indicates that the layer is in stereo and divided left to right.
  - A layout of <dfn enum-value for="XRLayerLayout">stereo-top-bottom</dfn> indicates that the layer is in stereo and divided top to bottom.
 
+ NOTE: If an {{XRLayer}} is created with an {{XRLayerLayout/"stereo"}} layout, it is highly recommended that it is allocated with an {{XRTextureType/"texture-array"}} texture type.
+
 XRLayer {#xrlayertype}
 -------
 Every layer except XRWebGLLayer is derived from XRLayer.
@@ -426,6 +428,7 @@ enum XRTextureType {
 
 - A texture type of <dfn enum-value for="XRTextureType">texture</dfn> indicates that the textures of {{XRWebGLSubImage}} must be of type {{TEXTURE_2D}}
 - A texture type of <dfn enum-value for="XRTextureType">texture-array</dfn> indicates that the textures of {{XRWebGLSubImage}} must be of type {{TEXTURE_2D_ARRAY}}
+
 
 GPU layer and view creation {#gpulayer}
 ===========================
