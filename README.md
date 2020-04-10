@@ -64,7 +64,7 @@ Any interaction between the `XRSession` the graphics API, such as allocating or 
 
 Once a layer factory instance has been acquired, it can be used to create a variety of `XRLayer`s. Any layers created by that layer factory will then be able to query the associated GPU resources each frame, generally expected to be the native API's texture interface.
 
-The various layer types are created with the  `create____Layer` series of methods on the layer factory instance. Information about the graphics resources required, such as whether or not to allocate a depth buffer or alpha channel, are passed in at layer creation time and will be immutable for the lifetime of the layer. The method will return a promise that will resolve to the associated `XRLayer` type once the graphics resources have been created and the layer is ready to be displayed.
+The various layer types are created with the  `create____Layer` series of methods on the layer factory instance. Information about the graphics resources required, such as whether or not to allocate a depth buffer or alpha channel, are passed in at layer creation time and will be immutable for the lifetime of the layer. The method will return a the associated `XRLayer`.
 
 The graphics API the layer factory was created with may also require API-specific information be provided. For instance, the `XRWebGLBinding` requires that the texture target desired be specified.
 
@@ -92,7 +92,7 @@ const layer = glLayerFactory.createQuadLayer("texture", { pixelWidth: 1024, pixe
 
 Passing `true` for stereo here indicates that you are able to provide stereo imagery for this layer, but if the XR device is unable to display stereo imagery it may automatically force the layer to be created as mono instead to reduce memory and rendering overhead. Layers that are created as mono will never be automatically changed to stereo, regardless of hardware capabilities. Developers can check the `stereo` attribte of the resulting layer to determine if the layer was allocated with resources for stereo or mono rendering.
 
-Some layer types may not be supported by the `XRSession`. If a layer type isn't supported the returned `Promise` will reject. `XRProjectionLayer` _must_ be supported by all `XRSession`s.
+Some layer types may not be supported by the `XRSession`. If a layer type isn't supported the method will throw a ` NotSupportedError` exception. `XRProjectionLayer` _must_ be supported by all `XRSession`s.
 
 The `XRLayerLayout` attribute determines how the GPU resources of the layers are allocated.
 * mono: a single texture is allocated and presented to both eyes.
@@ -158,9 +158,9 @@ function onXRFrame(time, xrFrame) {
   for (let view in xrViewerPose.views) {
     let subImage = glLayerFactory.getViewSubImage(layer, view);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
-      "texture", subImage.colorTexture, 0);
+      gl.TEXTURE_2D, subImage.colorTexture, 0);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT,
-      "texture", subImage.depthStencilTexture, 0);
+      gl.TEXTURE_2D, subImage.depthStencilTexture, 0);
     let viewport = subImage.viewport;
     gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
 
