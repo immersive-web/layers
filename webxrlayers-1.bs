@@ -819,17 +819,17 @@ dictionary XRRenderStateInit {
   FrozenArray&lt;XRGenericLayer&gt;? layers;
 };
 
-[SecureContext, Exposed=Window] interface XRRenderState {
-  readonly attribute double depthNear;
-  readonly attribute double depthFar;
-  readonly attribute double? inlineVerticalFieldOfView;
-  readonly attribute XRWebGLLayer? baseLayer;
+</pre>
+
+The <dfn dict-member for="XRRenderStateInit">layers</dfn> attribute is an array containing
+instances of {{XRLayer}} or {{XRWebGLLayer}} to hand to the [=XR Compositor=].
+
+<pre class="idl">
+[SecureContext, Exposed=Window] partial interface XRRenderState {
   readonly attribute FrozenArray&lt;XRGenericLayer&gt;? layers;
 };
 </pre>
 
-The <dfn dict-member for="XRRenderStateInit">layers</dfn> is an array containing
-instances of {{XRLayer}} or {{XRWebGLLayer}} to hand to the [=XR Compositor=].
 
 The <dfn attribute for="XRRenderState">layers</dfn> attribute returns an array containing
 the instances of {{XRLayer}} or {{XRWebGLLayer}} that are displayed by the [=XR Compositor=].
