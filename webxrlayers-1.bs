@@ -816,7 +816,7 @@ dictionary XRRenderStateInit {
   double depthFar;
   double inlineVerticalFieldOfView;
   XRWebGLLayer? baseLayer;
-  FrozenArray&lt;XRGenericLayer&gt;? layers;
+  sequence&lt;XRGenericLayer&gt;? layers;
 };
 
 </pre>
