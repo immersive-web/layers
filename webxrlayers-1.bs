@@ -26,6 +26,9 @@ spec: webxr-1;
     type: dfn; text: initialize the render state
     type: dfn; text: pending render state
     type: dfn; text: apply the pending render state
+    type: dfn; text: viewer reference space
+    type: dfn; text: animationFrame; for: XRFrame
+    type: dfn; text: feature descriptor
 </pre>
 
 <pre class="anchors">
@@ -43,7 +46,6 @@ spec: WebXR Device API - Level 1; urlPrefix: https://www.w3.org/TR/webxr/#
     type: dfn; text: eye; for: XRView
     type: dfn; text: frame
     type: dfn; text: XRSession/requestAnimationFrame()
-    type: dfn; text: animationFrame
 spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: interface; text: WebGLFramebuffer; url: WebGLFramebuffer
     type: interface; text: WebGLTexture; url: WebGLTexture
@@ -170,8 +172,8 @@ Model {#model}
 ======
 
 In order for the applications to signal their interest in using layers during a session, 
-the session MUST be requested with appropriate [=feature descriptor=]. The string <dfn>layers</dfn> is introduced 
-by this module as a new valid feature descriptor for WebXR Layers feature.
+the session MUST be requested with appropriate [=feature descriptor=]. The string <dfn for="feature descriptor">layers</dfn> is introduced 
+by this module as a new valid [=feature descriptor=] for WebXR Layers feature.
 
 <div class="example">
 The following code requests layers as an optional feature.
@@ -393,8 +395,6 @@ NOTE: this class is designed to accomodate future extensions
 
 The <dfn attribute for="XRSubImage">viewport</dfn> attribute returns the {{XRViewport}} to use when rendering the sub image.
 
-ISSUE: is imageIndex needed?
-
 XRWebGLSubImage {#xrwebglsubimagetype}
 ---------------
 The {{XRWebGLSubImage}} object is used during rendering of the layer.
@@ -534,10 +534,10 @@ interface XRWebGLBinding {
 };
 </pre>
 
-Each {{XRWebGLBinding}} has a <dfn>context</dfn> object which is an instance
+Each {{XRWebGLBinding}} has a <dfn dfn-for="XRWebGLBinding">context</dfn> object which is an instance
 of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
 
-Each {{XRWebGLBinding}} has an associated <dfn>session</dfn>, which is the
+Each {{XRWebGLBinding}} has an associated <dfn dfn-for="XRWebGLBinding">session</dfn>, which is the
 {{XRSession}} it was created with.
 
 NOTE: It is possible to create more than one {{XRWebGLBinding}}. Any layer created with an instance of {{XRWebGLBinding}} can 
@@ -583,7 +583,7 @@ To <dfn>determine the layout attribute</dfn> using a {{XRTextureType}} |textureT
 
 ISSUE: special case UA behavior if the size causes the layout to change (ie if the requested width exceeds a limit with {{XRLayerLayout/"stereo-left-right"}})
 
-<div class="algorithm" data-algorithm="create-color-textures">
+<div class="algorithm" data-algorithm="allocate color textures">
 
 To <dfn>allocate color textures</dfn> using a {{XRLayerInit/layout}} |layout|, a {{XRTextureType}} |textureType|, a {{WebGL2RenderingContext}} |context| and a {{XRLayerInit}} |init|, the user agent MUST run the following steps:
   1. let |array| be a new array.
@@ -608,8 +608,7 @@ To <dfn>allocate color textures</dfn> using a {{XRLayerInit/layout}} |layout|, a
 
 </div>
 
-
-<div class="algorithm" data-algorithm="create-depth-textures">
+<div class="algorithm" data-algorithm="allocate depth textures">
 
 To <dfn>allocate depth textures</dfn> using a {{XRLayerInit/layout}} |layout|, a {{XRTextureType}} |textureType|, a {{WebGL2RenderingContext}} |context| and a {{XRLayerInit}} |init|, the user agent MUST run the following steps:
   1. let |array| be a new array.
@@ -676,19 +675,23 @@ When this method is invoked, the user agent MUST run the following steps:
 
 ISSUE: define "opaque" {{WebGLTexture}}
 
-<div class="algorithm" data-algorithm="createQuadLayer">
+<div class="algorithm" data-algorithm="createQuadLayerAlgo">
 The <dfn method for="XRWebGLBinding">createQuadLayer(XRTextureType |textureType|, XRLayerInit |init|)</dfn> method creates a new {{XRQuadLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
-  1. If the device does not support the creation of a {{XRQuadLayer}}, throw an {{NotSupportedError}} and abort these steps.
-  1. Let |session| be the target {{XRWebGLBinding}}'s {{session}}.
-  1. Let |context| be the target {{XRWebGLBinding}}'s {{context}}.
+  1. If the device does not support the creation of an {{XRQuadLayer}}, throw an {{NotSupportedError}} and abort these steps.
+  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
+  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a new {{XRQuadLayer}}.
   1. Initialize |layer|'s [=XRLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRLayer/session=] to |session|.
+  1. Initialize |layer|'s {{XRQuadLayer/width}} to <code>1.0f</code>.
+  1. Initialize |layer|'s {{XRQuadLayer/height}} to <code>1.0f</code>.
+  1. Let |layer|'s {{XRQuadLayer/referenceSpace}} be the {{session}}'s [=viewer reference space=].
+  1. Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}}.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRLayer/layout}} to |layout|.
   1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |init|.
@@ -699,11 +702,93 @@ When this method is invoked, the user agent MUST run the following steps:
 
 </div>
 
-ISSUE: how can we list all the other layer creation methods without repeating?
+<div class="algorithm" data-algorithm="createCylinderLayerAlgo">
+The <dfn method for="XRWebGLBinding">createCylinderLayer(XRTextureType |textureType|, XRLayerInit |init|)</dfn> method creates a new {{XRCylinderLayer}} |layer|.
 
-ISSUE: what are good default values for XRQuadLayer?
+When this method is invoked, the user agent MUST run the following steps:
 
-<div class="algorithm" data-algorithm="check-subimage-state">
+  1. If the device does not support the creation of an {{XRCylinderLayer}}, throw an {{NotSupportedError}} and abort these steps.
+  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
+  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
+  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
+  1. Let |layer| be a new {{XRCylinderLayer}}.
+  1. Initialize |layer|'s [=XRLayer/context=] to |context|.
+  1. Initialize |layer|'s [=XRLayer/session=] to |session|.
+  1. Initialize |layer|'s {{XRCylinderLayer/radius}} to <code>2.0f</code>.
+  1. Initialize |layer|'s {{XRCylinderLayer/centralAngle}} to <code>45.0f</code>.
+  1. Initialize |layer|'s {{XRCylinderLayer/aspectRatio}} to <code>2.0f</code>.
+  1. Let |layer|'s {{XRCylinderLayer/referenceSpace}} be the {{session}}'s [=viewer reference space=].
+  1. Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}}.
+  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
+  1. Initialize |layer|'s {{XRLayer/layout}} to |layout|.
+  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |init|.
+  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layout|, |textureType|, |context| and |init|.
+  1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
+  1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
+  1. return |layer|.
+
+</div>
+
+<div class="algorithm" data-algorithm="createEquirectLayerAlgo">
+The <dfn method for="XRWebGLBinding">createEquirectLayer(XRTextureType |textureType|, XRLayerInit |init|)</dfn> method creates a new {{XREquirectLayer}} |layer|.
+
+When this method is invoked, the user agent MUST run the following steps:
+
+  1. If the device does not support the creation of an {{XREquirectLayer}}, throw an {{NotSupportedError}} and abort these steps.
+  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
+  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
+  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
+  1. Let |layer| be a new {{XREquirectLayer}}.
+  1. Initialize |layer|'s [=XRLayer/context=] to |context|.
+  1. Initialize |layer|'s [=XRLayer/session=] to |session|.
+  1. Initialize |layer|'s {{XREquirectLayer/radius}} to <code>10.0f</code>.
+  1. Initialize |layer|'s {{XREquirectLayer/scaleX}} to <code>1.0f</code>.
+  1. Initialize |layer|'s {{XREquirectLayer/scaleY}} to <code>1.0f</code>.
+  1. Initialize |layer|'s {{XREquirectLayer/biasX}} to <code>0.0f</code>.
+  1. Initialize |layer|'s {{XREquirectLayer/biasY}} to <code>0.0f</code>.
+  1. Let |layer|'s {{XREquirectLayer/referenceSpace}} be the {{session}}'s [=viewer reference space=].
+  1. Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}}.
+  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
+  1. Initialize |layer|'s {{XRLayer/layout}} to |layout|.
+  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |init|.
+  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layout|, |textureType|, |context| and |init|.
+  1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
+  1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
+  1. return |layer|.
+
+</div>
+
+<div class="algorithm" data-algorithm="createCubeLayerAlgo">
+The <dfn method for="XRWebGLBinding">createCubeLayer(XRLayerInit |init|)</dfn> method creates a new {{XRCubeLayer}} |layer|.
+
+When this method is invoked, the user agent MUST run the following steps:
+
+  1. If the device does not support the creation of an {{XRCubeLayer}}, throw an {{NotSupportedError}} and abort these steps.
+  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
+  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
+  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |context| is not a {{WebGL2RenderingContext}} context, throw {{InvalidStateError}} and abort these steps.
+  1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
+  1. Let |layer| be a new {{XRCubeLayer}}.
+  1. Initialize |layer|'s [=XRLayer/context=] to |context|.
+  1. Initialize |layer|'s [=XRLayer/session=] to |session|.
+  1. Let |layer|'s {{XRCubeLayer/referenceSpace}} be the {{session}}'s [=viewer reference space=].
+  1. Let |layer|'s {{XRCubeLayer/orientation}} be a new {{DOMPoint}}.
+  1. let |textureType| be {{XRTextureType/"texture-array"}}.
+  1. let |layout| be |init|'s {{XRLayerInit/layout}}.
+  1. If |layout| is {{XRLayerLayout/"stereo-left-right"}} or {{XRLayerLayout/"stereo-top-bottom"}}, throw {{InvalidStateError}} and abort these steps.
+  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |init|.
+  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layout|, |textureType|, |context| and |init|.
+  1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
+  1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
+  1. return |layer|.
+
+</div>
+
+
+<div class="algorithm" data-algorithm="validate the state of the XRWebGLSubImage creation function">
 
 To <dfn>validate the state of the XRWebGLSubImage creation function</dfn> of a {{XRWebGLBinding}} |binding| with parameters of {{XRLayer}} |layer| and {{XRFrame}} |frame|, the user agent MUST run the following steps:
   1. If |frame|'s {{XRFrame/session}} is not equal to |layer|'s [=XRLayer/session=], return <code>false</code> and abort these steps.
@@ -764,6 +849,8 @@ When this method is invoked, it MUST run the following steps:
 
 Video layer creation {#videolayer}
 ====================
+
+ISSUE: this section needs to be enhanced.
 
 XRMediaLayerInit {#xrmedialayerinittype}
 ----------------
@@ -838,7 +925,7 @@ The <dfn attribute for="XRRenderState">layers</dfn> attribute returns an array c
 the instances of {{XRLayer}} or {{XRWebGLLayer}} that are displayed by the [=XR Compositor=].
 
 <div class="algorithm" data-algorithm="initialize-renderstate-for-layers">
-When an {{XRRenderState}} object |state| is created for an {{XRSession}} |session| with {{layers}} enabled, the user agent MUST <dfn dfn-for="layers">initialize the render state</dfn> by running the following steps:
+When an {{XRRenderState}} object |state| is created for an {{XRSession}} |session| with "[=feature descriptor/layers=]" enabled, the user agent MUST <dfn dfn-for="layers">initialize the render state</dfn> by running the following steps:
   1. Initialize |state| by running the steps to [=initialize the render state=].
   1. Initialize |state|'s {{XRRenderState/layers}} to an empty array.
 
@@ -848,10 +935,10 @@ updateRenderState changes {#updaterenderstatechanges}
 -------------------------
 <div class="algorithm" data-algorithm="updateRenderState-for-layers">
 When the <dfn method for="XRSession" dfn-for="layers">updateRenderState(|newState|)</dfn> method is called on an {{XRSession}} |session|
-with {{layers}} enabled, the user agent MUST run the following steps:
+with "[=feature descriptor/layers=]" enabled, the user agent MUST run the following steps:
 
   1. Run {{XRSession/updateRenderState}} with |newState|.
-  1. If |newState|'s {{XRRenderStateInit/baseLayer}} is set, set |session|'s [=pending render state=] to <code>null</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. If |newState|'s [=XRRenderStateInit/baseLayer=] is set, set |session|'s [=pending render state=] to <code>null</code>, throw an {{InvalidStateError}} and abort these steps.
   1. For each |layer| in |newState|'s {{XRRenderStateInit/layers}}:
     1. If |layer|'s [=XRLayer/session=] is different from |session|, throw an {{InvalidStateError}} and abort these steps.
   1. If |newState|'s {{XRRenderStateInit/layers}} array is set, set |session|'s [=pending render state=]'s {{XRRenderState/layers}} to |newState|'s {{XRRenderStateInit/layers}}.
@@ -861,7 +948,7 @@ with {{layers}} enabled, the user agent MUST run the following steps:
 <!--
 <div class="algorithm" data-algorithm="apply-pending-render-state-for-layers">
 
-When the {{XRSession}} MUST <dfn>apply the pending render state for an {{XRSession}} |session| with {{layers}} enabled</dfn>, the user agent MUST run the following steps:
+When the {{XRSession}} MUST <dfn>apply the pending render state for an {{XRSession}} |session| with {{feature descriptor/"layers"}} enabled</dfn>, the user agent MUST run the following steps:
 1. [=Apply the pending render state=] with |session|.
 
 </div>
