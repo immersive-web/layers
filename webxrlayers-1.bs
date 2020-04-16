@@ -29,6 +29,8 @@ spec: webxr-1;
     type: dfn; text: viewer reference space
     type: dfn; text: animationFrame; for: XRFrame
     type: dfn; text: feature descriptor
+    type: dfn; text: type; for: XRReferenceSpace
+    type: dfn; text: session; for: XRSpace
 </pre>
 
 <pre class="anchors">
@@ -171,8 +173,8 @@ If an author wants to use layers, they have to go through these steps:
 Model {#model}
 ======
 
-In order for the applications to signal their interest in using layers during a session, 
-the session MUST be requested with appropriate [=feature descriptor=]. The string <dfn for="feature descriptor">layers</dfn> is introduced 
+In order for the applications to signal their interest in using layers during a session,
+the session MUST be requested with an appropriate [=feature descriptor=]. The string <dfn for="feature descriptor">layers</dfn> is introduced
 by this module as a new valid [=feature descriptor=] for WebXR Layers feature.
 
 <div class="example">
@@ -185,7 +187,7 @@ navigator.xr.requestSession('immersive-vr', {
 </pre>
 </div>
 
-Layers are only supported for XRSessions created with XRSessionMode of {{XRSessionMode/"immersive-vr"}} 
+Layers are only supported for XRSessions created with XRSessionMode of {{XRSessionMode/"immersive-vr"}}
 or {{XRSessionMode/"immersive-ar"}}. {{XRSessionMode/"inline"}} sessions MUST not support layers.
 
 Layer types {#xrlayertypes}
@@ -193,10 +195,10 @@ Layer types {#xrlayertypes}
 
 Mono and stereo layers {#monovsstereo}
 ----------------------
-A stereo layer MUST supply a different view to render to for each eye. Stereo layers should be refreshed 
+A stereo layer MUST supply a different view to render to for each eye. Stereo layers should be refreshed
 close to the device's native frame rate.
 
-A mono layer MUST supply a single view which is shown to each eye. There is no requirement to refresh mono 
+A mono layer MUST supply a single view which is shown to each eye. There is no requirement to refresh mono
 layers repeatedly.
 
 The [=XR Compositor=] MUST ensure that layers are presented correctly in stereo to the observer.
@@ -241,7 +243,7 @@ interface XRLayer {
 
 The <dfn attribute for="XRLayer">layout</dfn> attribute returns the layout of the layer.
 
-The <dfn attribute for="XRLayer">pixelWidth</dfn> and <dfn attribute for="XRLayer">pixelHeight</dfn> attributes 
+The <dfn attribute for="XRLayer">pixelWidth</dfn> and <dfn attribute for="XRLayer">pixelHeight</dfn> attributes
 return the width and height of the GL attachments, respectively. If there are no attachments, they will return 0.
 
 The <dfn attribute for="XRLayer">blendTextureSourceAlpha</dfn> attribute enables the layer’s texture alpha channel.
@@ -253,10 +255,10 @@ ISSUE: describe what chromaticAberrationCorrection does.
 
 {{destroy()}} will delete the underlying attachments. If there are no attachments, this function does nothing.
 
-Each {{XRLayer}} has a <dfn for="XRLayer">context</dfn> object which is an instance 
+Each {{XRLayer}} has a <dfn for="XRLayer">context</dfn> object which is an instance
 of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
 
-Each {{XRLayer}} has an associated <dfn for="XRLayer">session</dfn>, which is the 
+Each {{XRLayer}} has an associated <dfn for="XRLayer">session</dfn>, which is the
 {{XRSession}} it was created with.
 
 XRProjectionLayer {#xrprojectionlayertype}
@@ -270,9 +272,9 @@ interface XRProjectionLayer : XRLayer {
 };
 </pre>
 
-The <dfn attribute for="XRProjectionLayer">ignoreDepthValues</dfn> attribute, if <code>true</code>, indicates that the 
-[=XR Compositor=] MUST NOT make use of values in the depth buffer attachment when rendering. When the attribute 
-is <code>false</code> it indicates that the content of the depth buffer attachment will be used by the 
+The <dfn attribute for="XRProjectionLayer">ignoreDepthValues</dfn> attribute, if <code>true</code>, indicates that the
+[=XR Compositor=] MUST NOT make use of values in the depth buffer attachment when rendering. When the attribute
+is <code>false</code> it indicates that the content of the depth buffer attachment will be used by the
 [=XR Compositor=] and is expected to be representative of the scene rendered into the layer.
 
 XRQuadLayer {#xrquadlayertype}
@@ -280,12 +282,12 @@ XRQuadLayer {#xrquadlayertype}
 An {{XRQuadLayer}} renders a layer that takes up a flat rectangular space in the virtual environment.
 Only the front of the layer MUST be visible; the back face MUST not be drawn by the [=XR Compositor=].
 
-A XRQuadLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position 
+A XRQuadLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position
 of a quad refers to the center of the quad.
 
 <pre class="idl">
 interface XRQuadLayer : XRLayer {
-  attribute XRReferenceSpace referenceSpace;
+  attribute XRSpace space;
   attribute XRRigidTransform transform;
 
   attribute float width;
@@ -293,10 +295,11 @@ interface XRQuadLayer : XRLayer {
 };
 </pre>
 
-The <dfn attribute for="XRQuadLayer">transform</dfn> attribute sets and returns the offset and orientation relative to the
-<dfn attribute for="XRQuadLayer">referenceSpace</dfn> attribute.
+The <dfn attribute for="XRQuadLayer">transform</dfn> attributes sets and returns the offset and orientation relative to the
+<dfn attribute for="XRQuadLayer">space</dfn> attribute. The {{XRQuadLayer/transform}} and {{XRQuadLayer/space}} attributes
+establish the spatial relationship of the layer within the user’s physical environment.
 
-The <dfn attribute for="XRQuadLayer">width</dfn> and <dfn attribute for="XRQuadLayer">height</dfn> attributes 
+The <dfn attribute for="XRQuadLayer">width</dfn> and <dfn attribute for="XRQuadLayer">height</dfn> attributes
 set and return the width and height of the layer in meters.
 
 XRCylinderLayer {#xrcylinderayertype}
@@ -304,12 +307,12 @@ XRCylinderLayer {#xrcylinderayertype}
 An {{XRCylinderLayer}} renders a layer that takes up a curved rectangular space in the virtual environment.
 Only the front of the layer MUST be visible; the back face MUST not be drawn by the [=XR Compositor=].
 
-A XRCylinderLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position 
+A XRCylinderLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position
 of the cylinder refers to the center of the quad.
 
 <pre class="idl">
 interface XRCylinderLayer : XRLayer {
-  attribute XRReferenceSpace referenceSpace;
+  attribute XRSpace space;
   attribute XRRigidTransform transform;
 
   attribute float radius;
@@ -319,7 +322,8 @@ interface XRCylinderLayer : XRLayer {
 </pre>
 
 The <dfn attribute for="XRCylinderLayer">transform</dfn> attribute sets and returns the offset and orientation relative to the
-<dfn attribute for="XRCylinderLayer">referenceSpace</dfn> attribute.
+<dfn attribute for="XRCylinderLayer">space</dfn> attribute. The {{XRCylinderLayer/transform}} and {{XRCylinderLayer/space}} attributes
+establish the spatial relationship of the layer within the user’s physical environment.
 
 The <dfn attribute for="XRCylinderLayer">radius</dfn> attribute controls the radius in meters of the cylinder.
 
@@ -338,7 +342,6 @@ ISSUE: this section needs clarification
 
 <pre class="idl">
 interface XREquirectLayer : XRLayer {
-  attribute XRReferenceSpace referenceSpace;
   attribute XRRigidTransform transform;
 
   attribute float radius;
@@ -349,17 +352,19 @@ interface XREquirectLayer : XRLayer {
 };
 </pre>
 
+{{XREquirectLayer}} has an internal <dfn dfn-for="XREquirectLayer">referenceSpace</dfn> which is equal to the {{session}}'s [=viewer reference space=].
 
-The <dfn attribute for="XREquirectLayer">transform</dfn> attribute sets and returns the offset and orientation relative to the
-<dfn attribute for="XREquirectLayer">referenceSpace</dfn> attribute.
+The <dfn attribute for="XREquirectLayer">transform</dfn> attribute sets and returns the offset and orientation relative to
+[=XREquirectLayer/referenceSpace=]. The {{XREquirectLayer/transform}} attribute and the internal [=XREquirectLayer/referenceSpace=]
+establish the spatial relationship of the layer within the user’s physical environment.
 
-The <dfn attribute for="XREquirectLayer">radius</dfn> attribute is the non-negative radius of the sphere. Values of less than or 
+The <dfn attribute for="XREquirectLayer">radius</dfn> attribute is the non-negative radius of the sphere. Values of less than or
 equal to zero or infinity are treated as an infinite sphere.
 
-The <dfn attribute for="XREquirectLayer">scaleX</dfn> and <dfn attribute for="XREquirectLayer">scaleY</dfn> attributes 
+The <dfn attribute for="XREquirectLayer">scaleX</dfn> and <dfn attribute for="XREquirectLayer">scaleY</dfn> attributes
 set and return a scale of the texture coordinates after the mapping to 2D.
 
-The <dfn attribute for="XREquirectLayer">biasX</dfn> and <dfn attribute for="XREquirectLayer">biasY</dfn> attributes 
+The <dfn attribute for="XREquirectLayer">biasX</dfn> and <dfn attribute for="XREquirectLayer">biasY</dfn> attributes
 set and return a bias of the texture coordinates after the mapping to 2D.
 
 XRCubeLayer {#xcubelayertype}
@@ -370,13 +375,14 @@ ISSUE: this section needs clarification
 
 <pre class="idl">
 interface XRCubeLayer : XRLayer {
-  attribute XRReferenceSpace referenceSpace;
+  attribute XRSpace space;
   attribute DOMPoint orientation;
 };
 </pre>
 
 The <dfn attribute for="XRCubeLayer">orientation</dfn> attribute sets and returns the orientation relative to the
-<dfn attribute for="XRCubeLayer">referenceSpace</dfn> attribute.
+<dfn attribute for="XRCubeLayer">space</dfn> attribute. The {{XRCubeLayer/orientation}} and {{XRCubeLayer/space}} attributes
+establish the spatial relationship of the layer within the user’s physical environment.
 
 Rendering {#rendering}
 =========
@@ -409,13 +415,13 @@ interface XRWebGLSubImage : XRSubImage {
 
 The <dfn attribute for="XRWebGLSubImage">colorTexture</dfn> attribute returns the color {{WebGLTexture}} for the {{XRLayer}}.
 
-The <dfn attribute for="XRWebGLSubImage">depthStencilTexture</dfn> attribute returns the depth/stencil {{WebGLTexture}} for the {{XRLayer}}. 
+The <dfn attribute for="XRWebGLSubImage">depthStencilTexture</dfn> attribute returns the depth/stencil {{WebGLTexture}} for the {{XRLayer}}.
 If the layer was created without depth/stencil, this attribute returns null.
 
-The <dfn attribute for="XRWebGLSubImage">imageIndex</dfn> attribute returns the offset into the texture array. Valid only for layers 
+The <dfn attribute for="XRWebGLSubImage">imageIndex</dfn> attribute returns the offset into the texture array. Valid only for layers
 that were requested with {{texture-array}}.
 
-This {{XRWebGLSubImage/colorTexture}} and {{XRWebGLSubImage/depthStencilTexture}} are only valid during 
+This {{XRWebGLSubImage/colorTexture}} and {{XRWebGLSubImage/depthStencilTexture}} are only valid during
 {{XRSession/requestAnimationFrame()}} callback and becomes invalid as soon as the callback returns.
 
 XRTextureType {#xrtexturetype}
@@ -440,16 +446,16 @@ Overview {#xrgpulayeroverview}
 --------
 <section class="non-normative">
 
-When a layer is created it is backed by a GPU resource, typically a texture, provided by one of the Web platform's graphics APIs. In order to 
+When a layer is created it is backed by a GPU resource, typically a texture, provided by one of the Web platform's graphics APIs. In order to
 specify which API is providing the layer's GPU resources a {{XRWebGLBinding}} for the API in question must be created.
-Each graphics API may have unique requirements that must be satisfied before a context can be used in the creation of a layer. For example, 
+Each graphics API may have unique requirements that must be satisfied before a context can be used in the creation of a layer. For example,
 a {{WebGLRenderingContext}} must have its xrCompatible flag set prior to being passed to the constructor of the {{XRWebGLBinding}} instance.
 
-Any interaction between the {{XRSession}} the graphics API, such as allocating or retrieving textures, will go through this {{XRWebGLBinding}} instance, and the exact mechanics 
-of the interaction will typically be API specific. This allows the rest of the WebXR API to be 
+Any interaction between the {{XRSession}} the graphics API, such as allocating or retrieving textures, will go through this {{XRWebGLBinding}} instance, and the exact mechanics
+of the interaction will typically be API specific. This allows the rest of the WebXR API to be
 graphics API agnostic and more easily adapt to future advances in rendering techniques.
 
-Once a {{XRWebGLBinding}} instance has been acquired, it can be used to create a variety of {{XRLayer}}. Any layers created by that instance will then be able 
+Once a {{XRWebGLBinding}} instance has been acquired, it can be used to create a variety of {{XRLayer}}. Any layers created by that instance will then be able
 to query the associated GPU resources each frame, generally expected to be the native API's texture interface.
 
 The various layer types are created with the create____Layer series of methods on the {{XRWebGLBinding}} instance. Information about the graphics resources required,
@@ -479,7 +485,7 @@ The <dfn dict-member for="XRProjectionLayerInit">stencil</dfn> attribute defines
 
 The <dfn dict-member for="XRProjectionLayerInit">alpha</dfn> attribute defines if the {{XRProjectionLayer}} will have an alpha channel.
 
-The <dfn dict-member for="XRProjectionLayerInit">scaleFactor</dfn> attribute defines the value that the |session|'s 
+The <dfn dict-member for="XRProjectionLayerInit">scaleFactor</dfn> attribute defines the value that the |session|'s
 [=recommended WebGL framebuffer resolution=] must be multiplied by determining the resolution of the layer's attachments.
 
 XRLayerInit {#xrlayerinittype}
@@ -498,7 +504,7 @@ dictionary XRLayerInit {
 };
 </pre>
 
-the <dfn dict-member for="XRLayerInit">pixelWidth</dfn> and <dfn dict-member for="XRLayerInit">pixelHeight</dfn> attributes define 
+the <dfn dict-member for="XRLayerInit">pixelWidth</dfn> and <dfn dict-member for="XRLayerInit">pixelHeight</dfn> attributes define
 the rectangular dimensions of the {{XRLayer}}
 
 The <dfn dict-member for="XRLayerInit">layout</dfn> attribute defines the layout of the layer.
@@ -540,16 +546,16 @@ of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
 Each {{XRWebGLBinding}} has an associated <dfn dfn-for="XRWebGLBinding">session</dfn>, which is the
 {{XRSession}} it was created with.
 
-NOTE: It is possible to create more than one {{XRWebGLBinding}}. Any layer created with an instance of {{XRWebGLBinding}} can 
-be used with another instance of {{XRWebGLBinding}} as long as both were created with the same {{session}} and the same 
+NOTE: It is possible to create more than one {{XRWebGLBinding}}. Any layer created with an instance of {{XRWebGLBinding}} can
+be used with another instance of {{XRWebGLBinding}} as long as both were created with the same {{session}} and the same
 {{context}}. The lifetime of layers or instances of {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLBinding}} that created them.
 
-Each {{XRLayer}} created through {{XRWebGLBinding}} has an internal <dfn>colorTextures</dfn> array which is an |array| of {{WebGLTexture}} for color textures and 
+Each {{XRLayer}} created through {{XRWebGLBinding}} has an internal <dfn>colorTextures</dfn> array which is an |array| of {{WebGLTexture}} for color textures and
 an internal <dfn>depthStencilTextures</dfn> which is an |array| of {{WebGLTexture}}</dfn> for depth/stencil textures.
 
 <div class="algorithm" data-algorithm="construct-webgl-layer">
 
-The <dfn constructor for="XRWebGLBinding">XRWebGLBinding(|session|, |context|)</dfn> constructor 
+The <dfn constructor for="XRWebGLBinding">XRWebGLBinding(|session|, |context|)</dfn> constructor
 MUST perform the following steps when invoked:
 
   1. Let |binding| be a new {{XRWebGLBinding}}
@@ -563,7 +569,7 @@ MUST perform the following steps when invoked:
 
 </div>
 
-The {{nativeProjectionScaleFactor}} function returns the value that the |session|'s [=recommended WebGL framebuffer resolution=] 
+The {{nativeProjectionScaleFactor}} function returns the value that the |session|'s [=recommended WebGL framebuffer resolution=]
 MUST be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
 
 <div class="algorithm" data-algorithm="determine the layout attribute">
@@ -690,8 +696,8 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s [=XRLayer/session=] to |session|.
   1. Initialize |layer|'s {{XRQuadLayer/width}} to <code>1.0f</code>.
   1. Initialize |layer|'s {{XRQuadLayer/height}} to <code>1.0f</code>.
-  1. Let |layer|'s {{XRQuadLayer/referenceSpace}} be the {{session}}'s [=viewer reference space=].
-  1. Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}}.
+  1. Let |layer|'s {{XRQuadLayer/space}} be the {{session}}'s [=viewer reference space=].
+  1. Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRLayer/layout}} to |layout|.
   1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |init|.
@@ -718,7 +724,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s {{XRCylinderLayer/radius}} to <code>2.0f</code>.
   1. Initialize |layer|'s {{XRCylinderLayer/centralAngle}} to <code>45.0f</code>.
   1. Initialize |layer|'s {{XRCylinderLayer/aspectRatio}} to <code>2.0f</code>.
-  1. Let |layer|'s {{XRCylinderLayer/referenceSpace}} be the {{session}}'s [=viewer reference space=].
+  1. Let |layer|'s {{XRCylinderLayer/space}} be the {{session}}'s [=viewer reference space=].
   1. Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}}.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRLayer/layout}} to |layout|.
@@ -748,7 +754,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s {{XREquirectLayer/scaleY}} to <code>1.0f</code>.
   1. Initialize |layer|'s {{XREquirectLayer/biasX}} to <code>0.0f</code>.
   1. Initialize |layer|'s {{XREquirectLayer/biasY}} to <code>0.0f</code>.
-  1. Let |layer|'s {{XREquirectLayer/referenceSpace}} be the {{session}}'s [=viewer reference space=].
+  1. Let |layer|'s [=XREquirectLayer/space=] be the {{session}}'s [=viewer reference space=].
   1. Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}}.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRLayer/layout}} to |layout|.
@@ -774,7 +780,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a new {{XRCubeLayer}}.
   1. Initialize |layer|'s [=XRLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRLayer/session=] to |session|.
-  1. Let |layer|'s {{XRCubeLayer/referenceSpace}} be the {{session}}'s [=viewer reference space=].
+  1. Let |layer|'s {{XRCubeLayer/space}} be the {{session}}'s [=viewer reference space=].
   1. Let |layer|'s {{XRCubeLayer/orientation}} be a new {{DOMPoint}}.
   1. let |textureType| be {{XRTextureType/"texture-array"}}.
   1. let |layout| be |init|'s {{XRLayerInit/layout}}.
