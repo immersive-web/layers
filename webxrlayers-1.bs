@@ -369,7 +369,7 @@ set and return a bias of the texture coordinates after the mapping to 2D.
 
 XRCubeLayer {#xcubelayertype}
 -----------
-A {{XREquirectLayer}} renders a layer where the [=XR Compositor=] renders directly from a cubemap.
+A {{XRCubeLayer}} renders a layer where the [=XR Compositor=] renders directly from a cubemap.
 
 ISSUE: this section needs clarification
 
