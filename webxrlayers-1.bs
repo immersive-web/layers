@@ -30,6 +30,7 @@ spec: webxr-1;
     type: dfn; text: animationFrame; for: XRFrame
     type: dfn; text: feature descriptor
     type: dfn; text: type; for: XRReferenceSpace
+    type: dfn; text: session; for: XRSpace
 </pre>
 
 <pre class="anchors">
@@ -496,7 +497,7 @@ dictionary XRLayerInit {
 };
 </pre>
 
-The <dfn attribute for="XRLayerInit">referenceSpace</dfn> attribute establishes the spatial relationship of the layer with the user’s physical environment.
+The <dfn dict-member for="XRLayerInit">referenceSpace</dfn> attribute establishes the spatial relationship of the layer with the user’s physical environment.
 
 the <dfn dict-member for="XRLayerInit">pixelWidth</dfn> and <dfn dict-member for="XRLayerInit">pixelHeight</dfn> attributes define 
 the rectangular dimensions of the {{XRLayer}}
@@ -685,6 +686,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
+  1. If the [=XRSpace/session=] of |init|'s {{XRLayerInit/referenceSpace}} is not equal to |session|, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a new {{XRQuadLayer}}.
   1. Initialize |layer|'s [=XRLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRLayer/session=] to |session|.
@@ -711,6 +713,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
+  1. If the [=XRSpace/session=] of |init|'s {{XRLayerInit/referenceSpace}} is not equal to |session|, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a new {{XRCylinderLayer}}.
   1. Initialize |layer|'s [=XRLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRLayer/session=] to |session|.
@@ -738,6 +741,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
+  1. If the [=XRSpace/session=] of |init|'s {{XRLayerInit/referenceSpace}} is not equal to |session|, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a new {{XREquirectLayer}}.
   1. Initialize |layer|'s [=XRLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRLayer/session=] to |session|.
@@ -769,6 +773,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is not a {{WebGL2RenderingContext}} context, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
+  1. If the [=XRSpace/session=] of |init|'s {{XRLayerInit/referenceSpace}} is not equal to |session|, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a new {{XRCubeLayer}}.
   1. Initialize |layer|'s [=XRLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRLayer/session=] to |session|.
