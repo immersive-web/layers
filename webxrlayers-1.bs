@@ -29,6 +29,7 @@ spec: webxr-1;
     type: dfn; text: viewer reference space
     type: dfn; text: animationFrame; for: XRFrame
     type: dfn; text: feature descriptor
+    type: dfn; text: type; for: XRReferenceSpace
 </pre>
 
 <pre class="anchors">
@@ -286,15 +287,13 @@ of a quad refers to the center of the quad.
 <pre class="idl">
 interface XRQuadLayer : XRLayer {
   attribute XRReferenceSpace referenceSpace;
-  attribute XRRigidTransform transform;
 
   attribute float width;
   attribute float height;
 };
 </pre>
 
-The <dfn attribute for="XRQuadLayer">transform</dfn> attribute sets and returns the offset and orientation relative to the
-<dfn attribute for="XRQuadLayer">referenceSpace</dfn> attribute.
+The <dfn attribute for="XRQuadLayer">referenceSpace</dfn> attribute establishes the spatial relationship of the layer with the user’s physical environment.
 
 The <dfn attribute for="XRQuadLayer">width</dfn> and <dfn attribute for="XRQuadLayer">height</dfn> attributes 
 set and return the width and height of the layer in meters.
@@ -310,7 +309,6 @@ of the cylinder refers to the center of the quad.
 <pre class="idl">
 interface XRCylinderLayer : XRLayer {
   attribute XRReferenceSpace referenceSpace;
-  attribute XRRigidTransform transform;
 
   attribute float radius;
   attribute float centralAngle;
@@ -318,8 +316,7 @@ interface XRCylinderLayer : XRLayer {
 };
 </pre>
 
-The <dfn attribute for="XRCylinderLayer">transform</dfn> attribute sets and returns the offset and orientation relative to the
-<dfn attribute for="XRCylinderLayer">referenceSpace</dfn> attribute.
+The <dfn attribute for="XRCylinderLayer">referenceSpace</dfn> attribute establishes the spatial relationship of the layer with the user’s physical environment.
 
 The <dfn attribute for="XRCylinderLayer">radius</dfn> attribute controls the radius in meters of the cylinder.
 
@@ -339,7 +336,6 @@ ISSUE: this section needs clarification
 <pre class="idl">
 interface XREquirectLayer : XRLayer {
   attribute XRReferenceSpace referenceSpace;
-  attribute XRRigidTransform transform;
 
   attribute float radius;
   attribute float scaleX;
@@ -349,9 +345,9 @@ interface XREquirectLayer : XRLayer {
 };
 </pre>
 
+<!-- {{XREquirectLayer}} has an internal <dfn dfn-for="XREquirectLayer">referenceSpace</dfn> which is equal to the {{session}}'s [=viewer reference space=]. -->
 
-The <dfn attribute for="XREquirectLayer">transform</dfn> attribute sets and returns the offset and orientation relative to the
-<dfn attribute for="XREquirectLayer">referenceSpace</dfn> attribute.
+The <dfn attribute for="XREquirectLayer">referenceSpace</dfn> attribute establishes the spatial relationship of the layer with the user’s physical environment.
 
 The <dfn attribute for="XREquirectLayer">radius</dfn> attribute is the non-negative radius of the sphere. Values of less than or 
 equal to zero or infinity are treated as an infinite sphere.
@@ -371,12 +367,13 @@ ISSUE: this section needs clarification
 <pre class="idl">
 interface XRCubeLayer : XRLayer {
   attribute XRReferenceSpace referenceSpace;
-  attribute DOMPoint orientation;
 };
 </pre>
 
-The <dfn attribute for="XRCubeLayer">orientation</dfn> attribute sets and returns the orientation relative to the
-<dfn attribute for="XRCubeLayer">referenceSpace</dfn> attribute.
+<!-- The <dfn attribute for="XRCubeLayer">orientation</dfn> attribute sets and returns the orientation relative to the
+<dfn attribute for="XRCubeLayer">referenceSpace</dfn> attribute. -->
+
+The <dfn attribute for="XRCubeLayer">referenceSpace</dfn> attribute establishes the spatial relationship of the layer with the user’s physical environment.
 
 Rendering {#rendering}
 =========
@@ -489,6 +486,7 @@ and {{XRCubeLayer}} are initialized.
 
 <pre class="idl">
 dictionary XRLayerInit {
+  required XRReferenceSpace referenceSpace;
   required unsigned long pixelWidth;
   required unsigned long pixelHeight;
   XRLayerLayout layout = "mono";
@@ -497,6 +495,8 @@ dictionary XRLayerInit {
   boolean alpha = true;
 };
 </pre>
+
+The <dfn attribute for="XRLayerInit">referenceSpace</dfn> attribute establishes the spatial relationship of the layer with the user’s physical environment.
 
 the <dfn dict-member for="XRLayerInit">pixelWidth</dfn> and <dfn dict-member for="XRLayerInit">pixelHeight</dfn> attributes define 
 the rectangular dimensions of the {{XRLayer}}
@@ -690,8 +690,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s [=XRLayer/session=] to |session|.
   1. Initialize |layer|'s {{XRQuadLayer/width}} to <code>1.0f</code>.
   1. Initialize |layer|'s {{XRQuadLayer/height}} to <code>1.0f</code>.
-  1. Let |layer|'s {{XRQuadLayer/referenceSpace}} be the {{session}}'s [=viewer reference space=].
-  1. Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}}.
+  1. Let |layer|'s {{XRQuadLayer/referenceSpace}} be |init|'s {{XRLayerInit/referenceSpace}}.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRLayer/layout}} to |layout|.
   1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |init|.
@@ -718,8 +717,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s {{XRCylinderLayer/radius}} to <code>2.0f</code>.
   1. Initialize |layer|'s {{XRCylinderLayer/centralAngle}} to <code>45.0f</code>.
   1. Initialize |layer|'s {{XRCylinderLayer/aspectRatio}} to <code>2.0f</code>.
-  1. Let |layer|'s {{XRCylinderLayer/referenceSpace}} be the {{session}}'s [=viewer reference space=].
-  1. Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}}.
+  1. Let |layer|'s {{XRCylinderLayer/referenceSpace}} be |init|'s {{XRLayerInit/referenceSpace}}.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRLayer/layout}} to |layout|.
   1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |init|.
@@ -748,12 +746,12 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s {{XREquirectLayer/scaleY}} to <code>1.0f</code>.
   1. Initialize |layer|'s {{XREquirectLayer/biasX}} to <code>0.0f</code>.
   1. Initialize |layer|'s {{XREquirectLayer/biasY}} to <code>0.0f</code>.
-  1. Let |layer|'s {{XREquirectLayer/referenceSpace}} be the {{session}}'s [=viewer reference space=].
-  1. Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}}.
+  1. If the [=XRReferenceSpace/type=] of |init|'s {{XRLayerInit/referenceSpace}} is not {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
+  1. Let |layer|'s {{XREquirectLayer/referenceSpace}} be |init|'s {{XRLayerInit/referenceSpace}}
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRLayer/layout}} to |layout|.
-  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |init|.
-  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layout|, |textureType|, |context| and |init|.
+  1. Let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |init|.
+  1. Let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layout|, |textureType|, |context| and |init|.
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
@@ -774,8 +772,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a new {{XRCubeLayer}}.
   1. Initialize |layer|'s [=XRLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRLayer/session=] to |session|.
-  1. Let |layer|'s {{XRCubeLayer/referenceSpace}} be the {{session}}'s [=viewer reference space=].
-  1. Let |layer|'s {{XRCubeLayer/orientation}} be a new {{DOMPoint}}.
+  1. Let |layer|'s {{XRCubeLayer/referenceSpace}} be |init|'s {{XRLayerInit/referenceSpace}}.
   1. let |textureType| be {{XRTextureType/"texture-array"}}.
   1. let |layout| be |init|'s {{XRLayerInit/layout}}.
   1. If |layout| is {{XRLayerLayout/"stereo-left-right"}} or {{XRLayerLayout/"stereo-top-bottom"}}, throw {{InvalidStateError}} and abort these steps.
@@ -787,6 +784,7 @@ When this method is invoked, the user agent MUST run the following steps:
 
 </div>
 
+ISSUE: the referenceSpace of a {{XRCubeLayer}} can not have a transform; only an orientation.
 
 <div class="algorithm" data-algorithm="validate the state of the XRWebGLSubImage creation function">
 
@@ -937,7 +935,7 @@ When the <dfn method for="XRSession" dfn-for="layers">updateRenderState(|newStat
 with "[=feature descriptor/layers=]" enabled, the user agent MUST run the following steps:
 
   1. Run {{XRSession/updateRenderState}} with |newState|.
-  1. If |newState|'s [=XRRenderStateInit/baseLayer=] is set, set |session|'s [=pending render state=] to <code>null</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. If |newState|'s {{XRRenderStateInit/baseLayer}} is set, set |session|'s [=pending render state=] to <code>null</code>, throw an {{InvalidStateError}} and abort these steps.
   1. For each |layer| in |newState|'s {{XRRenderStateInit/layers}}:
     1. If |layer|'s [=XRLayer/session=] is different from |session|, throw an {{InvalidStateError}} and abort these steps.
   1. If |newState|'s {{XRRenderStateInit/layers}} array is set, set |session|'s [=pending render state=]'s {{XRRenderState/layers}} to |newState|'s {{XRRenderStateInit/layers}}.
