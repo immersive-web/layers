@@ -602,7 +602,7 @@ ISSUE: special case UA behavior if the size causes the layout to change (ie if t
 
 <div class="algorithm" data-algorithm="allocate color textures">
 
-To <dfn>allocate color textures</dfn> using a {{XRLayerInit/layout}} |layout|, a {{XRTextureType}} |textureType|, a {{WebGL2RenderingContext}} |context| and a {{XRLayerInit}} |init|, the user agent MUST run the following steps:
+To <dfn>allocate color textures</dfn> using a {{XRLayerInit/layout}} |layout|, a {{XRTextureType}} |textureType|, a {{WebGLRenderingContext}} |context| and a {{XRLayerInit}} |init|, the user agent MUST run the following steps:
   1. let |array| be a new array.
   1. If |layout| is {{XRLayerLayout/mono}}:
         <dl class="switch">
@@ -627,7 +627,7 @@ To <dfn>allocate color textures</dfn> using a {{XRLayerInit/layout}} |layout|, a
 
 <div class="algorithm" data-algorithm="allocate depth textures">
 
-To <dfn>allocate depth textures</dfn> using a {{XRLayerInit/layout}} |layout|, a {{XRTextureType}} |textureType|, a {{WebGL2RenderingContext}} |context| and a {{XRLayerInit}} |init|, the user agent MUST run the following steps:
+To <dfn>allocate depth textures</dfn> using a {{XRLayerInit/layout}} |layout|, a {{XRTextureType}} |textureType|, a {{WebGLRenderingContext}} |context| and a {{XRLayerInit}} |init|, the user agent MUST run the following steps:
   1. let |array| be a new array.
   1. If |init|'s {{XRLayerInit/depth}} and {{XRLayerInit/stencil}} are not set, return |array| and abort these steps.
   1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
