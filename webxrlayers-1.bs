@@ -171,7 +171,7 @@ If an author wants to use layers, they have to go through these steps:
 </section>
 
 Model {#model}
-======
+=====
 
 In order for the applications to signal their interest in using layers during a session,
 the session MUST be requested with an appropriate [=feature descriptor=]. The string <dfn for="feature descriptor">layers</dfn> is introduced
@@ -261,6 +261,14 @@ of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
 Each {{XRLayer}} has an associated <dfn for="XRLayer">session</dfn>, which is the
 {{XRSession}} it was created with.
 
+<div class="algorithm" data-algorithm="setting the space on a layer">
+
+When <dfn>setting the space on a layer</dfn> with {{XRSpace}} |space| and {{XRLayer}} |layer|, the user agent MUST run the following steps to validate if the |space| is valid:
+  1. If |space| is <code>null</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |space|'s [=XRSpace/session=] is not equal to the |layer|'s [=XRLayer/session=], throw {{InvalidStateError}} and abort these steps.
+
+</div>
+
 XRProjectionLayer {#xrprojectionlayertype}
 -----------------
 An {{XRProjectionLayer}} is a layer that fills the entire view of the observer.
@@ -298,6 +306,7 @@ interface XRQuadLayer : XRLayer {
 The <dfn attribute for="XRQuadLayer">transform</dfn> attributes sets and returns the offset and orientation relative to the
 <dfn attribute for="XRQuadLayer">space</dfn> attribute. The {{XRQuadLayer/transform}} and {{XRQuadLayer/space}} attributes
 establish the spatial relationship of the layer within the user’s physical environment.
+When setting the {{XRQuadLayer/space}}, first run the steps for [=setting the space on a layer=].
 
 The <dfn attribute for="XRQuadLayer">width</dfn> and <dfn attribute for="XRQuadLayer">height</dfn> attributes
 set and return the width and height of the layer in meters.
@@ -324,6 +333,7 @@ interface XRCylinderLayer : XRLayer {
 The <dfn attribute for="XRCylinderLayer">transform</dfn> attribute sets and returns the offset and orientation relative to the
 <dfn attribute for="XRCylinderLayer">space</dfn> attribute. The {{XRCylinderLayer/transform}} and {{XRCylinderLayer/space}} attributes
 establish the spatial relationship of the layer within the user’s physical environment.
+When setting the {{XRCylinderLayer/space}}, first run the steps for [=setting the space on a layer=].
 
 The <dfn attribute for="XRCylinderLayer">radius</dfn> attribute controls the radius in meters of the cylinder.
 
@@ -383,6 +393,7 @@ interface XRCubeLayer : XRLayer {
 The <dfn attribute for="XRCubeLayer">orientation</dfn> attribute sets and returns the orientation relative to the
 <dfn attribute for="XRCubeLayer">space</dfn> attribute. The {{XRCubeLayer/orientation}} and {{XRCubeLayer/space}} attributes
 establish the spatial relationship of the layer within the user’s physical environment.
+When setting the {{XRCubeLayer/space}}, first run the steps for [=setting the space on a layer=].
 
 Rendering {#rendering}
 =========
