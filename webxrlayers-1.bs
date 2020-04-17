@@ -927,20 +927,29 @@ The <dfn attribute for="XRRenderState">layers</dfn> attribute returns an array c
 the instances of {{XRLayer}} that are displayed by the [=XR Compositor=].
 
 <div class="algorithm" data-algorithm="initialize-renderstate-for-layers">
-When an {{XRRenderState}} object |state| is created for an {{XRSession}} |session| with "[=feature descriptor/layers=]" enabled, the user agent MUST <dfn dfn-for="layers">initialize the render state</dfn> by running the following steps:
-  1. Initialize |state| by running the steps to [=initialize the render state=].
-  1. Initialize |state|'s {{XRRenderState/layers}} to an empty array.
+This module replaces the steps given by [=initialize the render state=]. Instead when an {{XRRenderState}} object |state|
+is created for an {{XRSession}} |session|, the user agent MUST <dfn dfn-for="layers">initialize the render state</dfn> by running the following steps:
+  1. Initialize |state| by running the original steps to [=initialize the render state=].
+  1. Initialize |state|'s {{XRRenderState/layers}} as follows:
+    <dl class="switch">
+      <dt class="switch">If the |session| was created with "[=feature descriptor/layers=]" enabled
+      <dd> Initialize |state|'s {{XRRenderState/layers}} with a new empty array.
+      <dt> Otherwise
+      <dd> set |state|'s {{XRRenderState/layers}} to <code>null</code>.
+    </dl>
 
 </div>
 
 updateRenderState changes {#updaterenderstatechanges}
 -------------------------
-<div class="algorithm" data-algorithm="updateRenderState-for-layers">
-When the <dfn method for="XRSession" dfn-for="layers">updateRenderState(|newState|)</dfn> method is called on an {{XRSession}} |session|
-with "[=feature descriptor/layers=]" enabled, the user agent MUST run the following steps:
 
-  1. Run {{XRSession/updateRenderState}} with |newState|.
-  1. If |newState|'s {{XRRenderStateInit/baseLayer}} is set, set |session|'s [=pending render state=] to <code>null</code>, throw an {{InvalidStateError}} and abort these steps.
+<div class="algorithm" data-algorithm="update-layers-state-for-layers">
+
+This module replaces the steps given by "[=update the pending layers state=]". Instead when the user agent will
+<dfn dfn-for="layers">update the pending layers state</dfn> with {{XRSession}} |session| and {{XRRenderStateInit}} |newState|, it must run the following steps:
+  1. If the |session| was not created with "[=feature descriptor/layers=]" enabled, throw an {{InvalidStateError}} and abort these steps.
+  1. If |newState|'s {{XRRenderStateInit/baseLayer}} is set, throw an {{InvalidStateError}} and abort these steps.
+  1. If |newState|'s {{XRRenderStateInit/layers}} contains duplicate instances, throw an {{InvalidStateError}} and abort these steps.
   1. For each |layer| in |newState|'s {{XRRenderStateInit/layers}}:
     1. If |layer| is a {{XRGenericLayer}} and |layer|'s [=XRGenericLayer/session=] is different from |session|, throw an {{InvalidStateError}} and abort these steps.
     1. If |layer| is a {{XRWebGLLayer}} and |layer|'s [=XRWebGLLayer/session=] is different from |session|, throw an {{InvalidStateError}} and abort these steps.
@@ -948,14 +957,6 @@ with "[=feature descriptor/layers=]" enabled, the user agent MUST run the follow
 
 </div>
 
-<!--
-<div class="algorithm" data-algorithm="apply-pending-render-state-for-layers">
-
-When the {{XRSession}} MUST <dfn>apply the pending render state for an {{XRSession}} |session| with {{feature descriptor/"layers"}} enabled</dfn>, the user agent MUST run the following steps:
-1. [=Apply the pending render state=] with |session|.
-
-</div>
--->
 
 Security and Privacy Considerations {#security}
 ===============================================
