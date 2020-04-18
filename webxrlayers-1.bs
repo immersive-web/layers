@@ -948,7 +948,7 @@ updateRenderState changes {#updaterenderstatechanges}
 This module replaces the steps given by "[=update the pending layers state=]". Instead when the user agent will
 <dfn dfn-for="layers">update the pending layers state</dfn> with {{XRSession}} |session| and {{XRRenderStateInit}} |newState|, it must run the following steps:
   1. If the |session| was not created with "[=feature descriptor/layers=]" enabled:
-    1. If {{XRRenderStateInit/layers}} is not <code>null</code>, throw an {{NotSupportedError}} and abort these steps.
+    1. If {{XRRenderStateInit/layers}} is not <code>null</code>, throw an {{NotSupportedError}}.
     1. Abort these steps.
   1. If |newState|'s {{XRRenderStateInit/baseLayer}} is set, throw a {{InvalidStateError}} and abort these steps.
   1. If |newState|'s {{XRRenderStateInit/layers}} contains duplicate instances, throw an {{InvalidStateError}} and abort these steps.
