@@ -24,6 +24,7 @@ spec: webxr-1;
     type: dfn; text: active; for: XRFrame
     type: dfn; text: eye; for: XRView
     type: dfn; text: initialize the render state
+    type: dfn; text: active render state
     type: dfn; text: pending render state
     type: dfn; text: apply the pending render state
     type: dfn; text: viewer reference space
@@ -955,6 +956,8 @@ This module replaces the steps given by "[=update the pending layers state=]". I
   1. For each |layer| in |newState|'s {{XRRenderStateInit/layers}}:
     1. If |layer| is a {{XRGenericLayer}} and |layer|'s [=XRGenericLayer/session=] is different from |session|, throw an {{InvalidStateError}} and abort these steps.
     1. If |layer| is a {{XRWebGLLayer}} and |layer|'s [=XRWebGLLayer/session=] is different from |session|, throw an {{InvalidStateError}} and abort these steps.
+  1. Let |activeState| be |session|'s [=active render state=].
+  1. If |session|'s [=pending render state=] is <code>null</code>, set it to a copy of |activeState|.
   1. If |newState|'s {{XRRenderStateInit/layers}} array is set, set |session|'s [=pending render state=]'s {{XRRenderState/layers}} to |newState|'s {{XRRenderStateInit/layers}}.
 
 </div>
