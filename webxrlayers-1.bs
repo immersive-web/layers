@@ -233,7 +233,7 @@ XRCompositionLayer {#xrcompositionlayertype}
 XRCompositionLayer defines a set of common attributes and behaviors across certain layer types.
 
 <pre class="idl">
-interface XRCompositionLayer {
+interface XRCompositionLayer : XRLayer {
   readonly attribute XRLayerLayout layout;
   readonly attribute unsigned long pixelWidth;
   readonly attribute unsigned long pixelHeight;
