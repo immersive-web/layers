@@ -592,6 +592,7 @@ MUST be multiplied by to yield the |session|'s [=native WebGL framebuffer resolu
 <div class="algorithm" data-algorithm="determine the layout attribute">
 
 To <dfn>determine the layout attribute</dfn> using a {{XRTextureType}} |textureType|, a {{XRWebGLRenderingContext}} |context| and a {{XRLayerInit}} |init|, the user agent MUST run the following steps:
+  1. If |textureType| is {{"cubemap-texture"}}, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is not a {{WebGL2RenderingContext}} and |textureType| is {{"texture-array"}}, throw {{InvalidStateError}} and abort these steps.
   1. let |layout| be |init|'s {{XRLayerInit/layout}}.
   1. If |layout| is {{XRLayerLayout/"mono"}}, return |layout| and abort these steps.
