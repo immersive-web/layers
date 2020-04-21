@@ -800,7 +800,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer|'s {{XRCubeLayer/orientation}} be a new {{DOMPointReadOnly}}.
   1. let |layout| be |init|'s {{XRLayerInit/layout}}.
   1. If |layout| is {{XRLayerLayout/"stereo-left-right"}} or {{XRLayerLayout/"stereo-top-bottom"}}, throw {{InvalidStateError}} and abort these steps.
-  1. Initialize |array| as follows:
+  1. Initialize |array| as follows, based on the value of |layout|:
     <dl class="switch">
       <dt> {{XRLayerLayout/"mono"}}:
         <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
