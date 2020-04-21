@@ -60,6 +60,7 @@ spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: interface; text: WebGLRenderingContextBase; url: WebGLRenderingContextBase
     type: interface; text: GLenum
     type: typedef; text: TEXTURE_2D; url: 5.14
+    type: typedef; text: TEXTURE_CUBE_MAP; url: 5.14
 spec: WebGL 2.0; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/2.0/
     type: interface; text: WebGL2RenderingContext; url: WebGL2RenderingContext
     type: typedef; text: TEXTURE_2D_ARRAY; url: 3.7
@@ -341,7 +342,7 @@ When setting the {{XRCylinderLayer/space}}, first run the steps for [=setting th
 
 The <dfn attribute for="XRCylinderLayer">radius</dfn> attribute controls the radius in meters of the cylinder.
 
-The <dfn attribute for="XRCylinderLayer">centralAngle</dfn> attribute controls the angle in degrees of the visible section of the cylinder.
+The <dfn attribute for="XRCylinderLayer">centralAngle</dfn> attribute controls the angle in radians of the visible section of the cylinder.
 It grows symmetrically around the 0 angle.
 
 The <dfn attribute for="XRCylinderLayer">aspectRatio</dfn> attribute controls the ratio of the visible cylinder section.
@@ -390,7 +391,7 @@ ISSUE: this section needs clarification
 <pre class="idl">
 interface XRCubeLayer : XRCompositionLayer {
   attribute XRSpace space;
-  attribute DOMPoint orientation;
+  attribute DOMPointReadOnly orientation;
 };
 </pre>
 
@@ -452,7 +453,6 @@ enum XRTextureType {
 
 - A texture type of <dfn enum-value for="XRTextureType">texture</dfn> indicates that the textures of {{XRWebGLSubImage}} must be of type {{TEXTURE_2D}}
 - A texture type of <dfn enum-value for="XRTextureType">texture-array</dfn> indicates that the textures of {{XRWebGLSubImage}} must be of type {{TEXTURE_2D_ARRAY}}
-
 
 GPU layer and view creation {#gpulayer}
 ===========================
@@ -611,17 +611,18 @@ To <dfn>allocate color textures</dfn> using a {{XRLayerInit/layout}} |layout|, a
   1. If |layout| is {{XRLayerLayout/mono}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-        <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
+          <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
         <dt> Otherwise
-        <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
+          <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
+        <dl>
   1. If |layout| is {{XRLayerLayout/stereo}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-        <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with 2 internal textures using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
-        <dd> Return |array| and abort these steps.
+          <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with 2 internal textures using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
+          <dd> Return |array| and abort these steps.
         <dt> Otherwise
-        <dd> Initialize |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRProjectionLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
-        <dd> Return |array| and abort these steps.
+          <dd> Initialize |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRProjectionLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
+          <dd> Return |array| and abort these steps.
         </dl>
   1. If |layout| is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture using |context| and |init|'s {{XRLayerInit/alpha}}, double of {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
   1. If |layout| is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and double of {{XRLayerInit/pixelHeight}} values.
@@ -796,18 +797,27 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
   1. Let |layer|'s {{XRCubeLayer/space}} be the {{session}}'s [=viewer reference space=].
-  1. Let |layer|'s {{XRCubeLayer/orientation}} be a new {{DOMPoint}}.
-  1. let |textureType| be {{XRTextureType/"texture-array"}}.
+  1. Let |layer|'s {{XRCubeLayer/orientation}} be a new {{DOMPointReadOnly}}.
   1. let |layout| be |init|'s {{XRLayerInit/layout}}.
   1. If |layout| is {{XRLayerLayout/"stereo-left-right"}} or {{XRLayerLayout/"stereo-top-bottom"}}, throw {{InvalidStateError}} and abort these steps.
-  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |init|.
-  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layout|, |textureType|, |context| and |init|.
+  1. Initialize |array| as follows, based on the value of |layout|:
+    <dl class="switch">
+      <dt> {{XRLayerLayout/"mono"}}:
+        <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
+      <dt> Otherwise
+        <dd> Initialize |array| with 2 new instance of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
+      </dt>
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
 
 </div>
 
+ISSUE: Define how cubemap sizes are determined.
+
+ISSUE: Determine if depth textures are needed for cubemap layers.
+
+ISSUE: determine the initial state of {{XRCubeLayer/orientation}}.
 
 <div class="algorithm" data-algorithm="validate the state of the XRWebGLSubImage creation function">
 
