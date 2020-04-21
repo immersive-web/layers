@@ -447,14 +447,12 @@ The {{XRTextureType}} enum defines what type of texture is allocated.
 <pre class="idl">
 enum XRTextureType {
   "texture",
-  "texture-array",
-  "cubemap-texture"
+  "texture-array"
 };
 </pre>
 
 - A texture type of <dfn enum-value for="XRTextureType">texture</dfn> indicates that the textures of {{XRWebGLSubImage}} must be of type {{TEXTURE_2D}}
 - A texture type of <dfn enum-value for="XRTextureType">texture-array</dfn> indicates that the textures of {{XRWebGLSubImage}} must be of type {{TEXTURE_2D_ARRAY}}
-- A texture type of <dfn enum-value for="XRTextureType">cubemap-texture/dfn> indicates that the textures of {{XRWebGLSubImage}} must be of type {{TEXTURE_CUBE_MAP}}
 
 GPU layer and view creation {#gpulayer}
 ===========================
@@ -615,21 +613,16 @@ To <dfn>allocate color textures</dfn> using a {{XRLayerInit/layout}} |layout|, a
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
           <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
-        <dt> Else if |textureType| is {{"texture"}}:
-          <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
         <dt> Otherwise
-          <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
+          <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
         <dl>
   1. If |layout| is {{XRLayerLayout/stereo}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
           <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_2D_ARRAY}} texture with 2 internal textures using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
           <dd> Return |array| and abort these steps.
-        <dt> Else if |textureType| is {{"texture"}}:
-          <dd> Initialize |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRProjectionLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
-          <dd> Return |array| and abort these steps.
         <dt> Otherwise
-          <dd> Initialize |array| with 2 new instance of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
+          <dd> Initialize |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRProjectionLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
           <dd> Return |array| and abort these steps.
         </dl>
   1. If |layout| is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_2D}} texture using |context| and |init|'s {{XRLayerInit/alpha}}, double of {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
@@ -637,8 +630,6 @@ To <dfn>allocate color textures</dfn> using a {{XRLayerInit/layout}} |layout|, a
   1. return |array|.
 
 </div>
-
-ISSUE: Define how cubemap sizes are determined.
 
 <div class="algorithm" data-algorithm="allocate depth textures">
 
@@ -807,19 +798,27 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
   1. Let |layer|'s {{XRCubeLayer/space}} be the {{session}}'s [=viewer reference space=].
-  1. Let |layer|'s {{XRCubeLayer/orientation}} be a new {{DOMPoint}}.
-  1. let |textureType| be {{XRTextureType/"cubemap-texture"}}.
+  1. Let |layer|'s {{XRCubeLayer/orientation}} be a new {{DOMPointReadOnly}}.
   1. let |layout| be |init|'s {{XRLayerInit/layout}}.
   1. If |layout| is {{XRLayerLayout/"stereo-left-right"}} or {{XRLayerLayout/"stereo-top-bottom"}}, throw {{InvalidStateError}} and abort these steps.
-  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |init|.
-  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layout|, |textureType|, |context| and |init|.
+  1. Initialize |array| as follows:
+    <dl class="switch">
+      <dt> {{XRLayerLayout/"mono"}}:
+        <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
+      <dt> Otherwise
+        <dd> Initialize |array| with 2 new instance of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
+      </dt>
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
 
 </div>
 
+ISSUE: Define how cubemap sizes are determined.
 
+ISSUE: Determine if depth textures are needed for cubemap layers.
+
+ISSUE: determine the initial state of {{XRCubeLayer/orientation}}.
 
 <div class="algorithm" data-algorithm="validate the state of the XRWebGLSubImage creation function">
 
