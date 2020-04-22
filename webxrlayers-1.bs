@@ -33,6 +33,8 @@ spec: webxr-1;
     type: dfn; text: type; for: XRReferenceSpace
     type: dfn; text: session; for: XRSpace
     type: dfn; text: XRLayer
+    type: dfn; text: XRReferenceSpace
+    type: dfn; text: type; for: XRReferenceSpace
     type: dfn; text: updateRenderState; for: XRSession
     type: dfn; text: session; for: XRWebGLLayer
     type: dfn; text: layers; for: XRRenderStateInit
@@ -510,6 +512,7 @@ and {{XRCubeLayer}} are initialized.
 
 <pre class="idl">
 dictionary XRLayerInit {
+  required XRSpace space;
   required unsigned long pixelWidth;
   required unsigned long pixelHeight;
   XRLayerLayout layout = "mono";
@@ -519,8 +522,10 @@ dictionary XRLayerInit {
 };
 </pre>
 
-the <dfn dict-member for="XRLayerInit">pixelWidth</dfn> and <dfn dict-member for="XRLayerInit">pixelHeight</dfn> attributes define
-the rectangular dimensions of the {{XRCompositionLayer}}
+The <dfn dict-member for="XRLayerInit">space</dfn> attribute defines the spatial relationship with the user’s physical environment.
+
+The <dfn dict-member for="XRLayerInit">pixelWidth</dfn> and <dfn dict-member for="XRLayerInit">pixelHeight</dfn> attributes define
+the rectangular dimensions of the {{XRCompositionLayer}}.
 
 The <dfn dict-member for="XRLayerInit">layout</dfn> attribute defines the layout of the layer.
 
@@ -712,7 +717,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
   1. Initialize |layer|'s {{XRQuadLayer/width}} to <code>1.0f</code>.
   1. Initialize |layer|'s {{XRQuadLayer/height}} to <code>1.0f</code>.
-  1. Let |layer|'s {{XRQuadLayer/space}} be the {{session}}'s [=viewer reference space=].
+  1. Let |layer|'s {{XRQuadLayer/space}} be the |init|'s {{XRLayerInit/space}}.
   1. Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
@@ -740,7 +745,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s {{XRCylinderLayer/radius}} to <code>2.0f</code>.
   1. Initialize |layer|'s {{XRCylinderLayer/centralAngle}} to <code>45.0f</code>.
   1. Initialize |layer|'s {{XRCylinderLayer/aspectRatio}} to <code>2.0f</code>.
-  1. Let |layer|'s {{XRCylinderLayer/space}} be the {{session}}'s [=viewer reference space=].
+  1. Let |layer|'s {{XRCylinderLayer/space}} be the |init|'s {{XRLayerInit/space}}.
   1. Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}}.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
@@ -762,6 +767,8 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a new {{XREquirectLayer}}.
   1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
@@ -770,7 +777,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s {{XREquirectLayer/scaleY}} to <code>1.0f</code>.
   1. Initialize |layer|'s {{XREquirectLayer/biasX}} to <code>0.0f</code>.
   1. Initialize |layer|'s {{XREquirectLayer/biasY}} to <code>0.0f</code>.
-  1. Let |layer|'s [=XREquirectLayer/space=] be the {{session}}'s [=viewer reference space=].
+  1. Let |layer|'s {{XREquirectLayer/space}} be the |init|'s {{XRLayerInit/space}}.
   1. Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}}.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
@@ -793,10 +800,12 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is not a {{WebGL2RenderingContext}} context, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a new {{XRCubeLayer}}.
   1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
-  1. Let |layer|'s {{XRCubeLayer/space}} be the {{session}}'s [=viewer reference space=].
+  1. Let |layer|'s {{XRCubeLayer/space}} be the |init|'s {{XRLayerInit/space}}.
   1. Let |layer|'s {{XRCubeLayer/orientation}} be a new {{DOMPointReadOnly}}.
   1. let |layout| be |init|'s {{XRLayerInit/layout}}.
   1. If |layout| is {{XRLayerLayout/"stereo-left-right"}} or {{XRLayerLayout/"stereo-top-bottom"}}, throw {{InvalidStateError}} and abort these steps.
@@ -805,7 +814,7 @@ When this method is invoked, the user agent MUST run the following steps:
       <dt> {{XRLayerLayout/"mono"}}:
         <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
       <dt> Otherwise
-        <dd> Initialize |array| with 2 new instance of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
+        <dd> Initialize |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/pixelWidth}} and {{XRLayerInit/pixelHeight}} values.
       </dt>
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
@@ -815,7 +824,7 @@ When this method is invoked, the user agent MUST run the following steps:
 
 ISSUE: Define how cubemap sizes are determined.
 
-ISSUE: Determine if depth textures are needed for cubemap layers.
+ISSUE: How should space be handled. Can you walk to the edge of a cubemap?
 
 ISSUE: determine the initial state of {{XRCubeLayer/orientation}}.
 
