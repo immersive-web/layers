@@ -1222,7 +1222,7 @@ Possible extra rowspan handling
 	}
 </style>
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version d4d56a96, updated Fri Apr 10 11:10:34 2020 -0700" name="generator">
+  <meta content="Bikeshed version 5359f34a, updated Wed Apr 22 15:42:50 2020 -0700" name="generator">
   <link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
   <link href="favicon-96x96.png" rel="icon" sizes="96x96" type="image/png">
 <style>
@@ -1865,7 +1865,15 @@ When setting the <code class="idl"><a data-link-type="idl" href="#dom-xrcubelaye
 If the layer was created without depth/stencil, this attribute returns null.</p>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLSubImage" data-dfn-type="attribute" data-export id="dom-xrwebglsubimage-imageindex"><code>imageIndex</code></dfn> attribute returns the offset into the texture array. Valid only for layers
 that were requested with <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array①">texture-array</a></code>.</p>
-   <p>This <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture①">colorTexture</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture①">depthStencilTexture</a></code> are only valid during <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrsession-requestanimationframe" id="ref-for-dom-xrsession-requestanimationframe①">requestAnimationFrame()</a></code> callback and becomes invalid as soon as the callback returns.</p>
+   <p>The <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture①">colorTexture</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture①">depthStencilTexture</a></code> objects MUST only be used during the <a data-link-type="dfn">XR Animation frame</a> of the
+current session and MUST be made invalid once the <a data-link-type="dfn">XR Animation frame</a> completes..</p>
+   <p>In addition, they MUST behave as though they were allocated with <a data-link-type="dfn" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7.6" id="ref-for-3.7.6">texStorage2D</a> or <a data-link-type="dfn" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7.6" id="ref-for-3.7.6①">texStorage3D</a>, as appropriate,
+even when using a WebGL 1.0 context.</p>
+   <p class="note" role="note"><span>NOTE:</span> Changes to the dimensions or format of the <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture②">colorTexture</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture②">depthStencilTexture</a></code> objects are not allowed. GL commands
+may only alter the texel values and texture parameters. Using any of the following
+commands with the WebGLTexture will result in an INVALID_OPERATION error
+being generated, even if it does not affect the dimensions or format: TexImage*, CompressedTexImage*, CopyTexImage* and TexStorage*.
+The <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/es_spec_3.0.pdf#nameddest=section-3.8.4">"Immutable-Format Texture Images"</a> section in the OpenGL ES 3.0 spec defines these limitations in more detail.</p>
    <h3 class="heading settled" data-level="4.3" id="xrtexturetype"><span class="secno">4.3. </span><span class="content">XRTextureType</span><a class="self-link" href="#xrtexturetype"></a></h3>
     The <code class="idl"><a data-link-type="idl" href="#enumdef-xrtexturetype" id="ref-for-enumdef-xrtexturetype">XRTextureType</a></code> enum defines what type of texture is allocated. 
 <pre class="idl highlight def"><c- b>enum</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="enum" data-export id="enumdef-xrtexturetype"><code><c- g>XRTextureType</c-></code></dfn> {
@@ -1931,7 +1939,7 @@ the rectangular dimensions of the <code class="idl"><a data-link-type="idl" href
    <h3 class="heading settled" data-level="5.4" id="XRWebGLBindingtype"><span class="secno">5.4. </span><span class="content">XRWebGLBinding</span><a class="self-link" href="#XRWebGLBindingtype"></a></h3>
     The <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding⑥">XRWebGLBinding</a></code> object is used to create layers that have a GPU backend. 
 <pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrwebglbinding"><code><c- g>XRWebGLBinding</c-></code></dfn> {
-  <a class="idl-code" data-link-type="constructor" href="#dom-xrwebglbinding-xrwebglbinding" id="ref-for-dom-xrwebglbinding-xrwebglbinding"><c- g>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession④"><c- n>XRSession</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding/XRWebGLBinding(session, context), XRWebGLBinding/constructor(session, context)" data-dfn-type="argument" data-export id="dom-xrwebglbinding-xrwebglbinding-session-context-session"><code><c- g>session</c-></code></dfn>, <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#typedefdef-xrwebglrenderingcontext" id="ref-for-typedefdef-xrwebglrenderingcontext"><c- n>XRWebGLRenderingContext</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding/XRWebGLBinding(session, context), XRWebGLBinding/constructor(session, context)" data-dfn-type="argument" data-export id="dom-xrwebglbinding-xrwebglbinding-session-context-context"><code><c- g>context</c-></code></dfn>);
+  <a class="idl-code" data-link-type="constructor" href="#dom-xrwebglbinding-xrwebglbinding" id="ref-for-dom-xrwebglbinding-xrwebglbinding"><c- g>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession④"><c- n>XRSession</c-></a> <dfn class="idl-code" data-dfn-for="XRWebGLBinding/XRWebGLBinding(session, context), XRWebGLBinding/constructor(session, context)" data-dfn-type="argument" data-export id="dom-xrwebglbinding-xrwebglbinding-session-context-session"><code><c- g>session</c-></code><a class="self-link" href="#dom-xrwebglbinding-xrwebglbinding-session-context-session"></a></dfn>, <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#typedefdef-xrwebglrenderingcontext" id="ref-for-typedefdef-xrwebglrenderingcontext"><c- n>XRWebGLRenderingContext</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding/XRWebGLBinding(session, context), XRWebGLBinding/constructor(session, context)" data-dfn-type="argument" data-export id="dom-xrwebglbinding-xrwebglbinding-session-context-context"><code><c- g>context</c-></code></dfn>);
 
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-double" id="ref-for-idl-double①"><c- b>double</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding" data-dfn-type="attribute" data-export data-readonly data-type="double" id="dom-xrwebglbinding-nativeprojectionscalefactor"><code><c- g>nativeProjectionScaleFactor</c-></code></dfn>;
 
@@ -1953,7 +1961,7 @@ the rectangular dimensions of the <code class="idl"><a data-link-type="idl" href
 of either a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContext" id="ref-for-WebGLRenderingContext②">WebGLRenderingContext</a></code> or a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext①">WebGL2RenderingContext</a></code>.</p>
    <p>Each <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding⑧">XRWebGLBinding</a></code> has an associated <dfn class="dfn-paneled" data-dfn-for="XRWebGLBinding" data-dfn-type="dfn" data-noexport id="xrwebglbinding-session">session</dfn>, which is the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession⑤">XRSession</a></code> it was created with.</p>
    <p class="note" role="note"><span>NOTE:</span> It is possible to create more than one <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding⑨">XRWebGLBinding</a></code>. Any layer created with an instance of <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⓪">XRWebGLBinding</a></code> can
-be used with another instance of <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①①">XRWebGLBinding</a></code> as long as both were created with the same <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-session" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session">session</a></code> and the same <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context">context</a></code>. The lifetime of layers or instances of <code class="idl"><a data-link-type="idl" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage⑤">XRWebGLSubImage</a></code> is not tied to the lifetime of the <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①②">XRWebGLBinding</a></code> that created them.</p>
+be used with another instance of <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①①">XRWebGLBinding</a></code> as long as both were created with the same <code class="idl"><a data-link-type="idl" href="#dom-xrmediabinding-xrmediabinding-session-session" id="ref-for-dom-xrmediabinding-xrmediabinding-session-session①">session</a></code> and the same <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context">context</a></code>. The lifetime of layers or instances of <code class="idl"><a data-link-type="idl" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage⑤">XRWebGLSubImage</a></code> is not tied to the lifetime of the <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①②">XRWebGLBinding</a></code> that created them.</p>
    <p>Each <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer①⑧">XRCompositionLayer</a></code> created through <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①③">XRWebGLBinding</a></code> has an internal <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="colortextures">colorTextures</dfn> array which is an <var>array</var> of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture④">WebGLTexture</a></code> for color textures and
 an internal <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="depthstenciltextures">depthStencilTextures</dfn> which is an <var>array</var> of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑤">WebGLTexture</a></code> for depth/stencil textures.</p>
    <div class="algorithm" data-algorithm="construct-webgl-layer">
@@ -1973,7 +1981,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Initialize <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context①">context</a></code> to <var>context</var>.</p>
      <li data-md>
-      <p>Initialize <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-session" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session①">session</a></code> to <var>session</var>.</p>
+      <p>Initialize <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrmediabinding-xrmediabinding-session-session" id="ref-for-dom-xrmediabinding-xrmediabinding-session-session②">session</a></code> to <var>session</var>.</p>
      <li data-md>
       <p>Return <var>binding</var>.</p>
     </ol>
@@ -2080,7 +2088,7 @@ MUST perform the following steps when invoked:</p>
     <p>When this method is invoked, the user agent MUST run the following steps:</p>
     <ol>
      <li data-md>
-      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑤">XRWebGLBinding</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-xrmediabinding-xrmediabinding-session-session" id="ref-for-dom-xrmediabinding-xrmediabinding-session-session①">session</a></code>.</p>
+      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑤">XRWebGLBinding</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-xrmediabinding-xrmediabinding-session-session" id="ref-for-dom-xrmediabinding-xrmediabinding-session-session③">session</a></code>.</p>
      <li data-md>
       <p>Let <var>context</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑥">XRWebGLBinding</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context②">context</a></code>.</p>
      <li data-md>
@@ -2341,7 +2349,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If <var>frame</var>’s <a data-link-type="dfn">animationFrame</a> boolean is <code>false</code>, return <code>false</code> and abort these steps.</p>
      <li data-md>
-      <p>If <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrmediabinding-xrmediabinding-session-session" id="ref-for-dom-xrmediabinding-xrmediabinding-session-session②">session</a></code> is not equal to <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-session" id="ref-for-xrcompositionlayer-session⑦">session</a>, return <code>false</code> and abort these steps.</p>
+      <p>If <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrmediabinding-xrmediabinding-session-session" id="ref-for-dom-xrmediabinding-xrmediabinding-session-session④">session</a></code> is not equal to <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-session" id="ref-for-xrcompositionlayer-session⑦">session</a>, return <code>false</code> and abort these steps.</p>
      <li data-md>
       <p>If <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context③">context</a></code> is not equal to <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-context" id="ref-for-xrcompositionlayer-context⑤">context</a>, return <code>false</code> and abort these steps.</p>
      <li data-md>
@@ -2361,9 +2369,9 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If <a data-link-type="dfn" href="#validate-the-state-of-the-xrwebglsubimage-creation-function" id="ref-for-validate-the-state-of-the-xrwebglsubimage-creation-function">validate the state of the XRWebGLSubImage creation function</a> with <var>layer</var> and <var>frame</var> is <code>false</code>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror②⑥">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture②">colorTexture</a></code> with the first element of the <var>layer</var>’s <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures⑤">colorTextures</a> array.</p>
+      <p>Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture③">colorTexture</a></code> with the first element of the <var>layer</var>’s <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures⑤">colorTextures</a> array.</p>
      <li data-md>
-      <p>If the layer has a depthStencilTexture, initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture②">depthStencilTexture</a></code> with the first element of the <var>layer</var>’s <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures④">depthStencilTextures</a> array.</p>
+      <p>If the layer has a depthStencilTexture, initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture③">depthStencilTexture</a></code> with the first element of the <var>layer</var>’s <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures④">depthStencilTextures</a> array.</p>
      <li data-md>
       <p>return <var>subimage</var></p>
     </ol>
@@ -2383,23 +2391,23 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If <var>view</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrview-eye" id="ref-for-dom-xrview-eye">eye</a></code> attribute is <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xreye-right" id="ref-for-dom-xreye-right">"right"</a></code>, set <var>index</var> to <code>1</code>.</p>
      <li data-md>
-      <p>Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture③">colorTexture</a></code> as follows:</p>
+      <p>Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture④">colorTexture</a></code> as follows:</p>
       <dl class="switch">
        <dt class="switch">If the <var>layer</var> was created with a textureType of <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array①⓪">"texture-array"</a></code> 
-       <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture④">colorTexture</a></code> with the first element of the <var>layer</var>’s <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures⑥">colorTextures</a> array. 
+       <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture⑤">colorTexture</a></code> with the first element of the <var>layer</var>’s <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures⑥">colorTextures</a> array. 
        <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-imageindex" id="ref-for-dom-xrwebglsubimage-imageindex①">imageIndex</a></code> with <var>index</var>. 
        <dt> Otherwise 
-       <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture⑤">colorTexture</a></code> with the element at offset <var>index</var> of the <var>layer</var>’s <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures⑦">colorTextures</a> array. 
+       <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture⑥">colorTexture</a></code> with the element at offset <var>index</var> of the <var>layer</var>’s <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures⑦">colorTextures</a> array. 
       </dl>
      <li data-md>
-      <p>Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture③">depthStencilTexture</a></code> as follows:</p>
+      <p>Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture④">depthStencilTexture</a></code> as follows:</p>
       <dl class="switch">
        <dt class="switch">If the <var>layer</var>’s <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures⑤">depthStencilTextures</a> is an empty array. 
        <dd> Continue to the next entry. 
        <dt> Else if the <var>layer</var> was created with a textureType of <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array①①">"texture-array"</a></code> 
-       <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture④">depthStencilTexture</a></code> with the element at offset <var>index</var> of the <var>layer</var>’s <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures⑥">depthStencilTextures</a> array. 
+       <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture⑤">depthStencilTexture</a></code> with the element at offset <var>index</var> of the <var>layer</var>’s <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures⑥">depthStencilTextures</a> array. 
        <dt> Otherwise 
-       <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture⑤">depthStencilTexture</a></code> with the element of the <var>layer</var>’s <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures⑦">depthStencilTextures</a> array that corresponds to the <var>view</var>. 
+       <dd> Initialize <var>subimage</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture⑥">depthStencilTexture</a></code> with the element of the <var>layer</var>’s <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures⑦">depthStencilTextures</a> array that corresponds to the <var>view</var>. 
       </dl>
      <li data-md>
       <p>return <var>subimage</var></p>
@@ -2687,6 +2695,18 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-WebGL2RenderingContext①">5.4. XRWebGLBinding</a> <a href="#ref-for-WebGL2RenderingContext②">(2)</a> <a href="#ref-for-WebGL2RenderingContext③">(3)</a> <a href="#ref-for-WebGL2RenderingContext④">(4)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-3.7.6">
+   <a href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7.6">https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7.6</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-3.7.6">4.2. XRWebGLSubImage</a> <a href="#ref-for-3.7.6①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-3.7.6">
+   <a href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7.6">https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7.6</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-3.7.6">4.2. XRWebGLSubImage</a> <a href="#ref-for-3.7.6①">(2)</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-5.14">
    <a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14">https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14</a><b>Referenced in:</b>
    <ul>
@@ -2952,7 +2972,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <a href="https://immersive-web.github.io/webxr/#dom-xrsession-requestanimationframe">https://immersive-web.github.io/webxr/#dom-xrsession-requestanimationframe</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-xrsession-requestanimationframe">1.2. Application flow</a>
-    <li><a href="#ref-for-dom-xrsession-requestanimationframe①">4.2. XRWebGLSubImage</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-xrsystem-requestsession">
@@ -3066,6 +3085,8 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <ul>
      <li><span class="dfn-paneled" id="term-for-3.7" style="color:initial">TEXTURE_2D_ARRAY</span>
      <li><span class="dfn-paneled" id="term-for-WebGL2RenderingContext" style="color:initial">WebGL2RenderingContext</span>
+     <li><span class="dfn-paneled" id="term-for-3.7.6" style="color:initial">texstorage2d</span>
+     <li><span class="dfn-paneled" id="term-for-3.7.6①" style="color:initial">texstorage3d</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WEBGL-2]</a> defines the following terms:
@@ -3623,15 +3644,15 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <aside class="dfn-panel" data-for="dom-xrwebglsubimage-colortexture">
    <b><a href="#dom-xrwebglsubimage-colortexture">#dom-xrwebglsubimage-colortexture</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrwebglsubimage-colortexture">4.2. XRWebGLSubImage</a> <a href="#ref-for-dom-xrwebglsubimage-colortexture①">(2)</a>
-    <li><a href="#ref-for-dom-xrwebglsubimage-colortexture②">5.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrwebglsubimage-colortexture③">(2)</a> <a href="#ref-for-dom-xrwebglsubimage-colortexture④">(3)</a> <a href="#ref-for-dom-xrwebglsubimage-colortexture⑤">(4)</a>
+    <li><a href="#ref-for-dom-xrwebglsubimage-colortexture">4.2. XRWebGLSubImage</a> <a href="#ref-for-dom-xrwebglsubimage-colortexture①">(2)</a> <a href="#ref-for-dom-xrwebglsubimage-colortexture②">(3)</a>
+    <li><a href="#ref-for-dom-xrwebglsubimage-colortexture③">5.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrwebglsubimage-colortexture④">(2)</a> <a href="#ref-for-dom-xrwebglsubimage-colortexture⑤">(3)</a> <a href="#ref-for-dom-xrwebglsubimage-colortexture⑥">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrwebglsubimage-depthstenciltexture">
    <b><a href="#dom-xrwebglsubimage-depthstenciltexture">#dom-xrwebglsubimage-depthstenciltexture</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrwebglsubimage-depthstenciltexture">4.2. XRWebGLSubImage</a> <a href="#ref-for-dom-xrwebglsubimage-depthstenciltexture①">(2)</a>
-    <li><a href="#ref-for-dom-xrwebglsubimage-depthstenciltexture②">5.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrwebglsubimage-depthstenciltexture③">(2)</a> <a href="#ref-for-dom-xrwebglsubimage-depthstenciltexture④">(3)</a> <a href="#ref-for-dom-xrwebglsubimage-depthstenciltexture⑤">(4)</a>
+    <li><a href="#ref-for-dom-xrwebglsubimage-depthstenciltexture">4.2. XRWebGLSubImage</a> <a href="#ref-for-dom-xrwebglsubimage-depthstenciltexture①">(2)</a> <a href="#ref-for-dom-xrwebglsubimage-depthstenciltexture②">(3)</a>
+    <li><a href="#ref-for-dom-xrwebglsubimage-depthstenciltexture③">5.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrwebglsubimage-depthstenciltexture④">(2)</a> <a href="#ref-for-dom-xrwebglsubimage-depthstenciltexture⑤">(3)</a> <a href="#ref-for-dom-xrwebglsubimage-depthstenciltexture⑥">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrwebglsubimage-imageindex">
@@ -3760,12 +3781,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-xrwebglbinding">1.2. Application flow</a>
     <li><a href="#ref-for-xrwebglbinding①">5.1. Overview</a> <a href="#ref-for-xrwebglbinding②">(2)</a> <a href="#ref-for-xrwebglbinding③">(3)</a> <a href="#ref-for-xrwebglbinding④">(4)</a> <a href="#ref-for-xrwebglbinding⑤">(5)</a>
     <li><a href="#ref-for-xrwebglbinding⑥">5.4. XRWebGLBinding</a> <a href="#ref-for-xrwebglbinding⑦">(2)</a> <a href="#ref-for-xrwebglbinding⑧">(3)</a> <a href="#ref-for-xrwebglbinding⑨">(4)</a> <a href="#ref-for-xrwebglbinding①⓪">(5)</a> <a href="#ref-for-xrwebglbinding①①">(6)</a> <a href="#ref-for-xrwebglbinding①②">(7)</a> <a href="#ref-for-xrwebglbinding①③">(8)</a> <a href="#ref-for-xrwebglbinding①④">(9)</a> <a href="#ref-for-xrwebglbinding①⑤">(10)</a> <a href="#ref-for-xrwebglbinding①⑥">(11)</a> <a href="#ref-for-xrwebglbinding①⑦">(12)</a> <a href="#ref-for-xrwebglbinding①⑧">(13)</a> <a href="#ref-for-xrwebglbinding①⑨">(14)</a> <a href="#ref-for-xrwebglbinding②⓪">(15)</a> <a href="#ref-for-xrwebglbinding②①">(16)</a> <a href="#ref-for-xrwebglbinding②②">(17)</a> <a href="#ref-for-xrwebglbinding②③">(18)</a> <a href="#ref-for-xrwebglbinding②④">(19)</a> <a href="#ref-for-xrwebglbinding②⑤">(20)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-xrwebglbinding-xrwebglbinding-session-context-session">
-   <b><a href="#dom-xrwebglbinding-xrwebglbinding-session-context-session">#dom-xrwebglbinding-xrwebglbinding-session-context-session</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session">5.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrwebglbinding-xrwebglbinding-session-context-context">
@@ -3912,7 +3927,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <b><a href="#dom-xrmediabinding-xrmediabinding-session-session">#dom-xrmediabinding-xrmediabinding-session-session</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session">3.7. XREquirectLayer</a>
-    <li><a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session①">5.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session②">(2)</a>
+    <li><a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session①">5.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session②">(2)</a> <a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session③">(3)</a> <a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session④">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrrenderstate-layers">
