@@ -441,8 +441,8 @@ If the layer was created without depth/stencil, this attribute returns null.
 The <dfn attribute for="XRWebGLSubImage">imageIndex</dfn> attribute returns the offset into the texture array. Valid only for layers
 that were requested with {{texture-array}}.
 
-{{XRWebGLSubImage/colorTexture|ColorTexture}} and {{XRWebGLSubImage/depthStencilTexture}} are only valid during the
-{{XRSession/requestAnimationFrame()}} callback and becomes invalid as soon as the callback returns.
+The {{XRWebGLSubImage/colorTexture}} and {{XRWebGLSubImage/depthStencilTexture}} objects MUST only be used during the
+{{XRSession/requestAnimationFrame()}} callback of the current session and MUST be invalid as soon as the callback returns.
 
 In addition, they MUST behave as though they were allocated with [=texStorage2D=] or [=texStorage3D=], as appropriate,
 even when using a WebGL 1.0 context.
