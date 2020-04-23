@@ -43,7 +43,7 @@ When a layer is created it is backed by a GPU resource, typically a texture, pro
 ```js
 const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl', { xrCompatible: true });
-const glLayerFactory = new XRWebGLBinding(xrSession, gl);
+const xrGlBinding = new XRWebGLBinding(xrSession, gl);
 ```
 
 The same layer factory could also accept WebGL 2.0 contexts.
@@ -53,7 +53,7 @@ Future graphics APIs will interface with WebXR in the same way. A theoretical We
 ```js
 const gpuAdapter = await navigator.gpu.requestAdapter({ xrCompatible: true });
 const gpuDevice = await gpuAdapter.requestDevice();
-const glLayerFactory = new XRWebGPULayerFactory(xrSession, gpuDevice);
+const xrGpuBinding = new XRWebGPUBinding(xrSession, gpuDevice);
 ```
 
 Each graphics API may have unique requirements that must be satisfied before a context can be used in the creation of a layer factory. For example, a `WebGLRenderingContext` must have its `xrCompatible` flag set prior to being passed to the constructor of the `XRWebGLBinding` instance.
@@ -71,8 +71,8 @@ The graphics API the layer factory was created with may also require API-specifi
 ```js
 const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl', { xrCompatible: true });
-const glLayerFactory = new XRWebGLBinding(xrSession, gl);
-const layer = glLayerFactory.createProjectionLayer("texture", { alpha: false });
+const xrGlBinding = new XRWebGLBinding(xrSession, gl);
+const layer = xrGlBinding.createProjectionLayer("texture", { alpha: false });
 ```
 
 This will allocate a layer that supplies a 2D texture as it's output surface, which will then be subdivided into viewports for each `XRView`. If the context passed into the `XRWebGLBinding` was a WebGL 2.0 the developer could optionally choose to allocate a texture array instead, in which every `XRView` will be rendered into a separate level of the array. This allows for some rendering optimizations, such as the use of the `OVR_multiview` extension, to be used.
@@ -80,14 +80,14 @@ This will allocate a layer that supplies a 2D texture as it's output surface, wh
 ```js
 const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl2', { xrCompatible: true });
-const glLayerFactory = new XRWebGLBinding(xrSession, gl);
-const layer = glLayerFactory.createProjectionLayer("texture-array", { alpha: false });
+const xrGlBinding = new XRWebGLBinding(xrSession, gl);
+const layer = xrGlBinding.createProjectionLayer("texture-array", { alpha: false });
 ```
 
 Layer types other than an `XRProjectionLayer` must be given an explicit pixel width and height, as well as whether or not the image should be stereo or mono. This is because those properties cannot be inferred from the hardware or layer type as they can with an `XRProjectionLayer`.
 
 ```js
-const layer = glLayerFactory.createQuadLayer("texture", { pixelWidth: 1024, pixelHeight: 768, layout: "stereo" });
+const layer = xrGlBinding.createQuadLayer("texture", { pixelWidth: 1024, pixelHeight: 768, layout: "stereo" });
 ```
 
 Passing `true` for stereo here indicates that you are able to provide stereo imagery for this layer, but if the XR device is unable to display stereo imagery it may automatically force the layer to be created as mono instead to reduce memory and rendering overhead. Layers that are created as mono will never be automatically changed to stereo, regardless of hardware capabilities. Developers can check the `stereo` attribte of the resulting layer to determine if the layer was allocated with resources for stereo or mono rendering.
@@ -105,7 +105,7 @@ The `XRLayerLayout` attribute determines how the GPU resources of the layers are
 Non-projection layers each have attributes that control where the layer is shown and how it's shaped. For example, the positioning of an `XRQuadLayer` is handled like so:
 
 ```js
-const quadLayer = glLayerFactory.createQuadLayer("texture", { pixelWidth: 512, pixelHeight: 512 });
+const quadLayer = xrGlBinding.createQuadLayer("texture", { pixelWidth: 512, pixelHeight: 512 });
 // Position 2 meters away from the origin of xrReferenceSpace with a width and height of 1.5 meters
 quadLayer.referenceSpace = xrReferenceSpace;
 quadLayer.transform = new XRRigidTransform({z: -2});
@@ -128,7 +128,7 @@ In addition to the `XRLayer`-derived types, the existing `XRWebGLLayer` may be p
 
 ```js
 const projectionLayer = new XRWebGLLayer(xrSession, gl);
-const quadLayer = glLayerFactory.createQuadLayer("texture", { pixelWidth: 1024, pixelHeight: 1024 });
+const quadLayer = xrGlBinding.createQuadLayer("texture", { pixelWidth: 1024, pixelHeight: 1024 });
 
 xrSession.updateRenderState({ layers: [projectionLayer, quadLayer] });
 ```
@@ -145,8 +145,8 @@ WebGL layers allocated with the `TEXTURE_2D` target will provide sub images with
 
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
-const glLayerFactory = new XRWebGLBinding(xrSession, gl);
-const layer = glLayerFactory.createProjectionLayer("texture");
+const xrGlBinding = new XRWebGLBinding(xrSession, gl);
+const layer = xrGlBinding.createProjectionLayer("texture");
 const framebuffer = gl.createFramebuffer();
 
 xrSession.updateRenderState({ layers: [layer] });
@@ -158,7 +158,7 @@ function onXRFrame(time, xrFrame) {
   gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
 
   for (let view in xrViewerPose.views) {
-    let subImage = glLayerFactory.getViewSubImage(layer, view);
+    let subImage = xrGlBinding.getViewSubImage(layer, view);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
       gl.TEXTURE_2D, subImage.colorTexture, 0);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT,
@@ -175,8 +175,8 @@ WebGL layers allocated with the `TEXTURE_2D_ARRAY` target will provide sub image
 
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
-const glLayerFactory = new XRWebGLBinding(xrSession, gl);
-const layer = glLayerFactory.createProjectionLayer("texture-array");
+const xrGlBinding = new XRWebGLBinding(xrSession, gl);
+const layer = xrGlBinding.createProjectionLayer("texture-array");
 const framebuffer = gl.createFramebuffer();
 
 xrSession.updateRenderState({ layers: [layer] });
@@ -186,7 +186,7 @@ function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
-  let viewport = glLayerFactory.getSubImage(layer, xrFrame).viewport;
+  let viewport = xrGlBinding.getSubImage(layer, xrFrame).viewport;
   gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
 
   for (let view in xrViewerPose.views) {
@@ -205,8 +205,8 @@ For some non-projection layers, such as a mono `XRQuadLayer` being shown on a st
 
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
-const glLayerFactory = new XRWebGLBinding(xrSession, gl);
-const quadLayer = glLayerFactory.createQuadLayer("texture", {
+const xrGlBinding = new XRWebGLBinding(xrSession, gl);
+const quadLayer = xrGlBinding.createQuadLayer("texture", {
   pixelWidth: 512, pixelHeight: 512
 });
 // Position 2 meters away from the origin with a width and height of 1.5 meters
@@ -224,7 +224,7 @@ function onXRFrame(time, xrFrame) {
   xrSession.requestAnimationFrame(onXRFrame);
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
-  let subImage = glLayerFactory.getSubImage(quadLayer, xrFrame);
+  let subImage = xrGlBinding.getSubImage(quadLayer, xrFrame);
   gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
     subImage.colorTexture, 0);
   let viewport = subImage.viewport;
@@ -241,7 +241,7 @@ Video playback is a very common use case in VR, especially with 180, 360, and st
 To create video layers, an `XRMediaBinding` must be created, similar to the `XRWebGLBinding`.
 
 ```js
-const mediaLayerFactory = new XRMediaBinding(xrSession);
+const xrMediaBinding = new XRMediaBinding(xrSession);
 ```
 
 The `XRMediaBinding` can then be used to create `XRQuadLayer`s, `XRCylinderLayer`s, and `XREquirectLayer`s that display a given video element. (`XRProjectionLayer`s cannot be created with an `XRMediaBinding`, given the requirements for how they must respond to the viewer's movement. `XRCubeLayer`s cannot be created with an `XRMediaBinding` since the ideal layout isn't clear, but may be added at a later time.)
@@ -249,7 +249,7 @@ The `XRMediaBinding` can then be used to create `XRQuadLayer`s, `XRCylinderLayer
 ```js
 const video = document.createElement('video');
 video.src = 'never-gonna-give-you-up.mp4';
-const layer = mediaLayerFactory.createQuadVideoLayer(video);
+const layer = xrMediaBinding.createQuadVideoLayer(video);
 ```
 
 That layer can then be added to the layers list like any of the WebGL layers above, and even intermixed with layers created by an `XRWebGLBinding`. Once the video layer has been added to the session's layer list it will continuously display the current frame of the video element with no additional interaction from the API. Playback is controlled via the standard `HTMLVideoElement` controls.
@@ -257,7 +257,7 @@ That layer can then be added to the layers list like any of the WebGL layers abo
 Videos may also contain stereo data, typically encoded with both eye's video information embedded in a single video frame either side-by-side or one on top of the other. In order to display these properly the layout of the stereo streams needs to be specified, like so:
 
 ```js
-const layer = mediaLayerFactory.createQuadVideoLayer(video, { layout: 'stereo-top-bottom' });
+const layer = xrMediaBinding.createQuadVideoLayer(video, { layout: 'stereo-top-bottom' });
 ```
 
 This will then cause only the top half of the video to show to the left eye and the bottom half of the video to show to the right eye. If more complex layouts are required than are described by the `XRLayerLayout` enum then the video must be manually rendered using an `XRWebGLBinding` layer instead.
