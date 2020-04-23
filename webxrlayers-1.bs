@@ -361,6 +361,7 @@ ISSUE: this section needs clarification
 
 <pre class="idl">
 interface XREquirectLayer : XRCompositionLayer {
+  attribute XRSpace space;
   attribute XRRigidTransform transform;
 
   attribute float radius;
@@ -371,10 +372,8 @@ interface XREquirectLayer : XRCompositionLayer {
 };
 </pre>
 
-{{XREquirectLayer}} has an internal <dfn dfn-for="XREquirectLayer">referenceSpace</dfn> which is equal to the {{session}}'s [=viewer reference space=].
-
 The <dfn attribute for="XREquirectLayer">transform</dfn> attribute sets and returns the offset and orientation relative to
-[=XREquirectLayer/referenceSpace=]. The {{XREquirectLayer/transform}} attribute and the internal [=XREquirectLayer/referenceSpace=]
+{{XREquirectLayer/space}}. The {{XREquirectLayer/transform}} attribute and the {{XREquirectLayer/space}}
 establish the spatial relationship of the layer within the user’s physical environment.
 
 The <dfn attribute for="XREquirectLayer">radius</dfn> attribute is the non-negative radius of the sphere. Values of less than or
@@ -385,6 +384,17 @@ set and return a scale of the texture coordinates after the mapping to 2D.
 
 The <dfn attribute for="XREquirectLayer">biasX</dfn> and <dfn attribute for="XREquirectLayer">biasY</dfn> attributes
 set and return a bias of the texture coordinates after the mapping to 2D.
+
+When assigning an {{XRSpace}} to the {{XREquirectLayer/space}} attribute, first run the following steps.
+
+<div class="algorithm" data-algorithm="setting the space on an equirect layer">
+
+When <var ignore>setting the space on an equirect layer</var> with {{XRSpace}} |space| and {{XREquirectLayer}} |layer|, the user agent MUST run the following steps to validate if the |space| is valid:
+  1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
+  1. Run [=setting the space on a layer=] with |space| and |layer|.
+
+</div>
 
 XRCubeLayer {#xcubelayertype}
 -----------
@@ -402,7 +412,19 @@ interface XRCubeLayer : XRCompositionLayer {
 The <dfn attribute for="XRCubeLayer">orientation</dfn> attribute sets and returns the orientation relative to the
 <dfn attribute for="XRCubeLayer">space</dfn> attribute. The {{XRCubeLayer/orientation}} and {{XRCubeLayer/space}} attributes
 establish the spatial relationship of the layer within the user’s physical environment.
-When setting the {{XRCubeLayer/space}}, first run the steps for [=setting the space on a layer=].
+When placing the {{XRCubeLayer}} only the orientation of the {{space}} is considered. The cube layer will always be rendered
+with the view point at the center.
+
+When assigning an {{XRSpace}} to the {{XRCubeLayer/space}} attribute, first run the following steps.
+
+<div class="algorithm" data-algorithm="setting the space on a cube layer">
+
+When <var ignore>setting the space on an cube layer</var> with {{XRSpace}} |space| and {{XRCubeLayer}} |layer|, the user agent MUST run the following steps to validate if the |space| is valid:
+  1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
+  1. Run [=setting the space on a layer=] with |space| and |layer|.
+
+</div>
 
 Rendering {#rendering}
 =========
