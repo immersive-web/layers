@@ -66,6 +66,8 @@ spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
 spec: WebGL 2.0; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/2.0/
     type: interface; text: WebGL2RenderingContext; url: WebGL2RenderingContext
     type: typedef; text: TEXTURE_2D_ARRAY; url: 3.7
+    type: dfn; text: texStorage2D; url: 3.7.6
+    type: dfn; text: texStorage3D; url: 3.7.6
 spec: WEBGL_depth_texture; urlPrefix: https://www.khronos.org/registry/webgl/extensions/WEBGL_depth_texture/
     type: typedef; text: WEBGL_depth_texture
 </pre>
@@ -439,8 +441,19 @@ If the layer was created without depth/stencil, this attribute returns null.
 The <dfn attribute for="XRWebGLSubImage">imageIndex</dfn> attribute returns the offset into the texture array. Valid only for layers
 that were requested with {{texture-array}}.
 
-This {{XRWebGLSubImage/colorTexture}} and {{XRWebGLSubImage/depthStencilTexture}} are only valid during
-{{XRSession/requestAnimationFrame()}} callback and becomes invalid as soon as the callback returns.
+The {{XRWebGLSubImage/colorTexture}} and {{XRWebGLSubImage/depthStencilTexture}} objects MUST only be used during the [=XR Animation frame=] of the
+current session and MUST be made invalid once the [=XR Animation frame=] completes..
+
+In addition, they MUST behave as though they were allocated with [=texStorage2D=] or [=texStorage3D=], as appropriate,
+even when using a WebGL 1.0 context.
+
+NOTE: Changes to the dimensions or format of the {{XRWebGLSubImage/colorTexture}} or {{XRWebGLSubImage/depthStencilTexture}} objects are not allowed. GL commands
+may only alter the texel values and texture parameters. Using any of the following
+commands with the WebGLTexture will result in an INVALID_OPERATION error
+being generated, even if it does not affect the dimensions or format: TexImage*, CompressedTexImage*, CopyTexImage* and TexStorage*.
+The <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/es_spec_3.0.pdf#nameddest=section-3.8.4">"Immutable-Format Texture Images"</a>
+section in the OpenGL ES 3.0 spec defines these limitations in more detail.
+
 
 XRTextureType {#xrtexturetype}
 -------------
