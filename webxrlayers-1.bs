@@ -28,7 +28,7 @@ spec: webxr-1;
     type: dfn; text: pending render state
     type: dfn; text: apply the pending render state
     type: dfn; text: viewer reference space
-    type: dfn; text: animationFrame; for: XRFrame
+
     type: dfn; text: feature descriptor
     type: dfn; text: type; for: XRReferenceSpace
     type: dfn; text: session; for: XRSpace
@@ -54,6 +54,7 @@ spec: WebXR Device API - Level 1; urlPrefix: https://www.w3.org/TR/webxr/#
     type: dfn; text: XRView/active
     type: dfn; text: eye; for: XRView
     type: dfn; text: frame
+    type: dfn; text: animationFrame; for: XRFrame
     type: dfn; text: XRSession/requestAnimationFrame()
 spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: interface; text: WebGLFramebuffer; url: WebGLFramebuffer
@@ -713,10 +714,10 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
   1. Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} as follows:
       <dl class="switch">
-      <dt> If |init|'s {{XRProjectionLayerInit/depth}} value is <code>false</code> and the [=XR Compositor=] will make use of depth values
-      <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>false</code>
-      <dt> Otherwise
-      <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>true</code>
+        <dt> If |init|'s {{XRProjectionLayerInit/depth}} value is <code>false</code> and the [=XR Compositor=] will make use of depth values
+          <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>false</code>
+        <dt> Otherwise
+          <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>true</code>
       </dl>
   1. let |helperInit| be a new {{XRLayerInit}}.
   1. Initialize |helperInit|'s {{XRLayerInit/viewPixelWidth}} to |bufferSize| width.
@@ -844,13 +845,24 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer|'s {{XRCubeLayer/orientation}} be a new {{DOMPointReadOnly}}.
   1. let |layout| be |init|'s {{XRLayerInit/layout}}.
   1. If |layout| is {{XRLayerLayout/"stereo-left-right"}} or {{XRLayerLayout/"stereo-top-bottom"}}, throw {{InvalidStateError}} and abort these steps.
-  1. Initialize |array| as follows, based on the value of |layout|:
+  1. Let |layer|'s [=colorTextures=] be a new array.
+  1. Initialize |layer|'s [=colorTextures=] as follows, based on the value of |layout|:
     <dl class="switch">
       <dt> {{XRLayerLayout/"mono"}}:
-        <dd> Initialize |array| with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+        <dd> Initialize [=colorTextures=] with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
       <dt> Otherwise
-        <dd> Initialize |array| with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-      </dt>
+        <dd> Initialize [=colorTextures=] with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+    </dl>
+  1. Let |layer|'s [=depthStencilTextures=] be a new array.
+  1. If |init|'s {{XRLayerInit/depth}} and {{XRLayerInit/stencil}} are set, initialize |layer|'s [=depthStencilTextures=] as follows:
+    <dl class="switch">
+      <dt> If |context| is not a {{WebGL2RenderingContext}} and the {{WEBGL_depth_texture}} extension is not enabled in |context|.
+        <dd> Throw {{InvalidStateError}} and abort these steps.
+      <dt> Else if |layout| is {{XRLayerLayout/"mono"}}:
+        <dd> Initialize [=depthStencilTextures=] with 1 new instance of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+      <dt> Otherwise
+        <dd> Initialize [=depthStencilTextures=] with 2 new instances of {{WebGLTexture}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+    </dl>
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
