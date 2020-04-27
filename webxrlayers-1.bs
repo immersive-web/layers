@@ -264,11 +264,12 @@ enable optical chromatic aberration correction for the layer. Only valid if this
 
 ISSUE: describe what chromaticAberrationCorrection does.
 
-The <dfn attribute for="XRCompositionLayer">needsRedraw</dfn> attribute signals that the {{XRCompositionLayer}} needs to be
+The <dfn attribute for="XRCompositionLayer">needsRedraw</dfn> attribute signals that the {{XRCompositionLayer}} SHOULD be
 rerendered in the next [=XR animation frame=].
 
 NOTE: the user agent might set this flag if the underlying resources were reallocated or if the [=XR Compositor=] can no
-longer reproject the layer.
+longer reproject the layer. Failing to redraw the content in the next [=XR animation frame=] might cause flickering or
+other side effects.
 
 {{destroy()}} will delete the underlying attachments. If there are no attachments, this function does nothing.
 
