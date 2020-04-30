@@ -38,6 +38,8 @@ spec: webxr-1;
     type: dfn; text: updateRenderState; for: XRSession
     type: dfn; text: session; for: XRWebGLLayer
     type: dfn; text: layers; for: XRRenderStateInit
+spec: html;
+    type: dfn; text: check the usability of the image argument
 </pre>
 
 <pre class="anchors">
@@ -266,7 +268,8 @@ ISSUE: describe what chromaticAberrationCorrection does.
 {{destroy()}} will delete the underlying attachments. If there are no attachments, this function does nothing.
 
 Each {{XRCompositionLayer}} has a <dfn for="XRCompositionLayer">context</dfn> object which is an instance
-of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
+of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}} and a <dfn for="XRCompositionLayer">media</dfn>
+object which is an instance of a {{HTMLVideoElement}}.
 
 Each {{XRCompositionLayer}} has an associated <dfn for="XRCompositionLayer">session</dfn>, which is the
 {{XRSession}} it was created with.
@@ -933,10 +936,9 @@ When this method is invoked, it MUST run the following steps:
 
 </div>
 
+
 Video layer creation {#videolayer}
 ====================
-
-ISSUE: this section needs to be enhanced.
 
 XRMediaLayerInit {#xrmedialayerinittype}
 ----------------
@@ -945,18 +947,21 @@ is initialized.
 
 <pre class="idl">
 dictionary XRMediaLayerInit {
+  required XRSpace space;
   XRLayerLayout layout = "mono";
   boolean invertStereo = false;
 };
 </pre>
 
+The <dfn dict-member for="XRMediaLayerInit">space</dfn> attribute defines the spatial relationship with the user’s physical environment.
+
 The <dfn dict-member for="XRMediaLayerInit">layout</dfn> attribute defines the layout of the video in the {{XRCompositionLayer}}.
 
-The <dfn dict-member for="XRMediaLayerInit">invertStereo</dfn> attribute defines if natural location of each view in the video
+The <dfn dict-member for="XRMediaLayerInit">invertStereo</dfn> attribute defines if the natural location of each view in the video
 should be inverted.
 
 XRMediaBinding {#xrmediabindingtype}
--------------------
+--------------
 The {{XRMediaBinding}} object is used to create layers that display the content of an {{HTMLVideoElement}}.
 
 NOTE: It is possible to create more than one {{XRMediaBinding}}. The lifetime of layers is not tied to the lifetime of
@@ -975,6 +980,126 @@ interface XRMediaBinding {
 };
 
 </pre>
+
+Each {{XRMediaBinding}} has an associated <dfn dfn-for="XRMediaBinding">session</dfn>, which is the
+{{XRSession}} it was created with.
+
+NOTE: It is possible to create more than one {{XRMediaBinding}}. The lifetime of a layer is not tied
+to the lifetime of the {{XRMediaBinding}} that created it.
+
+Each layer created through {{XRMediaBinding}} has an internal {{HTMLVideoElement}} [=XRCompositionLayer/media=].
+If the layer is part of the session's {{XRSession/renderState}}, it will display the current frame of the video. The
+layer is update at the native framerate of the [=/XR device=] or the video, whichever is less.
+
+NOTE: only the video frames will be displayed in the layer. Video controls should be implemented by the author and must
+be drawn in another layer.
+
+<div class="algorithm" data-algorithm="render-media-layer">
+When an {{XRCompositionLayer}} |layer| with a {{HTMLVideoElement}} |media| needs to be rendered, the user agent
+MUST run the following steps:
+  1. Let |usability| be the result of [=check the usability of the image argument|checking the usability of=] |media|.
+  1. If |usability| is <code>bad</code>, then fill the |layer| with opaque black and abort these steps.
+  1. Fill the |layer| with the content of the |media| element.
+
+<!--
+-> maybe this is needed later
+  1. Render the |layer| as follows:
+    <dl class="switch">
+      <dt class="switch">If the |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}}
+      <dd> Fill the |layer| with the
+      <dt> Else if the |layer| was created with a textureType of {{"texture-array"}}
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the element at offset |index| of the |layer|'s [=depthStencilTextures=] array.
+      <dt> Otherwise
+      <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the element of the |layer|'s [=depthStencilTextures=] array that corresponds to the |view|.
+    </dl>
+-->
+</div>
+
+ISSUE: add a better algorithm to describe the drawing.
+
+<div class="algorithm" data-algorithm="construct-media-binding">
+
+The <dfn constructor for="XRMediaBinding">XRMediaBinding(XRSession |session|)</dfn> constructor
+MUST perform the following steps when invoked:
+
+  1. If |session|'s [=ended=] value is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. If |session| is not an [=immersive session=], throw an {{InvalidStateError}} and abort these steps.
+  1. Let |binding| be a new {{XRMediaBinding}}
+  1. Initialize |binding|'s {{session}} to |session|.
+  1. Return |binding|.
+
+</div>
+
+<div class="algorithm" data-algorithm="createMediaQuadLayerAlgo">
+The <dfn method for="XRMediaBinding">createQuadLayer(HTMLVideoElement |video|, optional XRMediaLayerInit |init|)</dfn> method creates a new {{XRQuadLayer}} |layer|.
+
+When this method is invoked, the user agent MUST run the following steps:
+
+  1. If the device does not support the creation of an {{XRQuadLayer}}, throw an {{NotSupportedError}} and abort these steps.
+  1. Let |session| be the target {{XRMediaBinding}}'s [=XRMediaBinding/session=].
+  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. Let |layer| be a new {{XRQuadLayer}}.
+  1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
+  1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
+  1. Initialize |layer|'s {{XRQuadLayer/width}} to <code>1.0f</code>.
+  1. Initialize |layer|'s {{XRQuadLayer/height}} to <code>1.0f</code>.
+  1. Let |layer|'s {{XRQuadLayer/space}} be the |init|'s {{XRMediaLayerInit/space}}.
+  1. Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
+  1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
+  1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
+  1. return |layer|.
+
+</div>
+
+<div class="algorithm" data-algorithm="createMediaCylinderLayerAlgo">
+The <dfn method for="XRMediaBinding">createCylinderLayer(HTMLVideoElement |video|, optional XRMediaLayerInit |init|))</dfn> method creates a new {{XRCylinderLayer}} |layer|.
+
+When this method is invoked, the user agent MUST run the following steps:
+
+  1. If the device does not support the creation of an {{XRCylinderLayer}}, throw an {{NotSupportedError}} and abort these steps.
+  1. Let |session| be the target {{XRMediaBinding}}'s [=XRMediaBinding/session=].
+  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. Let |layer| be a new {{XRCylinderLayer}}.
+  1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
+  1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
+  1. Initialize |layer|'s {{XRCylinderLayer/radius}} to <code>2.0f</code>.
+  1. Initialize |layer|'s {{XRCylinderLayer/centralAngle}} to <code>45.0f</code>.
+  1. Initialize |layer|'s {{XRCylinderLayer/aspectRatio}} to <code>2.0f</code>.
+  1. Let |layer|'s {{XRCylinderLayer/space}} be the |init|'s {{XRMediaLayerInit/space}}.
+  1. Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}}.
+  1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
+  1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
+  1. return |layer|.
+
+</div>
+
+<div class="algorithm" data-algorithm="createMediaEquirectLayerAlgo">
+The <dfn method for="XRMediaBinding">createEquirectLayer(HTMLVideoElement |video|, optional XRMediaLayerInit |init|)))</dfn> method creates a new {{XREquirectLayer}} |layer|.
+
+When this method is invoked, the user agent MUST run the following steps:
+
+  1. If the device does not support the creation of an {{XREquirectLayer}}, throw an {{NotSupportedError}} and abort these steps.
+  1. Let |session| be the target {{XRMediaBinding}}'s [=XRMediaBinding/session=].
+  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
+  1. Let |layer| be a new {{XREquirectLayer}}.
+  1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
+  1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
+  1. Initialize |layer|'s {{XREquirectLayer/radius}} to <code>10.0f</code>.
+  1. Initialize |layer|'s {{XREquirectLayer/scaleX}} to <code>1.0f</code>.
+  1. Initialize |layer|'s {{XREquirectLayer/scaleY}} to <code>1.0f</code>.
+  1. Initialize |layer|'s {{XREquirectLayer/biasX}} to <code>0.0f</code>.
+  1. Initialize |layer|'s {{XREquirectLayer/biasY}} to <code>0.0f</code>.
+  1. Let |layer|'s {{XREquirectLayer/space}} be the |init|'s {{XRLayerInit/space}}.
+  1. Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}}.
+  1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
+  1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
+  1. return |layer|.
+
+</div>
+
+ISSUE: define how the {{XREquirectLayer}}'s parameters affect the video display.
 
 WebXR Device API Integration {#webxrintegration}
 ============================
