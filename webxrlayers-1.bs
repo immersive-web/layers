@@ -349,6 +349,15 @@ When setting the {{XRQuadLayer/space}}, first run the steps for [=setting the sp
 The <dfn attribute for="XRQuadLayer">width</dfn> and <dfn attribute for="XRQuadLayer">height</dfn> attributes
 set and return the width and height of the layer in meters.
 
+<div class="algorithm" data-algorithm="initQuadLayerAlgo">
+When <dfn lt="initialize a quad layer">initializing a {{XRQuadLayer}} |layer| with a {{XRLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
+  1. Initialize |layer|'s {{XRQuadLayer/width}} to <code>1.0f</code>.
+  1. Initialize |layer|'s {{XRQuadLayer/height}} to <code>1.0f</code>.
+  1. Let |layer|'s {{XRQuadLayer/space}} be the |init|'s {{XRLayerInit/space}}.
+  1. Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
+
+</div>
+
 XRCylinderLayer {#xrcylinderayertype}
 ---------------
 An {{XRCylinderLayer}} renders a layer that takes up a curved rectangular space in the virtual environment.
@@ -381,6 +390,16 @@ It grows symmetrically around the 0 angle.
 The <dfn attribute for="XRCylinderLayer">aspectRatio</dfn> attribute controls the ratio of the visible cylinder section.
 
 <img src="images/cylinder_layer_params.png" style="width:80%"/>
+
+<div class="algorithm" data-algorithm="initCylinderLayerAlgo">
+When <dfn lt="initialize a cylinder layer">initializing a {{XRCylinderLayer}} |layer| with a {{XRLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
+  1. Initialize |layer|'s {{XRCylinderLayer/radius}} to <code>2.0f</code>.
+  1. Initialize |layer|'s {{XRCylinderLayer/centralAngle}} to <code>45.0f</code>.
+  1. Initialize |layer|'s {{XRCylinderLayer/aspectRatio}} to <code>2.0f</code>.
+  1. Let |layer|'s {{XRCylinderLayer/space}} be the |init|'s {{XRLayerInit/space}}.
+  1. Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}}.
+
+</div>
 
 XREquirectLayer {#xrequirectlayertype}
 ---------------
@@ -422,6 +441,18 @@ When <var ignore>setting the space on an equirect layer</var> with {{XRSpace}} |
   1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
   1. Run [=setting the space on a layer=] with |space| and |layer|.
+
+</div>
+
+<div class="algorithm" data-algorithm="initEquirectLayerAlgo">
+When <dfn lt="initialize a equirect layer">initializing a {{XREquirectLayer}} |layer| with a {{XRLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
+  1. Initialize |layer|'s {{XREquirectLayer/radius}} to <code>10.0f</code>.
+  1. Initialize |layer|'s {{XREquirectLayer/scaleX}} to <code>1.0f</code>.
+  1. Initialize |layer|'s {{XREquirectLayer/scaleY}} to <code>1.0f</code>.
+  1. Initialize |layer|'s {{XREquirectLayer/biasX}} to <code>0.0f</code>.
+  1. Initialize |layer|'s {{XREquirectLayer/biasY}} to <code>0.0f</code>.
+  1. Let |layer|'s {{XREquirectLayer/space}} be the |init|'s {{XRLayerInit/space}}.
+  1. Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}}.
 
 </div>
 
@@ -474,7 +505,7 @@ Following are some best practices of spaces to use with a layer type:
   - {{XRQuadLayer}} with {{"viewer"}} space: Head-locked constant-size reticle in center of screen.
   - {{XRQuadLayer}} or {{XRCylinderLayer}} in {{"local"}}, {{"unbounded"}} space: springy body-locked UI.
   - {{XRQuadLayer}} or {{XRCylinderLayer}} in {{"local"}}, {{"local-floor"}}, {{"unbounded"}}, {{"bounded-floor"}} or anchor space: world-locked video, placed by the user.
-  - {{XREquirectLayer}} or {{XRCubemapLayer}} in {{"local"}} space: 360-degree video or skybox.
+  - {{XREquirectLayer}} or {{XRCubeLayer}} in {{"local"}} space: 360-degree video or skybox.
 
 </section>
 
@@ -805,11 +836,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a new {{XRQuadLayer}}.
   1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
-  1. Initialize |layer|'s {{XRQuadLayer/width}} to <code>1.0f</code>.
-  1. Initialize |layer|'s {{XRQuadLayer/height}} to <code>1.0f</code>.
-  1. Let |layer|'s {{XRQuadLayer/space}} be the |init|'s {{XRLayerInit/space}}.
-  1. Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
-  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
+  1. Run [=initialize a quad layer=] with |layer| and |init|.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
   1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layout|, |textureType|, |context| and |init|.
@@ -833,11 +860,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a new {{XRCylinderLayer}}.
   1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
-  1. Initialize |layer|'s {{XRCylinderLayer/radius}} to <code>2.0f</code>.
-  1. Initialize |layer|'s {{XRCylinderLayer/centralAngle}} to <code>45.0f</code>.
-  1. Initialize |layer|'s {{XRCylinderLayer/aspectRatio}} to <code>2.0f</code>.
-  1. Let |layer|'s {{XRCylinderLayer/space}} be the |init|'s {{XRLayerInit/space}}.
-  1. Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}}.
+  1. Run [=initialize a cylinder layer=] with |layer| and |init|.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
@@ -864,13 +887,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a new {{XREquirectLayer}}.
   1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
-  1. Initialize |layer|'s {{XREquirectLayer/radius}} to <code>10.0f</code>.
-  1. Initialize |layer|'s {{XREquirectLayer/scaleX}} to <code>1.0f</code>.
-  1. Initialize |layer|'s {{XREquirectLayer/scaleY}} to <code>1.0f</code>.
-  1. Initialize |layer|'s {{XREquirectLayer/biasX}} to <code>0.0f</code>.
-  1. Initialize |layer|'s {{XREquirectLayer/biasY}} to <code>0.0f</code>.
-  1. Let |layer|'s {{XREquirectLayer/space}} be the |init|'s {{XRLayerInit/space}}.
-  1. Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}}.
+  1. Run [=initialize a equirect layer=] with |layer| and |init|.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
@@ -1099,10 +1116,8 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a new {{XRQuadLayer}}.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
-  1. Initialize |layer|'s {{XRQuadLayer/width}} to <code>1.0f</code>.
-  1. Initialize |layer|'s {{XRQuadLayer/height}} to <code>1.0f</code>.
-  1. Let |layer|'s {{XRQuadLayer/space}} be the |init|'s {{XRMediaLayerInit/space}}.
-  1. Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
+  1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
+  1. Run [=initialize a quad layer=] with |layer| and |init|.
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
@@ -1120,11 +1135,8 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a new {{XRCylinderLayer}}.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
-  1. Initialize |layer|'s {{XRCylinderLayer/radius}} to <code>2.0f</code>.
-  1. Initialize |layer|'s {{XRCylinderLayer/centralAngle}} to <code>45.0f</code>.
-  1. Initialize |layer|'s {{XRCylinderLayer/aspectRatio}} to <code>2.0f</code>.
-  1. Let |layer|'s {{XRCylinderLayer/space}} be the |init|'s {{XRMediaLayerInit/space}}.
-  1. Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}}.
+  1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
+  1. Run [=initialize a cylinder layer=] with |layer| and |init|.
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
@@ -1144,13 +1156,8 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a new {{XREquirectLayer}}.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
-  1. Initialize |layer|'s {{XREquirectLayer/radius}} to <code>10.0f</code>.
-  1. Initialize |layer|'s {{XREquirectLayer/scaleX}} to <code>1.0f</code>.
-  1. Initialize |layer|'s {{XREquirectLayer/scaleY}} to <code>1.0f</code>.
-  1. Initialize |layer|'s {{XREquirectLayer/biasX}} to <code>0.0f</code>.
-  1. Initialize |layer|'s {{XREquirectLayer/biasY}} to <code>0.0f</code>.
-  1. Let |layer|'s {{XREquirectLayer/space}} be the |init|'s {{XRLayerInit/space}}.
-  1. Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}}.
+  1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
+  1. Run [=initialize a equirect layer=] with |layer| and |init|.
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
