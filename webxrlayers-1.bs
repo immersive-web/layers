@@ -181,8 +181,8 @@ If an author wants to use layers, they have to go through these steps:
 
 </section>
 
-Model {#model}
-=====
+Initialization {#initialization}
+==============
 
 In order for the applications to signal their interest in using layers during a session,
 the session MUST be requested with an appropriate [=feature descriptor=]. The string <dfn for="feature descriptor">layers</dfn> is introduced
@@ -443,6 +443,29 @@ When <var ignore>setting the space on an cube layer</var> with {{XRSpace}} |spac
   1. Run [=setting the space on a layer=] with |space| and |layer|.
 
 </div>
+
+Spaces {#spaces}
+======
+
+{{XRProjectionLayer}} and {{XRWebGLLayer}} don't have associated an {{XRSpace}} because they render to the full frame.
+
+{{XRCubeLayer}} and {{XREquirectLayer}} MUST only support {{XRReferenceSpace|XRReferenceSpaces}} that are not of type {{"viewer"}}.
+
+{{XRQuadLayer}} and {{XRCylinderLayer}} MUST support all {{XRSpace}} types.
+
+<section class="non-normative">
+
+Generally, developers should not use of {{"viewer"}} space to stabilize layers, as this will almost always defeat positional or
+rotational reprojection and result in a loss in stability of the rendered content relative to the world. The exception being small UI elements
+like a gaze cursor or targeting reticle.
+
+Following are some best practices of spaces to use with a layer type:
+  - {{XRQuadLayer}} with {{"viewer"}} space: Head-locked constant-size reticle in center of screen.
+  - {{XRQuadLayer}} or {{XRCylinderLayer}} in {{"local"}}, {{"unbounded"}} space: springy body-locked UI.
+  - {{XRQuadLayer}} or {{XRCylinderLayer}} in {{"local"}}, {{"local-floor"}}, {{"unbounded"}}, {{"bounded-floor"}} or anchor space: world-locked video, placed by the user.
+  - {{XREquirectLayer}} or {{XRCubemapLayer}} in {{"local"}} space: 360-degree video or skybox.
+
+</section>
 
 Rendering {#rendering}
 =========
