@@ -430,7 +430,7 @@ When <var ignore>setting the space on an cube layer</var> with {{XRSpace}} |spac
 Spaces {#spaces}
 ======
 
-{{XREquirectLayer}} and {{XRWebGLLayer}} don't have associated an {{XRSpace}} because they render to the full frame.
+{{XRProjectionLayer}} and {{XRWebGLLayer}} don't have associated an {{XRSpace}} because they render to the full frame.
 
 {{XRCubeLayer}} and {{XREquirectLayer}} MUST only support {{XRReferenceSpace|XRReferenceSpaces}} that are not of type {{"viewer"}}.
 
