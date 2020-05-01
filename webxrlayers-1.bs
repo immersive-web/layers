@@ -293,8 +293,8 @@ When calling {{destroy()}} on {{XRCompositionLayer}} |layer|, the user agent MUS
 </div>
 
 Each {{XRCompositionLayer}} has a <dfn for="XRCompositionLayer">context</dfn> object which is an instance
-of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}} and a <dfn for="XRCompositionLayer">media</dfn>
-object which is an instance of a {{HTMLVideoElement}}.
+of either null or a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}} and a <dfn for="XRCompositionLayer">media</dfn>
+object which is an instance of null or a {{HTMLVideoElement}}.
 
 Each {{XRCompositionLayer}} has an associated <dfn for="XRCompositionLayer">session</dfn>, which is the
 {{XRSession}} it was created with.
@@ -1068,6 +1068,8 @@ layer is update at the native framerate of the [=/XR device=] or the video, whic
 
 NOTE: only the video frames will be displayed in the layer. Video controls should be implemented by the author and must
 be drawn in another layer.
+
+ISSUE: more clarification is needed on how the video is blitted to the layers.
 
 <div class="algorithm" data-algorithm="render-media-layer">
 When an {{XRCompositionLayer}} |layer| with a {{HTMLVideoElement}} |media| needs to be rendered, the user agent
