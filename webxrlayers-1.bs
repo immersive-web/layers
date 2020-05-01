@@ -18,6 +18,8 @@ Abstract: This specification describes support for accessing the geometry of rea
 <pre class="link-defaults">
 spec:infra;
     type: dfn; text:string
+spec: permissions-request-1;
+    type: dfn; text: request(permissionDesc); for: Permissions
 spec: webxr-1;
     type: dfn; text: immersive xr device; for: XR
     type: dfn; text: xr device; for: /
@@ -38,6 +40,7 @@ spec: webxr-1;
     type: dfn; text: updateRenderState; for: XRSession
     type: dfn; text: session; for: XRWebGLLayer
     type: dfn; text: layers; for: XRRenderStateInit
+    type: dfn; text: request the xr permission
 </pre>
 
 <pre class="anchors">
@@ -200,6 +203,11 @@ navigator.xr.requestSession('immersive-vr', {
 
 Layers are only supported for XRSessions created with XRSessionMode of {{XRSessionMode/"immersive-vr"}}
 or {{XRSessionMode/"immersive-ar"}}. {{XRSessionMode/"inline"}} sessions MUST not support layers.
+
+The [=feature descriptor/"layers"=] [=feature descriptor=] has a [=feature requirement=] that it cannot be enabled when there is an [=active immersive session=].
+
+NOTE: This means that executing the {{Permissions/request(permissionDesc)}} API with "[=feature descriptor/layers=]" will
+not enable layers support for the current active session.
 
 Layer types {#xrlayertypes}
 ===========
