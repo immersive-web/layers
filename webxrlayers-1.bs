@@ -1039,9 +1039,6 @@ XRMediaBinding {#xrmediabindingtype}
 --------------
 The {{XRMediaBinding}} object is used to create layers that display the content of an {{HTMLVideoElement}}.
 
-NOTE: It is possible to create more than one {{XRMediaBinding}}. The lifetime of layers is not tied to the lifetime of
-the {{XRMediaBinding}} that created them.
-
 <pre class="idl">
 interface XRMediaBinding {
   constructor(XRSession session);
