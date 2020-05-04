@@ -32,6 +32,8 @@ spec: webxr-1;
     type: dfn; text: viewer reference space
     type: dfn; text: xr animation frame
     type: dfn; text: feature descriptor
+    type: dfn; text: feature requirement
+    type: dfn; text: active immersive session
     type: dfn; text: type; for: XRReferenceSpace
     type: dfn; text: session; for: XRSpace
     type: dfn; text: XRLayer
@@ -190,8 +192,8 @@ Initialization {#initialization}
 ==============
 
 In order for the applications to signal their interest in using layers during a session,
-the session MUST be requested with an appropriate [=feature descriptor=]. The string <dfn for="feature descriptor">layers</dfn> is introduced
-by this module as a new valid [=feature descriptor=] for WebXR Layers feature.
+the session MUST be requested with an appropriate [=feature descriptor=]. The string "<dfn for="feature descriptor">layers</dfn>" is introduced
+by this module as a new valid [=feature descriptor=] for the WebXR Layers feature.
 
 <div class="example">
 The following code requests layers as an optional feature.
@@ -206,7 +208,7 @@ navigator.xr.requestSession('immersive-vr', {
 Layers are only supported for XRSessions created with XRSessionMode of {{XRSessionMode/"immersive-vr"}}
 or {{XRSessionMode/"immersive-ar"}}. {{XRSessionMode/"inline"}} sessions MUST not support layers.
 
-The [=feature descriptor/"layers"=] [=feature descriptor=] has a [=feature requirement=] that it cannot be enabled when there is an [=active immersive session=].
+The "[=feature descriptor/layers=]" [=feature descriptor=] has a [=feature requirement=] that it cannot be enabled when there is an [=active immersive session=].
 
 NOTE: This means that executing the {{Permissions/request(permissionDesc)}} API with "[=feature descriptor/layers=]" will
 not enable layers support for the current active session.
@@ -216,11 +218,9 @@ Layer types {#xrlayertypes}
 
 Mono and stereo layers {#monovsstereo}
 ----------------------
-A stereo layer MUST supply a different view to render to for each eye. Stereo layers should be refreshed
-close to the device's native frame rate.
+A stereo layer MUST supply a different {{XRSubImage}} to render to for each view.
 
-A mono layer MUST supply a single view which is shown to each eye. There is no requirement to refresh mono
-layers repeatedly.
+A mono layer MUST supply a single {{XRSubImage}} which is shown to each view.
 
 The [=XR Compositor=] MUST ensure that layers are presented correctly in stereo to the observer.
 
@@ -472,7 +472,7 @@ interface XRCubeLayer : XRCompositionLayer {
 The <dfn attribute for="XRCubeLayer">orientation</dfn> attribute sets and returns the orientation relative to the
 <dfn attribute for="XRCubeLayer">space</dfn> attribute. The {{XRCubeLayer/orientation}} and {{XRCubeLayer/space}} attributes
 establish the spatial relationship of the layer within the user’s physical environment.
-When placing the {{XRCubeLayer}} only the orientation of the {{space}} is considered. The cube layer will always be rendered
+When placing the {{XRCubeLayer}} only the orientation of the {{XRCubeLayer/space}} is considered. The cube layer will always be rendered
 with the view point at the center.
 
 When assigning an {{XRSpace}} to the {{XRCubeLayer/space}} attribute, first run the following steps.
@@ -685,8 +685,8 @@ Each {{XRWebGLBinding}} has an associated <dfn dfn-for="XRWebGLBinding">session<
 {{XRSession}} it was created with.
 
 NOTE: It is possible to create more than one {{XRWebGLBinding}}. Any layer created with an instance of {{XRWebGLBinding}} can
-be used with another instance of {{XRWebGLBinding}} as long as both were created with the same {{session}} and the same
-{{context}}. The lifetime of layers or instances of {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLBinding}} that created them.
+be used with another instance of {{XRWebGLBinding}} as long as both were created with the same [=XRWebGLBinding/session=] and the same
+[=XRWebGLBinding/context=]. The lifetime of layers or instances of {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLBinding}} that created them.
 
 Each {{XRCompositionLayer}} created through {{XRWebGLBinding}} has an internal <dfn>colorTextures</dfn> array which is an |array| of {{WebGLTexture}} for color textures and
 an internal <dfn>depthStencilTextures</dfn> which is an |array| of {{WebGLTexture}}</dfn> for depth/stencil textures.
@@ -701,8 +701,8 @@ MUST perform the following steps when invoked:
   1. If |context| is lost, throw an {{InvalidStateError}} and abort these steps.
   1. If |session| is not an [=immersive session=], throw an {{InvalidStateError}} and abort these steps.
   1. If |context|'s [=XR compatible=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
-  1. Initialize |binding|'s {{context}} to |context|.
-  1. Initialize |binding|'s {{session}} to |session|.
+  1. Initialize |binding|'s [=XRWebGLBinding/context=] to |context|.
+  1. Initialize |binding|'s [=XRWebGLBinding/session=] to |session|.
   1. Return |binding|.
 
 </div>
@@ -788,8 +788,8 @@ The <dfn method for="XRWebGLBinding">createProjectionLayer(XRTextureType |textur
 
 When this method is invoked, the user agent MUST run the following steps:
 
-  1. Let |session| be the target {{XRWebGLBinding}}'s {{session}}.
-  1. Let |context| be the target {{XRWebGLBinding}}'s {{context}}.
+  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
+  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
   1. Let |bufferSize| be the [=recommended WebGL framebuffer resolution=] multiplied by |init|'s {{XRProjectionLayerInit/scaleFactor}}.
   1. Let |layer| be a new {{XRProjectionLayer}}
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
@@ -957,8 +957,8 @@ To <dfn>validate the state of the XRWebGLSubImage creation function</dfn> of a {
   1. If |frame|'s {{XRFrame/session}} is not equal to |layer|'s [=XRCompositionLayer/session=], return <code>false</code> and abort these steps.
   1. If |frame|'s [=XRFrame/active=] boolean is <code>false</code>, return <code>false</code> and abort these steps.
   1. If |frame|'s [=XRFrame/animationFrame=] boolean is <code>false</code>, return <code>false</code> and abort these steps.
-  1. If |binding|'s {{session}} is not equal to |layer|'s [=XRCompositionLayer/session=], return <code>false</code> and abort these steps.
-  1. If |binding|'s {{context}} is not equal to |layer|'s [=XRCompositionLayer/context=], return <code>false</code> and abort these steps.
+  1. If |binding|'s [=XRWebGLBinding/session=] is not equal to |layer|'s [=XRCompositionLayer/session=], return <code>false</code> and abort these steps.
+  1. If |binding|'s [=XRWebGLBinding/context=] is not equal to |layer|'s [=XRCompositionLayer/context=], return <code>false</code> and abort these steps.
   1. If the |layer|'s [=colorTextures=] array is empty or missing, return <code>false</code> and abort these steps.
   1. return <code>true</code>
 
@@ -1039,9 +1039,6 @@ XRMediaBinding {#xrmediabindingtype}
 --------------
 The {{XRMediaBinding}} object is used to create layers that display the content of an {{HTMLVideoElement}}.
 
-NOTE: It is possible to create more than one {{XRMediaBinding}}. The lifetime of layers is not tied to the lifetime of
-the {{XRMediaBinding}} that created them.
-
 <pre class="idl">
 interface XRMediaBinding {
   constructor(XRSession session);
@@ -1102,7 +1099,7 @@ MUST perform the following steps when invoked:
   1. If |session|'s [=ended=] value is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
   1. If |session| is not an [=immersive session=], throw an {{InvalidStateError}} and abort these steps.
   1. Let |binding| be a new {{XRMediaBinding}}
-  1. Initialize |binding|'s {{session}} to |session|.
+  1. Initialize |binding|'s [=XRMediaBinding/session=] to |session|.
   1. Return |binding|.
 
 </div>
