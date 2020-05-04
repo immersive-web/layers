@@ -1536,7 +1536,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-01">1 May 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-04">4 May 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Previous Versions:
@@ -1694,8 +1694,8 @@ match it with the most recent HMD pose. This may significantly reduce the effect
    </section>
    <h2 class="heading settled" data-level="2" id="initialization"><span class="secno">2. </span><span class="content">Initialization</span><a class="self-link" href="#initialization"></a></h2>
    <p>In order for the applications to signal their interest in using layers during a session,
-the session MUST be requested with an appropriate <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor">feature descriptor</a>. The string <dfn class="dfn-paneled" data-dfn-for="feature descriptor" data-dfn-type="dfn" data-noexport id="feature-descriptor-layers">layers</dfn> is introduced
-by this module as a new valid <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor①">feature descriptor</a> for WebXR Layers feature.</p>
+the session MUST be requested with an appropriate <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor">feature descriptor</a>. The string "<dfn class="dfn-paneled" data-dfn-for="feature descriptor" data-dfn-type="dfn" data-noexport id="feature-descriptor-layers">layers</dfn>" is introduced
+by this module as a new valid <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor①">feature descriptor</a> for the WebXR Layers feature.</p>
    <div class="example" id="example-3a50cd84">
     <a class="self-link" href="#example-3a50cd84"></a> The following code requests layers as an optional feature. 
 <pre class="highlight">navigator<c- p>.</c->xr<c- p>.</c->requestSession<c- p>(</c-><c- t>'immersive-vr'</c-><c- p>,</c-> <c- p>{</c->
@@ -1704,15 +1704,13 @@ by this module as a new valid <a data-link-type="dfn" href="https://immersive-we
 </pre>
    </div>
    <p>Layers are only supported for XRSessions created with XRSessionMode of <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrsessionmode-immersive-vr" id="ref-for-dom-xrsessionmode-immersive-vr">"immersive-vr"</a></code> or <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr-ar-module/#dom-xrsessionmode-immersive-ar" id="ref-for-dom-xrsessionmode-immersive-ar">"immersive-ar"</a></code>. <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrsessionmode-inline" id="ref-for-dom-xrsessionmode-inline">"inline"</a></code> sessions MUST not support layers.</p>
-   <p>The [=feature descriptor/"layers"=] <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor②">feature descriptor</a> has a <a data-link-type="dfn">feature requirement</a> that it cannot be enabled when there is an <a data-link-type="dfn">active immersive session</a>.</p>
-   <p class="note" role="note"><span>NOTE:</span> This means that executing the <code class="idl"><a data-link-type="idl" href="https://wicg.github.io/permissions-request/#dom-permissions-request" id="ref-for-dom-permissions-request">request(permissionDesc)</a></code> API with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers">layers</a>" will
+   <p>The "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers">layers</a>" <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor②">feature descriptor</a> has a <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-requirements" id="ref-for-feature-requirements">feature requirement</a> that it cannot be enabled when there is an <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#active-immersive-session" id="ref-for-active-immersive-session">active immersive session</a>.</p>
+   <p class="note" role="note"><span>NOTE:</span> This means that executing the <code class="idl"><a data-link-type="idl" href="https://wicg.github.io/permissions-request/#dom-permissions-request" id="ref-for-dom-permissions-request">request(permissionDesc)</a></code> API with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers①">layers</a>" will
 not enable layers support for the current active session.</p>
    <h2 class="heading settled" data-level="3" id="xrlayertypes"><span class="secno">3. </span><span class="content">Layer types</span><a class="self-link" href="#xrlayertypes"></a></h2>
    <h3 class="heading settled" data-level="3.1" id="monovsstereo"><span class="secno">3.1. </span><span class="content">Mono and stereo layers</span><a class="self-link" href="#monovsstereo"></a></h3>
-    A stereo layer MUST supply a different view to render to for each eye. Stereo layers should be refreshed
-close to the device’s native frame rate. 
-   <p>A mono layer MUST supply a single view which is shown to each eye. There is no requirement to refresh mono
-layers repeatedly.</p>
+    A stereo layer MUST supply a different <code class="idl"><a data-link-type="idl" href="#xrsubimage" id="ref-for-xrsubimage">XRSubImage</a></code> to render to for each view. 
+   <p>A mono layer MUST supply a single <code class="idl"><a data-link-type="idl" href="#xrsubimage" id="ref-for-xrsubimage①">XRSubImage</a></code> which is shown to each view.</p>
    <p>The <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor">XR Compositor</a> MUST ensure that layers are presented correctly in stereo to the observer.</p>
    <h3 class="heading settled" data-level="3.2" id="xrlayerlayouttype"><span class="secno">3.2. </span><span class="content">XRLayerLayout</span><a class="self-link" href="#xrlayerlayouttype"></a></h3>
     The <code class="idl"><a data-link-type="idl" href="#enumdef-xrlayerlayout" id="ref-for-enumdef-xrlayerlayout">XRLayerLayout</a></code> enum defines the layout of the layer. 
@@ -1923,9 +1921,9 @@ set and return a bias of the texture coordinates after the mapping to 2D.</p>
 </pre>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCubeLayer" data-dfn-type="attribute" data-export id="dom-xrcubelayer-orientation"><code>orientation</code></dfn> attribute sets and returns the orientation relative to the <dfn class="dfn-paneled idl-code" data-dfn-for="XRCubeLayer" data-dfn-type="attribute" data-export id="dom-xrcubelayer-space"><code>space</code></dfn> attribute. The <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayer-orientation" id="ref-for-dom-xrcubelayer-orientation①">orientation</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayer-space" id="ref-for-dom-xrcubelayer-space①">space</a></code> attributes
 establish the spatial relationship of the layer within the user’s physical environment.
-When placing the <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer①">XRCubeLayer</a></code> only the orientation of the <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayer-space" id="ref-for-dom-xrcylinderlayer-space④">space</a></code> is considered. The cube layer will always be rendered
+When placing the <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer①">XRCubeLayer</a></code> only the orientation of the <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayer-space" id="ref-for-dom-xrcubelayer-space②">space</a></code> is considered. The cube layer will always be rendered
 with the view point at the center.</p>
-   <p>When assigning an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrspace" id="ref-for-xrspace⑦">XRSpace</a></code> to the <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayer-space" id="ref-for-dom-xrcubelayer-space②">space</a></code> attribute, first run the following steps.</p>
+   <p>When assigning an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrspace" id="ref-for-xrspace⑦">XRSpace</a></code> to the <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayer-space" id="ref-for-dom-xrcubelayer-space③">space</a></code> attribute, first run the following steps.</p>
    <div class="algorithm" data-algorithm="setting the space on a cube layer">
     <p>When <var>setting the space on an cube layer</var> with <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrspace" id="ref-for-xrspace⑧">XRSpace</a></code> <var>space</var> and <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer②">XRCubeLayer</a></code> <var>layer</var>, the user agent MUST run the following steps to validate if the <var>space</var> is valid:</p>
     <ol>
@@ -1959,7 +1957,7 @@ like a gaze cursor or targeting reticle.</p>
    </section>
    <h2 class="heading settled" data-level="5" id="rendering"><span class="secno">5. </span><span class="content">Rendering</span><a class="self-link" href="#rendering"></a></h2>
    <h3 class="heading settled" data-level="5.1" id="xrsubimagetype"><span class="secno">5.1. </span><span class="content">XRSubImage</span><a class="self-link" href="#xrsubimagetype"></a></h3>
-    The <code class="idl"><a data-link-type="idl" href="#xrsubimage" id="ref-for-xrsubimage">XRSubImage</a></code> object represents what viewport of the GPU texture to use. 
+    The <code class="idl"><a data-link-type="idl" href="#xrsubimage" id="ref-for-xrsubimage②">XRSubImage</a></code> object represents what viewport of the GPU texture to use. 
 <pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrsubimage"><code><c- g>XRSubImage</c-></code></dfn> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrviewport" id="ref-for-xrviewport"><c- n>XRViewport</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="XRViewport" href="#dom-xrsubimage-viewport" id="ref-for-dom-xrsubimage-viewport"><c- g>viewport</c-></a>;
 };
@@ -1968,7 +1966,7 @@ like a gaze cursor or targeting reticle.</p>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRSubImage" data-dfn-type="attribute" data-export id="dom-xrsubimage-viewport"><code>viewport</code></dfn> attribute returns the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrviewport" id="ref-for-xrviewport①">XRViewport</a></code> to use when rendering the sub image.</p>
    <h3 class="heading settled" data-level="5.2" id="xrwebglsubimagetype"><span class="secno">5.2. </span><span class="content">XRWebGLSubImage</span><a class="self-link" href="#xrwebglsubimagetype"></a></h3>
     The <code class="idl"><a data-link-type="idl" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage">XRWebGLSubImage</a></code> object is used during rendering of the layer. 
-<pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrwebglsubimage"><code><c- g>XRWebGLSubImage</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#xrsubimage" id="ref-for-xrsubimage①"><c- n>XRSubImage</c-></a> {
+<pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrwebglsubimage"><code><c- g>XRWebGLSubImage</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#xrsubimage" id="ref-for-xrsubimage③"><c- n>XRSubImage</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture"><c- n>WebGLTexture</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="WebGLTexture" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture"><c- g>colorTexture</c-></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture①"><c- n>WebGLTexture</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="WebGLTexture?" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture"><c- g>depthStencilTexture</c-></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long②"><c- b>unsigned</c-> <c- b>long</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long?" href="#dom-xrwebglsubimage-imageindex" id="ref-for-dom-xrwebglsubimage-imageindex"><c- g>imageIndex</c-></a>;
@@ -2053,7 +2051,7 @@ the rectangular dimensions of the <code class="idl"><a data-link-type="idl" href
    <h3 class="heading settled" data-level="6.4" id="XRWebGLBindingtype"><span class="secno">6.4. </span><span class="content">XRWebGLBinding</span><a class="self-link" href="#XRWebGLBindingtype"></a></h3>
     The <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding⑥">XRWebGLBinding</a></code> object is used to create layers that have a GPU backend. 
 <pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrwebglbinding"><code><c- g>XRWebGLBinding</c-></code></dfn> {
-  <a class="idl-code" data-link-type="constructor" href="#dom-xrwebglbinding-xrwebglbinding" id="ref-for-dom-xrwebglbinding-xrwebglbinding"><c- g>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession④"><c- n>XRSession</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding/XRWebGLBinding(session, context), XRWebGLBinding/constructor(session, context)" data-dfn-type="argument" data-export id="dom-xrwebglbinding-xrwebglbinding-session-context-session"><code><c- g>session</c-></code></dfn>, <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#typedefdef-xrwebglrenderingcontext" id="ref-for-typedefdef-xrwebglrenderingcontext"><c- n>XRWebGLRenderingContext</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding/XRWebGLBinding(session, context), XRWebGLBinding/constructor(session, context)" data-dfn-type="argument" data-export id="dom-xrwebglbinding-xrwebglbinding-session-context-context"><code><c- g>context</c-></code></dfn>);
+  <a class="idl-code" data-link-type="constructor" href="#dom-xrwebglbinding-xrwebglbinding" id="ref-for-dom-xrwebglbinding-xrwebglbinding"><c- g>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession④"><c- n>XRSession</c-></a> <dfn class="idl-code" data-dfn-for="XRWebGLBinding/XRWebGLBinding(session, context), XRWebGLBinding/constructor(session, context)" data-dfn-type="argument" data-export id="dom-xrwebglbinding-xrwebglbinding-session-context-session"><code><c- g>session</c-></code><a class="self-link" href="#dom-xrwebglbinding-xrwebglbinding-session-context-session"></a></dfn>, <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#typedefdef-xrwebglrenderingcontext" id="ref-for-typedefdef-xrwebglrenderingcontext"><c- n>XRWebGLRenderingContext</c-></a> <dfn class="idl-code" data-dfn-for="XRWebGLBinding/XRWebGLBinding(session, context), XRWebGLBinding/constructor(session, context)" data-dfn-type="argument" data-export id="dom-xrwebglbinding-xrwebglbinding-session-context-context"><code><c- g>context</c-></code><a class="self-link" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context"></a></dfn>);
 
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-double" id="ref-for-idl-double①"><c- b>double</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding" data-dfn-type="attribute" data-export data-readonly data-type="double" id="dom-xrwebglbinding-nativeprojectionscalefactor"><code><c- g>nativeProjectionScaleFactor</c-></code></dfn>;
 
@@ -2075,7 +2073,7 @@ the rectangular dimensions of the <code class="idl"><a data-link-type="idl" href
 of either a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContext" id="ref-for-WebGLRenderingContext②">WebGLRenderingContext</a></code> or a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext①">WebGL2RenderingContext</a></code>.</p>
    <p>Each <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding⑧">XRWebGLBinding</a></code> has an associated <dfn class="dfn-paneled" data-dfn-for="XRWebGLBinding" data-dfn-type="dfn" data-noexport id="xrwebglbinding-session">session</dfn>, which is the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession⑤">XRSession</a></code> it was created with.</p>
    <p class="note" role="note"><span>NOTE:</span> It is possible to create more than one <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding⑨">XRWebGLBinding</a></code>. Any layer created with an instance of <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⓪">XRWebGLBinding</a></code> can
-be used with another instance of <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①①">XRWebGLBinding</a></code> as long as both were created with the same <code class="idl"><a data-link-type="idl" href="#dom-xrmediabinding-xrmediabinding-session-session" id="ref-for-dom-xrmediabinding-xrmediabinding-session-session">session</a></code> and the same <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context">context</a></code>. The lifetime of layers or instances of <code class="idl"><a data-link-type="idl" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage⑤">XRWebGLSubImage</a></code> is not tied to the lifetime of the <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①②">XRWebGLBinding</a></code> that created them.</p>
+be used with another instance of <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①①">XRWebGLBinding</a></code> as long as both were created with the same <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session">session</a> and the same <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context">context</a>. The lifetime of layers or instances of <code class="idl"><a data-link-type="idl" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage⑤">XRWebGLSubImage</a></code> is not tied to the lifetime of the <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①②">XRWebGLBinding</a></code> that created them.</p>
    <p>Each <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer②⓪">XRCompositionLayer</a></code> created through <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①③">XRWebGLBinding</a></code> has an internal <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="colortextures">colorTextures</dfn> array which is an <var>array</var> of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture④">WebGLTexture</a></code> for color textures and
 an internal <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="depthstenciltextures">depthStencilTextures</dfn> which is an <var>array</var> of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑤">WebGLTexture</a></code> for depth/stencil textures.</p>
    <div class="algorithm" data-algorithm="construct-webgl-layer">
@@ -2093,9 +2091,9 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If <var>context</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compatible" id="ref-for-xr-compatible">XR compatible</a> boolean is <code>false</code>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror⑨">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>Initialize <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context①">context</a></code> to <var>context</var>.</p>
+      <p>Initialize <var>binding</var>’s <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context①">context</a> to <var>context</var>.</p>
      <li data-md>
-      <p>Initialize <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-session" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session">session</a></code> to <var>session</var>.</p>
+      <p>Initialize <var>binding</var>’s <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session①">session</a> to <var>session</var>.</p>
      <li data-md>
       <p>Return <var>binding</var>.</p>
     </ol>
@@ -2206,9 +2204,9 @@ MUST perform the following steps when invoked:</p>
     <p>When this method is invoked, the user agent MUST run the following steps:</p>
     <ol>
      <li data-md>
-      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑤">XRWebGLBinding</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-session" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session①">session</a></code>.</p>
+      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑤">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session②">session</a>.</p>
      <li data-md>
-      <p>Let <var>context</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑥">XRWebGLBinding</a></code>'s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context②">context</a></code>.</p>
+      <p>Let <var>context</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑥">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context②">context</a>.</p>
      <li data-md>
       <p>Let <var>bufferSize</var> be the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#recommended-webgl-framebuffer-resolution" id="ref-for-recommended-webgl-framebuffer-resolution②">recommended WebGL framebuffer resolution</a> multiplied by <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-scalefactor" id="ref-for-dom-xrprojectionlayerinit-scalefactor①">scaleFactor</a></code>.</p>
      <li data-md>
@@ -2269,9 +2267,9 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If the device does not support the creation of an <code class="idl"><a data-link-type="idl" href="#xrquadlayer" id="ref-for-xrquadlayer⑨">XRQuadLayer</a></code>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑦">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session">session</a>.</p>
+      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑦">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session③">session</a>.</p>
      <li data-md>
-      <p>Let <var>context</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑧">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context">context</a>.</p>
+      <p>Let <var>context</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑧">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context③">context</a>.</p>
      <li data-md>
       <p>If <var>session</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#ended" id="ref-for-ended②">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror①⑤">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -2307,9 +2305,9 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If the device does not support the creation of an <code class="idl"><a data-link-type="idl" href="#xrcylinderlayer" id="ref-for-xrcylinderlayer⑧">XRCylinderLayer</a></code>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑨">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session①">session</a>.</p>
+      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑨">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session④">session</a>.</p>
      <li data-md>
-      <p>Let <var>context</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding②⓪">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context①">context</a>.</p>
+      <p>Let <var>context</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding②⓪">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context④">context</a>.</p>
      <li data-md>
       <p>If <var>session</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#ended" id="ref-for-ended③">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror①⑦">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -2347,9 +2345,9 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If the device does not support the creation of an <code class="idl"><a data-link-type="idl" href="#xrequirectlayer" id="ref-for-xrequirectlayer⑧">XREquirectLayer</a></code>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror②">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding②①">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session②">session</a>.</p>
+      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding②①">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session⑤">session</a>.</p>
      <li data-md>
-      <p>Let <var>context</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding②②">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context②">context</a>.</p>
+      <p>Let <var>context</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding②②">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context⑤">context</a>.</p>
      <li data-md>
       <p>If <var>session</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#ended" id="ref-for-ended④">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror①⑨">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -2391,9 +2389,9 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If the device does not support the creation of an <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer⑧">XRCubeLayer</a></code>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror③">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding②③">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session③">session</a>.</p>
+      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding②③">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session⑥">session</a>.</p>
      <li data-md>
-      <p>Let <var>context</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding②④">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context③">context</a>.</p>
+      <p>Let <var>context</var> be the target <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding②④">XRWebGLBinding</a></code>'s <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context⑥">context</a>.</p>
      <li data-md>
       <p>If <var>session</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#ended" id="ref-for-ended⑤">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror②③">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -2411,7 +2409,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-session" id="ref-for-xrcompositionlayer-session⑤">session</a> to <var>session</var>.</p>
      <li data-md>
-      <p>Let <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayer-space" id="ref-for-dom-xrcubelayer-space③">space</a></code> be the <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-space" id="ref-for-dom-xrlayerinit-space①②">space</a></code>.</p>
+      <p>Let <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayer-space" id="ref-for-dom-xrcubelayer-space④">space</a></code> be the <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-space" id="ref-for-dom-xrlayerinit-space①②">space</a></code>.</p>
      <li data-md>
       <p>Let <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayer-orientation" id="ref-for-dom-xrcubelayer-orientation②">orientation</a></code> be a new <code class="idl"><a data-link-type="idl" href="https://drafts.fxtf.org/geometry-1/#dompointreadonly" id="ref-for-dompointreadonly①">DOMPointReadOnly</a></code>.</p>
      <li data-md>
@@ -2465,9 +2463,9 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If <var>frame</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#animationframe" id="ref-for-animationframe">animationFrame</a> boolean is <code>false</code>, return <code>false</code> and abort these steps.</p>
      <li data-md>
-      <p>If <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-session" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session②">session</a></code> is not equal to <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-session" id="ref-for-xrcompositionlayer-session⑦">session</a>, return <code>false</code> and abort these steps.</p>
+      <p>If <var>binding</var>’s <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session⑦">session</a> is not equal to <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-session" id="ref-for-xrcompositionlayer-session⑦">session</a>, return <code>false</code> and abort these steps.</p>
      <li data-md>
-      <p>If <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-xrwebglbinding-session-context-context" id="ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context③">context</a></code> is not equal to <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-context" id="ref-for-xrcompositionlayer-context⑤">context</a>, return <code>false</code> and abort these steps.</p>
+      <p>If <var>binding</var>’s <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context⑦">context</a> is not equal to <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-context" id="ref-for-xrcompositionlayer-context⑤">context</a>, return <code>false</code> and abort these steps.</p>
      <li data-md>
       <p>If the <var>layer</var>’s <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures⑨">colorTextures</a> array is empty or missing, return <code>false</code> and abort these steps.</p>
      <li data-md>
@@ -2549,10 +2547,8 @@ is initialized.
 should be inverted.</p>
    <h3 class="heading settled" data-level="7.2" id="xrmediabindingtype"><span class="secno">7.2. </span><span class="content">XRMediaBinding</span><a class="self-link" href="#xrmediabindingtype"></a></h3>
     The <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding①">XRMediaBinding</a></code> object is used to create layers that display the content of an <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#htmlvideoelement" id="ref-for-htmlvideoelement①">HTMLVideoElement</a></code>. 
-   <p class="note" role="note"><span>NOTE:</span> It is possible to create more than one <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding②">XRMediaBinding</a></code>. The lifetime of layers is not tied to the lifetime of
-the <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding③">XRMediaBinding</a></code> that created them.</p>
 <pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrmediabinding"><code><c- g>XRMediaBinding</c-></code></dfn> {
-  <a class="idl-code" data-link-type="constructor" href="#dom-xrmediabinding-xrmediabinding" id="ref-for-dom-xrmediabinding-xrmediabinding"><c- g>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession⑥"><c- n>XRSession</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="XRMediaBinding/XRMediaBinding(session), XRMediaBinding/constructor(session)" data-dfn-type="argument" data-export id="dom-xrmediabinding-xrmediabinding-session-session"><code><c- g>session</c-></code></dfn>);
+  <a class="idl-code" data-link-type="constructor" href="#dom-xrmediabinding-xrmediabinding" id="ref-for-dom-xrmediabinding-xrmediabinding"><c- g>constructor</c-></a>(<a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession⑥"><c- n>XRSession</c-></a> <dfn class="idl-code" data-dfn-for="XRMediaBinding/XRMediaBinding(session), XRMediaBinding/constructor(session)" data-dfn-type="argument" data-export id="dom-xrmediabinding-xrmediabinding-session-session"><code><c- g>session</c-></code><a class="self-link" href="#dom-xrmediabinding-xrmediabinding-session-session"></a></dfn>);
 
   <a class="n" data-link-type="idl-name" href="#xrquadlayer" id="ref-for-xrquadlayer①①"><c- n>XRQuadLayer</c-></a> <dfn class="idl-code" data-dfn-for="XRMediaBinding" data-dfn-type="method" data-export data-lt="createQuadVideoLayer(video, init)|createQuadVideoLayer(video)" id="dom-xrmediabinding-createquadvideolayer"><code><c- g>createQuadVideoLayer</c-></code><a class="self-link" href="#dom-xrmediabinding-createquadvideolayer"></a></dfn>(<a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/media.html#htmlvideoelement" id="ref-for-htmlvideoelement②"><c- n>HTMLVideoElement</c-></a> <dfn class="idl-code" data-dfn-for="XRMediaBinding/createQuadVideoLayer(video, init), XRMediaBinding/createQuadVideoLayer(video)" data-dfn-type="argument" data-export id="dom-xrmediabinding-createquadvideolayer-video-init-video"><code><c- g>video</c-></code><a class="self-link" href="#dom-xrmediabinding-createquadvideolayer-video-init-video"></a></dfn>,
                                    <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-xrmedialayerinit" id="ref-for-dictdef-xrmedialayerinit①"><c- n>XRMediaLayerInit</c-></a> <dfn class="idl-code" data-dfn-for="XRMediaBinding/createQuadVideoLayer(video, init), XRMediaBinding/createQuadVideoLayer(video)" data-dfn-type="argument" data-export id="dom-xrmediabinding-createquadvideolayer-video-init-init"><code><c- g>init</c-></code><a class="self-link" href="#dom-xrmediabinding-createquadvideolayer-video-init-init"></a></dfn> = {});
@@ -2563,10 +2559,10 @@ the <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for
 };
 
 </pre>
-   <p>Each <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding④">XRMediaBinding</a></code> has an associated <dfn class="dfn-paneled" data-dfn-for="XRMediaBinding" data-dfn-type="dfn" data-noexport id="xrmediabinding-session">session</dfn>, which is the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession⑦">XRSession</a></code> it was created with.</p>
-   <p class="note" role="note"><span>NOTE:</span> It is possible to create more than one <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding⑤">XRMediaBinding</a></code>. The lifetime of a layer is not tied
-to the lifetime of the <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding⑥">XRMediaBinding</a></code> that created it.</p>
-   <p>Each layer created through <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding⑦">XRMediaBinding</a></code> has an internal <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#htmlvideoelement" id="ref-for-htmlvideoelement⑤">HTMLVideoElement</a></code> <a data-link-type="dfn" href="#xrcompositionlayer-media" id="ref-for-xrcompositionlayer-media">media</a>.
+   <p>Each <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding②">XRMediaBinding</a></code> has an associated <dfn class="dfn-paneled" data-dfn-for="XRMediaBinding" data-dfn-type="dfn" data-noexport id="xrmediabinding-session">session</dfn>, which is the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession⑦">XRSession</a></code> it was created with.</p>
+   <p class="note" role="note"><span>NOTE:</span> It is possible to create more than one <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding③">XRMediaBinding</a></code>. The lifetime of a layer is not tied
+to the lifetime of the <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding④">XRMediaBinding</a></code> that created it.</p>
+   <p>Each layer created through <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding⑤">XRMediaBinding</a></code> has an internal <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#htmlvideoelement" id="ref-for-htmlvideoelement⑤">HTMLVideoElement</a></code> <a data-link-type="dfn" href="#xrcompositionlayer-media" id="ref-for-xrcompositionlayer-media">media</a>.
 If the layer is part of the session’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrsession-renderstate" id="ref-for-dom-xrsession-renderstate">renderState</a></code>, it will display the current frame of the video. The
 layer is update at the native framerate of the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xr-device" id="ref-for-xr-device⑤">XR device</a> or the video, whichever is less.</p>
    <p class="note" role="note"><span>NOTE:</span> only the video frames will be displayed in the layer. Video controls should be implemented by the author and must
@@ -2594,9 +2590,9 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If <var>session</var> is not an <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#immersive-session" id="ref-for-immersive-session①">immersive session</a>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror③④">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>Let <var>binding</var> be a new <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding⑧">XRMediaBinding</a></code></p>
+      <p>Let <var>binding</var> be a new <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding⑥">XRMediaBinding</a></code></p>
      <li data-md>
-      <p>Initialize <var>binding</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrmediabinding-xrmediabinding-session-session" id="ref-for-dom-xrmediabinding-xrmediabinding-session-session①">session</a></code> to <var>session</var>.</p>
+      <p>Initialize <var>binding</var>’s <a data-link-type="dfn" href="#xrmediabinding-session" id="ref-for-xrmediabinding-session">session</a> to <var>session</var>.</p>
      <li data-md>
       <p>Return <var>binding</var>.</p>
     </ol>
@@ -2608,7 +2604,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If the device does not support the creation of an <code class="idl"><a data-link-type="idl" href="#xrquadlayer" id="ref-for-xrquadlayer①③">XRQuadLayer</a></code>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror④">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding⑨">XRMediaBinding</a></code>'s <a data-link-type="dfn" href="#xrmediabinding-session" id="ref-for-xrmediabinding-session">session</a>.</p>
+      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding⑦">XRMediaBinding</a></code>'s <a data-link-type="dfn" href="#xrmediabinding-session" id="ref-for-xrmediabinding-session①">session</a>.</p>
      <li data-md>
       <p>If <var>session</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#ended" id="ref-for-ended⑦">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror③⑤">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -2636,7 +2632,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If the device does not support the creation of an <code class="idl"><a data-link-type="idl" href="#xrcylinderlayer" id="ref-for-xrcylinderlayer①②">XRCylinderLayer</a></code>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror⑤">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding①⓪">XRMediaBinding</a></code>'s <a data-link-type="dfn" href="#xrmediabinding-session" id="ref-for-xrmediabinding-session①">session</a>.</p>
+      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding⑧">XRMediaBinding</a></code>'s <a data-link-type="dfn" href="#xrmediabinding-session" id="ref-for-xrmediabinding-session②">session</a>.</p>
      <li data-md>
       <p>If <var>session</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#ended" id="ref-for-ended⑧">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror③⑥">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -2664,7 +2660,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If the device does not support the creation of an <code class="idl"><a data-link-type="idl" href="#xrequirectlayer" id="ref-for-xrequirectlayer①②">XREquirectLayer</a></code>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror⑥">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding①①">XRMediaBinding</a></code>'s <a data-link-type="dfn" href="#xrmediabinding-session" id="ref-for-xrmediabinding-session②">session</a>.</p>
+      <p>Let <var>session</var> be the target <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding⑨">XRMediaBinding</a></code>'s <a data-link-type="dfn" href="#xrmediabinding-session" id="ref-for-xrmediabinding-session③">session</a>.</p>
      <li data-md>
       <p>If <var>session</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#ended" id="ref-for-ended⑨">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror③⑦">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -2708,7 +2704,7 @@ the instances of <code class="idl"><a data-link-type="idl" href="https://immersi
      <li data-md>
       <p>Initialize <var>state</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers①">layers</a></code> as follows:</p>
       <dl class="switch">
-       <dt class="switch">If the <var>session</var> was created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers①">layers</a>" enabled 
+       <dt class="switch">If the <var>session</var> was created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers②">layers</a>" enabled 
        <dd> Initialize <var>state</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers②">layers</a></code> with a new empty array. 
        <dt> Otherwise 
        <dd> set <var>state</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers③">layers</a></code> to <code>null</code>. 
@@ -2720,7 +2716,7 @@ the instances of <code class="idl"><a data-link-type="idl" href="https://immersi
     <p>This module replaces the steps given by "<a data-link-type="dfn" href="#layers-update-the-pending-layers-state" id="ref-for-layers-update-the-pending-layers-state">update the pending layers state</a>". Instead when the user agent will <dfn class="dfn-paneled" data-dfn-for="layers" data-dfn-type="dfn" data-noexport id="layers-update-the-pending-layers-state">update the pending layers state</dfn> with <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession⑨">XRSession</a></code> <var>session</var> and <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dictdef-xrrenderstateinit" id="ref-for-dictdef-xrrenderstateinit②">XRRenderStateInit</a></code> <var>newState</var>, it must run the following steps:</p>
     <ol>
      <li data-md>
-      <p>If the <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers②">layers</a>" enabled:</p>
+      <p>If the <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers③">layers</a>" enabled:</p>
       <ol>
        <li data-md>
         <p>If <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers①">layers</a></code> is not <code>null</code>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror⑦">NotSupportedError</a></code>.</p>
@@ -3239,6 +3235,12 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-xrframe-active">6.4. XRWebGLBinding</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-active-immersive-session">
+   <a href="https://immersive-web.github.io/webxr/#active-immersive-session">https://immersive-web.github.io/webxr/#active-immersive-session</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-active-immersive-session">2. Initialization</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-active-render-state">
    <a href="https://immersive-web.github.io/webxr/#active-render-state">https://immersive-web.github.io/webxr/#active-render-state</a><b>Referenced in:</b>
    <ul>
@@ -3261,6 +3263,12 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <a href="https://immersive-web.github.io/webxr/#feature-descriptor">https://immersive-web.github.io/webxr/#feature-descriptor</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-feature-descriptor">2. Initialization</a> <a href="#ref-for-feature-descriptor①">(2)</a> <a href="#ref-for-feature-descriptor②">(3)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-feature-requirements">
+   <a href="https://immersive-web.github.io/webxr/#feature-requirements">https://immersive-web.github.io/webxr/#feature-requirements</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-feature-requirements">2. Initialization</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-xrrenderstateinit-layers">
@@ -3477,10 +3485,12 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
      <li><span class="dfn-paneled" id="term-for-xrwebgllayer" style="color:initial">XRWebGLLayer</span>
      <li><span class="dfn-paneled" id="term-for-typedefdef-xrwebglrenderingcontext" style="color:initial">XRWebGLRenderingContext</span>
      <li><span class="dfn-paneled" id="term-for-xrframe-active" style="color:initial">active</span>
+     <li><span class="dfn-paneled" id="term-for-active-immersive-session" style="color:initial">active immersive session</span>
      <li><span class="dfn-paneled" id="term-for-active-render-state" style="color:initial">active render state</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrrenderstateinit-baselayer" style="color:initial">baseLayer</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrview-eye" style="color:initial">eye</span>
      <li><span class="dfn-paneled" id="term-for-feature-descriptor" style="color:initial">feature descriptor</span>
+     <li><span class="dfn-paneled" id="term-for-feature-requirements" style="color:initial">feature requirements</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrrenderstateinit-layers" style="color:initial">layers</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrpermissiondescriptor-optionalfeatures" style="color:initial">optionalFeatures</span>
      <li><span class="dfn-paneled" id="term-for-pending-render-state" style="color:initial">pending render state</span>
@@ -3681,9 +3691,9 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <aside class="dfn-panel" data-for="feature-descriptor-layers">
    <b><a href="#feature-descriptor-layers">#feature-descriptor-layers</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-feature-descriptor-layers">2. Initialization</a>
-    <li><a href="#ref-for-feature-descriptor-layers①">8.1. XRRenderState changes</a>
-    <li><a href="#ref-for-feature-descriptor-layers②">8.2. updateRenderState changes</a>
+    <li><a href="#ref-for-feature-descriptor-layers">2. Initialization</a> <a href="#ref-for-feature-descriptor-layers①">(2)</a>
+    <li><a href="#ref-for-feature-descriptor-layers②">8.1. XRRenderState changes</a>
+    <li><a href="#ref-for-feature-descriptor-layers③">8.2. updateRenderState changes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="enumdef-xrlayerlayout">
@@ -3895,7 +3905,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <b><a href="#dom-xrcylinderlayer-space">#dom-xrcylinderlayer-space</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-xrcylinderlayer-space">3.6. XRCylinderLayer</a> <a href="#ref-for-dom-xrcylinderlayer-space①">(2)</a> <a href="#ref-for-dom-xrcylinderlayer-space②">(3)</a> <a href="#ref-for-dom-xrcylinderlayer-space③">(4)</a>
-    <li><a href="#ref-for-dom-xrcylinderlayer-space④">3.8. XRCubeLayer</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrcylinderlayer-radius">
@@ -4001,15 +4010,16 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <aside class="dfn-panel" data-for="dom-xrcubelayer-space">
    <b><a href="#dom-xrcubelayer-space">#dom-xrcubelayer-space</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrcubelayer-space">3.8. XRCubeLayer</a> <a href="#ref-for-dom-xrcubelayer-space①">(2)</a> <a href="#ref-for-dom-xrcubelayer-space②">(3)</a>
-    <li><a href="#ref-for-dom-xrcubelayer-space③">6.4. XRWebGLBinding</a>
+    <li><a href="#ref-for-dom-xrcubelayer-space">3.8. XRCubeLayer</a> <a href="#ref-for-dom-xrcubelayer-space①">(2)</a> <a href="#ref-for-dom-xrcubelayer-space②">(3)</a> <a href="#ref-for-dom-xrcubelayer-space③">(4)</a>
+    <li><a href="#ref-for-dom-xrcubelayer-space④">6.4. XRWebGLBinding</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="xrsubimage">
    <b><a href="#xrsubimage">#xrsubimage</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-xrsubimage">5.1. XRSubImage</a>
-    <li><a href="#ref-for-xrsubimage①">5.2. XRWebGLSubImage</a>
+    <li><a href="#ref-for-xrsubimage">3.1. Mono and stereo layers</a> <a href="#ref-for-xrsubimage①">(2)</a>
+    <li><a href="#ref-for-xrsubimage②">5.1. XRSubImage</a>
+    <li><a href="#ref-for-xrsubimage③">5.2. XRWebGLSubImage</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrsubimage-viewport">
@@ -4176,18 +4186,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-xrwebglbinding⑥">6.4. XRWebGLBinding</a> <a href="#ref-for-xrwebglbinding⑦">(2)</a> <a href="#ref-for-xrwebglbinding⑧">(3)</a> <a href="#ref-for-xrwebglbinding⑨">(4)</a> <a href="#ref-for-xrwebglbinding①⓪">(5)</a> <a href="#ref-for-xrwebglbinding①①">(6)</a> <a href="#ref-for-xrwebglbinding①②">(7)</a> <a href="#ref-for-xrwebglbinding①③">(8)</a> <a href="#ref-for-xrwebglbinding①④">(9)</a> <a href="#ref-for-xrwebglbinding①⑤">(10)</a> <a href="#ref-for-xrwebglbinding①⑥">(11)</a> <a href="#ref-for-xrwebglbinding①⑦">(12)</a> <a href="#ref-for-xrwebglbinding①⑧">(13)</a> <a href="#ref-for-xrwebglbinding①⑨">(14)</a> <a href="#ref-for-xrwebglbinding②⓪">(15)</a> <a href="#ref-for-xrwebglbinding②①">(16)</a> <a href="#ref-for-xrwebglbinding②②">(17)</a> <a href="#ref-for-xrwebglbinding②③">(18)</a> <a href="#ref-for-xrwebglbinding②④">(19)</a> <a href="#ref-for-xrwebglbinding②⑤">(20)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-xrwebglbinding-xrwebglbinding-session-context-session">
-   <b><a href="#dom-xrwebglbinding-xrwebglbinding-session-context-session">#dom-xrwebglbinding-xrwebglbinding-session-context-session</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session">6.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session①">(2)</a> <a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-session②">(3)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-xrwebglbinding-xrwebglbinding-session-context-context">
-   <b><a href="#dom-xrwebglbinding-xrwebglbinding-session-context-context">#dom-xrwebglbinding-xrwebglbinding-session-context-context</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context">6.4. XRWebGLBinding</a> <a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context①">(2)</a> <a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context②">(3)</a> <a href="#ref-for-dom-xrwebglbinding-xrwebglbinding-session-context-context③">(4)</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="dom-xrwebglbinding-nativeprojectionscalefactor">
    <b><a href="#dom-xrwebglbinding-nativeprojectionscalefactor">#dom-xrwebglbinding-nativeprojectionscalefactor</a></b><b>Referenced in:</b>
    <ul>
@@ -4203,13 +4201,13 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <aside class="dfn-panel" data-for="xrwebglbinding-context">
    <b><a href="#xrwebglbinding-context">#xrwebglbinding-context</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-xrwebglbinding-context">6.4. XRWebGLBinding</a> <a href="#ref-for-xrwebglbinding-context①">(2)</a> <a href="#ref-for-xrwebglbinding-context②">(3)</a> <a href="#ref-for-xrwebglbinding-context③">(4)</a>
+    <li><a href="#ref-for-xrwebglbinding-context">6.4. XRWebGLBinding</a> <a href="#ref-for-xrwebglbinding-context①">(2)</a> <a href="#ref-for-xrwebglbinding-context②">(3)</a> <a href="#ref-for-xrwebglbinding-context③">(4)</a> <a href="#ref-for-xrwebglbinding-context④">(5)</a> <a href="#ref-for-xrwebglbinding-context⑤">(6)</a> <a href="#ref-for-xrwebglbinding-context⑥">(7)</a> <a href="#ref-for-xrwebglbinding-context⑦">(8)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="xrwebglbinding-session">
    <b><a href="#xrwebglbinding-session">#xrwebglbinding-session</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-xrwebglbinding-session">6.4. XRWebGLBinding</a> <a href="#ref-for-xrwebglbinding-session①">(2)</a> <a href="#ref-for-xrwebglbinding-session②">(3)</a> <a href="#ref-for-xrwebglbinding-session③">(4)</a>
+    <li><a href="#ref-for-xrwebglbinding-session">6.4. XRWebGLBinding</a> <a href="#ref-for-xrwebglbinding-session①">(2)</a> <a href="#ref-for-xrwebglbinding-session②">(3)</a> <a href="#ref-for-xrwebglbinding-session③">(4)</a> <a href="#ref-for-xrwebglbinding-session④">(5)</a> <a href="#ref-for-xrwebglbinding-session⑤">(6)</a> <a href="#ref-for-xrwebglbinding-session⑥">(7)</a> <a href="#ref-for-xrwebglbinding-session⑦">(8)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="colortextures">
@@ -4327,20 +4325,13 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <b><a href="#xrmediabinding">#xrmediabinding</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-xrmediabinding">1.2. Application flow</a>
-    <li><a href="#ref-for-xrmediabinding①">7.2. XRMediaBinding</a> <a href="#ref-for-xrmediabinding②">(2)</a> <a href="#ref-for-xrmediabinding③">(3)</a> <a href="#ref-for-xrmediabinding④">(4)</a> <a href="#ref-for-xrmediabinding⑤">(5)</a> <a href="#ref-for-xrmediabinding⑥">(6)</a> <a href="#ref-for-xrmediabinding⑦">(7)</a> <a href="#ref-for-xrmediabinding⑧">(8)</a> <a href="#ref-for-xrmediabinding⑨">(9)</a> <a href="#ref-for-xrmediabinding①⓪">(10)</a> <a href="#ref-for-xrmediabinding①①">(11)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-xrmediabinding-xrmediabinding-session-session">
-   <b><a href="#dom-xrmediabinding-xrmediabinding-session-session">#dom-xrmediabinding-xrmediabinding-session-session</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session">6.4. XRWebGLBinding</a>
-    <li><a href="#ref-for-dom-xrmediabinding-xrmediabinding-session-session①">7.2. XRMediaBinding</a>
+    <li><a href="#ref-for-xrmediabinding①">7.2. XRMediaBinding</a> <a href="#ref-for-xrmediabinding②">(2)</a> <a href="#ref-for-xrmediabinding③">(3)</a> <a href="#ref-for-xrmediabinding④">(4)</a> <a href="#ref-for-xrmediabinding⑤">(5)</a> <a href="#ref-for-xrmediabinding⑥">(6)</a> <a href="#ref-for-xrmediabinding⑦">(7)</a> <a href="#ref-for-xrmediabinding⑧">(8)</a> <a href="#ref-for-xrmediabinding⑨">(9)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="xrmediabinding-session">
    <b><a href="#xrmediabinding-session">#xrmediabinding-session</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-xrmediabinding-session">7.2. XRMediaBinding</a> <a href="#ref-for-xrmediabinding-session①">(2)</a> <a href="#ref-for-xrmediabinding-session②">(3)</a>
+    <li><a href="#ref-for-xrmediabinding-session">7.2. XRMediaBinding</a> <a href="#ref-for-xrmediabinding-session①">(2)</a> <a href="#ref-for-xrmediabinding-session②">(3)</a> <a href="#ref-for-xrmediabinding-session③">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrmediabinding-xrmediabinding">
