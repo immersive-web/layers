@@ -356,7 +356,7 @@ When <dfn lt="initialize a quad layer">initializing a {{XRQuadLayer}} |layer| wi
   1. Let |layer|'s {{XRQuadLayer/space}} be the |init|'s {{XRLayerInit/space}}.
   1. Initialize |layer|'s {{XRQuadLayer/transform}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |init|'s {{XRQuadLayerInit/transform}} is set
+      <dt class="switch">If |init|'s {{XRQuadLayerInit/transform}} is set
       <dd> Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XRQuadLayerInit/transform}}.
       <dt> Otherwise
       <dd> Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
@@ -405,7 +405,7 @@ When <dfn lt="initialize a cylinder layer">initializing a {{XRCylinderLayer}} |l
   1. Let |layer|'s {{XRCylinderLayer/space}} be the |init|'s {{XRLayerInit/space}}.
   1. Initialize |layer|'s {{XRCylinderLayer/transform}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |init|'s {{XRCylinderLayerInit/transform}} is set
+      <dt class="switch">If |init|'s {{XRCylinderLayerInit/transform}} is set
       <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}} initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XRCylinderLayerInit/transform}}.
       <dt> Otherwise
       <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
@@ -466,7 +466,7 @@ When <dfn lt="initialize a equirect layer">initializing a {{XREquirectLayer}} |l
   1. Let |layer|'s {{XREquirectLayer/space}} be the |init|'s {{XRLayerInit/space}}.
   1. Initialize |layer|'s {{XREquirectLayer/transform}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |init|'s {{XREquirectLayerInit/transform}} is set
+      <dt class="switch">If |init|'s {{XREquirectLayerInit/transform}} is set
       <dd> Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}} initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XREquirectLayerInit/transform}}.
       <dt> Otherwise
       <dd> Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}}.
@@ -992,7 +992,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer|'s {{XRCubeLayer/space}} be the |init|'s {{XRLayerInit/space}}.
   1. Initialize |layer|'s {{XRCubeLayer/orientation}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |init|'s {{XRCubeLayerInit/orientation}} is set
+      <dt class="switch">If |init|'s {{XRCubeLayerInit/orientation}} is set
       <dd> Let |layer|'s {{XRCubeLayer/orientation}} be the result of running {{DOMPointReadOnly/fromPoint}} with |init|'s {{XRCubeLayerInit/orientation}}.
       <dt> Otherwise
       <dd> Let |layer|'s {{XRCubeLayer/orientation}} be a new {{DOMPointReadOnly}}.
