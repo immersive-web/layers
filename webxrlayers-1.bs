@@ -350,11 +350,17 @@ The <dfn attribute for="XRQuadLayer">width</dfn> and <dfn attribute for="XRQuadL
 set and return the width and height of the layer in meters.
 
 <div class="algorithm" data-algorithm="initQuadLayerAlgo">
-When <dfn lt="initialize a quad layer">initializing a {{XRQuadLayer}} |layer| with a {{XRLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
-  1. Initialize |layer|'s {{XRQuadLayer/width}} to <code>1.0f</code>.
-  1. Initialize |layer|'s {{XRQuadLayer/height}} to <code>1.0f</code>.
+When <dfn lt="initialize a quad layer">initializing a {{XRQuadLayer}} |layer| with a {{XRQuadLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
+  1. Initialize |layer|'s {{XRQuadLayer/width}} to |init|'s {{XRQuadLayerInit/width}}.
+  1. Initialize |layer|'s {{XRQuadLayer/height}} to |init|'s {{XRQuadLayerInit/height}}.
   1. Let |layer|'s {{XRQuadLayer/space}} be the |init|'s {{XRLayerInit/space}}.
-  1. Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
+  1. Initialize |layer|'s {{XRQuadLayer/transform}} as follows:
+    <dl class="switch">
+      <dt class="switch">If the |init|'s {{XRQuadLayerInit/transform}} is set
+      <dd> Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XRQuadLayerInit/transform}}.
+      <dt> Otherwise
+      <dd> Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
+    </dl>
 
 </div>
 
@@ -392,12 +398,18 @@ The <dfn attribute for="XRCylinderLayer">aspectRatio</dfn> attribute controls th
 <img src="images/cylinder_layer_params.png" style="width:80%"/>
 
 <div class="algorithm" data-algorithm="initCylinderLayerAlgo">
-When <dfn lt="initialize a cylinder layer">initializing a {{XRCylinderLayer}} |layer| with a {{XRLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
-  1. Initialize |layer|'s {{XRCylinderLayer/radius}} to <code>2.0f</code>.
-  1. Initialize |layer|'s {{XRCylinderLayer/centralAngle}} to <code>45.0f</code>.
-  1. Initialize |layer|'s {{XRCylinderLayer/aspectRatio}} to <code>2.0f</code>.
+When <dfn lt="initialize a cylinder layer">initializing a {{XRCylinderLayer}} |layer| with a {{XRCylinderLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
+  1. Initialize |layer|'s {{XRCylinderLayer/radius}} to |init|'s {{XRCylinderLayerInit/radius}}.
+  1. Initialize |layer|'s {{XRCylinderLayer/centralAngle}} to |init|'s {{XRCylinderLayerInit/centralAngle}}.
+  1. Initialize |layer|'s {{XRCylinderLayer/aspectRatio}} to |init|'s {{XRCylinderLayerInit/aspectRatio}}.
   1. Let |layer|'s {{XRCylinderLayer/space}} be the |init|'s {{XRLayerInit/space}}.
-  1. Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}}.
+  1. Initialize |layer|'s {{XRCylinderLayer/transform}} as follows:
+    <dl class="switch">
+      <dt class="switch">If the |init|'s {{XRCylinderLayerInit/transform}} is set
+      <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}} initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XRCylinderLayerInit/transform}}.
+      <dt> Otherwise
+      <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
+    </dl>
 
 </div>
 
@@ -445,14 +457,20 @@ When <var ignore>setting the space on an equirect layer</var> with {{XRSpace}} |
 </div>
 
 <div class="algorithm" data-algorithm="initEquirectLayerAlgo">
-When <dfn lt="initialize a equirect layer">initializing a {{XREquirectLayer}} |layer| with a {{XRLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
-  1. Initialize |layer|'s {{XREquirectLayer/radius}} to <code>10.0f</code>.
-  1. Initialize |layer|'s {{XREquirectLayer/scaleX}} to <code>1.0f</code>.
-  1. Initialize |layer|'s {{XREquirectLayer/scaleY}} to <code>1.0f</code>.
-  1. Initialize |layer|'s {{XREquirectLayer/biasX}} to <code>0.0f</code>.
-  1. Initialize |layer|'s {{XREquirectLayer/biasY}} to <code>0.0f</code>.
+When <dfn lt="initialize a equirect layer">initializing a {{XREquirectLayer}} |layer| with a {{XREquirectLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
+  1. Initialize |layer|'s {{XREquirectLayer/radius}} to |init|'s {{XREquirectLayerInit/radius}}.
+  1. Initialize |layer|'s {{XREquirectLayer/scaleX}} to |init|'s {{XREquirectLayerInit/scaleX}}.
+  1. Initialize |layer|'s {{XREquirectLayer/scaleY}} to |init|'s {{XREquirectLayerInit/scaleY}}.
+  1. Initialize |layer|'s {{XREquirectLayer/biasX}} to |init|'s {{XREquirectLayerInit/biasX}}.
+  1. Initialize |layer|'s {{XREquirectLayer/biasY}} to |init|'s {{XREquirectLayerInit/biasY}}.
   1. Let |layer|'s {{XREquirectLayer/space}} be the |init|'s {{XRLayerInit/space}}.
-  1. Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}}.
+  1. Initialize |layer|'s {{XREquirectLayer/transform}} as follows:
+    <dl class="switch">
+      <dt class="switch">If the |init|'s {{XREquirectLayerInit/transform}} is set
+      <dd> Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}} initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XREquirectLayerInit/transform}}.
+      <dt> Otherwise
+      <dd> Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}}.
+    </dl>
 
 </div>
 
@@ -625,8 +643,8 @@ The <dfn dict-member for="XRProjectionLayerInit">scaleFactor</dfn> attribute def
 
 XRLayerInit {#xrlayerinittype}
 ---------------------
-The {{XRLayerInit}} dictionary represents a set of configurable values that describe how {{XRQuadLayer}}, {{XRCylinderLayer}}, {{XREquirectLayer}}
-and {{XRCubeLayer}} are initialized.
+The {{XRLayerInit}} dictionary represents a set of common configurable values for {{XRQuadLayer}}, {{XRCylinderLayer}},
+{{XREquirectLayer}} and {{XRCubeLayer}} .
 
 <pre class="idl">
 dictionary XRLayerInit {
@@ -653,6 +671,60 @@ The <dfn dict-member for="XRLayerInit">stencil</dfn> attribute defines if the {{
 
 The <dfn dict-member for="XRLayerInit">alpha</dfn> attribute defines if the {{XRCompositionLayer}} view will have an alpha channel.
 
+XRQuadLayerInit {#xrquadlayerinit}
+-------------------
+
+The {{XRQuadLayerInit}} dictionary represents a set of configurable values that describe how a {{XRQuadLayer}} is initialized.
+
+<pre class="idl">
+dictionary XRQuadLayerInit : XRLayerInit {
+  XRRigidTransform? transform;
+  float width = 1.0;
+  float height = 1.0;
+};
+</pre>
+
+XRCylinderLayerInit {#xrcylinderlayerinit}
+-------------------
+
+The {{XRCylinderLayerInit}} dictionary represents a set of configurable values that describe how a {{XRCylinderLayer}} is initialized.
+
+<pre class="idl">
+dictionary XRCylinderLayerInit : XRLayerInit {
+  XRRigidTransform? transform;
+  float radius = 2.0;
+  float centralAngle = 0.78539;
+  float aspectRatio = 2.0;
+};
+</pre>
+
+XREquirectLayerInit {#xrequirectlayerinit}
+-------------------
+
+The {{XREquirectLayerInit}} dictionary represents a set of configurable values that describe how a {{XREquirectLayer}} is initialized.
+
+<pre class="idl">
+dictionary XREquirectLayerInit : XRLayerInit {
+  XRRigidTransform? transform;
+  float radius = 10.0;
+  float scaleX = 1.0;
+  float scaleY = 1.0;
+  float biasX = 0;
+  float biasY = 0;
+};
+</pre>
+
+XRCubeLayerInit {#xrcubelayerinit}
+-------------------
+
+The {{XRCubeLayerInit}} dictionary represents a set of configurable values that describe how a {{XRCubeLayer}} is initialized.
+
+<pre class="idl">
+dictionary XRCubeLayerInit : XRLayerInit {
+  DOMPointReadOnly? orientation;
+};
+</pre>
+
 XRWebGLBinding {#XRWebGLBindingtype}
 -------------------
 The {{XRWebGLBinding}} object is used to create layers that have a GPU backend.
@@ -666,17 +738,19 @@ interface XRWebGLBinding {
   XRProjectionLayer createProjectionLayer(XRTextureType textureType,
                                           optional XRProjectionLayerInit init);
   XRQuadLayer createQuadLayer(XRTextureType textureType,
-                              XRLayerInit init);
+                              optional XRQuadLayerInit init);
   XRCylinderLayer createCylinderLayer(XRTextureType textureType,
-                                      XRLayerInit init);
+                                      optional XRCylinderLayerInit init);
   XREquirectLayer createEquirectLayer(XRTextureType textureType,
-                                      XRLayerInit init);
-  XRCubeLayer createCubeLayer(XRLayerInit init);
+                                      optional XREquirectLayerInit init);
+  XRCubeLayer createCubeLayer(optional XRCubeLayerInit init);
 
   XRWebGLSubImage getSubImage(XRCompositionLayer layer, XRFrame frame);
   XRWebGLSubImage getViewSubImage(XRCompositionLayer layer, XRView view);
 };
 </pre>
+
+ISSUE: the init dictionaries shouldn't be optional. This is bikeshed issue 1566.
 
 Each {{XRWebGLBinding}} has a <dfn dfn-for="XRWebGLBinding">context</dfn> object of type {{XRWebGLRenderingContext}} which is an instance
 of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
@@ -824,7 +898,7 @@ When this method is invoked, the user agent MUST run the following steps:
 ISSUE: define "opaque" {{WebGLTexture}}
 
 <div class="algorithm" data-algorithm="createQuadLayerAlgo">
-The <dfn method for="XRWebGLBinding">createQuadLayer(XRTextureType |textureType|, XRLayerInit |init|)</dfn> method creates a new {{XRQuadLayer}} |layer|.
+The <dfn method for="XRWebGLBinding">createQuadLayer(XRTextureType |textureType|, XRQuadLayerInit |init|)</dfn> method creates a new {{XRQuadLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
@@ -848,7 +922,7 @@ When this method is invoked, the user agent MUST run the following steps:
 </div>
 
 <div class="algorithm" data-algorithm="createCylinderLayerAlgo">
-The <dfn method for="XRWebGLBinding">createCylinderLayer(XRTextureType |textureType|, XRLayerInit |init|)</dfn> method creates a new {{XRCylinderLayer}} |layer|.
+The <dfn method for="XRWebGLBinding">createCylinderLayer(XRTextureType |textureType|, XRCylinderLayerInit |init|)</dfn> method creates a new {{XRCylinderLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
@@ -873,7 +947,7 @@ When this method is invoked, the user agent MUST run the following steps:
 </div>
 
 <div class="algorithm" data-algorithm="createEquirectLayerAlgo">
-The <dfn method for="XRWebGLBinding">createEquirectLayer(XRTextureType |textureType|, XRLayerInit |init|)</dfn> method creates a new {{XREquirectLayer}} |layer|.
+The <dfn method for="XRWebGLBinding">createEquirectLayer(XRTextureType |textureType|, XREquirectLayerLayerInit |init|)</dfn> method creates a new {{XREquirectLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
@@ -900,7 +974,7 @@ When this method is invoked, the user agent MUST run the following steps:
 </div>
 
 <div class="algorithm" data-algorithm="createCubeLayerAlgo">
-The <dfn method for="XRWebGLBinding">createCubeLayer(XRLayerInit |init|)</dfn> method creates a new {{XRCubeLayer}} |layer|.
+The <dfn method for="XRWebGLBinding">createCubeLayer(XRCubeLayerInit |init|)</dfn> method creates a new {{XRCubeLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
@@ -916,7 +990,13 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
   1. Let |layer|'s {{XRCubeLayer/space}} be the |init|'s {{XRLayerInit/space}}.
-  1. Let |layer|'s {{XRCubeLayer/orientation}} be a new {{DOMPointReadOnly}}.
+  1. Initialize |layer|'s {{XRCubeLayer/orientation}} as follows:
+    <dl class="switch">
+      <dt class="switch">If the |init|'s {{XRCubeLayerInit/orientation}} is set
+      <dd> Let |layer|'s {{XRCubeLayer/orientation}} be the result of running {{DOMPointReadOnly/fromPoint}} with |init|'s {{XRCubeLayerInit/orientation}}.
+      <dt> Otherwise
+      <dd> Let |layer|'s {{XRCubeLayer/orientation}} be a new {{DOMPointReadOnly}}.
+    </dl>
   1. let |layout| be |init|'s {{XRLayerInit/layout}}.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
   1. If |layout| is {{XRLayerLayout/"stereo-left-right"}} or {{XRLayerLayout/"stereo-top-bottom"}}, throw {{InvalidStateError}} and abort these steps.
