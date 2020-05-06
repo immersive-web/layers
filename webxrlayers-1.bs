@@ -679,7 +679,7 @@ interface XRWebGLBinding {
 </pre>
 
 Each {{XRWebGLBinding}} has a <dfn dfn-for="XRWebGLBinding">context</dfn> object of type {{XRWebGLRenderingContext}} which is an instance
-of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}} and a <dfn dfn-for="XRWebGLBinding">subimage</dfn> object of type {{XRWebGLSubImage}}.
+of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
 
 Each {{XRWebGLBinding}} has an associated <dfn dfn-for="XRWebGLBinding">session</dfn>, which is the
 {{XRSession}} it was created with.
@@ -703,7 +703,6 @@ MUST perform the following steps when invoked:
   1. If |context|'s [=XR compatible=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |binding|'s [=XRWebGLBinding/context=] to |context|.
   1. Initialize |binding|'s [=XRWebGLBinding/session=] to |session|.
-  1. Initialize |binding|'s [=XRWebGLBinding/subimage=] to a new {{XRWebGLSubImage}}.
   1. Return |binding|.
 
 </div>
@@ -961,7 +960,7 @@ To <dfn>validate the state of the XRWebGLSubImage creation function</dfn> of a {
   1. If |binding|'s [=XRWebGLBinding/session=] is not equal to |layer|'s [=XRCompositionLayer/session=], return <code>false</code> and abort these steps.
   1. If |binding|'s [=XRWebGLBinding/context=] is not equal to |layer|'s [=XRCompositionLayer/context=], return <code>false</code> and abort these steps.
   1. If the |layer|'s [=colorTextures=] array is empty or missing, return <code>false</code> and abort these steps.
-  1. return <code>true</code>
+  1. return <code>true</code>.
 
 </div>
 
@@ -970,7 +969,13 @@ The <dfn method for="XRWebGLBinding">getSubImage(XRCompositionLayer |layer|, XRF
 
 When this method is invoked on a {{XRWebGLBinding}} |binding|, it MUST run the following steps:
 
-  1. Let |subimage| be |binding|'s [=XRWebGLBinding/subimage=].
+  1. Initialize |subimage| as follows:
+    <dl class="switch">
+      <dt> If {{XRWebGLBinding/getSubImage()}} was called previously with the same |binding|, |layer| and |frame|, the user agent MAY:
+        <dd> Let |subimage| be the same {{XRWebGLSubImage}} object as returned by an earlier call with the same arguments.
+      <dt> Otherwise
+        <dd> Let |subimage| be a new {{XRWebGLSubImage}}.
+    </dl>
   1. If |layer|'s {{XRCompositionLayer/layout}} attribute is {{XRLayerLayout/"stereo"}}, throw an {{InvalidStateError}} and abort these steps.
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the first element of the |layer|'s [=colorTextures=] array.
@@ -985,7 +990,13 @@ The <dfn method for="XRWebGLBinding">getViewSubImage(XRCompositionLayer |layer|,
 
 When this method is invoked on a {{XRWebGLBinding}} |binding|, it MUST run the following steps:
 
-  1. Let |subimage| be |binding|'s [=XRWebGLBinding/subimage=].
+  1. Initialize |subimage| as follows:
+    <dl class="switch">
+      <dt> If {{XRWebGLBinding/getViewSubImage()}} was called previously with the same |binding|, |layer| and |view|, the user agent MAY:
+        <dd> Let |subimage| be the same {{XRWebGLSubImage}} object as returned by an earlier call with the same arguments.
+      <dt> Otherwise
+        <dd> Let |subimage| be a new {{XRWebGLSubImage}}.
+    </dl>
   1. let |frame| be |view|'s {{frame}}.
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. let |index| be a new integer with the value <code>0</code>.
