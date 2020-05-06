@@ -1203,7 +1203,7 @@ XRLayerEvent {#xrlayerevent-interface}
 [SecureContext, Exposed=Window]
 interface XRLayerEvent : Event {
   constructor(DOMString type, XRLayerEventInit eventInitDict);
-  [SameObject] readonly attribute XRLayer session;
+  [SameObject] readonly attribute XRLayer layer;
 };
 
 dictionary XRLayerEventInit : EventInit {
