@@ -562,7 +562,7 @@ The {{XRSubImage}} object represents what viewport of the GPU texture to use.
 
 <pre class="idl">
 interface XRSubImage {
-  readonly attribute XRViewport viewport;
+  [SameObject] readonly attribute XRViewport viewport;
 };
 </pre>
 
@@ -576,8 +576,8 @@ The {{XRWebGLSubImage}} object is used during rendering of the layer.
 
 <pre class="idl">
 interface XRWebGLSubImage : XRSubImage {
-  readonly attribute WebGLTexture colorTexture;
-  readonly attribute WebGLTexture? depthStencilTexture;
+  [SameObject] readonly attribute WebGLTexture colorTexture;
+  [SameObject] readonly attribute WebGLTexture? depthStencilTexture;
   readonly attribute unsigned long? imageIndex;
 };
 </pre>
@@ -1066,31 +1066,43 @@ To <dfn>validate the state of the XRWebGLSubImage creation function</dfn> of a {
   1. If |binding|'s [=XRWebGLBinding/session=] is not equal to |layer|'s [=XRCompositionLayer/session=], return <code>false</code> and abort these steps.
   1. If |binding|'s [=XRWebGLBinding/context=] is not equal to |layer|'s [=XRCompositionLayer/context=], return <code>false</code> and abort these steps.
   1. If the |layer|'s [=colorTextures=] array is empty or missing, return <code>false</code> and abort these steps.
-  1. return <code>true</code>
+  1. return <code>true</code>.
 
 </div>
 
 <div class="algorithm" data-algorithm="getSubImageAlgo">
 The <dfn method for="XRWebGLBinding">getSubImage(XRCompositionLayer |layer|, XRFrame |frame|)</dfn> method creates a new {{XRWebGLSubImage}}.
 
-When this method is invoked, it MUST run the following steps:
+When this method is invoked on a {{XRWebGLBinding}} |binding|, it MUST run the following steps:
 
-  1. Let |subimage| be a new {{XRWebGLSubImage}}
+  1. Initialize |subimage| as follows:
+    <dl class="switch">
+      <dt> If {{XRWebGLBinding/getSubImage()}} was called previously with the same |binding|, |layer| and |frame|, the user agent MAY:
+        <dd> Let |subimage| be the same {{XRWebGLSubImage}} object as returned by an earlier call with the same arguments.
+      <dt> Otherwise
+        <dd> Let |subimage| be a new {{XRWebGLSubImage}}.
+    </dl>
   1. If |layer|'s {{XRCompositionLayer/layout}} attribute is {{XRLayerLayout/"stereo"}}, throw an {{InvalidStateError}} and abort these steps.
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the first element of the |layer|'s [=colorTextures=] array.
   1. If the layer has a depthStencilTexture, initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the first element of the |layer|'s [=depthStencilTextures=] array.
   1. Set {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
-  1. return |subimage|
+  1. return |subimage|.
 
 </div>
 
 <div class="algorithm" data-algorithm="getViewSubImageAlgo">
 The <dfn method for="XRWebGLBinding">getViewSubImage(XRCompositionLayer |layer|, XRView |view|)</dfn> method creates a new {{XRWebGLSubImage}}.
 
-When this method is invoked, it MUST run the following steps:
+When this method is invoked on a {{XRWebGLBinding}} |binding|, it MUST run the following steps:
 
-  1. Let |subimage| be a new {{XRWebGLSubImage}}
+  1. Initialize |subimage| as follows:
+    <dl class="switch">
+      <dt> If {{XRWebGLBinding/getViewSubImage()}} was called previously with the same |binding|, |layer| and |view|, the user agent MAY:
+        <dd> Let |subimage| be the same {{XRWebGLSubImage}} object as returned by an earlier call with the same arguments.
+      <dt> Otherwise
+        <dd> Let |subimage| be a new {{XRWebGLSubImage}}.
+    </dl>
   1. let |frame| be |view|'s {{frame}}.
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. let |index| be a new integer with the value <code>0</code>.
@@ -1311,7 +1323,7 @@ instances of {{XRLayer}}.
 
 <pre class="idl">
 [SecureContext, Exposed=Window] partial interface XRRenderState {
-  readonly attribute FrozenArray&lt;XRLayer&gt;? layers;
+  [SameObject] readonly attribute FrozenArray&lt;XRLayer&gt;? layers;
 };
 </pre>
 
