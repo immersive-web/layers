@@ -1077,7 +1077,7 @@ When this method is invoked on a {{XRWebGLBinding}} |binding|, it MUST run the f
 
   1. Initialize |subimage| as follows:
     <dl class="switch">
-      <dt> If {{XRWebGLBinding/getSubImage()}} was called previously with the same |binding|, |layer| and |frame|, the user agent MAY:
+      <dt> If {{XRWebGLBinding/getSubImage()}} was called previously with the same |binding| and |layer|, the user agent MAY:
         <dd> Let |subimage| be the same {{XRWebGLSubImage}} object as returned by an earlier call with the same arguments.
       <dt> Otherwise
         <dd> Let |subimage| be a new {{XRWebGLSubImage}}.
