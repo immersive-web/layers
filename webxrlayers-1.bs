@@ -601,7 +601,7 @@ The <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/es_spec_3.0.pd
 section in the OpenGL ES 3.0 spec defines these limitations in more detail.
 
 The <dfn attribute for="XRWebGLSubImage">textureWidth</dfn> and <dfn attribute for="XRWebGLSubImage">textureHeight</dfn> attributes
-return the width and height of the GL attachments, respectively.
+return the width and height in pixels of the GL attachments, respectively.
 
 XRTextureType {#xrtexturetype}
 -------------
