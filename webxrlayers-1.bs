@@ -251,8 +251,6 @@ XRCompositionLayer defines a set of common attributes and behaviors across certa
 <pre class="idl">
 interface XRCompositionLayer : XRLayer {
   readonly attribute XRLayerLayout layout;
-  readonly attribute unsigned long viewPixelWidth;
-  readonly attribute unsigned long viewPixelHeight;
 
   attribute boolean blendTextureSourceAlpha;
   attribute boolean chromaticAberrationCorrection;
@@ -263,9 +261,6 @@ interface XRCompositionLayer : XRLayer {
 </pre>
 
 The <dfn attribute for="XRCompositionLayer">layout</dfn> attribute returns the layout of the layer.
-
-The <dfn attribute for="XRCompositionLayer">viewPixelWidth</dfn> and <dfn attribute for="XRCompositionLayer">viewPixelHeight</dfn> attributes
-return the width and height of the GL attachments, respectively. If there are no attachments, they will return 0.
 
 The <dfn attribute for="XRCompositionLayer">blendTextureSourceAlpha</dfn> attribute enables the layer’s texture alpha channel.
 
@@ -579,6 +574,8 @@ interface XRWebGLSubImage : XRSubImage {
   [SameObject] readonly attribute WebGLTexture colorTexture;
   [SameObject] readonly attribute WebGLTexture? depthStencilTexture;
   readonly attribute unsigned long? imageIndex;
+  readonly attribute unsigned long viewPixelWidth;
+  readonly attribute unsigned long viewPixelHeight;
 };
 </pre>
 
@@ -603,6 +600,8 @@ being generated, even if it does not affect the dimensions or format: TexImage*,
 The <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/es_spec_3.0.pdf#nameddest=section-3.8.4">"Immutable-Format Texture Images"</a>
 section in the OpenGL ES 3.0 spec defines these limitations in more detail.
 
+The <dfn attribute for="XRWebGLSubImage">viewPixelWidth</dfn> and <dfn attribute for="XRWebGLSubImage">viewPixelHeight</dfn> attributes
+return the width and height of the GL attachments, respectively.
 
 XRTextureType {#xrtexturetype}
 -------------
