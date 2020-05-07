@@ -574,8 +574,8 @@ interface XRWebGLSubImage : XRSubImage {
   [SameObject] readonly attribute WebGLTexture colorTexture;
   [SameObject] readonly attribute WebGLTexture? depthStencilTexture;
   readonly attribute unsigned long? imageIndex;
-  readonly attribute unsigned long viewPixelWidth;
-  readonly attribute unsigned long viewPixelHeight;
+  readonly attribute unsigned long textureWidth;
+  readonly attribute unsigned long textureHeight;
 };
 </pre>
 
@@ -600,7 +600,7 @@ being generated, even if it does not affect the dimensions or format: TexImage*,
 The <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/es_spec_3.0.pdf#nameddest=section-3.8.4">"Immutable-Format Texture Images"</a>
 section in the OpenGL ES 3.0 spec defines these limitations in more detail.
 
-The <dfn attribute for="XRWebGLSubImage">viewPixelWidth</dfn> and <dfn attribute for="XRWebGLSubImage">viewPixelHeight</dfn> attributes
+The <dfn attribute for="XRWebGLSubImage">textureWidth</dfn> and <dfn attribute for="XRWebGLSubImage">textureHeight</dfn> attributes
 return the width and height of the GL attachments, respectively.
 
 XRTextureType {#xrtexturetype}
