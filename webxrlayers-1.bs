@@ -251,8 +251,6 @@ XRCompositionLayer defines a set of common attributes and behaviors across certa
 <pre class="idl">
 interface XRCompositionLayer : XRLayer {
   readonly attribute XRLayerLayout layout;
-  readonly attribute unsigned long viewPixelWidth;
-  readonly attribute unsigned long viewPixelHeight;
 
   attribute boolean blendTextureSourceAlpha;
   attribute boolean chromaticAberrationCorrection;
@@ -264,9 +262,6 @@ interface XRCompositionLayer : XRLayer {
 
 The <dfn attribute for="XRCompositionLayer">layout</dfn> attribute returns the layout of the layer.
 
-The <dfn attribute for="XRCompositionLayer">viewPixelWidth</dfn> and <dfn attribute for="XRCompositionLayer">viewPixelHeight</dfn> attributes
-return the width and height of the GL attachments, respectively. If there are no attachments, they will return 0.
-
 The <dfn attribute for="XRCompositionLayer">blendTextureSourceAlpha</dfn> attribute enables the layer’s texture alpha channel.
 
 The <dfn attribute for="XRCompositionLayer">chromaticAberrationCorrection</dfn> attribute is a hint for the [=XR Compositor=] to
@@ -275,14 +270,14 @@ enable optical chromatic aberration correction for the layer. Only valid if this
 ISSUE: describe what chromaticAberrationCorrection does.
 
 The <dfn attribute for="XRCompositionLayer">needsRedraw</dfn> attribute signals that the {{XRCompositionLayer}} should be
-rerendered in the next [=XR animation frame=]. It MAY be set when [=the underlying resources of a layer are reallocated=] or
+rerendered in the next [=XR animation frame=]. It MAY be set when [=the underlying resources of a layer are lost=] or
 when the [=XR Compositor=] can no longer reproject the layer. Failing to redraw the content in the next [=XR animation frame=]
 might cause flickering or other side effects.
 
 <div class="algorithm" data-algorithm="redrawLayerAlgo">
-When <dfn>the underlying resources of a layer are reallocated</dfn> for an {{XRCompositionLayer}} |layer|,
+When <dfn>the underlying resources of a layer are lost</dfn> for an {{XRCompositionLayer}} |layer|,
 the user agent MUST run the following steps:
-  1. Set the |layer|'s {{XRCompositionLayer/needsRedraw}} array to an empty array.
+  1. Set the |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
   1. If |layer| is not a {{XRProjectionLayer}}, [=queue a task=] to [=fire an event=] named {{redraw}} on |layer|.
 
 </div>
@@ -579,6 +574,8 @@ interface XRWebGLSubImage : XRSubImage {
   [SameObject] readonly attribute WebGLTexture colorTexture;
   [SameObject] readonly attribute WebGLTexture? depthStencilTexture;
   readonly attribute unsigned long? imageIndex;
+  readonly attribute unsigned long textureWidth;
+  readonly attribute unsigned long textureHeight;
 };
 </pre>
 
@@ -603,6 +600,8 @@ being generated, even if it does not affect the dimensions or format: TexImage*,
 The <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/es_spec_3.0.pdf#nameddest=section-3.8.4">"Immutable-Format Texture Images"</a>
 section in the OpenGL ES 3.0 spec defines these limitations in more detail.
 
+The <dfn attribute for="XRWebGLSubImage">textureWidth</dfn> and <dfn attribute for="XRWebGLSubImage">textureHeight</dfn> attributes
+return the width and height in pixels of the GL attachments, respectively.
 
 XRTextureType {#xrtexturetype}
 -------------
@@ -1310,8 +1309,10 @@ Event Types {#event-types}
 
 The user agent MUST provide the following new events. Registration for and firing of the events must follow the usual behavior of DOM4 Events.
 
-The user agent MUST fire a <dfn event for="XRLayer">redraw</dfn> event on the {{XRLayer}} object when the rendering context of the [=XR Compositor=] was lost and restored.
-The author SHOULD redraw the content at the next [=XR animation frame=]. The event must be of type {{XRLayerEvent}}.
+The user agent MAY fire a <dfn event for="XRLayer">redraw</dfn> event on the {{XRLayer}} object when [=the underlying resources of a layer are lost=] or
+when the [=XR Compositor=] can no longer reproject the layer.
+
+The author SHOULD redraw the content of the layer at the next [=XR animation frame=]. The event must be of type {{XRLayerEvent}}.
 
 WebXR Device API Integration {#webxrintegration}
 ============================
