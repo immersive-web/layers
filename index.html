@@ -1536,7 +1536,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-06">6 May 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-07">7 May 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Previous Versions:
@@ -1746,8 +1746,6 @@ not enable layers support for the current active session.</p>
     XRCompositionLayer defines a set of common attributes and behaviors across certain layer types. 
 <pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrcompositionlayer"><code><c- g>XRCompositionLayer</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer"><c- n>XRLayer</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#enumdef-xrlayerlayout" id="ref-for-enumdef-xrlayerlayout①"><c- n>XRLayerLayout</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="XRLayerLayout" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout"><c- g>layout</c-></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrcompositionlayer-viewpixelwidth" id="ref-for-dom-xrcompositionlayer-viewpixelwidth"><c- g>viewPixelWidth</c-></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long①"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrcompositionlayer-viewpixelheight" id="ref-for-dom-xrcompositionlayer-viewpixelheight"><c- g>viewPixelHeight</c-></a>;
 
   <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean"><c- b>boolean</c-></a> <a class="idl-code" data-link-type="attribute" data-type="boolean" href="#dom-xrcompositionlayer-blendtexturesourcealpha" id="ref-for-dom-xrcompositionlayer-blendtexturesourcealpha"><c- g>blendTextureSourceAlpha</c-></a>;
   <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①"><c- b>boolean</c-></a> <a class="idl-code" data-link-type="attribute" data-type="boolean" href="#dom-xrcompositionlayer-chromaticaberrationcorrection" id="ref-for-dom-xrcompositionlayer-chromaticaberrationcorrection"><c- g>chromaticAberrationCorrection</c-></a>;
@@ -1757,8 +1755,6 @@ not enable layers support for the current active session.</p>
 };
 </pre>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCompositionLayer" data-dfn-type="attribute" data-export id="dom-xrcompositionlayer-layout"><code>layout</code></dfn> attribute returns the layout of the layer.</p>
-   <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCompositionLayer" data-dfn-type="attribute" data-export id="dom-xrcompositionlayer-viewpixelwidth"><code>viewPixelWidth</code></dfn> and <dfn class="dfn-paneled idl-code" data-dfn-for="XRCompositionLayer" data-dfn-type="attribute" data-export id="dom-xrcompositionlayer-viewpixelheight"><code>viewPixelHeight</code></dfn> attributes
-return the width and height of the GL attachments, respectively. If there are no attachments, they will return 0.</p>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCompositionLayer" data-dfn-type="attribute" data-export id="dom-xrcompositionlayer-blendtexturesourcealpha"><code>blendTextureSourceAlpha</code></dfn> attribute enables the layer’s texture alpha channel.</p>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCompositionLayer" data-dfn-type="attribute" data-export id="dom-xrcompositionlayer-chromaticaberrationcorrection"><code>chromaticAberrationCorrection</code></dfn> attribute is a hint for the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor①">XR Compositor</a> to
 enable optical chromatic aberration correction for the layer. Only valid if this isn’t done by default.</p>
@@ -2021,7 +2017,9 @@ like a gaze cursor or targeting reticle.</p>
 <pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrwebglsubimage"><code><c- g>XRWebGLSubImage</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#xrsubimage" id="ref-for-xrsubimage③"><c- n>XRSubImage</c-></a> {
   [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject①"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture"><c- n>WebGLTexture</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="WebGLTexture" href="#dom-xrwebglsubimage-colortexture" id="ref-for-dom-xrwebglsubimage-colortexture"><c- g>colorTexture</c-></a>;
   [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject②"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture①"><c- n>WebGLTexture</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="WebGLTexture?" href="#dom-xrwebglsubimage-depthstenciltexture" id="ref-for-dom-xrwebglsubimage-depthstenciltexture"><c- g>depthStencilTexture</c-></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long②"><c- b>unsigned</c-> <c- b>long</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long?" href="#dom-xrwebglsubimage-imageindex" id="ref-for-dom-xrwebglsubimage-imageindex"><c- g>imageIndex</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long?" href="#dom-xrwebglsubimage-imageindex" id="ref-for-dom-xrwebglsubimage-imageindex"><c- g>imageIndex</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long①"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrwebglsubimage-texturewidth" id="ref-for-dom-xrwebglsubimage-texturewidth"><c- g>textureWidth</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long②"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrwebglsubimage-textureheight" id="ref-for-dom-xrwebglsubimage-textureheight"><c- g>textureHeight</c-></a>;
 };
 </pre>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLSubImage" data-dfn-type="attribute" data-export id="dom-xrwebglsubimage-colortexture"><code>colorTexture</code></dfn> attribute returns the color <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture②">WebGLTexture</a></code> for the <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer①②">XRCompositionLayer</a></code>.</p>
@@ -2038,6 +2036,8 @@ may only alter the texel values and texture parameters. Using any of the followi
 commands with the WebGLTexture will result in an INVALID_OPERATION error
 being generated, even if it does not affect the dimensions or format: TexImage*, CompressedTexImage*, CopyTexImage* and TexStorage*.
 The <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/es_spec_3.0.pdf#nameddest=section-3.8.4">"Immutable-Format Texture Images"</a> section in the OpenGL ES 3.0 spec defines these limitations in more detail.</p>
+   <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLSubImage" data-dfn-type="attribute" data-export id="dom-xrwebglsubimage-texturewidth"><code>textureWidth</code></dfn> and <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLSubImage" data-dfn-type="attribute" data-export id="dom-xrwebglsubimage-textureheight"><code>textureHeight</code></dfn> attributes
+return the width and height in pixels of the GL attachments, respectively.</p>
    <h3 class="heading settled" data-level="5.3" id="xrtexturetype"><span class="secno">5.3. </span><span class="content">XRTextureType</span><a class="self-link" href="#xrtexturetype"></a></h3>
     The <code class="idl"><a data-link-type="idl" href="#enumdef-xrtexturetype" id="ref-for-enumdef-xrtexturetype">XRTextureType</a></code> enum defines what type of texture is allocated. 
 <pre class="idl highlight def"><c- b>enum</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="enum" data-export id="enumdef-xrtexturetype"><code><c- g>XRTextureType</c-></code></dfn> {
@@ -3064,6 +3064,8 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <li><a href="#dom-xrtexturetype-texture">texture</a><span>, in §5.3</span>
    <li><a href="#dom-xrtexturetype-texture-array">"texture-array"</a><span>, in §5.3</span>
    <li><a href="#dom-xrtexturetype-texture-array">texture-array</a><span>, in §5.3</span>
+   <li><a href="#dom-xrwebglsubimage-textureheight">textureHeight</a><span>, in §5.2</span>
+   <li><a href="#dom-xrwebglsubimage-texturewidth">textureWidth</a><span>, in §5.2</span>
    <li><a href="#the-underlying-resources-of-a-layer-are-lost">the underlying resources of a layer are lost</a><span>, in §3.3</span>
    <li>
     transform
@@ -3077,18 +3079,8 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     </ul>
    <li><a href="#layers-update-the-pending-layers-state">update the pending layers state</a><span>, in §9.2</span>
    <li><a href="#validate-the-state-of-the-xrwebglsubimage-creation-function">validate the state of the XRWebGLSubImage creation function</a><span>, in §6.8</span>
-   <li>
-    viewPixelHeight
-    <ul>
-     <li><a href="#dom-xrcompositionlayer-viewpixelheight">attribute for XRCompositionLayer</a><span>, in §3.3</span>
-     <li><a href="#dom-xrlayerinit-viewpixelheight">dict-member for XRLayerInit</a><span>, in §6.3</span>
-    </ul>
-   <li>
-    viewPixelWidth
-    <ul>
-     <li><a href="#dom-xrcompositionlayer-viewpixelwidth">attribute for XRCompositionLayer</a><span>, in §3.3</span>
-     <li><a href="#dom-xrlayerinit-viewpixelwidth">dict-member for XRLayerInit</a><span>, in §6.3</span>
-    </ul>
+   <li><a href="#dom-xrlayerinit-viewpixelheight">viewPixelHeight</a><span>, in §6.3</span>
+   <li><a href="#dom-xrlayerinit-viewpixelwidth">viewPixelWidth</a><span>, in §6.3</span>
    <li><a href="#dom-xrsubimage-viewport">viewport</a><span>, in §5.1</span>
    <li>
     width
@@ -3341,8 +3333,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <aside class="dfn-panel" data-for="term-for-idl-unsigned-long">
    <a href="https://heycam.github.io/webidl/#idl-unsigned-long">https://heycam.github.io/webidl/#idl-unsigned-long</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-idl-unsigned-long">3.3. XRCompositionLayer</a> <a href="#ref-for-idl-unsigned-long①">(2)</a>
-    <li><a href="#ref-for-idl-unsigned-long②">5.2. XRWebGLSubImage</a>
+    <li><a href="#ref-for-idl-unsigned-long">5.2. XRWebGLSubImage</a> <a href="#ref-for-idl-unsigned-long①">(2)</a> <a href="#ref-for-idl-unsigned-long②">(3)</a>
     <li><a href="#ref-for-idl-unsigned-long③">6.3. XRLayerInit</a> <a href="#ref-for-idl-unsigned-long④">(2)</a>
    </ul>
   </aside>
@@ -3854,8 +3845,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
 
 <c- b>interface</c-> <a href="#xrcompositionlayer"><code><c- g>XRCompositionLayer</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrlayer"><c- n>XRLayer</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#enumdef-xrlayerlayout"><c- n>XRLayerLayout</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="XRLayerLayout" href="#dom-xrcompositionlayer-layout"><c- g>layout</c-></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrcompositionlayer-viewpixelwidth"><c- g>viewPixelWidth</c-></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrcompositionlayer-viewpixelheight"><c- g>viewPixelHeight</c-></a>;
 
   <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a class="idl-code" data-link-type="attribute" data-type="boolean" href="#dom-xrcompositionlayer-blendtexturesourcealpha"><c- g>blendTextureSourceAlpha</c-></a>;
   <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a class="idl-code" data-link-type="attribute" data-type="boolean" href="#dom-xrcompositionlayer-chromaticaberrationcorrection"><c- g>chromaticAberrationCorrection</c-></a>;
@@ -3921,6 +3910,8 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture"><c- n>WebGLTexture</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="WebGLTexture" href="#dom-xrwebglsubimage-colortexture"><c- g>colorTexture</c-></a>;
   [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture"><c- n>WebGLTexture</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="WebGLTexture?" href="#dom-xrwebglsubimage-depthstenciltexture"><c- g>depthStencilTexture</c-></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a>? <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long?" href="#dom-xrwebglsubimage-imageindex"><c- g>imageIndex</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrwebglsubimage-texturewidth"><c- g>textureWidth</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrwebglsubimage-textureheight"><c- g>textureHeight</c-></a>;
 };
 
 <c- b>enum</c-> <a href="#enumdef-xrtexturetype"><code><c- g>XRTextureType</c-></code></a> {
@@ -4114,18 +4105,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <ul>
     <li><a href="#ref-for-dom-xrcompositionlayer-layout">3.3. XRCompositionLayer</a>
     <li><a href="#ref-for-dom-xrcompositionlayer-layout①">6.8. XRWebGLBinding</a> <a href="#ref-for-dom-xrcompositionlayer-layout②">(2)</a> <a href="#ref-for-dom-xrcompositionlayer-layout③">(3)</a> <a href="#ref-for-dom-xrcompositionlayer-layout④">(4)</a> <a href="#ref-for-dom-xrcompositionlayer-layout⑤">(5)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-xrcompositionlayer-viewpixelwidth">
-   <b><a href="#dom-xrcompositionlayer-viewpixelwidth">#dom-xrcompositionlayer-viewpixelwidth</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-xrcompositionlayer-viewpixelwidth">3.3. XRCompositionLayer</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-xrcompositionlayer-viewpixelheight">
-   <b><a href="#dom-xrcompositionlayer-viewpixelheight">#dom-xrcompositionlayer-viewpixelheight</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-xrcompositionlayer-viewpixelheight">3.3. XRCompositionLayer</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrcompositionlayer-blendtexturesourcealpha">
@@ -4442,6 +4421,18 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <ul>
     <li><a href="#ref-for-dom-xrwebglsubimage-imageindex">5.2. XRWebGLSubImage</a>
     <li><a href="#ref-for-dom-xrwebglsubimage-imageindex①">6.8. XRWebGLBinding</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrwebglsubimage-texturewidth">
+   <b><a href="#dom-xrwebglsubimage-texturewidth">#dom-xrwebglsubimage-texturewidth</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrwebglsubimage-texturewidth">5.2. XRWebGLSubImage</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrwebglsubimage-textureheight">
+   <b><a href="#dom-xrwebglsubimage-textureheight">#dom-xrwebglsubimage-textureheight</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrwebglsubimage-textureheight">5.2. XRWebGLSubImage</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="enumdef-xrtexturetype">
