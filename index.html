@@ -1764,14 +1764,14 @@ return the width and height of the GL attachments, respectively. If there are no
 enable optical chromatic aberration correction for the layer. Only valid if this isn’t done by default.</p>
    <p class="issue" id="issue-23651d24"><a class="self-link" href="#issue-23651d24"></a> describe what chromaticAberrationCorrection does.</p>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCompositionLayer" data-dfn-type="attribute" data-export id="dom-xrcompositionlayer-needsredraw"><code>needsRedraw</code></dfn> attribute signals that the <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer①">XRCompositionLayer</a></code> should be
-rerendered in the next <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xr-animation-frame" id="ref-for-xr-animation-frame">XR animation frame</a>. It MAY be set when <a data-link-type="dfn" href="#the-underlying-resources-of-a-layer-are-reallocated" id="ref-for-the-underlying-resources-of-a-layer-are-reallocated">the underlying resources of a layer are reallocated</a> or
+rerendered in the next <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xr-animation-frame" id="ref-for-xr-animation-frame">XR animation frame</a>. It MAY be set when <a data-link-type="dfn" href="#the-underlying-resources-of-a-layer-are-lost" id="ref-for-the-underlying-resources-of-a-layer-are-lost">the underlying resources of a layer are lost</a> or
 when the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor②">XR Compositor</a> can no longer reproject the layer. Failing to redraw the content in the next <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xr-animation-frame" id="ref-for-xr-animation-frame①">XR animation frame</a> might cause flickering or other side effects.</p>
    <div class="algorithm" data-algorithm="redrawLayerAlgo">
-     When <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="the-underlying-resources-of-a-layer-are-reallocated">the underlying resources of a layer are reallocated</dfn> for an <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer②">XRCompositionLayer</a></code> <var>layer</var>,
+     When <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="the-underlying-resources-of-a-layer-are-lost">the underlying resources of a layer are lost</dfn> for an <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer②">XRCompositionLayer</a></code> <var>layer</var>,
 the user agent MUST run the following steps: 
     <ol>
      <li data-md>
-      <p>Set the <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-needsredraw" id="ref-for-dom-xrcompositionlayer-needsredraw①">needsRedraw</a></code> array to an empty array.</p>
+      <p>Set the <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-needsredraw" id="ref-for-dom-xrcompositionlayer-needsredraw①">needsRedraw</a></code> to <code>true</code>.</p>
      <li data-md>
       <p>If <var>layer</var> is not a <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer">XRProjectionLayer</a></code>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task">queue a task</a> to <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire">fire an event</a> named <code class="idl"><a data-link-type="idl" href="#eventdef-xrlayer-redraw" id="ref-for-eventdef-xrlayer-redraw">redraw</a></code> on <var>layer</var>.</p>
     </ol>
@@ -2807,8 +2807,9 @@ MUST perform the following steps when invoked:</p>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRLayerEvent" data-dfn-type="attribute" data-export id="dom-xrlayerevent-layer"><code>layer</code></dfn> attribute indicates the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer④">XRLayer</a></code> that generated the event.</p>
    <h3 class="heading settled" data-level="8.2" id="event-types"><span class="secno">8.2. </span><span class="content">Event Types</span><a class="self-link" href="#event-types"></a></h3>
    <p>The user agent MUST provide the following new events. Registration for and firing of the events must follow the usual behavior of DOM4 Events.</p>
-   <p>The user agent MUST fire a <dfn class="dfn-paneled idl-code" data-dfn-for="XRLayer" data-dfn-type="event" data-export id="eventdef-xrlayer-redraw"><code>redraw</code></dfn> event on the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer⑤">XRLayer</a></code> object when the rendering context of the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor①⓪">XR Compositor</a> was lost and restored.
-The author SHOULD redraw the content at the next <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xr-animation-frame" id="ref-for-xr-animation-frame④">XR animation frame</a>. The event must be of type <code class="idl"><a data-link-type="idl" href="#xrlayerevent" id="ref-for-xrlayerevent①">XRLayerEvent</a></code>.</p>
+   <p>The user agent MAY fire a <dfn class="dfn-paneled idl-code" data-dfn-for="XRLayer" data-dfn-type="event" data-export id="eventdef-xrlayer-redraw"><code>redraw</code></dfn> event on the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer⑤">XRLayer</a></code> object when <a data-link-type="dfn" href="#the-underlying-resources-of-a-layer-are-lost" id="ref-for-the-underlying-resources-of-a-layer-are-lost①">the underlying resources of a layer are lost</a> or
+when the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor①⓪">XR Compositor</a> can no longer reproject the layer.</p>
+   <p>The author SHOULD redraw the content of the layer at the next <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xr-animation-frame" id="ref-for-xr-animation-frame④">XR animation frame</a>. The event must be of type <code class="idl"><a data-link-type="idl" href="#xrlayerevent" id="ref-for-xrlayerevent①">XRLayerEvent</a></code>.</p>
    <h2 class="heading settled" data-level="9" id="webxrintegration"><span class="secno">9. </span><span class="content">WebXR Device API Integration</span><a class="self-link" href="#webxrintegration"></a></h2>
    <h3 class="heading settled" data-level="9.1" id="xrrenderstatechanges"><span class="secno">9.1. </span><span class="content">XRRenderState changes</span><a class="self-link" href="#xrrenderstatechanges"></a></h3>
     This module extends the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dictdef-xrrenderstateinit" id="ref-for-dictdef-xrrenderstateinit①">XRRenderStateInit</a></code> and <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrrenderstate" id="ref-for-xrrenderstate">XRRenderState</a></code> interfaces with a new optional array <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers">layers</a></code> containing
@@ -3063,7 +3064,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <li><a href="#dom-xrtexturetype-texture">texture</a><span>, in §5.3</span>
    <li><a href="#dom-xrtexturetype-texture-array">"texture-array"</a><span>, in §5.3</span>
    <li><a href="#dom-xrtexturetype-texture-array">texture-array</a><span>, in §5.3</span>
-   <li><a href="#the-underlying-resources-of-a-layer-are-reallocated">the underlying resources of a layer are reallocated</a><span>, in §3.3</span>
+   <li><a href="#the-underlying-resources-of-a-layer-are-lost">the underlying resources of a layer are lost</a><span>, in §3.3</span>
    <li>
     transform
     <ul>
@@ -4147,10 +4148,11 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-dom-xrcompositionlayer-needsredraw⑨">7.2. XRMediaBinding</a> <a href="#ref-for-dom-xrcompositionlayer-needsredraw①⓪">(2)</a> <a href="#ref-for-dom-xrcompositionlayer-needsredraw①①">(3)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="the-underlying-resources-of-a-layer-are-reallocated">
-   <b><a href="#the-underlying-resources-of-a-layer-are-reallocated">#the-underlying-resources-of-a-layer-are-reallocated</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="the-underlying-resources-of-a-layer-are-lost">
+   <b><a href="#the-underlying-resources-of-a-layer-are-lost">#the-underlying-resources-of-a-layer-are-lost</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-the-underlying-resources-of-a-layer-are-reallocated">3.3. XRCompositionLayer</a>
+    <li><a href="#ref-for-the-underlying-resources-of-a-layer-are-lost">3.3. XRCompositionLayer</a>
+    <li><a href="#ref-for-the-underlying-resources-of-a-layer-are-lost①">8.2. Event Types</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="xrcompositionlayer-context">
