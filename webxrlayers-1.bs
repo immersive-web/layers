@@ -275,12 +275,12 @@ enable optical chromatic aberration correction for the layer. Only valid if this
 ISSUE: describe what chromaticAberrationCorrection does.
 
 The <dfn attribute for="XRCompositionLayer">needsRedraw</dfn> attribute signals that the {{XRCompositionLayer}} should be
-rerendered in the next [=XR animation frame=]. It MAY be set when [=the underlying resources of a layer are reallocated=] or
+rerendered in the next [=XR animation frame=]. It MAY be set when [=the underlying resources of a layer are lost=] or
 when the [=XR Compositor=] can no longer reproject the layer. Failing to redraw the content in the next [=XR animation frame=]
 might cause flickering or other side effects.
 
 <div class="algorithm" data-algorithm="redrawLayerAlgo">
-When <dfn>the underlying resources of a layer are reallocated</dfn> for an {{XRCompositionLayer}} |layer|,
+When <dfn>the underlying resources of a layer are lost</dfn> for an {{XRCompositionLayer}} |layer|,
 the user agent MUST run the following steps:
   1. Set the |layer|'s {{XRCompositionLayer/needsRedraw}} array to an empty array.
   1. If |layer| is not a {{XRProjectionLayer}}, [=queue a task=] to [=fire an event=] named {{redraw}} on |layer|.
@@ -1310,8 +1310,10 @@ Event Types {#event-types}
 
 The user agent MUST provide the following new events. Registration for and firing of the events must follow the usual behavior of DOM4 Events.
 
-The user agent MUST fire a <dfn event for="XRLayer">redraw</dfn> event on the {{XRLayer}} object when the rendering context of the [=XR Compositor=] was lost and restored.
-The author SHOULD redraw the content at the next [=XR animation frame=]. The event must be of type {{XRLayerEvent}}.
+The user agent MAY fire a <dfn event for="XRLayer">redraw</dfn> event on the {{XRLayer}} object when [=the underlying resources of a layer are lost=] or
+when the [=XR Compositor=] can no longer reproject the layer.
+
+The author SHOULD redraw the content of the layer at the next [=XR animation frame=]. The event must be of type {{XRLayerEvent}}.
 
 WebXR Device API Integration {#webxrintegration}
 ============================
