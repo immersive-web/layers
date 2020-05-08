@@ -436,10 +436,9 @@ interface XREquirectLayer : XRCompositionLayer {
   attribute XRRigidTransform transform;
 
   attribute float radius;
-  attribute float scaleX;
-  attribute float scaleY;
-  attribute float biasX ;
-  attribute float biasY;
+  attribute float centralHorizontalAngle;
+  attribute float upperVerticalAngle;
+  attribute float lowerVerticalAngle ;
 
   // Events
   attribute EventHandler onredraw;
@@ -453,11 +452,8 @@ establish the spatial relationship of the layer within the user’s physical env
 The <dfn attribute for="XREquirectLayer">radius</dfn> attribute is the non-negative radius of the sphere. Values of less than or
 equal to zero or infinity are treated as an infinite sphere.
 
-The <dfn attribute for="XREquirectLayer">scaleX</dfn> and <dfn attribute for="XREquirectLayer">scaleY</dfn> attributes
-set and return a scale of the texture coordinates after the mapping to 2D.
-
-The <dfn attribute for="XREquirectLayer">biasX</dfn> and <dfn attribute for="XREquirectLayer">biasY</dfn> attributes
-set and return a bias of the texture coordinates after the mapping to 2D.
+The <dfn attribute for="XREquirectLayer">centralHorizontalAngle</dfn>, <dfn attribute for="XREquirectLayer">upperVerticalAngle</dfn>
+and <dfn attribute for="XREquirectLayer">lowerVerticalAngle</dfn> attributes set and return how the texture is mapped to the sphere.
 
 When assigning an {{XRSpace}} to the {{XREquirectLayer/space}} attribute, first run the following steps.
 
@@ -473,10 +469,9 @@ When <var ignore>setting the space on an equirect layer</var> with {{XRSpace}} |
 <div class="algorithm" data-algorithm="initEquirectLayerAlgo">
 When <dfn lt="initialize a equirect layer">initializing a {{XREquirectLayer}} |layer| with a {{XREquirectLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
   1. Initialize |layer|'s {{XREquirectLayer/radius}} to |init|'s {{XREquirectLayerInit/radius}}.
-  1. Initialize |layer|'s {{XREquirectLayer/scaleX}} to |init|'s {{XREquirectLayerInit/scaleX}}.
-  1. Initialize |layer|'s {{XREquirectLayer/scaleY}} to |init|'s {{XREquirectLayerInit/scaleY}}.
-  1. Initialize |layer|'s {{XREquirectLayer/biasX}} to |init|'s {{XREquirectLayerInit/biasX}}.
-  1. Initialize |layer|'s {{XREquirectLayer/biasY}} to |init|'s {{XREquirectLayerInit/biasY}}.
+  1. Initialize |layer|'s {{XREquirectLayer/centralHorizontalAngle}} to |init|'s {{XREquirectLayerInit/centralHorizontalAngle}}.
+  1. Initialize |layer|'s {{XREquirectLayer/upperVerticalAngle}} to |init|'s {{XREquirectLayerInit/upperVerticalAngle}}.
+  1. Initialize |layer|'s {{XREquirectLayer/lowerVerticalAngle}} to |init|'s {{XREquirectLayerInit/lowerVerticalAngle}}.
   1. Let |layer|'s {{XREquirectLayer/space}} be the |init|'s {{XRLayerInit/space}}.
   1. Initialize |layer|'s {{XREquirectLayer/transform}} as follows:
     <dl class="switch">
@@ -723,6 +718,8 @@ dictionary XRCylinderLayerInit : XRLayerInit {
 };
 </pre>
 
+The default value of {{XRCylinderLayerInit/centralAngle}} is π / 4.
+
 XREquirectLayerInit {#xrequirectlayerinit}
 -------------------
 
@@ -732,12 +729,15 @@ The {{XREquirectLayerInit}} dictionary represents a set of configurable values t
 dictionary XREquirectLayerInit : XRLayerInit {
   XRRigidTransform? transform;
   float radius = 10.0;
-  float scaleX = 1.0;
-  float scaleY = 1.0;
-  float biasX = 0;
-  float biasY = 0;
+  float centralHorizontalAngle = 6.28318;
+  float upperVerticalAngle = 3.14159;
+  float lowerVerticalAngle = 3.14159;
 };
 </pre>
+
+The default value of {{XREquirectLayerInit/centralHorizontalAngle}} is π * 2.
+The default value of {{XREquirectLayerInit/upperVerticalAngle}} is π.
+The default value of {{XREquirectLayerInit/lowerVerticalAngle}} is π.
 
 XRCubeLayerInit {#xrcubelayerinit}
 -------------------
