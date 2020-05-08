@@ -252,8 +252,12 @@ XRCompositionLayer defines a set of common attributes and behaviors across certa
 interface XRCompositionLayer : XRLayer {
   readonly attribute XRLayerLayout layout;
 
-  attribute boolean blendTextureSourceAlpha;
-  attribute boolean chromaticAberrationCorrection;
+  readonly attribute boolean? blendTextureSourceAlpha;
+  readonly attribute boolean? chromaticAberrationCorrection;
+  readonly attribute float? fixedFoveation;
+
+  void setParameters(XRCompositionLayerParameters parameters);
+
   readonly attribute boolean needsRedraw;
 
   void destroy();
@@ -262,12 +266,20 @@ interface XRCompositionLayer : XRLayer {
 
 The <dfn attribute for="XRCompositionLayer">layout</dfn> attribute returns the layout of the layer.
 
-The <dfn attribute for="XRCompositionLayer">blendTextureSourceAlpha</dfn> attribute enables the layer’s texture alpha channel.
+The <dfn attribute for="XRCompositionLayer">blendTextureSourceAlpha</dfn> attribute enables the layer’s texture alpha channel. It is defined if the UA supports this parameter.
 
 The <dfn attribute for="XRCompositionLayer">chromaticAberrationCorrection</dfn> attribute is a hint for the [=XR Compositor=] to
-enable optical chromatic aberration correction for the layer. Only valid if this isn't done by default.
+enable optical chromatic aberration correction for the layer. It is defined if the UA supports this parameter.
 
 ISSUE: describe what chromaticAberrationCorrection does.
+
+The <dfn attribute for="XRCompositionLayer">fixedFoveation</dfn> controls the amount of foveation. It is defined if the UA supports this parameter.
+
+ISSUE: describe what fixedFoveation and define the parameter
+
+When <dfn method for="XRCompositionLayer">setParameters(XRCompositionLayerParameters parameters)</dfn> is called, queue a task to set the parameters.
+
+ISSUE: write up algorithm.
 
 The <dfn attribute for="XRCompositionLayer">needsRedraw</dfn> attribute signals that the {{XRCompositionLayer}} should be
 rerendered in the next [=XR animation frame=]. It MAY be set when [=the underlying resources of a layer are lost=] or
@@ -318,7 +330,7 @@ interface XRProjectionLayer : XRCompositionLayer {
   readonly attribute boolean ignoreDepthValues;
 };
 </pre>
-
+gi
 The <dfn attribute for="XRProjectionLayer">ignoreDepthValues</dfn> attribute, if <code>true</code>, indicates that the
 [=XR Compositor=] MUST NOT make use of values in the depth buffer attachment when rendering. When the attribute
 is <code>false</code> it indicates that the content of the depth buffer attachment will be used by the
@@ -643,13 +655,26 @@ The method will return the associated XRCompositionLayer type.
 Some layer types may not be supported by the {{XRSession}}. If a layer type isn't supported the method will throw an exception. {{XRProjectionLayer}} MUST be supported by all {{XRSession}}s.
 </section>
 
+XRCompositionLayerParameters {#xrcompositionlayerparameterstype}
+----------------------------
+
+The {{XRCompositionLayerParameters}} dictionary represents a set of configurable values for all {{XRCompositionLayer|XRCompositionLayers}}.
+
+<pre class="idl">
+dictionary XRCompositionLayerParameters {
+  boolean blendTextureSourceAlpha = true;
+  boolean chromaticAberrationCorrection = false;
+  float fixedFoveation = 0;
+};
+</pre>
+
 XRProjectionLayerInit {#xrprojectionlayerinittype}
 ---------------------
 The {{XRProjectionLayerInit}} dictionary represents a set of configurable values that describe how a {{XRProjectionLayer}}
 is initialized.
 
 <pre class="idl">
-dictionary XRProjectionLayerInit {
+dictionary XRProjectionLayerInit : XRCompositionLayerParameters {
   boolean depth = true;
   boolean stencil = false;
   boolean alpha = true;
@@ -672,7 +697,7 @@ The {{XRLayerInit}} dictionary represents a set of common configurable values fo
 {{XREquirectLayer}} and {{XRCubeLayer}} .
 
 <pre class="idl">
-dictionary XRLayerInit {
+dictionary XRLayerInit : XRCompositionLayerParameters {
   required XRSpace space;
   required unsigned long viewPixelWidth;
   required unsigned long viewPixelHeight;
