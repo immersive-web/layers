@@ -311,6 +311,9 @@ When <dfn>setting the space on a layer</dfn> with {{XRSpace}} |space| and {{XRCo
 {{XRCompositionLayer}} has an internal boolean <dfn for="XRCompositionLayer">isStatic</dfn> that indicates that the author can only draw
 to this layer when {{XRCompositionLayer/needsRedraw}} is <code>true</code>.
 
+NOTE: if [=XRCompositionLayer/isStatic=] is <code>true</code> the author can only draw into it once after creation or after
+a redraw event. This allows the UA to only allocate a single GPU buffer.
+
 XRProjectionLayer {#xrprojectionlayertype}
 -----------------
 An {{XRProjectionLayer}} is a layer that fills the entire view of the observer.
