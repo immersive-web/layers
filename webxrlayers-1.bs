@@ -455,6 +455,12 @@ equal to zero or infinity are treated as an infinite sphere.
 The <dfn attribute for="XREquirectLayer">centralHorizontalAngle</dfn>, <dfn attribute for="XREquirectLayer">upperVerticalAngle</dfn>
 and <dfn attribute for="XREquirectLayer">lowerVerticalAngle</dfn> attributes set and return how the texture is mapped to the sphere.
 
+Setting the {{XREquirectLayer/centralHorizontalAngle}} to a value less than 0 will set it to 0 and setting it to
+a value higher than 2π will set it to 2π.
+
+Setting the {{XREquirectLayer/upperVerticalAngle}} or {{XREquirectLayer/lowerVerticalAngle}} to a value less than -π/2 will set it
+to -π/2 abd setting it to a value higher than π/2 will set it to π/2.
+
 When assigning an {{XRSpace}} to the {{XREquirectLayer/space}} attribute, first run the following steps.
 
 <div class="algorithm" data-algorithm="setting the space on an equirect layer">
@@ -735,9 +741,9 @@ dictionary XREquirectLayerInit : XRLayerInit {
 };
 </pre>
 
-The default value of {{XREquirectLayerInit/centralHorizontalAngle}} is π * 2.
-The default value of {{XREquirectLayerInit/upperVerticalAngle}} is π.
-The default value of {{XREquirectLayerInit/lowerVerticalAngle}} is π.
+The default value of {{XREquirectLayerInit/centralHorizontalAngle}} is 2π.
+The default value of {{XREquirectLayerInit/upperVerticalAngle}} is π/2.
+The default value of {{XREquirectLayerInit/lowerVerticalAngle}} is π/2.
 
 XRCubeLayerInit {#xrcubelayerinit}
 -------------------
