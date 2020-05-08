@@ -363,7 +363,7 @@ When <dfn lt="initialize a quad layer">initializing a {{XRQuadLayer}} |layer| wi
       <dt class="switch">If |init|'s {{XRQuadLayerInit/transform}} is set
       <dd> Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XRQuadLayerInit/transform}}.
       <dt> Otherwise
-      <dd> Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
+      <dd> Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 0.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
     </dl>
 
 </div>
