@@ -286,9 +286,9 @@ the user agent MUST run the following steps:
 
 <div class="algorithm" data-algorithm="calling destroy on a layer">
 
-When calling {{destroy()}} on {{XRCompositionLayer}} |layer|, the user agent MUST run the following steps:
-  1. Set the |layer|'s [=colorTextures=] array to an empty array.
-  1. Set the |layer|'s [=depthStencilTextures=] array to an empty array.
+When calling {{destroy()}}, the user agent MUST run the following steps:
+  1. Set the [=this=]'s [=colorTextures=] array to an empty array.
+  1. Set the [=this=]'s [=depthStencilTextures=] array to an empty array.
   1. Destroy the underlying GL attachments.
 
 </div>
@@ -900,8 +900,8 @@ The <dfn method for="XRWebGLBinding">createProjectionLayer(XRTextureType |textur
 
 When this method is invoked, the user agent MUST run the following steps:
 
-  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
-  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
+  1. Let |session| be [=this=]'s [=XRWebGLBinding/session=].
+  1. Let |context| be [=this=]'s [=XRWebGLBinding/context=].
   1. Let |bufferSize| be the [=recommended WebGL framebuffer resolution=] multiplied by |init|'s {{XRProjectionLayerInit/scaleFactor}}.
   1. Let |layer| be a new {{XRProjectionLayer}}
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
@@ -942,8 +942,8 @@ The <dfn method for="XRWebGLBinding">createQuadLayer(XRTextureType |textureType|
 When this method is invoked, the user agent MUST run the following steps:
 
   1. If the device does not support the creation of an {{XRQuadLayer}}, throw an {{NotSupportedError}} and abort these steps.
-  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
-  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
+  1. Let |session| be [=this=]'s [=XRWebGLBinding/session=].
+  1. Let |context| be [=this=]'s [=XRWebGLBinding/context=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a new {{XRQuadLayer}}.
@@ -966,8 +966,8 @@ The <dfn method for="XRWebGLBinding">createCylinderLayer(XRTextureType |textureT
 When this method is invoked, the user agent MUST run the following steps:
 
   1. If the device does not support the creation of an {{XRCylinderLayer}}, throw an {{NotSupportedError}} and abort these steps.
-  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
-  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
+  1. Let |session| be [=this=]'s [=XRWebGLBinding/session=].
+  1. Let |context| be [=this=]'s [=XRWebGLBinding/context=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a new {{XRCylinderLayer}}.
@@ -991,8 +991,8 @@ The <dfn method for="XRWebGLBinding">createEquirectLayer(XRTextureType |textureT
 When this method is invoked, the user agent MUST run the following steps:
 
   1. If the device does not support the creation of an {{XREquirectLayer}}, throw an {{NotSupportedError}} and abort these steps.
-  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
-  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
+  1. Let |session| be [=this=]'s [=XRWebGLBinding/session=].
+  1. Let |context| be [=this=]'s [=XRWebGLBinding/context=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
@@ -1018,8 +1018,8 @@ The <dfn method for="XRWebGLBinding">createCubeLayer(XRCubeLayerInit |init|)</df
 When this method is invoked, the user agent MUST run the following steps:
 
   1. If the device does not support the creation of an {{XRCubeLayer}}, throw an {{NotSupportedError}} and abort these steps.
-  1. Let |session| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/session=].
-  1. Let |context| be the target {{XRWebGLBinding}}'s [=XRWebGLBinding/context=].
+  1. Let |session| be [=this=]'s [=XRWebGLBinding/session=].
+  1. Let |context| be [=this=]'s [=XRWebGLBinding/context=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is not a {{WebGL2RenderingContext}} context, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
@@ -1243,7 +1243,7 @@ The <dfn method for="XRMediaBinding">createQuadLayer(HTMLVideoElement |video|, o
 When this method is invoked, the user agent MUST run the following steps:
 
   1. If the device does not support the creation of an {{XRQuadLayer}}, throw an {{NotSupportedError}} and abort these steps.
-  1. Let |session| be the target {{XRMediaBinding}}'s [=XRMediaBinding/session=].
+  1. Let |session| be [=this=]'s [=XRMediaBinding/session=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a new {{XRQuadLayer}}.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
@@ -1262,7 +1262,7 @@ The <dfn method for="XRMediaBinding">createCylinderLayer(HTMLVideoElement |video
 When this method is invoked, the user agent MUST run the following steps:
 
   1. If the device does not support the creation of an {{XRCylinderLayer}}, throw an {{NotSupportedError}} and abort these steps.
-  1. Let |session| be the target {{XRMediaBinding}}'s [=XRMediaBinding/session=].
+  1. Let |session| be [=this=]'s [=XRMediaBinding/session=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a new {{XRCylinderLayer}}.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
@@ -1281,7 +1281,7 @@ The <dfn method for="XRMediaBinding">createEquirectLayer(HTMLVideoElement |video
 When this method is invoked, the user agent MUST run the following steps:
 
   1. If the device does not support the creation of an {{XREquirectLayer}}, throw an {{NotSupportedError}} and abort these steps.
-  1. Let |session| be the target {{XRMediaBinding}}'s [=XRMediaBinding/session=].
+  1. Let |session| be [=this=]'s [=XRMediaBinding/session=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
