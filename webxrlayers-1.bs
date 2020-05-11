@@ -1270,7 +1270,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If the device does not support the creation of an {{XRCylinderLayer}}, throw an {{NotSupportedError}} and abort these steps.
   1. Let |session| be [=this=]'s [=XRMediaBinding/session=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
-  1. Let |layer| be a [=new=] {{XRCylinderLayer}} in the [=relevant realm=] of [=this=] {{XRMediaBinding}}.
+  1. Let |layer| be a [=new=] {{XRCylinderLayer}} in the [=relevant realm=] of [=this=].
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
