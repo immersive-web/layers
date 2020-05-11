@@ -430,7 +430,7 @@ When <dfn lt="initialize a cylinder layer">initializing a {{XRCylinderLayer}} |l
       <dt class="switch">If |init|'s {{XRCylinderLayerInit/transform}} is set
       <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of this {{XRQuadLayer}} initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XRCylinderLayerInit/transform}}.
       <dt> Otherwise
-      <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of this {{XRQuadLayer}} initialized with a {{DOMPointInit}} position of <code>{ x: 0.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
+      <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of |layer| initialized with a {{DOMPointInit}} position of <code>{ x: 0.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
     </dl>
   1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRCylinderLayerInit/isStatic}}
 
