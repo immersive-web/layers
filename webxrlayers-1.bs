@@ -308,6 +308,12 @@ When <dfn>setting the space on a layer</dfn> with {{XRSpace}} |space| and {{XRCo
 
 </div>
 
+{{XRCompositionLayer}} has an internal boolean <dfn for="XRCompositionLayer">isStatic</dfn> that indicates that the author can only draw
+to this layer when {{XRCompositionLayer/needsRedraw}} is <code>true</code>.
+
+NOTE: if [=XRCompositionLayer/isStatic=] is <code>true</code> the author can only draw into the layer once after creation or once after
+a redraw event. This allows the UA to only allocate a single GPU buffer.
+
 XRProjectionLayer {#xrprojectionlayertype}
 -----------------
 An {{XRProjectionLayer}} is a layer that fills the entire view of the observer.
@@ -363,8 +369,9 @@ When <dfn lt="initialize a quad layer">initializing a {{XRQuadLayer}} |layer| wi
       <dt class="switch">If |init|'s {{XRQuadLayerInit/transform}} is set
       <dd> Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XRQuadLayerInit/transform}}.
       <dt> Otherwise
-      <dd> Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
+      <dd> Let |layer|'s {{XRQuadLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 0.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
     </dl>
+  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRQuadLayerInit/isStatic}}
 
 </div>
 
@@ -417,8 +424,9 @@ When <dfn lt="initialize a cylinder layer">initializing a {{XRCylinderLayer}} |l
       <dt class="switch">If |init|'s {{XRCylinderLayerInit/transform}} is set
       <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}} initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XRCylinderLayerInit/transform}}.
       <dt> Otherwise
-      <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 1.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
+      <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a new {{XRRigidTransform}} initialized with a {{DOMPointInit}} position of <code>{ x: 0.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
     </dl>
+  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRCylinderLayerInit/isStatic}}
 
 </div>
 
@@ -485,6 +493,7 @@ When <dfn lt="initialize a equirect layer">initializing a {{XREquirectLayer}} |l
       <dt> Otherwise
       <dd> Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}}.
     </dl>
+  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XREquirectLayerInit/isStatic}}
 
 </div>
 
@@ -706,6 +715,7 @@ dictionary XRQuadLayerInit : XRLayerInit {
   XRRigidTransform? transform;
   float width = 1.0;
   float height = 1.0;
+  boolean isStatic = false;
 };
 </pre>
 
@@ -720,6 +730,7 @@ dictionary XRCylinderLayerInit : XRLayerInit {
   float radius = 2.0;
   float centralAngle = 0.78539;
   float aspectRatio = 2.0;
+  boolean isStatic = false;
 };
 </pre>
 
@@ -736,6 +747,7 @@ dictionary XREquirectLayerInit : XRLayerInit {
   float scaleY = 1.0;
   float biasX = 0;
   float biasY = 0;
+  boolean isStatic = false;
 };
 </pre>
 
@@ -747,6 +759,7 @@ The {{XRCubeLayerInit}} dictionary represents a set of configurable values that 
 <pre class="idl">
 dictionary XRCubeLayerInit : XRLayerInit {
   DOMPointReadOnly? orientation;
+  boolean isStatic = false;
 };
 </pre>
 
@@ -895,6 +908,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
+  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to <code>false</code>.
   1. Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} as follows:
       <dl class="switch">
         <dt> If |init|'s {{XRProjectionLayerInit/depth}} value is <code>false</code> and the [=XR Compositor=] will make use of depth values
@@ -1015,6 +1029,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
   1. Let |layer|'s {{XRCubeLayer/space}} be the |init|'s {{XRLayerInit/space}}.
+  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRCubeLayerInit/isStatic}}
   1. Initialize |layer|'s {{XRCubeLayer/orientation}} as follows:
     <dl class="switch">
       <dt class="switch">If |init|'s {{XRCubeLayerInit/orientation}} is set
@@ -1065,6 +1080,7 @@ To <dfn>validate the state of the XRWebGLSubImage creation function</dfn> of a {
   1. If |binding|'s [=XRWebGLBinding/session=] is not equal to |layer|'s [=XRCompositionLayer/session=], return <code>false</code> and abort these steps.
   1. If |binding|'s [=XRWebGLBinding/context=] is not equal to |layer|'s [=XRCompositionLayer/context=], return <code>false</code> and abort these steps.
   1. If the |layer|'s [=colorTextures=] array is empty or missing, return <code>false</code> and abort these steps.
+  1. If the |layer|'s [=XRCompositionLayer/isStatic=] is <code>true</code> and |layer|'s {{XRCompositionLayer/needsRedraw}} is <code>false</code>, return <code>false</code> and abort these steps.
   1. return <code>true</code>.
 
 </div>
@@ -1085,7 +1101,7 @@ When this method is invoked on a {{XRWebGLBinding}} |binding|, it MUST run the f
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the first element of the |layer|'s [=colorTextures=] array.
   1. If the layer has a depthStencilTexture, initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the first element of the |layer|'s [=depthStencilTextures=] array.
-  1. Set {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
+  1. [=Queue a task=] to set {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
   1. return |subimage|.
 
 </div>
