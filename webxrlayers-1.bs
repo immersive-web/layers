@@ -1291,7 +1291,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
-  1. Let |layer| be a [=new=] {{XREquirectLayer}} in the [=relevant realm=] of [=this=] {{XRMediaBinding}}.
+  1. Let |layer| be a [=new=] {{XREquirectLayer}} in the [=relevant realm=] of [=this=].
   1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
