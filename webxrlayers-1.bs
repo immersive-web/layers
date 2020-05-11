@@ -1237,7 +1237,7 @@ MUST perform the following steps when invoked:
 
   1. If |session|'s [=ended=] value is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
   1. If |session| is not an [=immersive session=], throw an {{InvalidStateError}} and abort these steps.
-  1. Let |binding| be a [=new=] {{XRMediaBinding}}in the [=relevant realm=] of this {{XRSystem}}.
+  1. Let |binding| be a [=new=] {{XRMediaBinding}}in the [=relevant realm=] of |session|.
   1. Initialize |binding|'s [=XRMediaBinding/session=] to |session|.
   1. Return |binding|.
 
