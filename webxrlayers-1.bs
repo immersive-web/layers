@@ -266,20 +266,51 @@ interface XRCompositionLayer : XRLayer {
 
 The <dfn attribute for="XRCompositionLayer">layout</dfn> attribute returns the layout of the layer.
 
-The <dfn attribute for="XRCompositionLayer">blendTextureSourceAlpha</dfn> attribute enables the layer’s texture alpha channel. It is defined if the UA supports this parameter.
+The <dfn attribute for="XRCompositionLayer">blendTextureSourceAlpha</dfn> attribute reflects if the layer has a texture alpha channel.
+It is <code>null</code> if the UA does not support this parameter.
 
 The <dfn attribute for="XRCompositionLayer">chromaticAberrationCorrection</dfn> attribute is a hint for the [=XR Compositor=] to
-enable optical chromatic aberration correction for the layer. It is defined if the UA supports this parameter.
+enable optical chromatic aberration correction for the layer.
+It is <code>null</code> if the UA does not support this parameter.
 
 ISSUE: describe what chromaticAberrationCorrection does.
 
-The <dfn attribute for="XRCompositionLayer">fixedFoveation</dfn> controls the amount of foveation. It is defined if the UA supports this parameter.
+The <dfn attribute for="XRCompositionLayer">fixedFoveation</dfn> controls the amount of foveation.
+It is <code>null</code> if the UA does not support this parameter.
 
 ISSUE: describe what fixedFoveation and define the parameter
 
-When <dfn method for="XRCompositionLayer">setParameters(XRCompositionLayerParameters parameters)</dfn> is called, queue a task to set the parameters.
+When <dfn method for="XRCompositionLayer">setParameters(XRCompositionLayerParameters |parameters|)</dfn> is called, queue a task for
+[=setting configuration parameters on a layer=] with |parameters| and the current layer.
 
-ISSUE: write up algorithm.
+<div class="algorithm" data-algorithm="calling parameters on a layer">
+
+When <dfn>setting configuration parameters on a layer</dfn> with {{XRCompositionLayerParameters}} |parameters| on {{XRCompositionLayer}}
+|layer|, the user agent MUST run the following steps:
+  1. Initialize {{XRCompositionLayer/blendTextureSourceAlpha}} as follows:
+    <dl class="switch">
+      <dt class="switch">If the user agent supports {{XRCompositionLayer/blendTextureSourceAlpha}} and |parameters| contains {{XRCompositionLayerParameters/blendTextureSourceAlpha}}
+      <dd> Set |layer|'s {{XRCompositionLayer/blendTextureSourceAlpha}} to the specified {{XRCompositionLayerParameters/blendTextureSourceAlpha}}.
+      <dt> Otherwise
+      <dd> Set |layer|'s {{XRCompositionLayer/blendTextureSourceAlpha}} to <code>undefined</code>.
+    </dl>
+  1. Initialize {{XRCompositionLayer/chromaticAberrationCorrection}} as follows:
+    <dl class="switch">
+      <dt class="switch">If the user agent supports {{XRCompositionLayer/chromaticAberrationCorrection}} and |parameters| contains {{XRCompositionLayerParameters/chromaticAberrationCorrection}}
+      <dd> Set |layer|'s {{XRCompositionLayer/chromaticAberrationCorrection}} to the specified {{XRCompositionLayerParameters/chromaticAberrationCorrection}}.
+      <dt> Otherwise
+      <dd> Set |layer|'s {{XRCompositionLayer/chromaticAberrationCorrection}} to <code>undefined</code>.
+    </dl>
+  1. Initialize {{XRCompositionLayer/fixedFoveation}} as follows:
+    <dl class="switch">
+      <dt class="switch">If the user agent supports {{XRCompositionLayer/fixedFoveation}} and |parameters| contains {{XRCompositionLayerParameters/fixedFoveation}}
+      <dd> Set |layer|'s {{XRCompositionLayer/fixedFoveation}} to the specified {{XRCompositionLayerParameters/fixedFoveation}}.
+      <dt> Otherwise
+      <dd> Set |layer|'s {{XRCompositionLayer/fixedFoveation}} to <code>undefined</code>.
+    </dl>
+  1. Update the [=XR Compositor=]'s state with the new |layer| parameters.
+
+</div>
 
 The <dfn attribute for="XRCompositionLayer">needsRedraw</dfn> attribute signals that the {{XRCompositionLayer}} should be
 rerendered in the next [=XR animation frame=]. It MAY be set when [=the underlying resources of a layer are lost=] or
@@ -330,7 +361,7 @@ interface XRProjectionLayer : XRCompositionLayer {
   readonly attribute boolean ignoreDepthValues;
 };
 </pre>
-gi
+
 The <dfn attribute for="XRProjectionLayer">ignoreDepthValues</dfn> attribute, if <code>true</code>, indicates that the
 [=XR Compositor=] MUST NOT make use of values in the depth buffer attachment when rendering. When the attribute
 is <code>false</code> it indicates that the content of the depth buffer attachment will be used by the
@@ -497,6 +528,7 @@ When <dfn lt="initialize a equirect layer">initializing a {{XREquirectLayer}} |l
       <dt> Otherwise
       <dd> Let |layer|'s {{XREquirectLayer/transform}} be a new {{XRRigidTransform}}.
     </dl>
+  1. [=setting configuration parameters on a layer|Initialize the layer's configuration parameters=] with |init| on |layer|.
 
 </div>
 
@@ -662,9 +694,9 @@ The {{XRCompositionLayerParameters}} dictionary represents a set of configurable
 
 <pre class="idl">
 dictionary XRCompositionLayerParameters {
-  boolean blendTextureSourceAlpha = true;
-  boolean chromaticAberrationCorrection = false;
-  float fixedFoveation = 0;
+  boolean blendTextureSourceAlpha;
+  boolean chromaticAberrationCorrection;
+  float fixedFoveation;
 };
 </pre>
 
