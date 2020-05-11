@@ -373,7 +373,7 @@ When <dfn lt="initialize a quad layer">initializing a {{XRQuadLayer}} |layer| wi
   1. Initialize |layer|'s {{XRQuadLayer/transform}} as follows:
     <dl class="switch">
       <dt class="switch">If |init|'s {{XRQuadLayerInit/transform}} is set
-      <dd> Let |layer|'s {{XRQuadLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of this {{XRQuadLayer}} initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XRQuadLayerInit/transform}}.
+      <dd> Let |layer|'s {{XRQuadLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of |layer| initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XRQuadLayerInit/transform}}.
       <dt> Otherwise
       <dd> Let |layer|'s {{XRQuadLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of this {{XRQuadLayer}} initialized with a {{DOMPointInit}} position of <code>{ x: 0.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
     </dl>
