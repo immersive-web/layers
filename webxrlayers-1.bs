@@ -867,8 +867,8 @@ To <dfn>allocate color textures</dfn> using a {{XRCompositionLayer}} |layer|, a 
           <dd> Initialize |array| with |numViews| [=new=] instances of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRProjectionLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
           <dd> Return |array| and abort these steps.
         </dl>
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of this {{XRSystem}} created as a {{TEXTURE_2D}} texture using |context| and |init|'s {{XRLayerInit/alpha}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of this {{XRSystem}} created as a {{TEXTURE_2D}} texture using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture using |context| and |init|'s {{XRLayerInit/alpha}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
   1. return |array|.
 
 </div>
@@ -897,8 +897,8 @@ To <dfn>allocate depth textures</dfn> using a {{XRCompositionLayer}} |layer|, a 
         <dd> Initialize |array| with |numViews| [=new=] instances of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dd> Return |array| and abort these steps.
         </dl>
-  1. If |layer|'s {{XRCompositionLayer/layout}}  is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of this {{XRSystem}} created as a {{TEXTURE_2D}} texture using |context| and |init|'s {{XRLayerInit/stencil}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-  1. If |layer|'s {{XRCompositionLayer/layout}}  is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of this {{XRSystem}} created as a {{TEXTURE_2D}} texture using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}}  is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture using |context| and |init|'s {{XRLayerInit/stencil}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}}  is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
   1. return |array|.
 
 </div>
