@@ -452,7 +452,7 @@ interface XREquirectLayer : XRCompositionLayer {
   attribute float radius;
   attribute float centralHorizontalAngle;
   attribute float upperVerticalAngle;
-  attribute float lowerVerticalAngle ;
+  attribute float lowerVerticalAngle;
 
   // Events
   attribute EventHandler onredraw;
