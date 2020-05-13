@@ -474,7 +474,7 @@ Setting {{XREquirectLayer/centralHorizontalAngle}} to a value less than 0 will s
 a value higher than 2π will set it to 2π.
 
 Setting {{XREquirectLayer/upperVerticalAngle}} or {{XREquirectLayer/lowerVerticalAngle}} to a value less than -π/2 will set it
-to -π/2 abd setting it to a value higher than π/2 will set it to π/2.
+to -π/2 and setting it to a value higher than π/2 will set it to π/2.
 
 When assigning an {{XRSpace}} to the {{XREquirectLayer/space}} attribute, first run the following steps.
 
