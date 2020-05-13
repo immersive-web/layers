@@ -1536,7 +1536,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-11">11 May 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-13">13 May 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Previous Versions:
@@ -1909,22 +1909,22 @@ It grows symmetrically around the 0 angle.</p>
   <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrrigidtransform" id="ref-for-xrrigidtransform⑥"><c- n>XRRigidTransform</c-></a> <a class="idl-code" data-link-type="attribute" data-type="XRRigidTransform" href="#dom-xrequirectlayer-transform" id="ref-for-dom-xrequirectlayer-transform"><c- g>transform</c-></a>;
 
   <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float⑤"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-radius" id="ref-for-dom-xrequirectlayer-radius"><c- g>radius</c-></a>;
-  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float⑥"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-scalex" id="ref-for-dom-xrequirectlayer-scalex"><c- g>scaleX</c-></a>;
-  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float⑦"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-scaley" id="ref-for-dom-xrequirectlayer-scaley"><c- g>scaleY</c-></a>;
-  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float⑧"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-biasx" id="ref-for-dom-xrequirectlayer-biasx"><c- g>biasX</c-></a> ;
-  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float⑨"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-biasy" id="ref-for-dom-xrequirectlayer-biasy"><c- g>biasY</c-></a>;
+  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float⑥"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-centralhorizontalangle" id="ref-for-dom-xrequirectlayer-centralhorizontalangle"><c- g>centralHorizontalAngle</c-></a>;
+  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float⑦"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-upperverticalangle" id="ref-for-dom-xrequirectlayer-upperverticalangle"><c- g>upperVerticalAngle</c-></a>;
+  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float⑧"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-lowerverticalangle" id="ref-for-dom-xrequirectlayer-lowerverticalangle"><c- g>lowerVerticalAngle</c-></a>;
 
   // Events
   <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler②"><c- n>EventHandler</c-></a> <a class="idl-code" data-link-type="attribute" data-type="EventHandler" href="#dom-xrequirectlayer-onredraw" id="ref-for-dom-xrequirectlayer-onredraw"><c- g>onredraw</c-></a>;
 };
 </pre>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayer" data-dfn-type="attribute" data-export id="dom-xrequirectlayer-transform"><code>transform</code></dfn> attribute sets and returns the offset and orientation relative to <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-space" id="ref-for-dom-xrequirectlayer-space">space</a></code>. The <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-transform" id="ref-for-dom-xrequirectlayer-transform①">transform</a></code> attribute and the <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-space" id="ref-for-dom-xrequirectlayer-space①">space</a></code> establish the spatial relationship of the layer within the user’s physical environment.</p>
-   <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayer" data-dfn-type="attribute" data-export id="dom-xrequirectlayer-radius"><code>radius</code></dfn> attribute is the non-negative radius of the sphere. Values of less than or
-equal to zero or infinity are treated as an infinite sphere.</p>
-   <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayer" data-dfn-type="attribute" data-export id="dom-xrequirectlayer-scalex"><code>scaleX</code></dfn> and <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayer" data-dfn-type="attribute" data-export id="dom-xrequirectlayer-scaley"><code>scaleY</code></dfn> attributes
-set and return a scale of the texture coordinates after the mapping to 2D.</p>
-   <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayer" data-dfn-type="attribute" data-export id="dom-xrequirectlayer-biasx"><code>biasX</code></dfn> and <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayer" data-dfn-type="attribute" data-export id="dom-xrequirectlayer-biasy"><code>biasY</code></dfn> attributes
-set and return a bias of the texture coordinates after the mapping to 2D.</p>
+   <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayer" data-dfn-type="attribute" data-export id="dom-xrequirectlayer-radius"><code>radius</code></dfn> attribute is the non-negative radius of the sphere. Values of zero or infinity are treated as an infinite sphere.</p>
+   <p>Setting <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-radius" id="ref-for-dom-xrequirectlayer-radius①">radius</a></code> to a value less than 0 will set it to 0.</p>
+   <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayer" data-dfn-type="attribute" data-export id="dom-xrequirectlayer-centralhorizontalangle"><code>centralHorizontalAngle</code></dfn>, <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayer" data-dfn-type="attribute" data-export id="dom-xrequirectlayer-upperverticalangle"><code>upperVerticalAngle</code></dfn> and <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayer" data-dfn-type="attribute" data-export id="dom-xrequirectlayer-lowerverticalangle"><code>lowerVerticalAngle</code></dfn> attributes set and return how the texture is mapped to the sphere.</p>
+   <p>Setting <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-centralhorizontalangle" id="ref-for-dom-xrequirectlayer-centralhorizontalangle①">centralHorizontalAngle</a></code> to a value less than 0 will set it to 0 and setting it to
+a value higher than 2π will set it to 2π.</p>
+   <p>Setting <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-upperverticalangle" id="ref-for-dom-xrequirectlayer-upperverticalangle①">upperVerticalAngle</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-lowerverticalangle" id="ref-for-dom-xrequirectlayer-lowerverticalangle①">lowerVerticalAngle</a></code> to a value less than -π/2 will set it
+to -π/2 and setting it to a value higher than π/2 will set it to π/2.</p>
    <p>When assigning an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrspace" id="ref-for-xrspace④">XRSpace</a></code> to the <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-space" id="ref-for-dom-xrequirectlayer-space②">space</a></code> attribute, first run the following steps.</p>
    <div class="algorithm" data-algorithm="setting the space on an equirect layer">
     <p>When <var>setting the space on an equirect layer</var> with <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrspace" id="ref-for-xrspace⑤">XRSpace</a></code> <var>space</var> and <code class="idl"><a data-link-type="idl" href="#xrequirectlayer" id="ref-for-xrequirectlayer①">XREquirectLayer</a></code> <var>layer</var>, the user agent MUST run the following steps to validate if the <var>space</var> is valid:</p>
@@ -1941,15 +1941,13 @@ set and return a bias of the texture coordinates after the mapping to 2D.</p>
      When <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="initialize a equirect layer" data-noexport id="initialize-a-equirect-layer">initializing a <code class="idl"><a data-link-type="idl" href="#xrequirectlayer" id="ref-for-xrequirectlayer②">XREquirectLayer</a></code> <var>layer</var> with a <code class="idl"><a data-link-type="idl" href="#dictdef-xrequirectlayerinit" id="ref-for-dictdef-xrequirectlayerinit">XREquirectLayerInit</a></code> <var>init</var></dfn>, the user agent MUST run the following steps: 
     <ol>
      <li data-md>
-      <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-radius" id="ref-for-dom-xrequirectlayer-radius①">radius</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-radius" id="ref-for-dom-xrequirectlayerinit-radius">radius</a></code>.</p>
+      <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-radius" id="ref-for-dom-xrequirectlayer-radius②">radius</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-radius" id="ref-for-dom-xrequirectlayerinit-radius">radius</a></code>.</p>
      <li data-md>
-      <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-scalex" id="ref-for-dom-xrequirectlayer-scalex①">scaleX</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-scalex" id="ref-for-dom-xrequirectlayerinit-scalex">scaleX</a></code>.</p>
+      <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-centralhorizontalangle" id="ref-for-dom-xrequirectlayer-centralhorizontalangle②">centralHorizontalAngle</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-centralhorizontalangle" id="ref-for-dom-xrequirectlayerinit-centralhorizontalangle">centralHorizontalAngle</a></code>.</p>
      <li data-md>
-      <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-scaley" id="ref-for-dom-xrequirectlayer-scaley①">scaleY</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-scaley" id="ref-for-dom-xrequirectlayerinit-scaley">scaleY</a></code>.</p>
+      <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-upperverticalangle" id="ref-for-dom-xrequirectlayer-upperverticalangle②">upperVerticalAngle</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-upperverticalangle" id="ref-for-dom-xrequirectlayerinit-upperverticalangle">upperVerticalAngle</a></code>.</p>
      <li data-md>
-      <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-biasx" id="ref-for-dom-xrequirectlayer-biasx①">biasX</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-biasx" id="ref-for-dom-xrequirectlayerinit-biasx">biasX</a></code>.</p>
-     <li data-md>
-      <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-biasy" id="ref-for-dom-xrequirectlayer-biasy①">biasY</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-biasy" id="ref-for-dom-xrequirectlayerinit-biasy">biasY</a></code>.</p>
+      <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-lowerverticalangle" id="ref-for-dom-xrequirectlayer-lowerverticalangle②">lowerVerticalAngle</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-lowerverticalangle" id="ref-for-dom-xrequirectlayerinit-lowerverticalangle">lowerVerticalAngle</a></code>.</p>
      <li data-md>
       <p>Let <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-space" id="ref-for-dom-xrequirectlayer-space③">space</a></code> be the <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-space" id="ref-for-dom-xrlayerinit-space④">space</a></code>.</p>
      <li data-md>
@@ -2114,8 +2112,8 @@ the rectangular dimensions of the <code class="idl"><a data-link-type="idl" href
    <p>The <code class="idl"><a data-link-type="idl" href="#dictdef-xrquadlayerinit" id="ref-for-dictdef-xrquadlayerinit①">XRQuadLayerInit</a></code> dictionary represents a set of configurable values that describe how a <code class="idl"><a data-link-type="idl" href="#xrquadlayer" id="ref-for-xrquadlayer⑦">XRQuadLayer</a></code> is initialized.</p>
 <pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-xrquadlayerinit"><code><c- g>XRQuadLayerInit</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#dictdef-xrlayerinit" id="ref-for-dictdef-xrlayerinit①"><c- n>XRLayerInit</c-></a> {
   <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrrigidtransform" id="ref-for-xrrigidtransform⑨"><c- n>XRRigidTransform</c-></a>? <dfn class="dfn-paneled idl-code" data-dfn-for="XRQuadLayerInit" data-dfn-type="dict-member" data-export data-type="XRRigidTransform? " id="dom-xrquadlayerinit-transform"><code><c- g>transform</c-></code></dfn>;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⓪"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="1.0" data-dfn-for="XRQuadLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrquadlayerinit-width"><code><c- g>width</c-></code></dfn> = 1.0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①①"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="1.0" data-dfn-for="XRQuadLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrquadlayerinit-height"><code><c- g>height</c-></code></dfn> = 1.0;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float⑨"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="1.0" data-dfn-for="XRQuadLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrquadlayerinit-width"><code><c- g>width</c-></code></dfn> = 1.0;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⓪"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="1.0" data-dfn-for="XRQuadLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrquadlayerinit-height"><code><c- g>height</c-></code></dfn> = 1.0;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①⓪"><c- b>boolean</c-></a> <dfn class="dfn-paneled idl-code" data-default="false" data-dfn-for="XRQuadLayerInit" data-dfn-type="dict-member" data-export data-type="boolean " id="dom-xrquadlayerinit-isstatic"><code><c- g>isStatic</c-></code></dfn> = <c- b>false</c->;
 };
 </pre>
@@ -2123,24 +2121,27 @@ the rectangular dimensions of the <code class="idl"><a data-link-type="idl" href
    <p>The <code class="idl"><a data-link-type="idl" href="#dictdef-xrcylinderlayerinit" id="ref-for-dictdef-xrcylinderlayerinit①">XRCylinderLayerInit</a></code> dictionary represents a set of configurable values that describe how a <code class="idl"><a data-link-type="idl" href="#xrcylinderlayer" id="ref-for-xrcylinderlayer⑥">XRCylinderLayer</a></code> is initialized.</p>
 <pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-xrcylinderlayerinit"><code><c- g>XRCylinderLayerInit</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#dictdef-xrlayerinit" id="ref-for-dictdef-xrlayerinit②"><c- n>XRLayerInit</c-></a> {
   <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrrigidtransform" id="ref-for-xrrigidtransform①⓪"><c- n>XRRigidTransform</c-></a>? <dfn class="dfn-paneled idl-code" data-dfn-for="XRCylinderLayerInit" data-dfn-type="dict-member" data-export data-type="XRRigidTransform? " id="dom-xrcylinderlayerinit-transform"><code><c- g>transform</c-></code></dfn>;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①②"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="2.0" data-dfn-for="XRCylinderLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrcylinderlayerinit-radius"><code><c- g>radius</c-></code></dfn> = 2.0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①③"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="0.78539" data-dfn-for="XRCylinderLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrcylinderlayerinit-centralangle"><code><c- g>centralAngle</c-></code></dfn> = 0.78539;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①④"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="2.0" data-dfn-for="XRCylinderLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrcylinderlayerinit-aspectratio"><code><c- g>aspectRatio</c-></code></dfn> = 2.0;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①①"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="2.0" data-dfn-for="XRCylinderLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrcylinderlayerinit-radius"><code><c- g>radius</c-></code></dfn> = 2.0;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①②"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="0.78539" data-dfn-for="XRCylinderLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrcylinderlayerinit-centralangle"><code><c- g>centralAngle</c-></code></dfn> = 0.78539;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①③"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="2.0" data-dfn-for="XRCylinderLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrcylinderlayerinit-aspectratio"><code><c- g>aspectRatio</c-></code></dfn> = 2.0;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①①"><c- b>boolean</c-></a> <dfn class="dfn-paneled idl-code" data-default="false" data-dfn-for="XRCylinderLayerInit" data-dfn-type="dict-member" data-export data-type="boolean " id="dom-xrcylinderlayerinit-isstatic"><code><c- g>isStatic</c-></code></dfn> = <c- b>false</c->;
 };
 </pre>
+   <p>The default value of <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayerinit-centralangle" id="ref-for-dom-xrcylinderlayerinit-centralangle①">centralAngle</a></code> is π / 4.</p>
    <h3 class="heading settled" data-level="6.6" id="xrequirectlayerinit"><span class="secno">6.6. </span><span class="content">XREquirectLayerInit</span><a class="self-link" href="#xrequirectlayerinit"></a></h3>
    <p>The <code class="idl"><a data-link-type="idl" href="#dictdef-xrequirectlayerinit" id="ref-for-dictdef-xrequirectlayerinit①">XREquirectLayerInit</a></code> dictionary represents a set of configurable values that describe how a <code class="idl"><a data-link-type="idl" href="#xrequirectlayer" id="ref-for-xrequirectlayer⑥">XREquirectLayer</a></code> is initialized.</p>
 <pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-xrequirectlayerinit"><code><c- g>XREquirectLayerInit</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#dictdef-xrlayerinit" id="ref-for-dictdef-xrlayerinit③"><c- n>XRLayerInit</c-></a> {
   <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrrigidtransform" id="ref-for-xrrigidtransform①①"><c- n>XRRigidTransform</c-></a>? <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="XRRigidTransform? " id="dom-xrequirectlayerinit-transform"><code><c- g>transform</c-></code></dfn>;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⑤"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="10.0" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrequirectlayerinit-radius"><code><c- g>radius</c-></code></dfn> = 10.0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⑥"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="1.0" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrequirectlayerinit-scalex"><code><c- g>scaleX</c-></code></dfn> = 1.0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⑦"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="1.0" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrequirectlayerinit-scaley"><code><c- g>scaleY</c-></code></dfn> = 1.0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⑧"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="0" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrequirectlayerinit-biasx"><code><c- g>biasX</c-></code></dfn> = 0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⑨"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="0" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrequirectlayerinit-biasy"><code><c- g>biasY</c-></code></dfn> = 0;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①④"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="10.0" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrequirectlayerinit-radius"><code><c- g>radius</c-></code></dfn> = 10.0;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⑤"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="6.28318" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrequirectlayerinit-centralhorizontalangle"><code><c- g>centralHorizontalAngle</c-></code></dfn> = 6.28318;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⑥"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="1.570795" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrequirectlayerinit-upperverticalangle"><code><c- g>upperVerticalAngle</c-></code></dfn> = 1.570795;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⑦"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="-1.570795" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrequirectlayerinit-lowerverticalangle"><code><c- g>lowerVerticalAngle</c-></code></dfn> = -1.570795;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①②"><c- b>boolean</c-></a> <dfn class="dfn-paneled idl-code" data-default="false" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="boolean " id="dom-xrequirectlayerinit-isstatic"><code><c- g>isStatic</c-></code></dfn> = <c- b>false</c->;
 };
 </pre>
+   <p>The default value of <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-centralhorizontalangle" id="ref-for-dom-xrequirectlayerinit-centralhorizontalangle①">centralHorizontalAngle</a></code> is 2π.
+The default value of <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-upperverticalangle" id="ref-for-dom-xrequirectlayerinit-upperverticalangle①">upperVerticalAngle</a></code> is π/2.
+The default value of <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-lowerverticalangle" id="ref-for-dom-xrequirectlayerinit-lowerverticalangle①">lowerVerticalAngle</a></code> is -π/2.</p>
    <h3 class="heading settled" data-level="6.7" id="xrcubelayerinit"><span class="secno">6.7. </span><span class="content">XRCubeLayerInit</span><a class="self-link" href="#xrcubelayerinit"></a></h3>
    <p>The <code class="idl"><a data-link-type="idl" href="#dictdef-xrcubelayerinit" id="ref-for-dictdef-xrcubelayerinit">XRCubeLayerInit</a></code> dictionary represents a set of configurable values that describe how a <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer⑥">XRCubeLayer</a></code> is initialized.</p>
 <pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-xrcubelayerinit"><code><c- g>XRCubeLayerInit</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="#dictdef-xrlayerinit" id="ref-for-dictdef-xrlayerinit④"><c- n>XRLayerInit</c-></a> {
@@ -2918,24 +2919,18 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
      <li><a href="#dom-xrcylinderlayer-aspectratio">attribute for XRCylinderLayer</a><span>, in §3.6</span>
      <li><a href="#dom-xrcylinderlayerinit-aspectratio">dict-member for XRCylinderLayerInit</a><span>, in §6.5</span>
     </ul>
-   <li>
-    biasX
-    <ul>
-     <li><a href="#dom-xrequirectlayer-biasx">attribute for XREquirectLayer</a><span>, in §3.7</span>
-     <li><a href="#dom-xrequirectlayerinit-biasx">dict-member for XREquirectLayerInit</a><span>, in §6.6</span>
-    </ul>
-   <li>
-    biasY
-    <ul>
-     <li><a href="#dom-xrequirectlayer-biasy">attribute for XREquirectLayer</a><span>, in §3.7</span>
-     <li><a href="#dom-xrequirectlayerinit-biasy">dict-member for XREquirectLayerInit</a><span>, in §6.6</span>
-    </ul>
    <li><a href="#dom-xrcompositionlayer-blendtexturesourcealpha">blendTextureSourceAlpha</a><span>, in §3.3</span>
    <li>
     centralAngle
     <ul>
      <li><a href="#dom-xrcylinderlayer-centralangle">attribute for XRCylinderLayer</a><span>, in §3.6</span>
      <li><a href="#dom-xrcylinderlayerinit-centralangle">dict-member for XRCylinderLayerInit</a><span>, in §6.5</span>
+    </ul>
+   <li>
+    centralHorizontalAngle
+    <ul>
+     <li><a href="#dom-xrequirectlayer-centralhorizontalangle">attribute for XREquirectLayer</a><span>, in §3.7</span>
+     <li><a href="#dom-xrequirectlayerinit-centralhorizontalangle">dict-member for XREquirectLayerInit</a><span>, in §6.6</span>
     </ul>
    <li><a href="#dom-xrcompositionlayer-chromaticaberrationcorrection">chromaticAberrationCorrection</a><span>, in §3.3</span>
    <li><a href="#dom-xrwebglsubimage-colortexture">colorTexture</a><span>, in §5.2</span>
@@ -3024,6 +3019,12 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
      <li><a href="#dom-xrlayerinit-layout">dict-member for XRLayerInit</a><span>, in §6.3</span>
      <li><a href="#dom-xrmedialayerinit-layout">dict-member for XRMediaLayerInit</a><span>, in §7.1</span>
     </ul>
+   <li>
+    lowerVerticalAngle
+    <ul>
+     <li><a href="#dom-xrequirectlayer-lowerverticalangle">attribute for XREquirectLayer</a><span>, in §3.7</span>
+     <li><a href="#dom-xrequirectlayerinit-lowerverticalangle">dict-member for XREquirectLayerInit</a><span>, in §6.6</span>
+    </ul>
    <li><a href="#xrcompositionlayer-media">media</a><span>, in §3.3</span>
    <li><a href="#dom-xrlayerlayout-mono">"mono"</a><span>, in §3.2</span>
    <li><a href="#dom-xrlayerlayout-mono">mono</a><span>, in §3.2</span>
@@ -3053,18 +3054,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     </ul>
    <li><a href="#eventdef-xrlayer-redraw">redraw</a><span>, in §8.2</span>
    <li><a href="#dom-xrprojectionlayerinit-scalefactor">scaleFactor</a><span>, in §6.2</span>
-   <li>
-    scaleX
-    <ul>
-     <li><a href="#dom-xrequirectlayer-scalex">attribute for XREquirectLayer</a><span>, in §3.7</span>
-     <li><a href="#dom-xrequirectlayerinit-scalex">dict-member for XREquirectLayerInit</a><span>, in §6.6</span>
-    </ul>
-   <li>
-    scaleY
-    <ul>
-     <li><a href="#dom-xrequirectlayer-scaley">attribute for XREquirectLayer</a><span>, in §3.7</span>
-     <li><a href="#dom-xrequirectlayerinit-scaley">dict-member for XREquirectLayerInit</a><span>, in §6.6</span>
-    </ul>
    <li>
     session
     <ul>
@@ -3113,6 +3102,12 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
      <li><a href="#dom-xrquadlayerinit-transform">dict-member for XRQuadLayerInit</a><span>, in §6.4</span>
     </ul>
    <li><a href="#layers-update-the-pending-layers-state">update the pending layers state</a><span>, in §9.2</span>
+   <li>
+    upperVerticalAngle
+    <ul>
+     <li><a href="#dom-xrequirectlayer-upperverticalangle">attribute for XREquirectLayer</a><span>, in §3.7</span>
+     <li><a href="#dom-xrequirectlayerinit-upperverticalangle">dict-member for XREquirectLayerInit</a><span>, in §6.6</span>
+    </ul>
    <li><a href="#validate-the-state-of-the-xrwebglsubimage-creation-function">validate the state of the XRWebGLSubImage creation function</a><span>, in §6.8</span>
    <li><a href="#dom-xrlayerinit-viewpixelheight">viewPixelHeight</a><span>, in §6.3</span>
    <li><a href="#dom-xrlayerinit-viewpixelwidth">viewPixelWidth</a><span>, in §6.3</span>
@@ -3375,10 +3370,10 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <ul>
     <li><a href="#ref-for-idl-float">3.5. XRQuadLayer</a> <a href="#ref-for-idl-float①">(2)</a>
     <li><a href="#ref-for-idl-float②">3.6. XRCylinderLayer</a> <a href="#ref-for-idl-float③">(2)</a> <a href="#ref-for-idl-float④">(3)</a>
-    <li><a href="#ref-for-idl-float⑤">3.7. XREquirectLayer</a> <a href="#ref-for-idl-float⑥">(2)</a> <a href="#ref-for-idl-float⑦">(3)</a> <a href="#ref-for-idl-float⑧">(4)</a> <a href="#ref-for-idl-float⑨">(5)</a>
-    <li><a href="#ref-for-idl-float①⓪">6.4. XRQuadLayerInit</a> <a href="#ref-for-idl-float①①">(2)</a>
-    <li><a href="#ref-for-idl-float①②">6.5. XRCylinderLayerInit</a> <a href="#ref-for-idl-float①③">(2)</a> <a href="#ref-for-idl-float①④">(3)</a>
-    <li><a href="#ref-for-idl-float①⑤">6.6. XREquirectLayerInit</a> <a href="#ref-for-idl-float①⑥">(2)</a> <a href="#ref-for-idl-float①⑦">(3)</a> <a href="#ref-for-idl-float①⑧">(4)</a> <a href="#ref-for-idl-float①⑨">(5)</a>
+    <li><a href="#ref-for-idl-float⑤">3.7. XREquirectLayer</a> <a href="#ref-for-idl-float⑥">(2)</a> <a href="#ref-for-idl-float⑦">(3)</a> <a href="#ref-for-idl-float⑧">(4)</a>
+    <li><a href="#ref-for-idl-float⑨">6.4. XRQuadLayerInit</a> <a href="#ref-for-idl-float①⓪">(2)</a>
+    <li><a href="#ref-for-idl-float①①">6.5. XRCylinderLayerInit</a> <a href="#ref-for-idl-float①②">(2)</a> <a href="#ref-for-idl-float①③">(3)</a>
+    <li><a href="#ref-for-idl-float①④">6.6. XREquirectLayerInit</a> <a href="#ref-for-idl-float①⑤">(2)</a> <a href="#ref-for-idl-float①⑥">(3)</a> <a href="#ref-for-idl-float①⑦">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-new">
@@ -3959,10 +3954,9 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrrigidtransform"><c- n>XRRigidTransform</c-></a> <a class="idl-code" data-link-type="attribute" data-type="XRRigidTransform" href="#dom-xrequirectlayer-transform"><c- g>transform</c-></a>;
 
   <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-radius"><c- g>radius</c-></a>;
-  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-scalex"><c- g>scaleX</c-></a>;
-  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-scaley"><c- g>scaleY</c-></a>;
-  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-biasx"><c- g>biasX</c-></a> ;
-  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-biasy"><c- g>biasY</c-></a>;
+  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-centralhorizontalangle"><c- g>centralHorizontalAngle</c-></a>;
+  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-upperverticalangle"><c- g>upperVerticalAngle</c-></a>;
+  <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a class="idl-code" data-link-type="attribute" data-type="float" href="#dom-xrequirectlayer-lowerverticalangle"><c- g>lowerVerticalAngle</c-></a>;
 
   // Events
   <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler"><c- n>EventHandler</c-></a> <a class="idl-code" data-link-type="attribute" data-type="EventHandler" href="#dom-xrequirectlayer-onredraw"><c- g>onredraw</c-></a>;
@@ -4028,10 +4022,9 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
 <c- b>dictionary</c-> <a href="#dictdef-xrequirectlayerinit"><code><c- g>XREquirectLayerInit</c-></code></a> : <a class="n" data-link-type="idl-name" href="#dictdef-xrlayerinit"><c- n>XRLayerInit</c-></a> {
   <a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrrigidtransform"><c- n>XRRigidTransform</c-></a>? <a data-type="XRRigidTransform? " href="#dom-xrequirectlayerinit-transform"><code><c- g>transform</c-></code></a>;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="10.0" data-type="float " href="#dom-xrequirectlayerinit-radius"><code><c- g>radius</c-></code></a> = 10.0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="1.0" data-type="float " href="#dom-xrequirectlayerinit-scalex"><code><c- g>scaleX</c-></code></a> = 1.0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="1.0" data-type="float " href="#dom-xrequirectlayerinit-scaley"><code><c- g>scaleY</c-></code></a> = 1.0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="0" data-type="float " href="#dom-xrequirectlayerinit-biasx"><code><c- g>biasX</c-></code></a> = 0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="0" data-type="float " href="#dom-xrequirectlayerinit-biasy"><code><c- g>biasY</c-></code></a> = 0;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="6.28318" data-type="float " href="#dom-xrequirectlayerinit-centralhorizontalangle"><code><c- g>centralHorizontalAngle</c-></code></a> = 6.28318;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="1.570795" data-type="float " href="#dom-xrequirectlayerinit-upperverticalangle"><code><c- g>upperVerticalAngle</c-></code></a> = 1.570795;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="-1.570795" data-type="float " href="#dom-xrequirectlayerinit-lowerverticalangle"><code><c- g>lowerVerticalAngle</c-></code></a> = -1.570795;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a data-default="false" data-type="boolean " href="#dom-xrequirectlayerinit-isstatic"><code><c- g>isStatic</c-></code></a> = <c- b>false</c->;
 };
 
@@ -4398,31 +4391,25 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <aside class="dfn-panel" data-for="dom-xrequirectlayer-radius">
    <b><a href="#dom-xrequirectlayer-radius">#dom-xrequirectlayer-radius</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrequirectlayer-radius">3.7. XREquirectLayer</a> <a href="#ref-for-dom-xrequirectlayer-radius①">(2)</a>
+    <li><a href="#ref-for-dom-xrequirectlayer-radius">3.7. XREquirectLayer</a> <a href="#ref-for-dom-xrequirectlayer-radius①">(2)</a> <a href="#ref-for-dom-xrequirectlayer-radius②">(3)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-xrequirectlayer-scalex">
-   <b><a href="#dom-xrequirectlayer-scalex">#dom-xrequirectlayer-scalex</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-xrequirectlayer-centralhorizontalangle">
+   <b><a href="#dom-xrequirectlayer-centralhorizontalangle">#dom-xrequirectlayer-centralhorizontalangle</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrequirectlayer-scalex">3.7. XREquirectLayer</a> <a href="#ref-for-dom-xrequirectlayer-scalex①">(2)</a>
+    <li><a href="#ref-for-dom-xrequirectlayer-centralhorizontalangle">3.7. XREquirectLayer</a> <a href="#ref-for-dom-xrequirectlayer-centralhorizontalangle①">(2)</a> <a href="#ref-for-dom-xrequirectlayer-centralhorizontalangle②">(3)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-xrequirectlayer-scaley">
-   <b><a href="#dom-xrequirectlayer-scaley">#dom-xrequirectlayer-scaley</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-xrequirectlayer-upperverticalangle">
+   <b><a href="#dom-xrequirectlayer-upperverticalangle">#dom-xrequirectlayer-upperverticalangle</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrequirectlayer-scaley">3.7. XREquirectLayer</a> <a href="#ref-for-dom-xrequirectlayer-scaley①">(2)</a>
+    <li><a href="#ref-for-dom-xrequirectlayer-upperverticalangle">3.7. XREquirectLayer</a> <a href="#ref-for-dom-xrequirectlayer-upperverticalangle①">(2)</a> <a href="#ref-for-dom-xrequirectlayer-upperverticalangle②">(3)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-xrequirectlayer-biasx">
-   <b><a href="#dom-xrequirectlayer-biasx">#dom-xrequirectlayer-biasx</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-xrequirectlayer-lowerverticalangle">
+   <b><a href="#dom-xrequirectlayer-lowerverticalangle">#dom-xrequirectlayer-lowerverticalangle</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrequirectlayer-biasx">3.7. XREquirectLayer</a> <a href="#ref-for-dom-xrequirectlayer-biasx①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-xrequirectlayer-biasy">
-   <b><a href="#dom-xrequirectlayer-biasy">#dom-xrequirectlayer-biasy</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-xrequirectlayer-biasy">3.7. XREquirectLayer</a> <a href="#ref-for-dom-xrequirectlayer-biasy①">(2)</a>
+    <li><a href="#ref-for-dom-xrequirectlayer-lowerverticalangle">3.7. XREquirectLayer</a> <a href="#ref-for-dom-xrequirectlayer-lowerverticalangle①">(2)</a> <a href="#ref-for-dom-xrequirectlayer-lowerverticalangle②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="initialize-a-equirect-layer">
@@ -4701,6 +4688,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <b><a href="#dom-xrcylinderlayerinit-centralangle">#dom-xrcylinderlayerinit-centralangle</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-xrcylinderlayerinit-centralangle">3.6. XRCylinderLayer</a>
+    <li><a href="#ref-for-dom-xrcylinderlayerinit-centralangle①">6.5. XRCylinderLayerInit</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrcylinderlayerinit-aspectratio">
@@ -4735,28 +4723,25 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-dom-xrequirectlayerinit-radius">3.7. XREquirectLayer</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-xrequirectlayerinit-scalex">
-   <b><a href="#dom-xrequirectlayerinit-scalex">#dom-xrequirectlayerinit-scalex</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-xrequirectlayerinit-centralhorizontalangle">
+   <b><a href="#dom-xrequirectlayerinit-centralhorizontalangle">#dom-xrequirectlayerinit-centralhorizontalangle</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrequirectlayerinit-scalex">3.7. XREquirectLayer</a>
+    <li><a href="#ref-for-dom-xrequirectlayerinit-centralhorizontalangle">3.7. XREquirectLayer</a>
+    <li><a href="#ref-for-dom-xrequirectlayerinit-centralhorizontalangle①">6.6. XREquirectLayerInit</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-xrequirectlayerinit-scaley">
-   <b><a href="#dom-xrequirectlayerinit-scaley">#dom-xrequirectlayerinit-scaley</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-xrequirectlayerinit-upperverticalangle">
+   <b><a href="#dom-xrequirectlayerinit-upperverticalangle">#dom-xrequirectlayerinit-upperverticalangle</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrequirectlayerinit-scaley">3.7. XREquirectLayer</a>
+    <li><a href="#ref-for-dom-xrequirectlayerinit-upperverticalangle">3.7. XREquirectLayer</a>
+    <li><a href="#ref-for-dom-xrequirectlayerinit-upperverticalangle①">6.6. XREquirectLayerInit</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-xrequirectlayerinit-biasx">
-   <b><a href="#dom-xrequirectlayerinit-biasx">#dom-xrequirectlayerinit-biasx</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-xrequirectlayerinit-lowerverticalangle">
+   <b><a href="#dom-xrequirectlayerinit-lowerverticalangle">#dom-xrequirectlayerinit-lowerverticalangle</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrequirectlayerinit-biasx">3.7. XREquirectLayer</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-xrequirectlayerinit-biasy">
-   <b><a href="#dom-xrequirectlayerinit-biasy">#dom-xrequirectlayerinit-biasy</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-xrequirectlayerinit-biasy">3.7. XREquirectLayer</a>
+    <li><a href="#ref-for-dom-xrequirectlayerinit-lowerverticalangle">3.7. XREquirectLayer</a>
+    <li><a href="#ref-for-dom-xrequirectlayerinit-lowerverticalangle①">6.6. XREquirectLayerInit</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrequirectlayerinit-isstatic">
