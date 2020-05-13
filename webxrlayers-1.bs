@@ -754,8 +754,8 @@ dictionary XREquirectLayerInit : XRLayerInit {
   XRRigidTransform? transform;
   float radius = 10.0;
   float centralHorizontalAngle = 6.28318;
-  float upperVerticalAngle = 3.14159;
-  float lowerVerticalAngle = 3.14159;
+  float upperVerticalAngle = 1.570795;
+  float lowerVerticalAngle = -1.570795;
   boolean isStatic = false;
 };
 </pre>
