@@ -762,7 +762,7 @@ dictionary XREquirectLayerInit : XRLayerInit {
 
 The default value of {{XREquirectLayerInit/centralHorizontalAngle}} is 2π.
 The default value of {{XREquirectLayerInit/upperVerticalAngle}} is π/2.
-The default value of {{XREquirectLayerInit/lowerVerticalAngle}} is π/2.
+The default value of {{XREquirectLayerInit/lowerVerticalAngle}} is -π/2.
 
 XRCubeLayerInit {#xrcubelayerinit}
 -------------------
