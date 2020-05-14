@@ -465,7 +465,7 @@ establish the spatial relationship of the layer within the user’s physical env
 
 The <dfn attribute for="XREquirectLayer">radius</dfn> attribute is the non-negative radius of the sphere. Values of zero or infinity are treated as an infinite sphere.
 
-Setting {{XREquirectLayer/radius}} to a value less than 0 will set it to 0.
+Setting {{XREquirectLayer/radius}} to a value less than 0 will set it to 0. Values of zero or floating point positive infinity are treated as an infinite sphere.
 
 The <dfn attribute for="XREquirectLayer">centralHorizontalAngle</dfn>, <dfn attribute for="XREquirectLayer">upperVerticalAngle</dfn>
 and <dfn attribute for="XREquirectLayer">lowerVerticalAngle</dfn> attributes set and return how the texture is mapped to the sphere.
@@ -752,7 +752,7 @@ The {{XREquirectLayerInit}} dictionary represents a set of configurable values t
 <pre class="idl">
 dictionary XREquirectLayerInit : XRLayerInit {
   XRRigidTransform? transform;
-  float radius = 10.0;
+  float radius = 0;
   float centralHorizontalAngle = 6.28318;
   float upperVerticalAngle = 1.570795;
   float lowerVerticalAngle = -1.570795;
