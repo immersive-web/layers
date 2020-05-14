@@ -463,9 +463,9 @@ The <dfn attribute for="XREquirectLayer">transform</dfn> attribute sets and retu
 {{XREquirectLayer/space}}. The {{XREquirectLayer/transform}} attribute and the {{XREquirectLayer/space}}
 establish the spatial relationship of the layer within the user’s physical environment.
 
-The <dfn attribute for="XREquirectLayer">radius</dfn> attribute is the non-negative radius of the sphere. Values of <code>zero</code> or <code>infinity</code> are treated as an infinite sphere.
+The <dfn attribute for="XREquirectLayer">radius</dfn> attribute is the non-negative radius in meters of the sphere. Values of <code>zero</code> or <code>infinity</code> are treated as an infinite sphere.
 
-Setting {{XREquirectLayer/radius}} to a value less than 0 will set it to 0. Values of <code>zero</code> or <code>positive infinity</code> are treated as an infinite sphere.
+Setting {{XREquirectLayer/radius}} to a value less than <code>0</code> will set it to <code>0<code>.
 
 The <dfn attribute for="XREquirectLayer">centralHorizontalAngle</dfn>, <dfn attribute for="XREquirectLayer">upperVerticalAngle</dfn>
 and <dfn attribute for="XREquirectLayer">lowerVerticalAngle</dfn> attributes set and return how the texture is mapped to the sphere.
