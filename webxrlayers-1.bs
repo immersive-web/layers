@@ -7,7 +7,7 @@ TR:
 ED:
 Previous Version:
 Repository: immersive-web/layers
-Level: 1
+Level: 1<img src="images/cylinder_layer_params.png" style="width:80%"/>
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-immersive-web/
 
 Editor: Rik Cabanier 106988, Facebook https://oculus.com, cabanier@fb.com
@@ -465,7 +465,7 @@ establish the spatial relationship of the layer within the user’s physical env
 
 The <dfn attribute for="XREquirectLayer">radius</dfn> attribute is the non-negative radius in meters of the sphere. Values of <code>zero</code> or <code>infinity</code> are treated as an infinite sphere.
 
-Setting {{XREquirectLayer/radius}} to a value less than <code>0</code> will set it to <code>0<code>.
+Setting {{XREquirectLayer/radius}} to a value less than <code>0</code> will set it to <code>0</code>.
 
 The <dfn attribute for="XREquirectLayer">centralHorizontalAngle</dfn>, <dfn attribute for="XREquirectLayer">upperVerticalAngle</dfn>
 and <dfn attribute for="XREquirectLayer">lowerVerticalAngle</dfn> attributes set and return how the texture is mapped to the sphere.
