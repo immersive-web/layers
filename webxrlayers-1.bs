@@ -476,6 +476,8 @@ a value higher than 2π will set it to 2π.
 Setting {{XREquirectLayer/upperVerticalAngle}} or {{XREquirectLayer/lowerVerticalAngle}} to a value less than -π/2 will set it
 to -π/2 and setting it to a value higher than π/2 will set it to π/2.
 
+<img src="images/equirect.png" style="width:50%"/>
+
 When assigning an {{XRSpace}} to the {{XREquirectLayer/space}} attribute, first run the following steps.
 
 <div class="algorithm" data-algorithm="setting the space on an equirect layer">
