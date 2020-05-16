@@ -601,7 +601,7 @@ current session and MUST be made invalid once the [=XR animation frame=] complet
 
 NOTE: the {{XRWebGLSubImage/colorTexture}} and {{XRWebGLSubImage/depthStencilTexture}} objects are allocated when the layer is contructed using the
 [=allocate color textures=] and [=allocate depth textures=] algoritms. The side effect of this pre-allocation is that calling
-{{XRWebGLBinding/getSubImage()}} and {{XRWebGLBinding/getViewSubImage()}} with the same parameters will alwats return the same texture objects.
+{{XRWebGLBinding/getSubImage()}} and {{XRWebGLBinding/getViewSubImage()}} with the same parameters will always return the same texture objects.
 
 In addition, they MUST behave as though they were allocated with [=texStorage2D=] or [=texStorage3D=], as appropriate,
 even when using a WebGL 1.0 context.
