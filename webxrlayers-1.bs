@@ -244,7 +244,7 @@ enum XRLayerLayout {
 </pre>
 
  - A layout of <dfn enum-value for="XRLayerLayout">mono</dfn> indicates that the layer is mono.
- - A layout of <dfn enum-value for="XRLayerLayout">stereo</dfn> indicates that the layer can accomodate of all the session’s {{XRView|XRViews}}.
+ - A layout of <dfn enum-value for="XRLayerLayout">stereo</dfn> indicates that the layer can accomodate all the session’s {{XRView|XRViews}}.
  - A layout of <dfn enum-value for="XRLayerLayout">stereo-left-right</dfn> indicates that the layer is divided left to right.
  - A layout of <dfn enum-value for="XRLayerLayout">stereo-top-bottom</dfn> indicates that the layer is divided top to bottom.
 
