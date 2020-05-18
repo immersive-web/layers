@@ -248,7 +248,11 @@ enum XRLayerLayout {
  - A layout of <dfn enum-value for="XRLayerLayout">stereo-left-right</dfn> indicates that the layer is divided left to right.
  - A layout of <dfn enum-value for="XRLayerLayout">stereo-top-bottom</dfn> indicates that the layer is divided top to bottom.
 
- NOTE: If an {{XRCompositionLayer}} is created with an {{XRLayerLayout/"stereo"}} layout, it is highly recommended that it is allocated with an {{XRTextureType/"texture-array"}} texture type.
+NOTE: If an {{XRCompositionLayer}} is created with an {{XRLayerLayout/"stereo"}} layout, it is highly recommended that it is allocated with an {{XRTextureType/"texture-array"}} texture type.
+
+Note: The {{XRLayerLayout/"stereo-left-right"}} and {{XRLayerLayout/"stereo-top-bottom"}} layouts are designed to minimize draw
+calls for content that is already in stereo (for example stereo videos or images). Experiences that don't require such assets types
+should use the {{XRLayerLayout/"stereo"}} layout.
 
 XRCompositionLayer {#xrcompositionlayertype}
 --------------
@@ -1137,7 +1141,7 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
   1. let |frame| be |view|'s {{frame}}.
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. let |index| be a [=new=] integer with the value <code>0</code> in the [=relevant realm=] of [=this=].
-  1. If |view|'s {{XRView/eye}} attribute is {{XREye/"right"}}, set |index| to <code>1</code>.
+  1. If |view|'s {{XRView/eye}} attribute is {{XREye/"right"}} and |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"stereo"}}, set |index| to <code>1</code>.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
     <dl class="switch">
       <dt class="switch">If the |layer| was created with a textureType of {{"texture-array"}}
