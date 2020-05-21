@@ -262,7 +262,9 @@ interface XRCompositionLayer : XRLayer {
   readonly attribute XRLayerLayout layout;
 
   attribute boolean blendTextureSourceAlpha;
-  attribute boolean chromaticAberrationCorrection;
+  attribute boolean? chromaticAberrationCorrection;
+  attribute float? fixedFoveation;
+
   readonly attribute boolean needsRedraw;
 
   void destroy();
@@ -274,9 +276,15 @@ The <dfn attribute for="XRCompositionLayer">layout</dfn> attribute returns the l
 The <dfn attribute for="XRCompositionLayer">blendTextureSourceAlpha</dfn> attribute enables the layer’s texture alpha channel.
 
 The <dfn attribute for="XRCompositionLayer">chromaticAberrationCorrection</dfn> attribute is a hint for the [=XR Compositor=] to
-enable optical chromatic aberration correction for the layer. Only valid if this isn't done by default.
+enable optical chromatic aberration correction for the layer. If the user agent or device does not support this attribute, they
+should return <code>null</code> on getting, and setting should be a <code>no-op</code>.
 
-ISSUE: describe what chromaticAberrationCorrection does.
+The <dfn attribute for="XRCompositionLayer">fixedFoveation</dfn> attribute controls the amount of foveation used by the
+[=XR Compositor=]. If the user agent or device does not support this attribute, they
+should return <code>null</code> on getting, and setting should be a <code>no-op</code>.
+Setting {{XRCompositionLayer/fixedFoveation}} to a value less than <code>0</code> will set it to <code>0</code> and setting it to
+a value higher than <code>1</code> will set it to <code>1</code>. <code>0</code> sets the minimum amount of foveation while
+<code>1</code> set the maximum. It is up to the user agent how the [=XR Compositor=] interprets these values.
 
 The <dfn attribute for="XRCompositionLayer">needsRedraw</dfn> attribute signals that the {{XRCompositionLayer}} should be
 rerendered in the next [=XR animation frame=]. It MAY be set when [=the underlying resources of a layer are lost=] or
@@ -292,6 +300,30 @@ the user agent MUST run the following steps:
 </div>
 
 {{destroy()}} will delete the underlying attachments. If there are no attachments, this function does nothing.
+
+<div class="algorithm" data-algorithm="intialization of a composition layer">
+
+To <dfn>intialize a composition layer</dfn> with a {{XRSession}} |session| and an optional instance of a {{WebGLRenderingContext}}
+or a {{WebGL2RenderingContext}} |context|, the user agent MUST run the following steps:
+  1. Set [=this=] [=XRCompositionLayer/session=] to |session|.
+  1. If |context| is defined, set [=this=] [=XRCompositionLayer/context=] to |context|.
+  1. Set [=this=] {{XRCompositionLayer/blendTextureSourceAlpha}} to <code>true</code>.
+  1. Initialize [=this=] {{XRCompositionLayer/chromaticAberrationCorrection}} as follows:
+    <dl class="switch">
+      <dt class="switch">If the user agent supports chromatic aberration correction
+      <dd> Set [=this=] {{XRCompositionLayer/chromaticAberrationCorrection}} to <code>true</code> or <code>false</code> depending on the user agent's preference.
+      <dt> Otherwise
+      <dd> Set [=this=] {{XRCompositionLayer/chromaticAberrationCorrection}} to <code>null</code>.
+    </dl>
+  1. Initialize [=this=] {{XRCompositionLayer/fixedFoveation}} as follows:
+    <dl class="switch">
+      <dt class="switch">If the user agent supports fixed foveation
+      <dd> Set [=this=] {{XRCompositionLayer/fixedFoveation}} to a value between <code>0</code> and <code>1</code> depending on the user agent's preference.
+      <dt> Otherwise
+      <dd> Set [=this=] {{XRCompositionLayer/fixedFoveation}} to <code>null</code>.
+    </dl>
+
+</div>
 
 <div class="algorithm" data-algorithm="calling destroy on a layer">
 
@@ -930,8 +962,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a [=new=] {{XRProjectionLayer}} in the [=relevant realm=] of [=this=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
-  1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
-  1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
+  1. Run [=intialize a composition layer=] on |layer| with |session| and |context|.
   1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to <code>false</code>.
   1. Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} as follows:
       <dl class="switch">
@@ -971,8 +1002,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XRQuadLayer}} in the [=relevant realm=] of [=this=].
-  1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
-  1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
+  1. Run [=intialize a composition layer=] on |layer| with |session| and |context|.
   1. Run [=initialize a quad layer=] with |layer| and |init|.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
@@ -996,8 +1026,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XRCylinderLayer}} in the [=relevant realm=] of [=this=].
-  1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
-  1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
+  1. Run [=intialize a composition layer=] on |layer| with |session| and |context|.
   1. Run [=initialize a cylinder layer=] with |layer| and |init|.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
@@ -1023,8 +1052,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{TypeError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{TypeError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XREquirectLayer}} in the [=relevant realm=] of [=this=].
-  1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
-  1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
+  1. Run [=intialize a composition layer=] on |layer| with |session| and |context|.
   1. Run [=initialize a equirect layer=] with |layer| and |init|.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
@@ -1051,8 +1079,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{TypeError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{TypeError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XRCubeLayer}} in the [=relevant realm=] of [=this=].
-  1. Initialize |layer|'s [=XRCompositionLayer/context=] to |context|.
-  1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
+  1. Run [=intialize a composition layer=] on |layer| with |session| and |context|.
   1. Let |layer|'s {{XRCubeLayer/space}} be the |init|'s {{XRLayerInit/space}}.
   1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRCubeLayerInit/isStatic}}
   1. Initialize |layer|'s {{XRCubeLayer/orientation}} as follows:
@@ -1271,7 +1298,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |session| be [=this=] [=XRMediaBinding/session=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XRQuadLayer}} in the [=relevant realm=] of [=this=].
-  1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
+  1. Run [=intialize a composition layer=] on |layer| with |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
   1. Run [=initialize a quad layer=] with |layer| and |init|.
@@ -1290,7 +1317,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |session| be [=this=] [=XRMediaBinding/session=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XRCylinderLayer}} in the [=relevant realm=] of [=this=].
-  1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
+  1. Run [=intialize a composition layer=] on |layer| with |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
   1. Run [=initialize a cylinder layer=] with |layer| and |init|.
@@ -1311,7 +1338,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XREquirectLayer}} in the [=relevant realm=] of [=this=].
-  1. Initialize |layer|'s [=XRCompositionLayer/session=] to |session|.
+  1. Run [=intialize a composition layer=] on |layer| with |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
   1. Run [=initialize a equirect layer=] with |layer| and |init|.
