@@ -276,10 +276,12 @@ The <dfn attribute for="XRCompositionLayer">layout</dfn> attribute returns the l
 The <dfn attribute for="XRCompositionLayer">blendTextureSourceAlpha</dfn> attribute enables the layer’s texture alpha channel.
 
 The <dfn attribute for="XRCompositionLayer">chromaticAberrationCorrection</dfn> attribute is a hint for the [=XR Compositor=] to
-enable optical chromatic aberration correction for the layer. This attribute is only defined if it is supported by the user agent.
+enable optical chromatic aberration correction for the layer. If the user agent or device does not support this attribute, they
+should return <code>null</code> on getting, and setting should be a <code>no-op</code>.
 
 The <dfn attribute for="XRCompositionLayer">fixedFoveation</dfn> attribute controls the amount of foveation used by the
-[=XR Compositor=]. This attribute is only defined if the user agent supports it.
+[=XR Compositor=]. If the user agent or device does not support this attribute, they
+should return <code>null</code> on getting, and setting should be a <code>no-op</code>.
 Setting {{XRCompositionLayer/fixedFoveation}} to a value less than <code>0</code> will set it to <code>0</code> and setting it to
 a value higher than <code>1</code> will set it to <code>1</code>. <code>0</code> sets the minimum amount of foveation while
 <code>1</code> set the maximum. It is up to the user agent how the [=XR Compositor=] interprets these values.
@@ -306,8 +308,20 @@ or a {{WebGL2RenderingContext}} |context|, the user agent MUST run the following
   1. Set [=this=] [=XRCompositionLayer/session=] to |session|.
   1. If |context| is defined, set [=this=] [=XRCompositionLayer/context=] to |context|.
   1. Set [=this=] {{XRCompositionLayer/blendTextureSourceAlpha}} to <code>true</code>.
-  1. If the user agent supports chromatic aberration correction, set [=this=] {{XRCompositionLayer/chromaticAberrationCorrection}} to <code>true</code> or <code>false</code> depending on the user agent's preference.
-  1. If the user agent supports fixed foveation, set [=this=] {{XRCompositionLayer/fixedFoveation}} to a value between <code>0</code> and <code>1</code> depending on the user agent's preference.
+  1. Initialize [=this=] {{XRCompositionLayer/chromaticAberrationCorrection}} as follows:
+    <dl class="switch">
+      <dt class="switch">If the user agent supports chromatic aberration correction
+      <dd> Set [=this=] {{XRCompositionLayer/chromaticAberrationCorrection}} to <code>true</code> or <code>false</code> depending on the user agent's preference.
+      <dt> Otherwise
+      <dd> Set [=this=] {{XRCompositionLayer/chromaticAberrationCorrection}} to <code>null</code>.
+    </dl>
+  1. Initialize [=this=] {{XRCompositionLayer/fixedFoveation}} as follows:
+    <dl class="switch">
+      <dt class="switch">If the user agent supports fixed foveation
+      <dd> Set [=this=] {{XRCompositionLayer/fixedFoveation}} to a value between <code>0</code> and <code>1</code> depending on the user agent's preference.
+      <dt> Otherwise
+      <dd> Set [=this=] {{XRCompositionLayer/fixedFoveation}} to <code>null</code>.
+    </dl>
 
 </div>
 
