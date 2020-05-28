@@ -1536,7 +1536,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-21">21 May 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-05-27">27 May 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Previous Versions:
@@ -1638,6 +1638,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <ol class="toc">
       <li><a href="#xrrenderstatechanges"><span class="secno">9.1</span> <span class="content">XRRenderState changes</span></a>
       <li><a href="#updaterenderstatechanges"><span class="secno">9.2</span> <span class="content">updateRenderState changes</span></a>
+      <li><a href="#animationframeschanges"><span class="secno">9.3</span> <span class="content">Animation frames changes</span></a>
      </ol>
     <li>
      <a href="#security"><span class="secno">10</span> <span class="content">Security and Privacy Considerations</span></a>
@@ -2884,7 +2885,7 @@ the instances of <code class="idl"><a data-link-type="idl" href="https://immersi
    </div>
    <h3 class="heading settled" data-level="9.2" id="updaterenderstatechanges"><span class="secno">9.2. </span><span class="content">updateRenderState changes</span><a class="self-link" href="#updaterenderstatechanges"></a></h3>
    <div class="algorithm" data-algorithm="update-layers-state-for-layers">
-    <p>This module replaces the steps given by "<a data-link-type="dfn" href="#layers-update-the-pending-layers-state" id="ref-for-layers-update-the-pending-layers-state">update the pending layers state</a>". Instead when the user agent will <dfn class="dfn-paneled" data-dfn-for="layers" data-dfn-type="dfn" data-noexport id="layers-update-the-pending-layers-state">update the pending layers state</dfn> with <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession①⓪">XRSession</a></code> <var>session</var> and <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dictdef-xrrenderstateinit" id="ref-for-dictdef-xrrenderstateinit②">XRRenderStateInit</a></code> <var>newState</var>, it must run the following steps:</p>
+    <p>This module replaces the steps given by "<a data-link-type="dfn" href="#layers-update-the-pending-layers-state" id="ref-for-layers-update-the-pending-layers-state">update the pending layers state</a>" from the WebXR specification. Instead when the user agent will <dfn class="dfn-paneled" data-dfn-for="layers" data-dfn-type="dfn" data-noexport id="layers-update-the-pending-layers-state">update the pending layers state</dfn> with <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession①⓪">XRSession</a></code> <var>session</var> and <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dictdef-xrrenderstateinit" id="ref-for-dictdef-xrrenderstateinit②">XRRenderStateInit</a></code> <var>newState</var>, it must run the following steps:</p>
     <ol>
      <li data-md>
       <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-baselayer" id="ref-for-dom-xrrenderstateinit-baselayer">baseLayer</a></code> is set:</p>
@@ -2910,6 +2911,18 @@ the instances of <code class="idl"><a data-link-type="idl" href="https://immersi
       <p>If <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state">pending render state</a> is <code>null</code>, set it to a copy of <var>activeState</var>.</p>
      <li data-md>
       <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers④">layers</a></code> array is set, set <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state①">pending render state</a>'s <code class="idl"><a data-link-type="idl" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers②">layers</a></code> to <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑤">layers</a></code>.</p>
+    </ol>
+   </div>
+   <h3 class="heading settled" data-level="9.3" id="animationframeschanges"><span class="secno">9.3. </span><span class="content">Animation frames changes</span><a class="self-link" href="#animationframeschanges"></a></h3>
+   <div class="algorithm" data-algorithm="update-check-layers-state">
+     This module replaces the steps given by "<a data-link-type="dfn" href="#check-the-layers-state" id="ref-for-check-the-layers-state">check the layers state</a>" from the WebXR specification. Instead to <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="check-the-layers-state">check the layers state</dfn> with <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrsession-renderstate" id="ref-for-dom-xrsession-renderstate①">renderState</a></code> <var>state</var>, the user agent MUST run the following steps: 
+    <ol>
+     <li data-md>
+      <p>If <var>state</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstate-baselayer" id="ref-for-dom-xrrenderstate-baselayer">baseLayer</a></code> is not <code>null</code>, return <code>true</code>.</p>
+     <li data-md>
+      <p>If <var>state</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑥">layers</a></code> is not empty, return <code>true</code>.</p>
+     <li data-md>
+      <p>return <code>false</code>.</p>
     </ol>
    </div>
    <h2 class="heading settled" data-level="10" id="security"><span class="secno">10. </span><span class="content">Security and Privacy Considerations</span><a class="self-link" href="#security"></a></h2>
@@ -2950,6 +2963,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
      <li><a href="#dom-xrequirectlayer-centralhorizontalangle">attribute for XREquirectLayer</a><span>, in §3.7</span>
      <li><a href="#dom-xrequirectlayerinit-centralhorizontalangle">dict-member for XREquirectLayerInit</a><span>, in §6.6</span>
     </ul>
+   <li><a href="#check-the-layers-state">check the layers state</a><span>, in §9.3</span>
    <li><a href="#dom-xrcompositionlayer-chromaticaberrationcorrection">chromaticAberrationCorrection</a><span>, in §3.3</span>
    <li><a href="#dom-xrwebglsubimage-colortexture">colorTexture</a><span>, in §5.2</span>
    <li><a href="#colortextures">colorTextures</a><span>, in §6.8</span>
@@ -3627,6 +3641,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <ul>
     <li><a href="#ref-for-dom-xrrenderstateinit-layers">9.1. XRRenderState changes</a>
     <li><a href="#ref-for-dom-xrrenderstateinit-layers①">9.2. updateRenderState changes</a> <a href="#ref-for-dom-xrrenderstateinit-layers②">(2)</a> <a href="#ref-for-dom-xrrenderstateinit-layers③">(3)</a> <a href="#ref-for-dom-xrrenderstateinit-layers④">(4)</a> <a href="#ref-for-dom-xrrenderstateinit-layers⑤">(5)</a>
+    <li><a href="#ref-for-dom-xrrenderstateinit-layers⑥">9.3. Animation frames changes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-xrpermissiondescriptor-optionalfeatures">
@@ -3661,6 +3676,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <a href="https://immersive-web.github.io/webxr/#dom-xrsession-renderstate">https://immersive-web.github.io/webxr/#dom-xrsession-renderstate</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-xrsession-renderstate">7.2. XRMediaBinding</a>
+    <li><a href="#ref-for-dom-xrsession-renderstate①">9.3. Animation frames changes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-xrsession-requestanimationframe">
@@ -3872,7 +3888,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
      <li><span class="dfn-paneled" id="term-for-xrframe-active" style="color:initial">active</span>
      <li><span class="dfn-paneled" id="term-for-active-immersive-session" style="color:initial">active immersive session</span>
      <li><span class="dfn-paneled" id="term-for-active-render-state" style="color:initial">active render state</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrrenderstateinit-baselayer" style="color:initial">baseLayer</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrrenderstateinit-baselayer" style="color:initial">baseLayer <small>(for XRRenderStateInit)</small></span>
      <li><span class="dfn-paneled" id="term-for-dom-xrview-eye" style="color:initial">eye</span>
      <li><span class="dfn-paneled" id="term-for-feature-descriptor" style="color:initial">feature descriptor</span>
      <li><span class="dfn-paneled" id="term-for-feature-requirements" style="color:initial">feature requirements</span>
@@ -5024,6 +5040,12 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <b><a href="#layers-update-the-pending-layers-state">#layers-update-the-pending-layers-state</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-layers-update-the-pending-layers-state">9.2. updateRenderState changes</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="check-the-layers-state">
+   <b><a href="#check-the-layers-state">#check-the-layers-state</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-check-the-layers-state">9.3. Animation frames changes</a>
    </ul>
   </aside>
 <script>/* script-dfn-panel */

@@ -1412,7 +1412,7 @@ updateRenderState changes {#updaterenderstatechanges}
 
 <div class="algorithm" data-algorithm="update-layers-state-for-layers">
 
-This module replaces the steps given by "[=update the pending layers state=]". Instead when the user agent will
+This module replaces the steps given by "[=update the pending layers state=]" from the WebXR specification. Instead when the user agent will
 <dfn dfn-for="layers">update the pending layers state</dfn> with {{XRSession}} |session| and {{XRRenderStateInit}} |newState|, it must run the following steps:
   1. If |newState|'s {{XRRenderStateInit/baseLayer}} is set:
     1. If the |session| was created with "[=feature descriptor/layers=]" enabled, throw an {{NotSupportedError}} and abort these steps.
@@ -1424,6 +1424,19 @@ This module replaces the steps given by "[=update the pending layers state=]". I
   1. Let |activeState| be |session|'s [=active render state=].
   1. If |session|'s [=pending render state=] is <code>null</code>, set it to a copy of |activeState|.
   1. If |newState|'s {{XRRenderStateInit/layers}} array is set, set |session|'s [=pending render state=]'s {{XRRenderState/layers}} to |newState|'s {{XRRenderStateInit/layers}}.
+
+</div>
+
+Animation frames changes {#animationframeschanges}
+------------------------
+
+<div class="algorithm" data-algorithm="update-check-layers-state">
+This module replaces the steps given by "[=check the layers state=]" from the WebXR specification. Instead to <dfn>check the layers state</dfn>
+with {{XRSession/renderState}} |state|, the user agent MUST run the following steps:
+
+  1. If |state|'s {{XRRenderState/baseLayer}} is not <code>null</code>, return <code>true</code>.
+  1. If |state|'s {{XRRenderStateInit/layers}} is not empty, return <code>true</code>.
+  1. return <code>false</code>.
 
 </div>
 
