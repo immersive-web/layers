@@ -240,22 +240,22 @@ The {{XRLayerLayout}} enum defines the layout of the layer.
 <pre class="idl">
 enum XRLayerLayout {
   "mono",
-  "stereo",
+  "default",
   "stereo-left-right",
   "stereo-top-bottom"
 };
 </pre>
 
  - A layout of <dfn enum-value for="XRLayerLayout">mono</dfn> indicates that the layer is mono.
- - A layout of <dfn enum-value for="XRLayerLayout">stereo</dfn> indicates that the layer can accomodate all the session’s {{XRView|XRViews}}.
+ - A layout of <dfn enum-value for="XRLayerLayout">default</dfn> indicates that the layer can accomodate all the session’s {{XRView|XRViews}}.
  - A layout of <dfn enum-value for="XRLayerLayout">stereo-left-right</dfn> indicates that the layer is divided left to right.
  - A layout of <dfn enum-value for="XRLayerLayout">stereo-top-bottom</dfn> indicates that the layer is divided top to bottom.
 
-NOTE: If an {{XRCompositionLayer}} is created with an {{XRLayerLayout/"stereo"}} layout, it is highly recommended that it is allocated with an {{XRTextureType/"texture-array"}} texture type.
+NOTE: If an {{XRCompositionLayer}} is created with an {{XRLayerLayout/"default"}} layout, it is highly recommended that it is allocated with an {{XRTextureType/"texture-array"}} texture type.
 
 Note: The {{XRLayerLayout/"stereo-left-right"}} and {{XRLayerLayout/"stereo-top-bottom"}} layouts are designed to minimize draw
 calls for content that is already in stereo (for example stereo videos or images). Experiences that don't require such assets types
-should use the {{XRLayerLayout/"stereo"}} layout.
+should use the {{XRLayerLayout/"default"}} layout.
 
 XRCompositionLayer {#xrcompositionlayertype}
 --------------
@@ -886,7 +886,7 @@ To <dfn>determine the layout attribute</dfn> using an {{XRTextureType}} |texture
   1. If |context| is not an {{WebGL2RenderingContext}} and |textureType| is {{"texture-array"}}, throw {{TypeError}} and abort these steps.
   1. let |layout| be |init|'s {{XRLayerInit/layout}}.
   1. If |layout| is {{XRLayerLayout/"mono"}}, return |layout| and abort these steps.
-  1. If |layout| is {{XRLayerLayout/"stereo"}}, run the following steps:
+  1. If |layout| is {{XRLayerLayout/"default"}}, run the following steps:
     1. If |textureType| is {{"texture-array"}}, return |layout| and abort these steps.
     1. If the user agent prefers {{XRLayerLayout/"stereo-left-right"}} layout, return {{XRLayerLayout/"stereo-left-right"}} and abort these steps.
     1. If the user agent prefers {{XRLayerLayout/"stereo-top-bottom"}} layout, return {{XRLayerLayout/"stereo-top-bottom"}} and abort these steps.
@@ -902,7 +902,7 @@ ISSUE: special case UA behavior if the size causes the layout to change (ie if t
 To <dfn>allocate color textures</dfn> using an {{XRCompositionLayer}} |layer|, an {{XRTextureType}} |textureType| and an {{XRLayerInit}} |init|, the user agent MUST run the following steps:
   1. let |array| be a [=new=] array in the [=relevant realm=] of |context|.
   1. let |context| be |layer|'s [=XRCompositionLayer/context=].
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/mono}}:
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
           <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of this |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
@@ -910,7 +910,7 @@ To <dfn>allocate color textures</dfn> using an {{XRCompositionLayer}} |layer|, a
           <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dl>
   1. let |numViews| be the number of all the session's {{XRView|XRViews}}.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo}}:
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"default"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
           <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| internal textures using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
@@ -934,13 +934,13 @@ To <dfn>allocate depth textures</dfn> using an {{XRCompositionLayer}} |layer|, a
   1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
   1. If |init|'s {{XRLayerInit/depth}} or {{XRLayerInit/stencil}} are set and |depthsupport| is false, throw {{TypeError}} and abort these steps.
   1. let |numViews| be the number of all the session's {{XRView|XRViews}}.
-  1. If |layer|'s {{XRCompositionLayer/layout}}  is {{XRLayerLayout/mono}}:
+  1. If |layer|'s {{XRCompositionLayer/layout}}  is {{XRLayerLayout/"mono"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
         <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dt> Otherwise
         <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-  1. If |layer|'s {{XRCompositionLayer/layout}}  is {{XRLayerLayout/stereo}}:
+  1. If |layer|'s {{XRCompositionLayer/layout}}  is {{XRLayerLayout/"default"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
         <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| internal textures using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
@@ -978,7 +978,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. let |helperInit| be a [=new=] {{XRLayerInit}} in the [=relevant realm=] of [=this=].
   1. Initialize |helperInit|'s {{XRLayerInit/viewPixelWidth}} to |bufferSize| width.
   1. Initialize |helperInit|'s {{XRLayerInit/viewPixelHeight}} to |bufferSize| height.
-  1. Initialize |helperInit|'s {{XRLayerInit/layout}} to {{XRLayerLayout/"stereo"}}
+  1. Initialize |helperInit|'s {{XRLayerInit/layout}} to {{XRLayerLayout/"default"}}
   1. Initialize |helperInit|'s {{XRLayerInit/depth}} to |init|'s {{XRProjectionLayerInit/depth}}.
   1. Initialize |helperInit|'s {{XRLayerInit/stencil}} to |init|'s {{XRProjectionLayerInit/stencil}}.
   1. Initialize |helperInit|'s {{XRLayerInit/alpha}} to |init|'s {{XRProjectionLayerInit/alpha}}.
@@ -1153,7 +1153,7 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
       <dt> Otherwise
         <dd> Let |subimage| be a [=new=] {{XRWebGLSubImage}} in the [=relevant realm=] of [=this=].
     </dl>
-  1. If |layer|'s {{XRCompositionLayer/layout}} attribute is {{XRLayerLayout/"stereo"}}, throw an {{TypeError}} and abort these steps.
+  1. If |layer|'s {{XRCompositionLayer/layout}} attribute is {{XRLayerLayout/"default"}}, throw an {{TypeError}} and abort these steps.
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the first element of the |layer|'s [=colorTextures=] array.
   1. If the layer has a depthStencilTexture, initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the first element of the |layer|'s [=depthStencilTextures=] array.
@@ -1177,7 +1177,7 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
   1. let |frame| be |view|'s {{frame}}.
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. let |index| be a [=new=] integer with the value <code>0</code> in the [=relevant realm=] of [=this=].
-  1. If |view|'s {{XRView/eye}} attribute is {{XREye/"right"}} and |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"stereo"}}, set |index| to <code>1</code>.
+  1. If |view|'s {{XRView/eye}} attribute is {{XREye/"right"}} and |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"default"}}, set |index| to <code>1</code>.
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
     <dl class="switch">
       <dt class="switch">If the |layer| was created with a textureType of {{"texture-array"}}
