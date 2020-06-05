@@ -1386,6 +1386,53 @@ when the [=XR Compositor=] can no longer reproject the layer.
 
 The author SHOULD redraw the content of the layer at the next [=XR animation frame=]. The event must be of type {{XRLayerEvent}}.
 
+Hit testing {#hittesting}
+===========
+
+XRLayerHitResult {#xrlayerhitresulttype}
+----------------
+
+<pre class="idl">
+dictionary XRLayerHitResult {
+  XRCompositionLayer layer;
+  unsigned long x;
+  unsigned long y;
+  DOMPointInit position;
+};
+</pre>
+
+The <dfn dict-member for="XRLayerHitResult">layer</dfn> member defines what layer was hit.
+
+The <dfn dict-member for="XRLayerHitResult">x</dfn> and <dfn dict-member for="XRLayerHitResult">y</dfn> member define the x and y position
+where the layer was hit.
+
+The <dfn dict-member for="XRLayerHitResult">position</dfn> member defines the position in 3D space where the hit occured.
+
+Finding hit tests {#finding-hit-tests}
+-----------------
+
+<pre class="idl">
+[SecureContext, Exposed=Window] partial interface XRSession {
+  XRLayerHitResult? findHitTest(XRRigidTransform ray);
+};
+</pre>
+
+<div class="algorithm" data-algorithm="findHitTestAlgo">
+
+The <dfn method for="XRSession">findHitTest(XRRigidTransform |ray|)</dfn> method casts a ray into the
+scene containing instances of {{XRCompositionLayer|XRCompositionLayers}}
+
+When this method is invoked, the user agent MUST run the following steps:
+  1. If [=this=] was not created with "[=feature descriptor/layers=]" enabled, throw an {{NotSupportedError}} and abort these steps.
+  1. If the |ray| doesn't intersect any layers of the {{XRRenderState/layers}}, return <code>null</code> and abort these steps.
+  1. Let |result| be a new instand of {{XRLayerHitResult}} in the [=relevant realm=] of [=this=].
+  1. Set |result|'s {{XRLayerHitResult/layer}} to the hit {{XRCompositionLayer}}.
+  1. Set |result|'s {{XRLayerHitResult/x}} and {{XRLayerHitResult/y}} to the position where the |ray| hit {XRLayerHitResult/layer}}.
+  1. Set |result|'s {{XRLayerHitResult/position}} to the 3D position where the |ray| hit {XRLayerHitResult/layer}}.
+  1. Return |result|.
+
+</div>
+
 WebXR Device API Integration {#webxrintegration}
 ============================
 
