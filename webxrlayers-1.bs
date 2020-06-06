@@ -1393,7 +1393,7 @@ XRLayerHitResult {#xrlayerhitresulttype}
 ----------------
 
 <pre class="idl">
-dictionary XRLayerHitResult {
+interface XRLayerHitResult {
   XRCompositionLayer layer;
   unsigned long x;
   unsigned long y;
@@ -1413,19 +1413,20 @@ Finding hit tests {#finding-hit-tests}
 
 <pre class="idl">
 [SecureContext, Exposed=Window] partial interface XRSession {
-  XRLayerHitResult? findHitTest(XRRigidTransform ray);
+  XRLayerHitResult? findHitTest(XRSpace space, XRRigidTransform ray);
 };
 </pre>
 
 <div class="algorithm" data-algorithm="findHitTestAlgo">
 
-The <dfn method for="XRSession">findHitTest(XRRigidTransform |ray|)</dfn> method casts a ray into the
+The <dfn method for="XRSession">findHitTest(XRSpace |space|, XRRigidTransform |ray|)</dfn> method casts a ray into the
 scene containing instances of {{XRCompositionLayer|XRCompositionLayers}}
 
 When this method is invoked, the user agent MUST run the following steps:
   1. If [=this=] was not created with "[=feature descriptor/layers=]" enabled, throw an {{NotSupportedError}} and abort these steps.
-  1. If the |ray| doesn't intersect any layers of the {{XRRenderState/layers}}, return <code>null</code> and abort these steps.
-  1. Let |result| be a new instand of {{XRLayerHitResult}} in the [=relevant realm=] of [=this=].
+  1. If |session|'s [=ended=] value is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. If the |ray| using the orign |space| doesn't intersect any layers of the {{XRRenderState/layers}} array, return <code>null</code> and abort these steps.
+  1. Let |result| be a new instance of {{XRLayerHitResult}} in the [=relevant realm=] of [=this=].
   1. Set |result|'s {{XRLayerHitResult/layer}} to the hit {{XRCompositionLayer}}.
   1. Set |result|'s {{XRLayerHitResult/x}} and {{XRLayerHitResult/y}} to the position where the |ray| hit {XRLayerHitResult/layer}}.
   1. Set |result|'s {{XRLayerHitResult/position}} to the 3D position where the |ray| hit {XRLayerHitResult/layer}}.
