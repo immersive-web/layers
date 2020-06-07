@@ -1394,43 +1394,46 @@ XRLayerHitResult {#xrlayerhitresulttype}
 
 <pre class="idl">
 interface XRLayerHitResult {
-  XRCompositionLayer layer;
-  unsigned long x;
-  unsigned long y;
-  DOMPointInit position;
+  readonly attribute XRCompositionLayer layer;
+  readonly attribute unsigned long x;
+  readonly attribute unsigned long y;
+  readonly attribute DOMPointInit position;
 };
 </pre>
 
-The <dfn dict-member for="XRLayerHitResult">layer</dfn> member defines what layer was hit.
+The <dfn attribute for="XRLayerHitResult">layer</dfn> member returns what layer was hit.
 
-The <dfn dict-member for="XRLayerHitResult">x</dfn> and <dfn dict-member for="XRLayerHitResult">y</dfn> member define the x and y position
+The <dfn attribute for="XRLayerHitResult">x</dfn> and <dfn attribute for="XRLayerHitResult">y</dfn> member return the x and y position
 where the layer was hit.
 
-The <dfn dict-member for="XRLayerHitResult">position</dfn> member defines the position in 3D space where the hit occured.
+The <dfn attribute for="XRLayerHitResult">position</dfn> member returns the position in 3D space where the hit occured.
 
 Finding hit tests {#finding-hit-tests}
 -----------------
 
 <pre class="idl">
-[SecureContext, Exposed=Window] partial interface XRSession {
-  XRLayerHitResult? findHitTest(XRSpace space, XRRigidTransform ray);
+[SecureContext, Exposed=Window] partial interface XRFrame {
+  sequence&lt;XRLayerHitResult&gt; findHitTest(XRSpace space, XRRigidTransform ray);
 };
 </pre>
 
 <div class="algorithm" data-algorithm="findHitTestAlgo">
 
-The <dfn method for="XRSession">findHitTest(XRSpace |space|, XRRigidTransform |ray|)</dfn> method casts a ray into the
-scene containing instances of {{XRCompositionLayer|XRCompositionLayers}}
+The <dfn method for="XRFrame">findHitTest(XRSpace |space|, XRRigidTransform |ray|)</dfn> method casts a ray into the
+scene containing instances of {{XRCompositionLayer|XRCompositionLayers}}.
 
 When this method is invoked, the user agent MUST run the following steps:
-  1. If [=this=] was not created with "[=feature descriptor/layers=]" enabled, throw an {{NotSupportedError}} and abort these steps.
-  1. If |session|'s [=ended=] value is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
-  1. If the |ray| using the orign |space| doesn't intersect any layers of the {{XRRenderState/layers}} array, return <code>null</code> and abort these steps.
-  1. Let |result| be a new instance of {{XRLayerHitResult}} in the [=relevant realm=] of [=this=].
-  1. Set |result|'s {{XRLayerHitResult/layer}} to the hit {{XRCompositionLayer}}.
-  1. Set |result|'s {{XRLayerHitResult/x}} and {{XRLayerHitResult/y}} to the position where the |ray| hit {XRLayerHitResult/layer}}.
-  1. Set |result|'s {{XRLayerHitResult/position}} to the 3D position where the |ray| hit {XRLayerHitResult/layer}}.
-  1. Return |result|.
+  1. If [=this=] {{XRFrame/session}} was not created with "[=feature descriptor/layers=]" enabled, throw an {{NotSupportedError}} and abort these steps.
+  1. If [=this=]'s [=XRFrame/active=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. Let |hitresults| be a new sequence created in the [=relevant realm=] of [=this=].
+  1. For each |layer| in [=this=] {{XRFrame/session}}'s {{XRRenderState/layers}}:
+    1. If |ray| using the orign |space| doesn't intersect |layer|, continue to the next entry.
+    1. Let |result| be a new instance of {{XRLayerHitResult}} in the [=relevant realm=] of [=this=].
+    1. Set |result|'s {{XRLayerHitResult/layer}} to the hit {{XRCompositionLayer}}.
+    1. Set |result|'s {{XRLayerHitResult/x}} and {{XRLayerHitResult/y}} to the position where the |ray| hit {XRLayerHitResult/layer}}.
+    1. Set |result|'s {{XRLayerHitResult/position}} to the 3D position where the |ray| hit {XRLayerHitResult/layer}}.
+    1. Append |result| to |hitresults|.
+  1. Return |hitresults|.
 
 </div>
 
