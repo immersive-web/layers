@@ -1536,7 +1536,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-06-05">5 June 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-06-08">8 June 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Previous Versions:
@@ -2935,6 +2935,8 @@ at the same time. All other requirements for <a data-link-type="dfn" href="https
 If the <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer③①">XRCompositionLayer</a></code> was created through <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding⑦">XRMediaBinding</a></code> and the <code class="idl"><a data-link-type="idl" href="#dom-xrmedialayerinit-invertstereo" id="ref-for-dom-xrmedialayerinit-invertstereo①">"invertStereo"</a></code> flag was set to <code>true</code>, the right portion of the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer①⑤">XRLayer</a></code> is shown while the left portion is ignored.</p>
    <p>If the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor①⑦">XR Compositor</a> is driving a monoscopic display and the rendered <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer③②">XRCompositionLayer</a></code> has an <code class="idl"><a data-link-type="idl" href="#enumdef-xrlayerlayout" id="ref-for-enumdef-xrlayerlayout⑤">XRLayerLayout</a></code> of <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-top-bottom" id="ref-for-dom-xrlayerlayout-stereo-top-bottom⑦">"stereo-top-bottom"</a></code>, only the top portion of the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer①⑥">XRLayer</a></code> is shown while the bottom portion is ignored.
 If the <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer③③">XRCompositionLayer</a></code> was created through <code class="idl"><a data-link-type="idl" href="#xrmediabinding" id="ref-for-xrmediabinding⑧">XRMediaBinding</a></code> and the <code class="idl"><a data-link-type="idl" href="#dom-xrmedialayerinit-invertstereo" id="ref-for-dom-xrmedialayerinit-invertstereo②">"invertStereo"</a></code> flag was set to <code>true</code>, the bottom portion of the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer①⑦">XRLayer</a></code> is shown while the top portion is ignored.</p>
+   <p>If the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor①⑧">XR Compositor</a> is driving additional displays in addition to a monoscopic or stereoscopic one, it is up to the
+user agent how a <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer③④">XRCompositionLayer</a></code> with an <code class="idl"><a data-link-type="idl" href="#enumdef-xrlayerlayout" id="ref-for-enumdef-xrlayerlayout⑥">XRLayerLayout</a></code> of <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right⑨">"stereo-left-right"</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-top-bottom" id="ref-for-dom-xrlayerlayout-stereo-top-bottom⑧">"stereo-top-bottom"</a></code> is shown to those additional displays.</p>
    <h3 class="heading settled" data-level="9.4" id="animationframeschanges"><span class="secno">9.4. </span><span class="content">Animation frames changes</span><a class="self-link" href="#animationframeschanges"></a></h3>
    <div class="algorithm" data-algorithm="update-check-layers-state">
      This module replaces the steps given by "<a data-link-type="dfn" href="#check-the-layers-state" id="ref-for-check-the-layers-state">check the layers state</a>" from the WebXR specification. Instead to <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="check-the-layers-state">check the layers state</dfn> with <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrsession-renderstate" id="ref-for-dom-xrsession-renderstate①">renderState</a></code> <var>state</var>, the user agent MUST run the following steps: 
@@ -3842,7 +3844,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-xr-compositor①①">6.8. XRWebGLBinding</a>
     <li><a href="#ref-for-xr-compositor①②">8.2. Event Types</a>
     <li><a href="#ref-for-xr-compositor①③">9.1. XRRenderState changes</a>
-    <li><a href="#ref-for-xr-compositor①④">9.3. XRCompositor changes</a> <a href="#ref-for-xr-compositor①⑤">(2)</a> <a href="#ref-for-xr-compositor①⑥">(3)</a> <a href="#ref-for-xr-compositor①⑦">(4)</a>
+    <li><a href="#ref-for-xr-compositor①④">9.3. XRCompositor changes</a> <a href="#ref-for-xr-compositor①⑤">(2)</a> <a href="#ref-for-xr-compositor①⑥">(3)</a> <a href="#ref-for-xr-compositor①⑦">(4)</a> <a href="#ref-for-xr-compositor①⑧">(5)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-xrsessionmode-immersive-ar">
@@ -4223,7 +4225,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-enumdef-xrlayerlayout①">3.3. XRCompositionLayer</a>
     <li><a href="#ref-for-enumdef-xrlayerlayout②">6.3. XRLayerInit</a>
     <li><a href="#ref-for-enumdef-xrlayerlayout③">7.1. XRMediaLayerInit</a>
-    <li><a href="#ref-for-enumdef-xrlayerlayout④">9.3. XRCompositor changes</a> <a href="#ref-for-enumdef-xrlayerlayout⑤">(2)</a>
+    <li><a href="#ref-for-enumdef-xrlayerlayout④">9.3. XRCompositor changes</a> <a href="#ref-for-enumdef-xrlayerlayout⑤">(2)</a> <a href="#ref-for-enumdef-xrlayerlayout⑥">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrlayerlayout-default">
@@ -4245,7 +4247,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <ul>
     <li><a href="#ref-for-dom-xrlayerlayout-stereo-left-right">3.2. XRLayerLayout</a> <a href="#ref-for-dom-xrlayerlayout-stereo-left-right①">(2)</a>
     <li><a href="#ref-for-dom-xrlayerlayout-stereo-left-right②">6.8. XRWebGLBinding</a> <a href="#ref-for-dom-xrlayerlayout-stereo-left-right③">(2)</a> <a href="#ref-for-dom-xrlayerlayout-stereo-left-right④">(3)</a> <a href="#ref-for-dom-xrlayerlayout-stereo-left-right⑤">(4)</a> <a href="#ref-for-dom-xrlayerlayout-stereo-left-right⑥">(5)</a> <a href="#ref-for-dom-xrlayerlayout-stereo-left-right⑦">(6)</a>
-    <li><a href="#ref-for-dom-xrlayerlayout-stereo-left-right⑧">9.3. XRCompositor changes</a>
+    <li><a href="#ref-for-dom-xrlayerlayout-stereo-left-right⑧">9.3. XRCompositor changes</a> <a href="#ref-for-dom-xrlayerlayout-stereo-left-right⑨">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrlayerlayout-stereo-top-bottom">
@@ -4253,7 +4255,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <ul>
     <li><a href="#ref-for-dom-xrlayerlayout-stereo-top-bottom">3.2. XRLayerLayout</a> <a href="#ref-for-dom-xrlayerlayout-stereo-top-bottom①">(2)</a>
     <li><a href="#ref-for-dom-xrlayerlayout-stereo-top-bottom②">6.8. XRWebGLBinding</a> <a href="#ref-for-dom-xrlayerlayout-stereo-top-bottom③">(2)</a> <a href="#ref-for-dom-xrlayerlayout-stereo-top-bottom④">(3)</a> <a href="#ref-for-dom-xrlayerlayout-stereo-top-bottom⑤">(4)</a> <a href="#ref-for-dom-xrlayerlayout-stereo-top-bottom⑥">(5)</a>
-    <li><a href="#ref-for-dom-xrlayerlayout-stereo-top-bottom⑦">9.3. XRCompositor changes</a>
+    <li><a href="#ref-for-dom-xrlayerlayout-stereo-top-bottom⑦">9.3. XRCompositor changes</a> <a href="#ref-for-dom-xrlayerlayout-stereo-top-bottom⑧">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="xrcompositionlayer">
@@ -4273,7 +4275,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-xrcompositionlayer②⑥">7.1. XRMediaLayerInit</a> <a href="#ref-for-xrcompositionlayer②⑦">(2)</a>
     <li><a href="#ref-for-xrcompositionlayer②⑧">7.2. XRMediaBinding</a>
     <li><a href="#ref-for-xrcompositionlayer②⑨">9.2. updateRenderState changes</a>
-    <li><a href="#ref-for-xrcompositionlayer③⓪">9.3. XRCompositor changes</a> <a href="#ref-for-xrcompositionlayer③①">(2)</a> <a href="#ref-for-xrcompositionlayer③②">(3)</a> <a href="#ref-for-xrcompositionlayer③③">(4)</a>
+    <li><a href="#ref-for-xrcompositionlayer③⓪">9.3. XRCompositor changes</a> <a href="#ref-for-xrcompositionlayer③①">(2)</a> <a href="#ref-for-xrcompositionlayer③②">(3)</a> <a href="#ref-for-xrcompositionlayer③③">(4)</a> <a href="#ref-for-xrcompositionlayer③④">(5)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrcompositionlayer-destroy">
