@@ -36,6 +36,7 @@ spec: webxr-1;
     type: dfn; text: active immersive session
     type: dfn; text: type; for: XRReferenceSpace
     type: dfn; text: session; for: XRSpace
+    type: dfn; text: native origin; for: XRSpace
     type: dfn; text: XRLayer
     type: dfn; text: XRReferenceSpace
     type: dfn; text: type; for: XRReferenceSpace
@@ -1397,14 +1398,14 @@ interface XRLayerHitResult {
   readonly attribute XRCompositionLayer layer;
   readonly attribute unsigned long x;
   readonly attribute unsigned long y;
-  readonly attribute DOMPointInit position;
+  readonly attribute XRSpace hitSpace;
 };
 </pre>
 
 The <dfn attribute for="XRLayerHitResult">layer</dfn> member returns what layer was hit.
 
 The <dfn attribute for="XRLayerHitResult">x</dfn> and <dfn attribute for="XRLayerHitResult">y</dfn> member return the x and y position
-where the layer was hit.
+where the layer was hit. This position is <code>0</code for the top/left position and <code>1</code> for the bottom/right position.
 
 The <dfn attribute for="XRLayerHitResult">position</dfn> member returns the position in 3D space where the hit occured.
 
@@ -1428,10 +1429,17 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |hitresults| be a new sequence created in the [=relevant realm=] of [=this=].
   1. For each |layer| in [=this=] {{XRFrame/session}}'s {{XRRenderState/layers}}:
     1. If |ray| using the orign |space| doesn't intersect |layer|, continue to the next entry.
-    1. Let |result| be a new instance of {{XRLayerHitResult}} in the [=relevant realm=] of [=this=].
+    1. Let |result| be a [=new=] instance of {{XRLayerHitResult}} in the [=relevant realm=] of [=this=].
     1. Set |result|'s {{XRLayerHitResult/layer}} to the hit {{XRCompositionLayer}}.
     1. Set |result|'s {{XRLayerHitResult/x}} and {{XRLayerHitResult/y}} to the position where the |ray| hit {XRLayerHitResult/layer}}.
-    1. Set |result|'s {{XRLayerHitResult/position}} to the 3D position where the |ray| hit {XRLayerHitResult/layer}}.
+    1. Initialize |result|'s {{XRLayerHitResult/hitSpace}} as follows:
+        <dl class="switch">
+          <dt> If a previous hit was found with the same |layer| and [=this=], the user agent MAY:
+            <dd> Let |result|'s {{XRLayerHitResult/hitSpace}} be the same {{XRSpace}} object as returned by an earlier call with the same |layer| and [=this=].
+          <dt> Otherwise
+            <dd> Let |result|'s {{XRLayerHitResult/hitSpace}} be a [=new=] {{XRSpace}} in the [=relevant realm=] of [=this=].
+        </dl>
+    1. Set |result|'s {{XRLayerHitResult/hitSpace}} to an {{XRSpace}} that has a [=XRSpace/native origin=] to the pose that should be used to render the 3D position that was hit.
     1. Append |result| to |hitresults|.
   1. Return |hitresults|.
 
