@@ -1446,6 +1446,10 @@ If the [=XR Compositor=] is driving a monoscopic display and the rendered {{XRCo
 If the {{XRCompositionLayer}} was created through {{XRMediaBinding}} and the {{XRMediaLayerInit/"invertStereo"}} flag was set to
 <code>true</code>, the bottom portion of the {{XRLayer}} is shown while the top portion is ignored.
 
+If the [=XR Compositor=] is driving a additional display in addition to a monoscopic or stereoscopic one, it is up to the
+user agent how a {{XRCompositionLayer}} with an {{XRLayerLayout}} of {{XRLayerLayout/"stereo-left-right"}} or
+{{XRLayerLayout/"stereo-top-bottom"}} is shown to that additional display.
+
 Animation frames changes {#animationframeschanges}
 ------------------------
 
