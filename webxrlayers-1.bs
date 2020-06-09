@@ -78,6 +78,7 @@ spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: method; text: clear; url: 5.14.11
     type: method; text: drawArrays; url: 5.14.11
     type: method; text: drawElements; url: 5.14.11
+    type: dfn; text: WebGL viewport; url:#5.14.4
 spec: WebGL 2.0; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/2.0/
     type: interface; text: WebGL2RenderingContext; url: WebGL2RenderingContext
     type: typedef; text: TEXTURE_2D_ARRAY; url: 3.7
@@ -349,6 +350,11 @@ object which is an instance of null or a {{HTMLVideoElement}}.
 
 Each {{XRCompositionLayer}} has an associated <dfn for="XRCompositionLayer">session</dfn>, which is the
 {{XRSession}} it was created with.
+
+If the {{XRCompositionLayer}} was created by {{XRWebGLBinding}}, it MUST have a <dfn>list of viewports</dfn> which is a
+[=/list=] containing one [=WebGL viewport=] for each {{XRView}} the {{XRSession}} currently exposes. The viewports MUST
+have a {{XRViewport/width}} and {{XRViewport/height}} greater than <code>0</code> and MUST describe a rectangle that does
+not exceed the bounds of the {{XRCompositionLayer}}.
 
 <div class="algorithm" data-algorithm="setting the space on a layer">
 
@@ -889,6 +895,7 @@ MUST be multiplied by to yield the |session|'s [=native WebGL framebuffer resolu
 
 To <dfn>determine the layout attribute</dfn> using an {{XRTextureType}} |textureType|, a {{XRWebGLRenderingContext}} |context| and a {{XRLayerInit}} |init|, the user agent MUST run the following steps:
   1. If |context| is not an {{WebGL2RenderingContext}} and |textureType| is {{"texture-array"}}, throw {{TypeError}} and abort these steps.
+  1. If |textureType| is {{"texture-array"}} and not all of the session’s {{XRView|XRViews}} have the same dimensions, throw an {{InvalidStateError}} and abort these steps.
   1. let |layout| be |init|'s {{XRLayerInit/layout}}.
   1. If |layout| is {{XRLayerLayout/"mono"}}, return |layout| and abort these steps.
   1. If |layout| is {{XRLayerLayout/"default"}}, run the following steps:
@@ -921,7 +928,10 @@ To <dfn>allocate color textures</dfn> using an {{XRCompositionLayer}} |layer|, a
           <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| internal textures using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
-          <dd> Initialize |array| with |numViews| [=new=] instances of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRProjectionLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> For each |view| in session's {{XRView|XRViews}}:
+            1. Let |glViewport| be the [=WebGL viewport=] from the [=list of viewports=] associated with |view|.
+            1. let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |init|'s {{XRLayerInit/alpha}} and |glViewport|'s width and height.
+            1. Append |texture| to |array|.
           <dd> Return |array| and abort these steps.
         </dl>
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture using |context| and |init|'s {{XRLayerInit/alpha}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
