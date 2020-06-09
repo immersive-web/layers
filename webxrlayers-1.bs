@@ -31,6 +31,8 @@ spec: webxr-1;
     type: dfn; text: apply the pending render state
     type: dfn; text: viewer reference space
     type: dfn; text: xr animation frame
+    type: dfn; text: immersive xr device; for: XRSystem
+    type: dfn; text: opaque framebuffer
     type: dfn; text: feature descriptor
     type: dfn; text: feature requirement
     type: dfn; text: active immersive session
@@ -73,6 +75,9 @@ spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: interface; text: GLenum
     type: typedef; text: TEXTURE_2D; url: 5.14
     type: typedef; text: TEXTURE_CUBE_MAP; url: 5.14
+    type: method; text: clear; url: 5.14.11
+    type: method; text: drawArrays; url: 5.14.11
+    type: method; text: drawElements; url: 5.14.11
 spec: WebGL 2.0; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/2.0/
     type: interface; text: WebGL2RenderingContext; url: WebGL2RenderingContext
     type: typedef; text: TEXTURE_2D_ARRAY; url: 3.7
@@ -1200,6 +1205,14 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
 
 </div>
 
+When an {{XRLayer}} is a member of the {{XRRenderState/layers}} array, it MUST be presented to the [=XRSystem/immersive XR device=] immediately after
+an [=XR animation frame=] completes, but only if at least one of the following has occurred since the previous [=XR animation frame=]:
+
+  - The {{XRLayer}} was added to {{XRRenderState/layers}} since the previous [=XR animation frame=].
+  - {{XRLayer}} is an {{XRWebGLLayer}} and {{clear}}, {{drawArrays}}, {{drawElements}}, or any other rendering operation which similarly affects the framebuffer's color values has been called while the [=opaque framebuffer=] is the currently bound framebuffer of the {{WebGLRenderingContext}} associated with the {{XRWebGLLayer}}.
+  - {{XRLayer}} is an {{XRCompositionLayer}} and {{XRWebGLBinding/getSubImage()}} or {{XRWebGLBinding/getViewSubImage()}} was called and any rendering operation has been called that affects the color value of the {{XRWebGLSubImage/colorTexture}} texture.
+
+Before the [=opaque framebuffer=] or {{XRWebGLSubImage/colorTexture}} texture are presented to the [=XRSystem/immersive XR device=] the user agent MUST ensure that all rendering operations have been flushed.
 
 Video layer creation {#videolayer}
 ====================
@@ -1445,6 +1458,10 @@ If the [=XR Compositor=] is driving a monoscopic display and the rendered {{XRCo
 {{XRLayerLayout/"stereo-top-bottom"}}, only the top portion of the {{XRLayer}} is shown while the bottom portion is ignored.
 If the {{XRCompositionLayer}} was created through {{XRMediaBinding}} and the {{XRMediaLayerInit/"invertStereo"}} flag was set to
 <code>true</code>, the bottom portion of the {{XRLayer}} is shown while the top portion is ignored.
+
+If the [=XR Compositor=] is driving additional displays in addition to a monoscopic or stereoscopic one, it is up to the
+user agent how a {{XRCompositionLayer}} with an {{XRLayerLayout}} of {{XRLayerLayout/"stereo-left-right"}} or
+{{XRLayerLayout/"stereo-top-bottom"}} is shown to those additional displays.
 
 Animation frames changes {#animationframeschanges}
 ------------------------
