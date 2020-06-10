@@ -902,7 +902,7 @@ MUST be multiplied by to yield the |session|'s [=native WebGL framebuffer resolu
 
 To <dfn>determine the layout attribute</dfn> using an {{XRTextureType}} |textureType|, a {{XRWebGLRenderingContext}} |context| and a {{XRLayerInit}} |init|, the user agent MUST run the following steps:
   1. If |context| is not an {{WebGL2RenderingContext}} and |textureType| is {{"texture-array"}}, throw {{TypeError}} and abort these steps.
-  1. If |textureType| is {{"texture-array"}} and not all of the session’s [=view|views=] in the [=list of views=] have the same dimensions, throw an {{InvalidStateError}} and abort these steps.
+  1. If |textureType| is {{"texture-array"}} and not all of the session’s [=view|views=] in the [=list of views=] have the same dimensions, throw an {{NotSupportedError}} and abort these steps.
   1. let |layout| be |init|'s {{XRLayerInit/layout}}.
   1. If |layout| is {{XRLayerLayout/"mono"}}, return |layout| and abort these steps.
   1. If |layout| is {{XRLayerLayout/"default"}}, run the following steps:
