@@ -12,7 +12,7 @@ Mailing List Archives: https://lists.w3.org/Archives/Public/public-immersive-web
 
 Editor: Rik Cabanier 106988, Facebook https://oculus.com, cabanier@fb.com
 
-Abstract: This specification describes support for accessing the geometry of real world objects during a WebXR session.
+Abstract: This specification describes support for various layer types used in a WebXR session.
 </pre>
 
 <pre class="link-defaults">
