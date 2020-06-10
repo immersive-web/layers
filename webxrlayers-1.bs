@@ -255,7 +255,7 @@ enum XRLayerLayout {
 };
 </pre>
 
- - A layout of <dfn enum-value for="XRLayerLayout">default</dfn> indicates that the layer can accomodate all the session’s {{XRView|XRViews}}.
+ - A layout of <dfn enum-value for="XRLayerLayout">default</dfn> indicates that the layer can accomodate all the views of session’s [=list of views=].
  - A layout of <dfn enum-value for="XRLayerLayout">mono</dfn> indicates that the layer is mono.
  - A layout of <dfn enum-value for="XRLayerLayout">stereo-left-right</dfn> indicates that the layer is divided left to right.
  - A layout of <dfn enum-value for="XRLayerLayout">stereo-top-bottom</dfn> indicates that the layer is divided top to bottom.
@@ -1170,7 +1170,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
   1. If |layout| is {{XRLayerLayout/"stereo-left-right"}} or {{XRLayerLayout/"stereo-top-bottom"}}, throw {{TypeError}} and abort these steps.
   1. Let |layer|'s [=colorTextures=] be a [=new=] array in the [=relevant realm=] of this {{XRCubeLayer}}.
-  1. let |numViews| be the number of all the session's {{XRView|XRViews}}.
+  1. let |numViews| be the number of |session|'s [=list of views=].
   1. Initialize |layer|'s [=colorTextures=] as follows, based on the value of |layout|:
     <dl class="switch">
       <dt> {{XRLayerLayout/"mono"}}:
