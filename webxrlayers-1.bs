@@ -928,7 +928,7 @@ To <dfn>allocate color textures for projection layers</dfn> using an {{XRProject
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}} or {{XRLayerLayout/"default"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-          <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| internal textures using |context|, |alpha|, |width| and |height|.
+          <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| layers using |context|, |alpha|, |width| and |height|.
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
           <dd> For each |view| in the |session|'s [=list of views=]:
@@ -960,7 +960,7 @@ To <dfn>allocate depth textures for projection layers</dfn> using an {{XRProject
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}} or {{XRLayerLayout/"default"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-          <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| internal textures using |context|, |stencil|, |width| and |height|.
+          <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| layers using |context|, |stencil|, |width| and |height|.
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
           <dd> For each |view| in the |session|'s [=list of views=]:
@@ -993,7 +993,7 @@ To <dfn>allocate color textures</dfn> using an {{XRCompositionLayer}} |layer|, a
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"default"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-          <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| internal textures using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| layers using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
           <dd> Initialize |array| with |numViews| [=new=] instances of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRProjectionLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
@@ -1024,7 +1024,7 @@ To <dfn>allocate depth textures</dfn> using an {{XRCompositionLayer}} |layer|, a
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"default"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-        <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| internal textures using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+        <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| layers using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dd> Return |array| and abort these steps.
         <dt> Otherwise
         <dd> Initialize |array| with |numViews| [=new=] instances of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
