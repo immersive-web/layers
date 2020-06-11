@@ -938,6 +938,7 @@ To <dfn>allocate color textures for projection layers</dfn> using an {{XRProject
             1. Append |texture| to |array|.
           <dd> Return |array| and abort these steps.
         </dl>
+  1. If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL texture resolution=], throw an {{NotSupportedError}} and abort these steps.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture using |context| , |alpha|, double of |width| and |height|.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture using |context| , |alpha|, |width| and double of |height|.
   1. return |array|.
@@ -970,6 +971,7 @@ To <dfn>allocate depth textures for projection layers</dfn> using an {{XRProject
             1. Append |texture| to |array|.
           <dd> Return |array| and abort these steps.
         </dl>
+  1. If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL texture resolution=], throw an {{NotSupportedError}} and abort these steps.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture using |context| , |stencil|, double of |width| and |height|.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture using |context| , |stencil|, |width| and double of |height|.
   1. return |array|.
