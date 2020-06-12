@@ -915,13 +915,26 @@ To <dfn>determine the layout attribute</dfn> using an {{XRTextureType}} |texture
 
 </div>
 
+<div class="algorithm" data-algorithm="determine the maximum scalefactor">
+
+To <dfn>determine the maximum scalefactor</dfn> using an {{XRSession}} |session|, an {{XRWebGLRenderingContext}} |context| and an {{XRLayerLayout}} |layout|, the user agent MUST run the following steps:
+  1. Let |largest width| be the largest width of the [=recommended WebGL texture resolution=] from the |session|'s [=list of views=].
+  1. Let |largest height| be the largest height of the [=recommended WebGL texture resolution=] from the |session|'s [=list of views=].
+  1. If |layout| is {{XRLayerLayout/"stereo-left-right"}} layout, multiply |largest width| by <code>2</code>.
+  1. If |layout| is {{XRLayerLayout/"stereo-top-bottom"}} layout, multiply |largest height| by <code>2</code>.
+  1. Let |largest view dimension| be the largest of |largest width| or |largest height|.
+  1. Let |largest texture dimension| be the largest dimension of a {{WebGLTexture}} created by |context|.
+  1. return |largest texture dimension| divided by |largest view dimension|.
+
+</div>
+
 <div class="algorithm" data-algorithm="allocate color textures for projection layers">
 
 To <dfn>allocate color textures for projection layers</dfn> using an {{XRProjectionLayer}} |layer|, an {{XRTextureType}} |textureType|, a boolean |alpha| and a float |scaleFactor|, the user agent MUST run the following steps:
-  1. let |array| be a [=new=] array in the [=relevant realm=] of |context|.
-  1. let |context| be |layer|'s [=XRCompositionLayer/context=].
-  1. let |session| be |layer|'s [=XRCompositionLayer/session=].
-  1. let |numViews| be the number of the |session|'s [=list of views=].
+  1. Let |array| be a [=new=] array in the [=relevant realm=] of |context|.
+  1. Let |context| be |layer|'s [=XRCompositionLayer/context=].
+  1. Let |session| be |layer|'s [=XRCompositionLayer/session=].
+  1. Let |numViews| be the number of the |session|'s [=list of views=].
   1. Let |view| be the first entry in the |session|'s [=list of views=].
   1. Let |width| be the width of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
   1. Let |height| be the height of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
@@ -1058,6 +1071,8 @@ When this method is invoked, the user agent MUST run the following steps:
           <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>true</code>
       </dl>
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and {{XRLayerLayout/"default"}}.
+  1. Let |maximum scalefactor| be the result of [=determine the maximum scalefactor|determining the maximum scalefactor=] with |session|, |context| and |layout|.
+  1. If {{XRProjectionLayerInit/scaleFactor}} is larger than |maximum scalefactor|, set {{XRProjectionLayerInit/scaleFactor}} to |maximum scalefactor|.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
   1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures for projection layers|allocating color textures for projection layers=] with |layer|, |textureType|, |init|'s {{XRProjectionLayerInit/alpha}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
