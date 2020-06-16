@@ -1,13 +1,13 @@
 <pre class="metadata">
-Shortname: webxrlayers-1
+Shortname: webxrlayers
 Title: WebXR Layers API Level 1
 Group: immersivewebwg
-Status: w3c/ED
-TR:
-ED:
+Status: ED
+TR: https://www.w3.org/TR/webxrlayers-1/
+ED: https://immersive-web.github.io/layers/
 Previous Version:
 Repository: immersive-web/layers
-Level: 1<img src="images/cylinder_layer_params.png" style="width:80%"/>
+Level: 1
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-immersive-web/
 
 Editor: Rik Cabanier 106988, Facebook https://oculus.com, cabanier@fb.com
