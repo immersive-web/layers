@@ -1244,7 +1244,7 @@ To <dfn>initialize the viewport</dfn> of an {{XRViewport}} |viewport| with a {{W
   1. Set |viewport|'s {{XRViewport/height}} to the pixelh eight of |texture|.
   1. Update |viewport| as follows:
     <dl class="switch">
-      <dt class="switch">Else if |layout| is {{XRLayerLayout/"stereo-left-right"}}:
+      <dt class="switch">If |layout| is {{XRLayerLayout/"stereo-left-right"}}:
         <dd>Set |viewport|'s {{XRViewport/x}} to the pixel width of |texture| multiplied by |offset| and divided by |num|.
         <dd>Set |viewport|'s {{XRViewport/width}} to half the pixel width of |subimage|'s |texture| divided by |num|.
       <dt class="switch">Else if |layout| is {{XRLayerLayout/"stereo-top-bottom"}}:
