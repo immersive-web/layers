@@ -1234,6 +1234,26 @@ To <dfn>validate the state of the XRWebGLSubImage creation function</dfn> of an 
 
 </div>
 
+<div class="algorithm" data-algorithm="initialize the viewport">
+
+To <dfn>initialize the viewport</dfn> of an {{XRViewport}} |viewport| with a {{WebGLTexture}} |texture|, a {{XRLayerLayout}}
+|layout|, an integer |offset| and a integer |num|, the user agent MUST run the following steps:
+  1. Set |viewport|'s {{XRViewport/x}} to <code>0</code>.
+  1. Set |viewport|'s {{XRViewport/y}} to <code>0</code>.
+  1. Set |viewport|'s {{XRViewport/width}} to the pixel width of |texture|.
+  1. Set |viewport|'s {{XRViewport/height}} to the pixelh eight of |texture|.
+  1. Update |viewport| as follows:
+    <dl class="switch">
+      <dt class="switch">If |layout| is {{XRLayerLayout/"stereo-left-right"}}:
+        <dd>Set |viewport|'s {{XRViewport/x}} to the pixel width of |texture| multiplied by |offset| and divided by |num|.
+        <dd>Set |viewport|'s {{XRViewport/width}} to half the pixel width of |subimage|'s |texture| divided by |num|.
+      <dt class="switch">Else if |layout| is {{XRLayerLayout/"stereo-top-bottom"}}:
+        <dd>Set |viewport|'s {{XRViewport/y}} to the pixel height of |texture| multiplied by |offset| and divided by |num|.
+        <dd>Set |viewport|'s {{XRViewport/height}} to the pixel height of |subimage|'s |texture| divided by |num|.
+    </dl>
+
+</div>
+
 <div class="algorithm" data-algorithm="getSubImageAlgo">
 The <dfn method for="XRWebGLBinding">getSubImage(XRCompositionLayer |layer|, XRFrame |frame|, optional XREye |eye| = {{XREye/"none"}})</dfn> method creates a new {{XRWebGLSubImage}}.
 
@@ -1245,6 +1265,7 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
         <dd> Let |subimage| be the same {{XRWebGLSubImage}} object as returned by an earlier call with the same arguments.
       <dt> Otherwise
         <dd> Let |subimage| be a [=new=] {{XRWebGLSubImage}} in the [=relevant realm=] of [=this=].
+        <dd> Let |subimage|'s {{XRSubImage/viewport}} be a [=new=] {{XRViewport}} in the [=relevant realm=] of [=this=].
     </dl>
   1. If |layer|'s type is {{XRProjectionLayer}}, throw a {{TypeError}} and abort these steps.
   1. If |layer|'s {{XRCompositionLayer/layout}} attribute is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
@@ -1271,7 +1292,14 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
       <dt> Otherwise
         <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the element at offset |index| of the |layer|'s [=depthStencilTextures=] array.
       </dl>
-    </dl>  1. [=Queue a task=] to set {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
+  1. Set |subimage|'s {{XRWebGLSubImage/textureWidth}} to the pixel width of |subimage|'s {{XRWebGLSubImage/colorTexture}}.
+  1. Set |subimage|'s {{XRWebGLSubImage/textureHeight}} to the pixel height of |subimage|'s {{XRWebGLSubImage/colorTexture}}.
+  1. Let |index| be <code>0</code>.
+  1. If |eye| is {{XREye/"right"}}, set |index| to <code>1</code>.
+  1. Let |num| be <code>1</code>.
+  1. If |eye| is not {{XREye/"none"}} and |layer|'s {{XRCompositionLayer/layout}} attribute is {{XRLayerLayout/"stereo-left-right"}} or {{XRLayerLayout/"stereo-top-bottom"}}, set |num| to <code>2</code>.
+  1. Run [=initialize the viewport=] on |subimage|'s {{XRSubImage/viewport}} with |subimage|'s {{XRWebGLSubImage/colorTexture}}, |layer|'s {{XRCompositionLayer/layout}}, |index| and |num|.
+  1. [=Queue a task=] to set {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
   1. return |subimage|.
 
 </div>
@@ -1287,6 +1315,7 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
         <dd> Let |subimage| be the same {{XRWebGLSubImage}} object as returned by an earlier call with the same arguments.
       <dt> Otherwise
         <dd> Let |subimage| be a [=new=] {{XRWebGLSubImage}} in the [=relevant realm=] of [=this=].
+        <dd> Let |subimage|'s {{XRSubImage/viewport}} be a [=new=] {{XRViewport}} in the [=relevant realm=] of [=this=].
     </dl>
   1. let |frame| be |view|'s {{frame}}.
   1. Let |session| be [=this=] [=XRWebGLBinding/session=].
@@ -1311,6 +1340,9 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
         <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the element at offset |index| of the |layer|'s [=depthStencilTextures=] array.
       </dl>
     </dl>
+  1. Set |subimage|'s {{XRWebGLSubImage/textureWidth}} to the pixel width of |subimage|'s {{XRWebGLSubImage/colorTexture}}.
+  1. Set |subimage|'s {{XRWebGLSubImage/textureHeight}} to the pixel height of |subimage|'s {{XRWebGLSubImage/colorTexture}}.
+  1. Run [=initialize the viewport=] on |subimage|'s {{XRSubImage/viewport}} with |subimage|'s {{XRWebGLSubImage/colorTexture}}, |layer|'s {{XRCompositionLayer/layout}}, |index| and the number of the |session|'s [=list of views=].
   1. Set {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
   1. return |subimage|
 
