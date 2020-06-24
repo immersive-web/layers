@@ -1469,7 +1469,7 @@ When this method is invoked, the user agent MUST run the following steps:
 </div>
 
 <div class="algorithm" data-algorithm="createMediaCylinderLayerAlgo">
-The <dfn method for="XRMediaBinding">createCylinderLayer(HTMLVideoElement |video|, optional XRMediaLayerInit |init|))</dfn> method creates a new {{XRCylinderLayer}} |layer|.
+The <dfn method for="XRMediaBinding">createCylinderLayer(HTMLVideoElement |video|, optional XRMediaLayerInit |init|)</dfn> method creates a new {{XRCylinderLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
@@ -1488,7 +1488,7 @@ When this method is invoked, the user agent MUST run the following steps:
 </div>
 
 <div class="algorithm" data-algorithm="createMediaEquirectLayerAlgo">
-The <dfn method for="XRMediaBinding">createEquirectLayer(HTMLVideoElement |video|, optional XRMediaLayerInit |init|)))</dfn> method creates a new {{XREquirectLayer}} |layer|.
+The <dfn method for="XRMediaBinding">createEquirectLayer(HTMLVideoElement |video|, optional XRMediaLayerInit |init|)</dfn> method creates a new {{XREquirectLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
