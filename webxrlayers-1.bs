@@ -47,6 +47,9 @@ spec: webxr-1;
     type: dfn; text: updateRenderState; for: XRSession
     type: dfn; text: session; for: XRWebGLLayer
     type: dfn; text: layers; for: XRRenderStateInit
+spec: webxr-ar-module-1;
+    type: dfn; text: first-person observer view
+    type: dfn; text: secondary-views
 spec: html;
     type: dfn; text: check the usability of the image argument
     type: dfn; text: request the xr permission
@@ -395,6 +398,10 @@ The <dfn attribute for="XRProjectionLayer">ignoreDepthValues</dfn> attribute, if
 [=XR Compositor=] MUST NOT make use of values in the depth buffer attachment when rendering. When the attribute
 is <code>false</code> it indicates that the content of the depth buffer attachment will be used by the
 [=XR Compositor=] and is expected to be representative of the scene rendered into the layer.
+
+Each {{XRProjectionLayer}} has an internal {{WebGLTexture}} <dfn for="XRProjectionLayer">first-person observer color texture</dfn>
+and an internal {{WebGLTexture}} <dfn for="XRProjectionLayer">first-person observer depth texture</dfn> that are used to render
+the [=first-person observer view=].
 
 XRQuadLayer {#xrquadlayertype}
 -----------
@@ -922,8 +929,8 @@ To <dfn>determine the layout attribute</dfn> using an {{XRTextureType}} |texture
 <div class="algorithm" data-algorithm="determine the maximum scalefactor">
 
 To <dfn>determine the maximum scalefactor</dfn> using an {{XRSession}} |session|, an {{XRWebGLRenderingContext}} |context| and an {{XRLayerLayout}} |layout|, the user agent MUST run the following steps:
-  1. Let |largest width| be the largest width of the [=recommended WebGL texture resolution=] from the |session|'s [=list of views=].
-  1. Let |largest height| be the largest height of the [=recommended WebGL texture resolution=] from the |session|'s [=list of views=].
+  1. Let |largest width| be the largest width of the [=recommended WebGL texture resolution=] from the |session|'s [=list of views=] excluding the [=first-person observer view=].
+  1. Let |largest height| be the largest height of the [=recommended WebGL texture resolution=] from the |session|'s [=list of views=] excluding the [=first-person observer view=].
   1. If |layout| is {{XRLayerLayout/"stereo-left-right"}} layout, multiply |largest width| by <code>2</code>.
   1. If |layout| is {{XRLayerLayout/"stereo-top-bottom"}} layout, multiply |largest height| by <code>2</code>.
   1. Let |largest view dimension| be the largest of |largest width| or |largest height|.
@@ -938,8 +945,8 @@ To <dfn>allocate color textures for projection layers</dfn> using an {{XRProject
   1. Let |array| be a [=new=] array in the [=relevant realm=] of |context|.
   1. Let |context| be |layer|'s [=XRCompositionLayer/context=].
   1. Let |session| be |layer|'s [=XRCompositionLayer/session=].
-  1. Let |numViews| be the number of the |session|'s [=list of views=].
-  1. Let |view| be the first entry in the |session|'s [=list of views=].
+  1. Let |numViews| be the number of the |session|'s [=list of views=] excluding the [=first-person observer view=].
+  1. Let |view| be the first entry in the |session|'s [=list of views=] that is not a [=first-person observer view=].
   1. Let |width| be the width of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
   1. Let |height| be the height of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}} or {{XRLayerLayout/"default"}}:
@@ -949,30 +956,31 @@ To <dfn>allocate color textures for projection layers</dfn> using an {{XRProject
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
           <dd> For each |view| in the |session|'s [=list of views=]:
+            1. If |view| is a [=first-person observer view=], continue.
             1. Let |width| be the width of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
             1. Let |height| be the height of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
             1. let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |alpha|, |width| and |height|.
             1. Append |texture| to |array|.
           <dd> Return |array| and abort these steps.
         </dl>
-  1. If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL texture resolution=], throw an {{NotSupportedError}} and abort these steps.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |alpha|, double of |width| and |height|.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |alpha|, |width| and double of |height|.
+  1. If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL texture resolution=] excluding the [=first-person observer view=], throw an {{NotSupportedError}} and abort these steps.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |alpha|, |numViews| multiplied by |width| and |height|.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |alpha|, |width| and |numViews| multiplied by |height|.
   1. return |array|.
 
 </div>
 
 <div class="algorithm" data-algorithm="allocate depth textures for projection layers">
 
-To <dfn>allocate depth textures for projection layers</dfn> using an {{XRProjectionLayer}} |layer|, an {{XRTextureType}} |textureType|, a boolean |stencil| and a float |scaleFactor|, the user agent MUST run the following steps:
+To <dfn>allocate depth textures for projection layers</dfn> using an {{XRProjectionLayer}} |layer|, an {{XRTextureType}} |textureType|, a boolean |depth|, a boolean |stencil| and a float |scaleFactor|, the user agent MUST run the following steps:
   1. let |array| be a [=new=] array in the [=relevant realm=] of |context|.
   1. let |context| be |layer|'s [=XRCompositionLayer/context=].
   1. let |session| be |layer|'s [=XRCompositionLayer/session=].
-  1. If |init|'s {{XRLayerInit/depth}} and {{XRLayerInit/stencil}} are not set, return |array| and abort these steps.
+  1. If |depth| and |stencil| are not set, return |array| and abort these steps.
   1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
-  1. If |init|'s {{XRLayerInit/depth}} or {{XRLayerInit/stencil}} are set and |depthsupport| is false, throw {{TypeError}} and abort these steps.
-  1. let |numViews| be the number of the |session|'s [=list of views=].
-  1. Let |view| be the first entry in the |session|'s [=list of views=].
+  1. If |depth| or |stencil| are set and |depthsupport| is false, throw {{TypeError}} and abort these steps.
+  1. let |numViews| be the number of the |session|'s [=list of views=] excluding the [=first-person observer view=].
+  1. Let |view| be the first entry in the |session|'s [=list of views=] that is not a [=first-person observer view=].
   1. Let |width| be the width of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
   1. Let |height| be the height of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}} or {{XRLayerLayout/"default"}}:
@@ -982,18 +990,50 @@ To <dfn>allocate depth textures for projection layers</dfn> using an {{XRProject
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
           <dd> For each |view| in the |session|'s [=list of views=]:
+            1. If |view| is a [=first-person observer view=], continue.
             1. Let |width| be the width of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
             1. Let |height| be the height of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
             1. let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |stencil|, |width| and |height|.
             1. Append |texture| to |array|.
           <dd> Return |array| and abort these steps.
         </dl>
-  1. If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL texture resolution=], throw an {{NotSupportedError}} and abort these steps.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |stencil|, double of |width| and |height|.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |stencil|, |width| and double of |height|.
+  1. If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL texture resolution=] excluding the [=first-person observer view=], throw an {{NotSupportedError}} and abort these steps.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |stencil|, |numViews| multiplied by |width| and |height|.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |stencil|, |width| and |numViews| multiplied by |height|.
   1. return |array|.
 
 </div>
+
+<div class="algorithm" data-algorithm="allocate color texture for the first-person observer view">
+
+To <dfn>allocate the color texture for the first-person observer view</dfn> using an {{XRProjectionLayer}} |layer|, an {{XRTextureType}} |textureType|, a boolean |alpha| and a float |scaleFactor|, the user agent MUST run the following steps:
+  1. Let |context| be |layer|'s [=XRCompositionLayer/context=].
+  1. Let |session| be |layer|'s [=XRCompositionLayer/session=].
+  1. Let |view| be the [=first-person observer view=] from |session|'s [=list of views=].
+  1. Let |width| be the width of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
+  1. Let |height| be the height of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
+  1. If |textureType| is {{XRTextureType/"texture-array"}}, return a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with <code>1</code> layer using |context|, |alpha|, |width| and |height|.
+  1. Return a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture using |context|, |alpha|, |width| and |height|.
+
+</div>
+
+<div class="algorithm" data-algorithm="allocate depth texture for the first-person observer view">
+
+To <dfn>allocate the depth texture for the first-person observer view</dfn> using an {{XRProjectionLayer}} |layer|, an {{XRTextureType}} |textureType|, a boolean |depth|, a boolean |stencil| and a float |scaleFactor|, the user agent MUST run the following steps:
+  1. Let |context| be |layer|'s [=XRCompositionLayer/context=].
+  1. Let |session| be |layer|'s [=XRCompositionLayer/session=].
+  1. If |depth| and |stencil| are not set, return <code>null</code> and abort these steps.
+  1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
+  1. If |depth| or |stencil| are set and |depthsupport| is false, throw {{TypeError}} and abort these steps.
+  1. Let |view| be the [=first-person observer view=] from |session|'s [=list of views=].
+  1. Let |width| be the width of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
+  1. Let |height| be the height of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
+  1. If |textureType| is {{XRTextureType/"texture-array"}}, return a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with <code>1</code> layer using |context|, |stencil|, |width| and |height| and abort these steps.
+  1. Return a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture using |context|, |stencil|, |width| and |height|.
+
+</div>
+
+ISSUE: the scaleFactor needs to be recalculated for the first-person observer view.
 
 <div class="algorithm" data-algorithm="allocate color textures">
 
@@ -1077,7 +1117,21 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
   1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures for projection layers|allocating color textures for projection layers=] with |layer|, |textureType|, |init|'s {{XRProjectionLayerInit/alpha}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
-  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures for projection layers|allocating depth textures for projection layers=] with |layer|, |textureType|, |init|'s {{XRProjectionLayerInit/stencil}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
+  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures for projection layers|allocating depth textures for projection layers=] with |layer|, |textureType|, |init|'s {{XRProjectionLayerInit/depth}}, |init|'s {{XRProjectionLayerInit/stencil}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
+  1. Initialize the [=XRProjectionLayer/first-person observer color texture=] as follows:
+      <dl class="switch">
+        <dt> If the |session| was created with "[=feature descriptor/secondary-views=]" enabled
+          <dd> Let [=XRProjectionLayer/first-person observer color texture=] be the result of [=allocate the color texture for the first-person observer view=] with |layer|, |textureType|, |init|'s {{XRProjectionLayerInit/alpha}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
+        <dt> Otherwise
+          <dd> Let [=XRProjectionLayer/first-person observer color texture=] be <code>null</code>.
+      </dl>
+  1. Initialize the [=XRProjectionLayer/first-person observer depth texture=] as follows:
+      <dl class="switch">
+        <dt> If the |session| was created with "[=feature descriptor/secondary-views=]" enabled
+          <dd> Let [=XRProjectionLayer/first-person observer depth texture=] be the result of [=allocate the depth texture for the first-person observer view=] with |layer|, |textureType|, |init|'s {{XRProjectionLayerInit/depth}}, |init|'s {{XRProjectionLayerInit/stencil}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
+        <dt> Otherwise
+          <dd> Let [=XRProjectionLayer/first-person observer depth texture=] be <code>null</code>.
+      </dl>
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. Return |layer|.
@@ -1317,28 +1371,38 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
         <dd> Let |subimage| be a [=new=] {{XRWebGLSubImage}} in the [=relevant realm=] of [=this=].
         <dd> Let |subimage|'s {{XRSubImage/viewport}} be a [=new=] {{XRViewport}} in the [=relevant realm=] of [=this=].
     </dl>
-  1. let |frame| be |view|'s {{frame}}.
+  1. Let |frame| be |view|'s {{frame}}.
   1. Let |session| be [=this=] [=XRWebGLBinding/session=].
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
-  1. Let |index| be the offset of |view|'s [=view=] in |session|'s [=list of views=].
+  1. Initialize |index| as follows:
+    <dl class="switch">
+      <dt class="switch">If |view| is the [=first-person observer view=] from |session|'s [=list of views=]
+        <dd>Let |index| be <code>0</code>.
+      <dt> Otherwise
+        <dd>Let |index| be the offset of |view|'s [=view=] in |session|'s [=list of views=] excluding the [=first-person observer view=].
+    </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |layer| was created with a textureType of {{"texture-array"}}
+      <dt class="switch">If |view| is the [=first-person observer view=] from |session|'s [=list of views=]
+        <dd>Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the [=XRProjectionLayer/first-person observer color texture=].
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with <code>0</code>.
+      <dt> Else if the |layer| was created with a textureType of {{"texture-array"}}
         <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the first element of the |layer|'s [=colorTextures=] array.
         <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with |index|.
       <dt> Otherwise
         <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the element at offset |index| of the |layer|'s [=colorTextures=] array.
-      </dl>
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with <code>0</code>.
     </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} as follows:
     <dl class="switch">
-      <dt class="switch">If the |layer|'s [=depthStencilTextures=] is an empty array.
+      <dt class="switch">If |view| is the [=first-person observer view=] from |session|'s [=list of views=]
+        <dd>Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the [=XRProjectionLayer/first-person observer depth texture=].
+      <dt>Else if the |layer|'s [=depthStencilTextures=] is an empty array.
         <dd> Continue to the next entry.
       <dt> Else if the |layer| was created with a textureType of {{"texture-array"}}
         <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the first element of |layer|'s [=depthStencilTextures=] array.
       <dt> Otherwise
         <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the element at offset |index| of the |layer|'s [=depthStencilTextures=] array.
-      </dl>
     </dl>
   1. Set |subimage|'s {{XRWebGLSubImage/textureWidth}} to the pixel width of |subimage|'s {{XRWebGLSubImage/colorTexture}}.
   1. Set |subimage|'s {{XRWebGLSubImage/textureHeight}} to the pixel height of |subimage|'s {{XRWebGLSubImage/colorTexture}}.
