@@ -887,7 +887,7 @@ an internal <dfn>depthStencilTextures</dfn> which is an |array| of {{WebGLTextur
 
 Each {{XRProjectionLayer}} created through {{XRWebGLBinding}} has an internal <dfn for="XRProjectionLayer">colorTextures for secondary views</dfn>
 array which is an |array| of {{WebGLTexture|WebGLTextures}} for color textures and an internal <dfn for="XRProjectionLayer">depthStencilTextures for secondary views</dfn>
-which is an |array| of {{WebGLTexture|WebGLTextures}}</dfn> for depth/stencil textures that are used to render the [=secondary view|secondary views=].
+array which is an |array| of {{WebGLTexture|WebGLTextures}}</dfn> for depth/stencil textures that are used to render the [=secondary view|secondary views=].
 
 <div class="algorithm" data-algorithm="construct-webgl-layer">
 
@@ -952,6 +952,7 @@ To <dfn>allocate color textures for projection layers</dfn> using an {{XRProject
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}} or {{XRLayerLayout/"default"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
+          <dd> If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL texture resolution=] excluding the [=secondary view|secondary views=], throw an {{NotSupportedError}} and abort these steps.
           <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| layers using |context|, |alpha|, |width| and |height|.
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
@@ -1016,10 +1017,10 @@ To <dfn>allocate the color textures for the secondary views</dfn> using an {{XRP
     1. Let |height| be the height of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
     1. Initialize |texture| as follows:
          <dl class="switch">
-          <dt>If |textureType| is {{"texture-array"}}:
-            <dd>Let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |context|, |alpha|, |width| and |height|.
-          <dt>Otherwise
-            <dd>Let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |alpha|, |width| and |height|.
+          <dt> If |textureType| is {{"texture-array"}}:
+            <dd> Let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |context|, |alpha|, |width| and |height|.
+          <dt> Otherwise
+            <dd> Let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |alpha|, |width| and |height|.
          </dl>
     1. Append |texture| to |array|.
   1. Return |array| and abort these steps.
@@ -1041,10 +1042,10 @@ To <dfn>allocate the depth textures for the secondary views</dfn> using an {{XRP
     1. Let |height| be the height of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
     1. Initialize |texture| as follows:
          <dl class="switch">
-          <dt>If |textureType| is {{"texture-array"}}:
-            <dd>Let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |context|, |stencil|, |width| and |height|.
-          <dt>Otherwise
-            <dd>Let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |stencil|, |width| and |height|.
+          <dt> If |textureType| is {{"texture-array"}}:
+            <dd> Let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |context|, |stencil|, |width| and |height|.
+          <dt> Otherwise
+            <dd> Let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |stencil|, |width| and |height|.
          </dl>
     1. Append |texture| to |array|.
   1. Return |array| and abort these steps.
@@ -1317,11 +1318,11 @@ To <dfn>initialize the viewport</dfn> of an {{XRViewport}} |viewport| with a {{W
   1. Update |viewport| as follows:
     <dl class="switch">
       <dt class="switch">If |layout| is {{XRLayerLayout/"stereo-left-right"}}:
-        <dd>Set |viewport|'s {{XRViewport/x}} to the pixel width of |texture| multiplied by |offset| and divided by |num|.
-        <dd>Set |viewport|'s {{XRViewport/width}} to half the pixel width of |subimage|'s |texture| divided by |num|.
+        <dd> Set |viewport|'s {{XRViewport/x}} to the pixel width of |texture| multiplied by |offset| and divided by |num|.
+        <dd> Set |viewport|'s {{XRViewport/width}} to half the pixel width of |subimage|'s |texture| divided by |num|.
       <dt class="switch">Else if |layout| is {{XRLayerLayout/"stereo-top-bottom"}}:
-        <dd>Set |viewport|'s {{XRViewport/y}} to the pixel height of |texture| multiplied by |offset| and divided by |num|.
-        <dd>Set |viewport|'s {{XRViewport/height}} to the pixel height of |subimage|'s |texture| divided by |num|.
+        <dd> Set |viewport|'s {{XRViewport/y}} to the pixel height of |texture| multiplied by |offset| and divided by |num|.
+        <dd> Set |viewport|'s {{XRViewport/height}} to the pixel height of |subimage|'s |texture| divided by |num|.
     </dl>
 
 </div>
@@ -1383,44 +1384,44 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
 
   1. Initialize |subimage| as follows:
     <dl class="switch">
-      <dt>If {{XRWebGLBinding/getViewSubImage()}} was called previously with the same |binding|, |layer| and |view|, the user agent MAY:
-        <dd>Let |subimage| be the same {{XRWebGLSubImage}} object as returned by an earlier call with the same arguments.
-      <dt>Otherwise
-        <dd>Let |subimage| be a [=new=] {{XRWebGLSubImage}} in the [=relevant realm=] of [=this=].
-        <dd>Let |subimage|'s {{XRSubImage/viewport}} be a [=new=] {{XRViewport}} in the [=relevant realm=] of [=this=].
+      <dt> If {{XRWebGLBinding/getViewSubImage()}} was called previously with the same |binding|, |layer| and |view|, the user agent MAY:
+        <dd> Let |subimage| be the same {{XRWebGLSubImage}} object as returned by an earlier call with the same arguments.
+      <dt> Otherwise
+        <dd> Let |subimage| be a [=new=] {{XRWebGLSubImage}} in the [=relevant realm=] of [=this=].
+        <dd> Let |subimage|'s {{XRSubImage/viewport}} be a [=new=] {{XRViewport}} in the [=relevant realm=] of [=this=].
     </dl>
   1. Let |frame| be |view|'s {{frame}}.
   1. Let |session| be [=this=] [=XRWebGLBinding/session=].
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |index| as follows:
     <dl class="switch">
-      <dt>If |view| is a [=secondary view=] from |session|'s [=list of views=]
-        <dd>Let |index| be the offset of |view|'s [=view=] in |session|'s [=list of views=] excluding the [=primary view|primary views=].
+      <dt> If |view| is a [=secondary view=] from |session|'s [=list of views=]
+        <dd> Let |index| be the offset of |view|'s [=view=] in |session|'s [=list of views=] excluding the [=primary view|primary views=].
       <dt> Otherwise
-        <dd>Let |index| be the offset of |view|'s [=view=] in |session|'s [=list of views=] excluding the [=secondary view|secondary views=].
+        <dd> Let |index| be the offset of |view|'s [=view=] in |session|'s [=list of views=] excluding the [=secondary view|secondary views=].
     </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
     <dl class="switch">
-      <dt>If |view| is a [=secondary view=] from |session|'s [=list of views=]
-        <dd>Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the element at offset |index| of the |layer|'s [=XRProjectionLayer/colorTextures for secondary views=].
-        <dd>Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with <code>0</code>.
+      <dt> If |view| is a [=secondary view=] from |session|'s [=list of views=]
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the element at offset |index| of the |layer|'s [=XRProjectionLayer/colorTextures for secondary views=].
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with <code>0</code>.
       <dt> Else if the |layer| was created with a textureType of {{"texture-array"}}
-        <dd>Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the first element of the |layer|'s [=colorTextures=] array.
-        <dd>Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with |index|.
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the first element of the |layer|'s [=colorTextures=] array.
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with |index|.
       <dt> Otherwise
-        <dd>Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the element at offset |index| of the |layer|'s [=colorTextures=] array.
-        <dd>Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with <code>0</code>.
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the element at offset |index| of the |layer|'s [=colorTextures=] array.
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with <code>0</code>.
     </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} as follows:
     <dl class="switch">
-      <dt>If the |layer|'s [=depthStencilTextures=] is an empty array.
-        <dd>Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with <code>null</code>.
-      <dt>Else if |view| is a [=secondary view=] from |session|'s [=list of views=]
-        <dd>Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the element at offset |index| of the |layer|'s [=XRProjectionLayer/depthStencilTextures for secondary views=].
+      <dt> If the |layer|'s [=depthStencilTextures=] is an empty array.
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with <code>null</code>.
+      <dt> Else if |view| is a [=secondary view=] from |session|'s [=list of views=]
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the element at offset |index| of the |layer|'s [=XRProjectionLayer/depthStencilTextures for secondary views=].
       <dt> Else if the |layer| was created with a textureType of {{"texture-array"}}
-        <dd>Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the first element of |layer|'s [=depthStencilTextures=] array.
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the first element of |layer|'s [=depthStencilTextures=] array.
       <dt> Otherwise
-        <dd>Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the element at offset |index| of the |layer|'s [=depthStencilTextures=] array.
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} with the element at offset |index| of the |layer|'s [=depthStencilTextures=] array.
     </dl>
   1. Set |subimage|'s {{XRWebGLSubImage/textureWidth}} to the pixel width of |subimage|'s {{XRWebGLSubImage/colorTexture}}.
   1. Set |subimage|'s {{XRWebGLSubImage/textureHeight}} to the pixel height of |subimage|'s {{XRWebGLSubImage/colorTexture}}.
