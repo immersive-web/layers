@@ -41,6 +41,8 @@ spec: webxr-1;
     type: dfn; text: type; for: XRReferenceSpace
     type: dfn; text: session; for: XRSpace
     type: dfn; text: view
+    type: dfn; text: frame time; for: XRView
+    type: dfn; text: time; for: XRFrame
     type: dfn; text: XRLayer
     type: dfn; text: XRReferenceSpace
     type: dfn; text: type; for: XRReferenceSpace
@@ -1319,6 +1321,7 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
     </dl>
   1. let |frame| be |view|'s {{frame}}.
   1. Let |session| be [=this=] [=XRWebGLBinding/session=].
+  1. If |frame|'s [=XRFrame/time=] is not equal to |view|'s [=XRView/frame time=], throw an {{InvalidStateError}} and abort these steps.
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Let |index| be the offset of |view|'s [=view=] in |session|'s [=list of views=].
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
