@@ -50,6 +50,7 @@ spec: webxr-1;
     type: dfn; text: secondary-views; for: secondary view
     type: dfn; text: primary view
     type: dfn; text: secondary view
+    type: dfn; text: active; for: view
 spec: html;
     type: dfn; text: check the usability of the image argument
     type: dfn; text: request the xr permission
@@ -1393,6 +1394,7 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
   1. Let |frame| be |view|'s {{frame}}.
   1. Let |session| be [=this=] [=XRWebGLBinding/session=].
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. If |view|'s [=view/active=] flag is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |index| as follows:
     <dl class="switch">
       <dt> If |view| is a [=secondary view=] from |session|'s [=list of views=]
