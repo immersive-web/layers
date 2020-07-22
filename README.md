@@ -6,7 +6,7 @@ The [WebXR Layers Specification](https://immersive-web.github.io/layers) exposes
 
 ## Taking Part
 
-1. Read the [code of conduct][CoC]
+1. Read the [code of conduct](https://www.w3.org/Consortium/cepc/cepc-20200716/)
 2. See if your issue is being discussed in the [issues](https://github.com/immersive-web/layers/issues), or if your idea is being discussed in the [proposals repo][cgproposals].
 3. We will be publishing the minutes from the bi-weekly calls.
 4. You can also join the working group to participate in these discussions.
