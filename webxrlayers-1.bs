@@ -1542,6 +1542,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If the device does not support the creation of an {{XRQuadLayer}}, throw an {{NotSupportedError}} and abort these steps.
   1. Let |session| be [=this=] [=XRMediaBinding/session=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XRQuadLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=intialize a composition layer=] on |layer| with |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
@@ -1561,6 +1562,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If the device does not support the creation of an {{XRCylinderLayer}}, throw an {{NotSupportedError}} and abort these steps.
   1. Let |session| be [=this=] [=XRMediaBinding/session=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XRCylinderLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=intialize a composition layer=] on |layer| with |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
@@ -1580,6 +1582,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If the device does not support the creation of an {{XREquirectLayer}}, throw an {{NotSupportedError}} and abort these steps.
   1. Let |session| be [=this=] [=XRMediaBinding/session=].
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XREquirectLayer}} in the [=relevant realm=] of [=this=].
@@ -1662,10 +1665,10 @@ This module replaces the steps given by "[=update the pending layers state=]" fr
   1. If |newState|'s {{XRRenderStateInit/baseLayer}} is set:
     1. If the |session| was created with "[=feature descriptor/layers=]" enabled, throw an {{NotSupportedError}} and abort these steps.
     1. If |newState|'s {{XRRenderStateInit/layers}} is not empty, throw a {{TypeError}} and abort these steps.
-  1. If |newState|'s {{XRRenderStateInit/layers}} contains duplicate instances, throw an {{TypeError}} and abort these steps.
+  1. If |newState|'s {{XRRenderStateInit/layers}} contains duplicate instances, throw a {{TypeError}} and abort these steps.
   1. For each |layer| in |newState|'s {{XRRenderStateInit/layers}}:
-    1. If |layer| is an {{XRCompositionLayer}} and |layer|'s [=XRCompositionLayer/session=] is different from |session|, throw an {{TypeError}} and abort these steps.
-    1. If |layer| is an {{XRWebGLLayer}} and |layer|'s [=XRWebGLLayer/session=] is different from |session|, throw an {{TypeError}} and abort these steps.
+    1. If |layer| is an {{XRCompositionLayer}} and |layer|'s [=XRCompositionLayer/session=] is different from |session|, throw a {{TypeError}} and abort these steps.
+    1. If |layer| is an {{XRWebGLLayer}} and |layer|'s [=XRWebGLLayer/session=] is different from |session|, throw a {{TypeError}} and abort these steps.
   1. Let |activeState| be |session|'s [=active render state=].
   1. If |session|'s [=pending render state=] is <code>null</code>, set it to a copy of |activeState|.
   1. If |newState|'s {{XRRenderStateInit/layers}} array is set, set |session|'s [=pending render state=]'s {{XRRenderState/layers}} to |newState|'s {{XRRenderStateInit/layers}}.
