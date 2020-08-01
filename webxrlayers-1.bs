@@ -1539,8 +1539,8 @@ The <dfn method for="XRMediaBinding">createQuadLayer(HTMLVideoElement |video|, o
 
 When this method is invoked, the user agent MUST run the following steps:
 
-  1. If the device does not support the creation of an {{XRQuadLayer}}, throw an {{NotSupportedError}} and abort these steps.
   1. Let |session| be [=this=] [=XRMediaBinding/session=].
+  1. If |session| was not created with "[=feature descriptor/layers=]" enabled, throw an {{NotSupportedError}} and abort these steps.
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XRQuadLayer}} in the [=relevant realm=] of [=this=].
@@ -1559,8 +1559,8 @@ The <dfn method for="XRMediaBinding">createCylinderLayer(HTMLVideoElement |video
 
 When this method is invoked, the user agent MUST run the following steps:
 
-  1. If the device does not support the creation of an {{XRCylinderLayer}}, throw an {{NotSupportedError}} and abort these steps.
   1. Let |session| be [=this=] [=XRMediaBinding/session=].
+  1. If |session| was not created with "[=feature descriptor/layers=]" enabled, throw an {{NotSupportedError}} and abort these steps.
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XRCylinderLayer}} in the [=relevant realm=] of [=this=].
@@ -1579,8 +1579,8 @@ The <dfn method for="XRMediaBinding">createEquirectLayer(HTMLVideoElement |video
 
 When this method is invoked, the user agent MUST run the following steps:
 
-  1. If the device does not support the creation of an {{XREquirectLayer}}, throw an {{NotSupportedError}} and abort these steps.
   1. Let |session| be [=this=] [=XRMediaBinding/session=].
+  1. If |session| was not created with "[=feature descriptor/layers=]" enabled, throw an {{NotSupportedError}} and abort these steps.
   1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
