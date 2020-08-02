@@ -1537,7 +1537,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-07-31">31 July 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-08-01">1 August 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -3194,7 +3194,7 @@ when the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-composito
     This module extends the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dictdef-xrrenderstateinit" id="ref-for-dictdef-xrrenderstateinit①">XRRenderStateInit</a></code> and <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrrenderstate" id="ref-for-xrrenderstate">XRRenderState</a></code> interfaces with a new optional array <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers">layers</a></code> containing
 instances of <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer①⓪">XRLayer</a></code>. 
 <pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext①"><c- g>SecureContext</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://immersive-web.github.io/webxr/#xrrenderstate" id="ref-for-xrrenderstate①"><c- g>XRRenderState</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject④"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <c- b>FrozenArray</c->&lt;<a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer①①"><c- n>XRLayer</c-></a>> <a class="idl-code" data-link-type="attribute" data-readonly data-type="FrozenArray<XRLayer>" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers②"><c- g>layers</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <c- b>FrozenArray</c->&lt;<a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer①①"><c- n>XRLayer</c-></a>> <a class="idl-code" data-link-type="attribute" data-readonly data-type="FrozenArray<XRLayer>" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers②"><c- g>layers</c-></a>;
 };
 </pre>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRRenderState" data-dfn-type="attribute" data-export id="dom-xrrenderstate-layers"><code>layers</code></dfn> attribute returns an array containing
@@ -3722,7 +3722,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-SameObject">5.1. XRSubImage</a>
     <li><a href="#ref-for-SameObject①">5.2. XRWebGLSubImage</a> <a href="#ref-for-SameObject②">(2)</a>
     <li><a href="#ref-for-SameObject③">8.1. XRLayerEvent</a>
-    <li><a href="#ref-for-SameObject④">9.1. XRRenderState changes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-SecureContext">
@@ -4583,7 +4582,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
 };
 
 [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext"><c- g>SecureContext</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://immersive-web.github.io/webxr/#xrrenderstate"><c- g>XRRenderState</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <c- b>FrozenArray</c->&lt;<a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrlayer"><c- n>XRLayer</c-></a>> <a class="idl-code" data-link-type="attribute" data-readonly data-type="FrozenArray<XRLayer>" href="#dom-xrrenderstate-layers"><c- g>layers</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <c- b>FrozenArray</c->&lt;<a class="n" data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrlayer"><c- n>XRLayer</c-></a>> <a class="idl-code" data-link-type="attribute" data-readonly data-type="FrozenArray<XRLayer>" href="#dom-xrrenderstate-layers"><c- g>layers</c-></a>;
 };
 
 </pre>
