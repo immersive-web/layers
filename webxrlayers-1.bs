@@ -1637,7 +1637,7 @@ instances of {{XRLayer}}.
 
 <pre class="idl">
 [SecureContext, Exposed=Window] partial interface XRRenderState {
-  [SameObject] readonly attribute FrozenArray&lt;XRLayer&gt; layers;
+  readonly attribute FrozenArray&lt;XRLayer&gt; layers;
 };
 </pre>
 
