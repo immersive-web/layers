@@ -1664,7 +1664,8 @@ This module replaces the steps given by "[=update the pending layers state=]" fr
 <dfn dfn-for="layers">update the pending layers state</dfn> with {{XRSession}} |session| and {{XRRenderStateInit}} |newState|, it must run the following steps:
   1. If |newState|'s {{XRRenderStateInit/baseLayer}} is set:
     1. If the |session| was created with "[=feature descriptor/layers=]" enabled, throw an {{NotSupportedError}} and abort these steps.
-    1. If |newState|'s {{XRRenderStateInit/layers}} is not empty, throw a {{TypeError}} and abort these steps.
+    1. If |newState|'s {{XRRenderStateInit/layers}} is not <code>null</code>, throw a {{NotSupportedError}}.
+    1. Abort these steps.
   1. If |newState|'s {{XRRenderStateInit/layers}} contains duplicate instances, throw a {{TypeError}} and abort these steps.
   1. For each |layer| in |newState|'s {{XRRenderStateInit/layers}}:
     1. If |layer| is an {{XRCompositionLayer}} and |layer|'s [=XRCompositionLayer/session=] is different from |session|, throw a {{TypeError}} and abort these steps.
