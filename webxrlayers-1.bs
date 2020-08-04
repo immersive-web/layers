@@ -1473,12 +1473,9 @@ The {{XRMediaBinding}} object is used to create layers that display the content 
 interface XRMediaBinding {
   constructor(XRSession session);
 
-  XRQuadLayer createQuadLayer(HTMLVideoElement video,
-                              optional XRMediaLayerInit init = {});
-  XRCylinderLayer createCylinderLayer(HTMLVideoElement video,
-                                      optional XRMediaLayerInit init = {});
-  XREquirectLayer createEquirectLayer(HTMLVideoElement video,
-                                      optional XRMediaLayerInit init = {});
+  XRQuadLayer createQuadLayer(HTMLVideoElement video, XRMediaLayerInit init);
+  XRCylinderLayer createCylinderLayer(HTMLVideoElement video, XRMediaLayerInit init);
+  XREquirectLayer createEquirectLayer(HTMLVideoElement video, XRMediaLayerInit init);
 };
 
 </pre>
@@ -1535,7 +1532,7 @@ MUST perform the following steps when invoked:
 </div>
 
 <div class="algorithm" data-algorithm="createMediaQuadLayerAlgo">
-The <dfn method for="XRMediaBinding">createQuadLayer(HTMLVideoElement |video|, optional XRMediaLayerInit |init|)</dfn> method creates a new {{XRQuadLayer}} |layer|.
+The <dfn method for="XRMediaBinding">createQuadLayer(HTMLVideoElement |video|, XRMediaLayerInit |init|)</dfn> method creates a new {{XRQuadLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
@@ -1555,7 +1552,7 @@ When this method is invoked, the user agent MUST run the following steps:
 </div>
 
 <div class="algorithm" data-algorithm="createMediaCylinderLayerAlgo">
-The <dfn method for="XRMediaBinding">createCylinderLayer(HTMLVideoElement |video|, optional XRMediaLayerInit |init|)</dfn> method creates a new {{XRCylinderLayer}} |layer|.
+The <dfn method for="XRMediaBinding">createCylinderLayer(HTMLVideoElement |video|, XRMediaLayerInit |init|)</dfn> method creates a new {{XRCylinderLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
@@ -1575,7 +1572,7 @@ When this method is invoked, the user agent MUST run the following steps:
 </div>
 
 <div class="algorithm" data-algorithm="createMediaEquirectLayerAlgo">
-The <dfn method for="XRMediaBinding">createEquirectLayer(HTMLVideoElement |video|, optional XRMediaLayerInit |init|)</dfn> method creates a new {{XREquirectLayer}} |layer|.
+The <dfn method for="XRMediaBinding">createEquirectLayer(HTMLVideoElement |video|, XRMediaLayerInit |init|)</dfn> method creates a new {{XREquirectLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
