@@ -1537,7 +1537,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-08-01">1 August 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-08-04">4 August 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2260,7 +2260,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If <var>context</var> is not an <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext③">WebGL2RenderingContext</a></code> and <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array③">"texture-array"</a></code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror⑥">TypeError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array④">"texture-array"</a></code> and not all of the session’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#view" id="ref-for-view">views</a> in the <a data-link-type="dfn">list of views</a> have the same <a data-link-type="dfn">recommended WebGL texture resolution</a>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror">NotSupportedError</a></code> and abort these steps.</p>
+      <p>If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array④">"texture-array"</a></code> and not all of the session’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#view" id="ref-for-view">views</a> in the <a data-link-type="dfn">list of views</a> have the same <a data-link-type="dfn">recommended WebGL texture resolution</a>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>layout</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-mono" id="ref-for-dom-xrlayerlayout-mono①">"mono"</a></code>, return <var>layout</var> and abort these steps.</p>
      <li data-md>
@@ -2323,7 +2323,7 @@ MUST perform the following steps when invoked:</p>
       <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout①">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-mono" id="ref-for-dom-xrlayerlayout-mono③">"mono"</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-default" id="ref-for-dom-xrlayerlayout-default⑤">"default"</a></code>:</p>
       <dl class="switch">
        <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑥">"texture-array"</a></code>: 
-       <dd> If the session’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#view" id="ref-for-view①">views</a> in the <a data-link-type="dfn">list of views</a> don’t all have the same <a data-link-type="dfn">recommended WebGL texture resolution</a> excluding the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#secondary-view" id="ref-for-secondary-view⑤">secondary views</a>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①">NotSupportedError</a></code> and abort these steps. 
+       <dd> If the session’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#view" id="ref-for-view①">views</a> in the <a data-link-type="dfn">list of views</a> don’t all have the same <a data-link-type="dfn">recommended WebGL texture resolution</a> excluding the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#secondary-view" id="ref-for-secondary-view⑤">secondary views</a>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①">NotSupportedError</a></code> and abort these steps. 
        <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new⑧">new</a> instance of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture⑨">WebGLTexture</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm⑧">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7①">TEXTURE_2D_ARRAY</a></code> texture with <var>numViews</var> layers using <var>context</var>, <var>alpha</var>, <var>width</var> and <var>height</var>. 
        <dd> Return <var>array</var> and abort these steps. 
        <dt> Otherwise 
@@ -2344,7 +2344,7 @@ MUST perform the following steps when invoked:</p>
        <dd> Return <var>array</var> and abort these steps. 
       </dl>
      <li data-md>
-      <p>If the session’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#view" id="ref-for-view②">views</a> in the <a data-link-type="dfn">list of views</a> don’t all have the same <a data-link-type="dfn">recommended WebGL texture resolution</a> excluding the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#secondary-view" id="ref-for-secondary-view⑦">secondary views</a>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror②">NotSupportedError</a></code> and abort these steps.</p>
+      <p>If the session’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#view" id="ref-for-view②">views</a> in the <a data-link-type="dfn">list of views</a> don’t all have the same <a data-link-type="dfn">recommended WebGL texture resolution</a> excluding the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#secondary-view" id="ref-for-secondary-view⑦">secondary views</a>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror②">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout②">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right⑥">stereo-left-right</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①⓪">new</a> instance of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture①①">WebGLTexture</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①⓪">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> , <var>alpha</var>, <var>numViews</var> multiplied by <var>width</var> and <var>height</var>.</p>
      <li data-md>
@@ -2400,7 +2400,7 @@ MUST perform the following steps when invoked:</p>
        <dd> Return <var>array</var> and abort these steps. 
       </dl>
      <li data-md>
-      <p>If the session’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#view" id="ref-for-view③">views</a> in the <a data-link-type="dfn">list of views</a> don’t all have the same <a data-link-type="dfn">recommended WebGL texture resolution</a> excluding the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#secondary-view" id="ref-for-secondary-view①①">secondary views</a>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror③">NotSupportedError</a></code> and abort these steps.</p>
+      <p>If the session’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#view" id="ref-for-view③">views</a> in the <a data-link-type="dfn">list of views</a> don’t all have the same <a data-link-type="dfn">recommended WebGL texture resolution</a> excluding the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#secondary-view" id="ref-for-secondary-view①①">secondary views</a>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror③">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout⑤">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right⑦">stereo-left-right</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①⑤">new</a> instance of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture①⑤">WebGLTexture</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①⑤">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> , <var>stencil</var>, <var>numViews</var> multiplied by <var>width</var> and <var>height</var>.</p>
      <li data-md>
@@ -2628,7 +2628,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Let <var>session</var> be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this①④">this</a> <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session③">session</a>.</p>
      <li data-md>
-      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers②">layers</a>" enabled, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror④">NotSupportedError</a></code> and abort these steps.</p>
+      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers②">layers</a>" enabled, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror④">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
       <p>Let <var>context</var> be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this①⑤">this</a> <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context③">context</a>.</p>
      <li data-md>
@@ -2668,7 +2668,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Let <var>session</var> be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this①⑦">this</a> <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session④">session</a>.</p>
      <li data-md>
-      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers③">layers</a>" enabled, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror⑤">NotSupportedError</a></code> and abort these steps.</p>
+      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers③">layers</a>" enabled, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror⑤">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
       <p>Let <var>context</var> be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this①⑧">this</a> <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context④">context</a>.</p>
      <li data-md>
@@ -2708,7 +2708,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Let <var>session</var> be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this②⓪">this</a> <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session⑤">session</a>.</p>
      <li data-md>
-      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers④">layers</a>" enabled, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror⑥">NotSupportedError</a></code> and abort these steps.</p>
+      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers④">layers</a>" enabled, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror⑥">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
       <p>Let <var>context</var> be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this②①">this</a> <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context⑤">context</a>.</p>
      <li data-md>
@@ -2752,7 +2752,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Let <var>session</var> be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this②③">this</a> <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session⑥">session</a>.</p>
      <li data-md>
-      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑤">layers</a>" enabled, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror⑦">NotSupportedError</a></code> and abort these steps.</p>
+      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑤">layers</a>" enabled, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror⑦">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
       <p>Let <var>context</var> be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this②④">this</a> <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context⑥">context</a>.</p>
      <li data-md>
@@ -3082,7 +3082,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Let <var>session</var> be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this③②">this</a> <a data-link-type="dfn" href="#xrmediabinding-session" id="ref-for-xrmediabinding-session①">session</a>.</p>
      <li data-md>
-      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑥">layers</a>" enabled, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror⑧">NotSupportedError</a></code> and abort these steps.</p>
+      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑥">layers</a>" enabled, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror⑧">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>session</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#ended" id="ref-for-ended⑦">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror②⓪">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -3112,7 +3112,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Let <var>session</var> be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this③④">this</a> <a data-link-type="dfn" href="#xrmediabinding-session" id="ref-for-xrmediabinding-session②">session</a>.</p>
      <li data-md>
-      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑦">layers</a>" enabled, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror⑨">NotSupportedError</a></code> and abort these steps.</p>
+      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑦">layers</a>" enabled, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror⑨">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>session</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#ended" id="ref-for-ended⑧">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror②①">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -3142,7 +3142,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Let <var>session</var> be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this③⑥">this</a> <a data-link-type="dfn" href="#xrmediabinding-session" id="ref-for-xrmediabinding-session③">session</a>.</p>
      <li data-md>
-      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑧">layers</a>" enabled, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①⓪">NotSupportedError</a></code> and abort these steps.</p>
+      <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑧">layers</a>" enabled, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①⓪">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>session</var>’s <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#ended" id="ref-for-ended⑨">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror②②">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -3213,29 +3213,27 @@ the instances of <code class="idl"><a data-link-type="idl" href="https://immersi
     <p>This module replaces the steps given by "<a data-link-type="dfn" href="#layers-update-the-pending-layers-state" id="ref-for-layers-update-the-pending-layers-state">update the pending layers state</a>" from the WebXR specification. Instead when the user agent will <dfn class="dfn-paneled" data-dfn-for="layers" data-dfn-type="dfn" data-noexport id="layers-update-the-pending-layers-state">update the pending layers state</dfn> with <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession①①">XRSession</a></code> <var>session</var> and <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dictdef-xrrenderstateinit" id="ref-for-dictdef-xrrenderstateinit②">XRRenderStateInit</a></code> <var>newState</var>, it must run the following steps:</p>
     <ol>
      <li data-md>
-      <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-baselayer" id="ref-for-dom-xrrenderstateinit-baselayer">baseLayer</a></code> is set:</p>
+      <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-baselayer" id="ref-for-dom-xrrenderstateinit-baselayer">baseLayer</a></code> is set and the <var>session</var> was created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑨">layers</a>" enabled, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①①">NotSupportedError</a></code> and abort these steps.</p>
+     <li data-md>
+      <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers①">layers</a></code> is set:</p>
       <ol>
        <li data-md>
-        <p>If the <var>session</var> was created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑨">layers</a>" enabled, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①①">NotSupportedError</a></code> and abort these steps.</p>
+        <p>If the <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers①⓪">layers</a>" enabled, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①②">NotSupportedError</a></code> and abort these steps.</p>
        <li data-md>
-        <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers①">layers</a></code> is not empty, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②⑤">TypeError</a></code> and abort these steps.</p>
+        <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers②">layers</a></code> contains duplicate instances, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②⑤">TypeError</a></code> and abort these steps.</p>
+       <li data-md>
+        <p>For each <var>layer</var> in <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers③">layers</a></code>:</p>
+       <li data-md>
+        <p>If <var>layer</var> is an <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer②⑧">XRCompositionLayer</a></code> and <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-session" id="ref-for-xrcompositionlayer-session⑧">session</a> is different from <var>session</var>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②⑥">TypeError</a></code> and abort these steps.</p>
+       <li data-md>
+        <p>If <var>layer</var> is an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrwebgllayer" id="ref-for-xrwebgllayer③">XRWebGLLayer</a></code> and <var>layer</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xrwebgllayer-session" id="ref-for-xrwebgllayer-session">session</a> is different from <var>session</var>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②⑦">TypeError</a></code> and abort these steps.</p>
+       <li data-md>
+        <p>Let <var>activeState</var> be <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#active-render-state" id="ref-for-active-render-state">active render state</a>.</p>
+       <li data-md>
+        <p>If <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state">pending render state</a> is <code>null</code>, set it to a copy of <var>activeState</var>.</p>
+       <li data-md>
+        <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers④">layers</a></code> array is set, set <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state①">pending render state</a>'s <code class="idl"><a data-link-type="idl" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers④">layers</a></code> to <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑤">layers</a></code>.</p>
       </ol>
-     <li data-md>
-      <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers②">layers</a></code> contains duplicate instances, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②⑥">TypeError</a></code> and abort these steps.</p>
-     <li data-md>
-      <p>For each <var>layer</var> in <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers③">layers</a></code>:</p>
-      <ol>
-       <li data-md>
-        <p>If <var>layer</var> is an <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer②⑧">XRCompositionLayer</a></code> and <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-session" id="ref-for-xrcompositionlayer-session⑧">session</a> is different from <var>session</var>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②⑦">TypeError</a></code> and abort these steps.</p>
-       <li data-md>
-        <p>If <var>layer</var> is an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrwebgllayer" id="ref-for-xrwebgllayer③">XRWebGLLayer</a></code> and <var>layer</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xrwebgllayer-session" id="ref-for-xrwebgllayer-session">session</a> is different from <var>session</var>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②⑧">TypeError</a></code> and abort these steps.</p>
-      </ol>
-     <li data-md>
-      <p>Let <var>activeState</var> be <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#active-render-state" id="ref-for-active-render-state">active render state</a>.</p>
-     <li data-md>
-      <p>If <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state">pending render state</a> is <code>null</code>, set it to a copy of <var>activeState</var>.</p>
-     <li data-md>
-      <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers④">layers</a></code> array is set, set <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state①">pending render state</a>'s <code class="idl"><a data-link-type="idl" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers④">layers</a></code> to <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑤">layers</a></code>.</p>
     </ol>
    </div>
    <h3 class="heading settled" data-level="9.3" id="xrcompositorchanges"><span class="secno">9.3. </span><span class="content">XRCompositor changes</span><a class="self-link" href="#xrcompositorchanges"></a></h3>
@@ -3706,7 +3704,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <ul>
     <li><a href="#ref-for-notsupportederror">6.8. XRWebGLBinding</a> <a href="#ref-for-notsupportederror①">(2)</a> <a href="#ref-for-notsupportederror②">(3)</a> <a href="#ref-for-notsupportederror③">(4)</a> <a href="#ref-for-notsupportederror④">(5)</a> <a href="#ref-for-notsupportederror⑤">(6)</a> <a href="#ref-for-notsupportederror⑥">(7)</a> <a href="#ref-for-notsupportederror⑦">(8)</a>
     <li><a href="#ref-for-notsupportederror⑧">7.2. XRMediaBinding</a> <a href="#ref-for-notsupportederror⑨">(2)</a> <a href="#ref-for-notsupportederror①⓪">(3)</a>
-    <li><a href="#ref-for-notsupportederror①①">9.2. updateRenderState changes</a>
+    <li><a href="#ref-for-notsupportederror①①">9.2. updateRenderState changes</a> <a href="#ref-for-notsupportederror①②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-operationerror">
@@ -3739,7 +3737,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-exceptiondef-typeerror④">3.8. XRCubeLayer</a> <a href="#ref-for-exceptiondef-typeerror⑤">(2)</a>
     <li><a href="#ref-for-exceptiondef-typeerror⑥">6.8. XRWebGLBinding</a> <a href="#ref-for-exceptiondef-typeerror⑦">(2)</a> <a href="#ref-for-exceptiondef-typeerror⑧">(3)</a> <a href="#ref-for-exceptiondef-typeerror⑨">(4)</a> <a href="#ref-for-exceptiondef-typeerror①⓪">(5)</a> <a href="#ref-for-exceptiondef-typeerror①①">(6)</a> <a href="#ref-for-exceptiondef-typeerror①②">(7)</a> <a href="#ref-for-exceptiondef-typeerror①③">(8)</a> <a href="#ref-for-exceptiondef-typeerror①④">(9)</a> <a href="#ref-for-exceptiondef-typeerror①⑤">(10)</a> <a href="#ref-for-exceptiondef-typeerror①⑥">(11)</a> <a href="#ref-for-exceptiondef-typeerror①⑦">(12)</a> <a href="#ref-for-exceptiondef-typeerror①⑧">(13)</a> <a href="#ref-for-exceptiondef-typeerror①⑨">(14)</a> <a href="#ref-for-exceptiondef-typeerror②⓪">(15)</a> <a href="#ref-for-exceptiondef-typeerror②①">(16)</a>
     <li><a href="#ref-for-exceptiondef-typeerror②②">7.2. XRMediaBinding</a> <a href="#ref-for-exceptiondef-typeerror②③">(2)</a> <a href="#ref-for-exceptiondef-typeerror②④">(3)</a>
-    <li><a href="#ref-for-exceptiondef-typeerror②⑤">9.2. updateRenderState changes</a> <a href="#ref-for-exceptiondef-typeerror②⑥">(2)</a> <a href="#ref-for-exceptiondef-typeerror②⑦">(3)</a> <a href="#ref-for-exceptiondef-typeerror②⑧">(4)</a>
+    <li><a href="#ref-for-exceptiondef-typeerror②⑤">9.2. updateRenderState changes</a> <a href="#ref-for-exceptiondef-typeerror②⑥">(2)</a> <a href="#ref-for-exceptiondef-typeerror②⑦">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-boolean">
@@ -4393,7 +4391,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <dt id="biblio-webidl">[WebIDL]
    <dd>Boris Zbarsky. <a href="https://heycam.github.io/webidl/">Web IDL</a>. 15 December 2016. ED. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
    <dt id="biblio-webxr">[WEBXR]
-   <dd>Brandon Jones; Nell Waliczek. <a href="https://www.w3.org/TR/webxr/">WebXR Device API</a>. 10 October 2019. WD. URL: <a href="https://www.w3.org/TR/webxr/">https://www.w3.org/TR/webxr/</a>
+   <dd>Brandon Jones; Manish Goregaokar; Nell Waliczek. <a href="https://www.w3.org/TR/webxr/">WebXR Device API</a>. 24 July 2020. WD. URL: <a href="https://www.w3.org/TR/webxr/">https://www.w3.org/TR/webxr/</a>
    <dt id="biblio-webxr-ar-module-1">[WEBXR-AR-MODULE-1]
    <dd>Brandon Jones; Nell Waliczek; Manish Goregaokar. <a href="https://www.w3.org/TR/webxr-ar-module-1/">WebXR Augmented Reality Module - Level 1</a>. 10 October 2019. WD. URL: <a href="https://www.w3.org/TR/webxr-ar-module-1/">https://www.w3.org/TR/webxr-ar-module-1/</a>
   </dl>
@@ -4608,7 +4606,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-feature-descriptor-layers">2. Initialization</a> <a href="#ref-for-feature-descriptor-layers①">(2)</a>
     <li><a href="#ref-for-feature-descriptor-layers②">6.8. XRWebGLBinding</a> <a href="#ref-for-feature-descriptor-layers③">(2)</a> <a href="#ref-for-feature-descriptor-layers④">(3)</a> <a href="#ref-for-feature-descriptor-layers⑤">(4)</a>
     <li><a href="#ref-for-feature-descriptor-layers⑥">7.2. XRMediaBinding</a> <a href="#ref-for-feature-descriptor-layers⑦">(2)</a> <a href="#ref-for-feature-descriptor-layers⑧">(3)</a>
-    <li><a href="#ref-for-feature-descriptor-layers⑨">9.2. updateRenderState changes</a>
+    <li><a href="#ref-for-feature-descriptor-layers⑨">9.2. updateRenderState changes</a> <a href="#ref-for-feature-descriptor-layers①⓪">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="enumdef-xrlayerlayout">
