@@ -1659,16 +1659,19 @@ updateRenderState changes {#updaterenderstatechanges}
 
 This module replaces the steps given by "[=update the pending layers state=]" from the WebXR specification. Instead when the user agent will
 <dfn dfn-for="layers">update the pending layers state</dfn> with {{XRSession}} |session| and {{XRRenderStateInit}} |newState|, it must run the following steps:
-  1. If |newState|'s {{XRRenderStateInit/baseLayer}} is set and the |session| was created with "[=feature descriptor/layers=]" enabled, throw a {{NotSupportedError}} and abort these steps.
+  1. If both |newState|'s {{XRRenderStateInit/baseLayer}} and |newState|'s {{XRRenderStateInit/layers}} are set, throw a {{NotSupportedError}} and abort these steps.
+  1. Let |activeState| be |session|'s [=active render state=].
+  1. If |newState|'s {{XRRenderStateInit/baseLayer}} is set:
+    1. If |session|'s [=pending render state=] is <code>null</code>, set it to a copy of |activeState|.
+    1. Set |session|'s [=pending render state=]'s {{XRRenderState/layers}} to <code>null</code>.
   1. If |newState|'s {{XRRenderStateInit/layers}} is set:
-    1. If the |session| was not created with "[=feature descriptor/layers=]" enabled, throw a {{NotSupportedError}} and abort these steps.
+    1. If |session|'s [=pending render state=] is <code>null</code>, set it to a copy of |activeState|.
     1. If |newState|'s {{XRRenderStateInit/layers}} contains duplicate instances, throw a {{TypeError}} and abort these steps.
     1. For each |layer| in |newState|'s {{XRRenderStateInit/layers}}:
-      1. If |layer| is an {{XRCompositionLayer}} and |layer|'s [=XRCompositionLayer/session=] is different from |session|, throw a {{TypeError}} and abort these steps.
-      1. If |layer| is an {{XRWebGLLayer}} and |layer|'s [=XRWebGLLayer/session=] is different from |session|, throw a {{TypeError}} and abort these steps.
-    1. Let |activeState| be |session|'s [=active render state=].
-    1. If |session|'s [=pending render state=] is <code>null</code>, set it to a copy of |activeState|.
-    1. If |newState|'s {{XRRenderStateInit/layers}} array is set, set |session|'s [=pending render state=]'s {{XRRenderState/layers}} to |newState|'s {{XRRenderStateInit/layers}}.
+        1. If |layer| is an {{XRCompositionLayer}} and |layer|'s [=XRCompositionLayer/session=] is different from |session|, throw a {{TypeError}} and abort these steps.
+        1. If |layer| is an {{XRWebGLLayer}} and |layer|'s [=XRWebGLLayer/session=] is different from |session|, throw a {{TypeError}} and abort these steps.
+    1. Set |session|'s [=pending render state=]'s {{XRRenderState/baseLayer}} to <code>null</code>.
+    1. Set |session|'s [=pending render state=]'s {{XRRenderState/layers}} to |newState|'s {{XRRenderStateInit/layers}}.
 
 </div>
 
