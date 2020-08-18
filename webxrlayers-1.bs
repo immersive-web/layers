@@ -278,6 +278,7 @@ XRCompositionLayer {#xrcompositionlayertype}
 XRCompositionLayer defines a set of common attributes and behaviors across certain layer types.
 
 <pre class="idl">
+[Exposed=Window]
 interface XRCompositionLayer : XRLayer {
   readonly attribute XRLayerLayout layout;
 
@@ -287,7 +288,7 @@ interface XRCompositionLayer : XRLayer {
 
   readonly attribute boolean needsRedraw;
 
-  void destroy();
+  undefined destroy();
 };
 </pre>
 
@@ -390,6 +391,7 @@ An {{XRProjectionLayer}} is a layer that fills the entire view of the observer.
 Projection layers should be refreshed close to the device's native frame rate.
 
 <pre class="idl">
+[Exposed=Window]
 interface XRProjectionLayer : XRCompositionLayer {
   readonly attribute boolean ignoreDepthValues;
 };
@@ -409,6 +411,7 @@ A XRQuadLayer has no thicknes. It is a two-dimensional object positioned and ori
 of a quad refers to the center of the quad.
 
 <pre class="idl">
+[Exposed=Window]
 interface XRQuadLayer : XRCompositionLayer {
   attribute XRSpace space;
   attribute XRRigidTransform transform;
@@ -456,6 +459,7 @@ A XRCylinderLayer has no thicknes. It is a two-dimensional object positioned and
 of the cylinder refers to the center of the quad.
 
 <pre class="idl">
+[Exposed=Window]
 interface XRCylinderLayer : XRCompositionLayer {
   attribute XRSpace space;
   attribute XRRigidTransform transform;
@@ -509,6 +513,7 @@ An {{XREquirectLayer}} renders a layer where the [=XR Compositor=] MUST map an e
 ISSUE: this section needs clarification
 
 <pre class="idl">
+[Exposed=Window]
 interface XREquirectLayer : XRCompositionLayer {
   attribute XRSpace space;
   attribute XRRigidTransform transform;
@@ -580,6 +585,7 @@ A {{XRCubeLayer}} renders a layer where the [=XR Compositor=] renders directly f
 ISSUE: this section needs clarification
 
 <pre class="idl">
+[Exposed=Window]
 interface XRCubeLayer : XRCompositionLayer {
   attribute XRSpace space;
   attribute DOMPointReadOnly orientation;
@@ -639,6 +645,7 @@ XRSubImage {#xrsubimagetype}
 The {{XRSubImage}} object represents what viewport of the GPU texture to use.
 
 <pre class="idl">
+[Exposed=Window]
 interface XRSubImage {
   [SameObject] readonly attribute XRViewport viewport;
 };
@@ -653,6 +660,7 @@ XRWebGLSubImage {#xrwebglsubimagetype}
 The {{XRWebGLSubImage}} object is used during rendering of the layer.
 
 <pre class="idl">
+[Exposed=Window]
 interface XRWebGLSubImage : XRSubImage {
   [SameObject] readonly attribute WebGLTexture colorTexture;
   [SameObject] readonly attribute WebGLTexture? depthStencilTexture;
@@ -851,20 +859,21 @@ XRWebGLBinding {#XRWebGLBindingtype}
 The {{XRWebGLBinding}} object is used to create layers that have a GPU backend.
 
 <pre class="idl">
+[Exposed=Window]
 interface XRWebGLBinding {
   constructor(XRSession session, XRWebGLRenderingContext context);
 
   readonly attribute double nativeProjectionScaleFactor;
 
   XRProjectionLayer createProjectionLayer(XRTextureType textureType,
-                                          optional XRProjectionLayerInit init);
+                                          optional XRProjectionLayerInit init = {});
   XRQuadLayer createQuadLayer(XRTextureType textureType,
-                              optional XRQuadLayerInit init);
+                              optional XRQuadLayerInit init = {});
   XRCylinderLayer createCylinderLayer(XRTextureType textureType,
-                                      optional XRCylinderLayerInit init);
+                                      optional XRCylinderLayerInit init = {});
   XREquirectLayer createEquirectLayer(XRTextureType textureType,
-                                      optional XREquirectLayerInit init);
-  XRCubeLayer createCubeLayer(optional XRCubeLayerInit init);
+                                      optional XREquirectLayerInit init = {});
+  XRCubeLayer createCubeLayer(optional XRCubeLayerInit init = {});
 
   XRWebGLSubImage getSubImage(XRCompositionLayer layer, XRFrame frame, optional XREye eye = "none");
   XRWebGLSubImage getViewSubImage(XRProjectionLayer layer, XRView view);
@@ -1470,6 +1479,7 @@ XRMediaBinding {#xrmediabindingtype}
 The {{XRMediaBinding}} object is used to create layers that display the content of an {{HTMLVideoElement}}.
 
 <pre class="idl">
+[Exposed=Window]
 interface XRMediaBinding {
   constructor(XRSession session);
 
@@ -1477,7 +1487,6 @@ interface XRMediaBinding {
   XRCylinderLayer createCylinderLayer(HTMLVideoElement video, XRMediaLayerInit init);
   XREquirectLayer createEquirectLayer(HTMLVideoElement video, XRMediaLayerInit init);
 };
-
 </pre>
 
 Each {{XRMediaBinding}} has an associated <dfn dfn-for="XRMediaBinding">session</dfn>, which is the
