@@ -240,7 +240,7 @@ Layer types {#xrlayertypes}
 
 Mono and stereo layers {#monovsstereo}
 ----------------------
-A stereo layer MUST supply a different {{XRSubImage}} to render to for each view.
+A stereo layer MUST supply an {{XRSubImage}} to render to for each view.
 
 A mono layer MUST supply a single {{XRSubImage}} which is shown to each view.
 
