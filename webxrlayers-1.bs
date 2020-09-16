@@ -719,7 +719,7 @@ Opaque textures {#xropaquetextures}
 When using WebXR GPU layers, the {{XRWebGLBinding}} object will return instances of an <dfn>opaque texture</dfn> for the color and depth/stencil attachments.
 
 An [=opaque texture=] functions identically to a standard {{WebGLTexture}} with the following changes:
-- An [=opaque texture=] is considered invalid outside of a {{XRSession/requestAnimationFrame()}} callback.
+- An [=opaque texture=] is considered invalid outside of a {{XRSession/requestAnimationFrame()}} callback for its session.
 - An [=opaque texture=] is invalid until it is returned by the {{XRWebGLBinding/getSubImage()}} or {{XRWebGLBinding/getViewSubImage()}} calls.
 - The [=XR Compositor=] MUST assume that the [=opaque texture=] for the color attachment contains colors with premultiplied alpha.
 - At the end of the {{XRSession/requestAnimationFrame()}} callback the texture MUST be unbounded and detached from all {{WebGLShader}} objects.
