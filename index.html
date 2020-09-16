@@ -3235,11 +3235,13 @@ the instances of <code class="idl"><a data-link-type="idl" href="https://immersi
       <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers②">layers</a></code> is set:</p>
       <ol>
        <li data-md>
+        <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑨">layers</a>" enabled and <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers③">layers</a></code> contains more than <code>1</code> instance, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①②">NotSupportedError</a></code> and abort these steps.</p>
+       <li data-md>
         <p>If <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state②">pending render state</a> is <code>null</code>, set it to a copy of <var>activeState</var>.</p>
        <li data-md>
-        <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers③">layers</a></code> contains duplicate instances, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②⑤">TypeError</a></code> and abort these steps.</p>
+        <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers④">layers</a></code> contains duplicate instances, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②⑤">TypeError</a></code> and abort these steps.</p>
        <li data-md>
-        <p>For each <var>layer</var> in <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers④">layers</a></code>:</p>
+        <p>For each <var>layer</var> in <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑤">layers</a></code>:</p>
         <ol>
          <li data-md>
           <p>If <var>layer</var> is an <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer②⑧">XRCompositionLayer</a></code> and <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-session" id="ref-for-xrcompositionlayer-session⑧">session</a> is different from <var>session</var>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②⑥">TypeError</a></code> and abort these steps.</p>
@@ -3249,7 +3251,7 @@ the instances of <code class="idl"><a data-link-type="idl" href="https://immersi
        <li data-md>
         <p>Set <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state③">pending render state</a>'s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstate-baselayer" id="ref-for-dom-xrrenderstate-baselayer">baseLayer</a></code> to <code>null</code>.</p>
        <li data-md>
-        <p>Set <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state④">pending render state</a>'s <code class="idl"><a data-link-type="idl" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers⑤">layers</a></code> to <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑤">layers</a></code>.</p>
+        <p>Set <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state④">pending render state</a>'s <code class="idl"><a data-link-type="idl" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers⑤">layers</a></code> to <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑥">layers</a></code>.</p>
       </ol>
     </ol>
    </div>
@@ -3270,7 +3272,7 @@ resolution large enough to contain the view.
      <li data-md>
       <p>If <var>state</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstate-baselayer" id="ref-for-dom-xrrenderstate-baselayer①">baseLayer</a></code> is not <code>null</code>, return <code>true</code>.</p>
      <li data-md>
-      <p>If <var>state</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑥">layers</a></code> is not empty, return <code>true</code>.</p>
+      <p>If <var>state</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑦">layers</a></code> is not empty, return <code>true</code>.</p>
      <li data-md>
       <p>return <code>false</code>.</p>
     </ol>
@@ -3736,7 +3738,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <ul>
     <li><a href="#ref-for-notsupportederror">6.9. XRWebGLBinding</a> <a href="#ref-for-notsupportederror①">(2)</a> <a href="#ref-for-notsupportederror②">(3)</a> <a href="#ref-for-notsupportederror③">(4)</a> <a href="#ref-for-notsupportederror④">(5)</a> <a href="#ref-for-notsupportederror⑤">(6)</a> <a href="#ref-for-notsupportederror⑥">(7)</a> <a href="#ref-for-notsupportederror⑦">(8)</a>
     <li><a href="#ref-for-notsupportederror⑧">7.2. XRMediaBinding</a> <a href="#ref-for-notsupportederror⑨">(2)</a> <a href="#ref-for-notsupportederror①⓪">(3)</a>
-    <li><a href="#ref-for-notsupportederror①①">9.2. updateRenderState changes</a>
+    <li><a href="#ref-for-notsupportederror①①">9.2. updateRenderState changes</a> <a href="#ref-for-notsupportederror①②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-operationerror">
@@ -4064,8 +4066,8 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <a href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers">https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-xrrenderstateinit-layers">9.1. XRRenderState changes</a>
-    <li><a href="#ref-for-dom-xrrenderstateinit-layers①">9.2. updateRenderState changes</a> <a href="#ref-for-dom-xrrenderstateinit-layers②">(2)</a> <a href="#ref-for-dom-xrrenderstateinit-layers③">(3)</a> <a href="#ref-for-dom-xrrenderstateinit-layers④">(4)</a> <a href="#ref-for-dom-xrrenderstateinit-layers⑤">(5)</a>
-    <li><a href="#ref-for-dom-xrrenderstateinit-layers⑥">9.5. Animation frames changes</a>
+    <li><a href="#ref-for-dom-xrrenderstateinit-layers①">9.2. updateRenderState changes</a> <a href="#ref-for-dom-xrrenderstateinit-layers②">(2)</a> <a href="#ref-for-dom-xrrenderstateinit-layers③">(3)</a> <a href="#ref-for-dom-xrrenderstateinit-layers④">(4)</a> <a href="#ref-for-dom-xrrenderstateinit-layers⑤">(5)</a> <a href="#ref-for-dom-xrrenderstateinit-layers⑥">(6)</a>
+    <li><a href="#ref-for-dom-xrrenderstateinit-layers⑦">9.5. Animation frames changes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-xrsession-list-of-views">
@@ -4650,6 +4652,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-feature-descriptor-layers">2. Initialization</a> <a href="#ref-for-feature-descriptor-layers①">(2)</a>
     <li><a href="#ref-for-feature-descriptor-layers②">6.9. XRWebGLBinding</a> <a href="#ref-for-feature-descriptor-layers③">(2)</a> <a href="#ref-for-feature-descriptor-layers④">(3)</a> <a href="#ref-for-feature-descriptor-layers⑤">(4)</a>
     <li><a href="#ref-for-feature-descriptor-layers⑥">7.2. XRMediaBinding</a> <a href="#ref-for-feature-descriptor-layers⑦">(2)</a> <a href="#ref-for-feature-descriptor-layers⑧">(3)</a>
+    <li><a href="#ref-for-feature-descriptor-layers⑨">9.2. updateRenderState changes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="enumdef-xrlayerlayout">
