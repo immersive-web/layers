@@ -1668,6 +1668,7 @@ This module replaces the steps given by "[=update the pending layers state=]" fr
     1. If |session|'s [=pending render state=] is <code>null</code>, set it to a copy of |activeState|.
     1. Set |session|'s [=pending render state=]'s {{XRRenderState/layers}} to <code>null</code>.
   1. If |newState|'s {{XRRenderStateInit/layers}} is set:
+    1. If |session| was not created with "[=feature descriptor/layers=]" enabled and |newState|'s {{XRRenderStateInit/layers}} contains more than <code>1</code> instance, throw a {{NotSupportedError}} and abort these steps.
     1. If |session|'s [=pending render state=] is <code>null</code>, set it to a copy of |activeState|.
     1. If |newState|'s {{XRRenderStateInit/layers}} contains duplicate instances, throw a {{TypeError}} and abort these steps.
     1. For each |layer| in |newState|'s {{XRRenderStateInit/layers}}:
