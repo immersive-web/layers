@@ -77,6 +77,7 @@ spec: WebXR Device API - Level 1; urlPrefix: https://www.w3.org/TR/webxr/#
 spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: interface; text: WebGLFramebuffer; url: WebGLFramebuffer
     type: interface; text: WebGLTexture; url: WebGLTexture
+    type: interface; text: WebGLShader; url: 5.8
     type: interface; text: WebGLRenderingContext; url: WebGLRenderingContext
     type: interface; text: WebGLRenderingContextBase; url: WebGLRenderingContextBase
     type: interface; text: GLenum
@@ -662,30 +663,13 @@ The {{XRWebGLSubImage}} object is used during rendering of the layer.
 };
 </pre>
 
-The <dfn attribute for="XRWebGLSubImage">colorTexture</dfn> attribute returns the color {{WebGLTexture}} for the {{XRCompositionLayer}}.
+The <dfn attribute for="XRWebGLSubImage">colorTexture</dfn> attribute returns the color [=opaque texture=] for the {{XRCompositionLayer}}.
 
-The <dfn attribute for="XRWebGLSubImage">depthStencilTexture</dfn> attribute returns the depth/stencil {{WebGLTexture}} for the {{XRCompositionLayer}}.
+The <dfn attribute for="XRWebGLSubImage">depthStencilTexture</dfn> attribute returns the depth/stencil [=opaque texture=] for the {{XRCompositionLayer}}.
 If the layer was created without depth/stencil, this attribute returns null.
 
 The <dfn attribute for="XRWebGLSubImage">imageIndex</dfn> attribute returns the offset into the texture array. Valid only for layers
 that were requested with {{texture-array}}.
-
-The {{XRWebGLSubImage/colorTexture}} and {{XRWebGLSubImage/depthStencilTexture}} objects MUST only be used during the [=XR animation frame=] of the
-current session and MUST be made invalid once the [=XR animation frame=] completes.
-
-NOTE: the {{XRWebGLSubImage/colorTexture}} and {{XRWebGLSubImage/depthStencilTexture}} objects are allocated when the layer is contructed using the
-[=allocate color textures=] and [=allocate depth textures=] algoritms. The side effect of this pre-allocation is that calling
-{{XRWebGLBinding/getSubImage()}} and {{XRWebGLBinding/getViewSubImage()}} with the same parameters will always return the same texture objects.
-
-In addition, they MUST behave as though they were allocated with [=texStorage2D=] or [=texStorage3D=], as appropriate,
-even when using a WebGL 1.0 context.
-
-NOTE: Changes to the dimensions or format of the {{XRWebGLSubImage/colorTexture}} or {{XRWebGLSubImage/depthStencilTexture}} objects are not allowed. GL commands
-may only alter the texel values and texture parameters. Using any of the following
-commands with the WebGLTexture will result in an INVALID_OPERATION error
-being generated, even if it does not affect the dimensions or format: TexImage*, CompressedTexImage*, CopyTexImage* and TexStorage*.
-The <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/es_spec_3.0.pdf#nameddest=section-3.8.4">"Immutable-Format Texture Images"</a>
-section in the OpenGL ES 3.0 spec defines these limitations in more detail.
 
 The <dfn attribute for="XRWebGLSubImage">textureWidth</dfn> and <dfn attribute for="XRWebGLSubImage">textureHeight</dfn> attributes
 return the width and height in pixels of the GL attachments, respectively.
@@ -729,6 +713,28 @@ The method will return the associated XRCompositionLayer type.
 
 Some layer types may not be supported by the {{XRSession}}. If a layer type isn't supported the method will throw an exception. {{XRProjectionLayer}} MUST be supported by all {{XRSession}}s.
 </section>
+
+Opaque textures {#xropaquetextures}
+---------------
+When using WebXR GPU layers, the {{XRWebGLBinding}} object will return instances of an <dfn>opaque texture</dfn> for the color and depth/stencil attachments.
+
+An [=opaque texture=] functions identically to a standard {{WebGLTexture}} with the following changes:
+- An [=opaque texture=] is considered invalid outside of a {{XRSession/requestAnimationFrame()}} callback for its session.
+- An [=opaque texture=] is invalid until it is returned by the {{XRWebGLBinding/getSubImage()}} or {{XRWebGLBinding/getViewSubImage()}} calls.
+- The [=XR Compositor=] MUST assume that the [=opaque texture=] for the color attachment contains colors with premultiplied alpha.
+- At the end of the {{XRSession/requestAnimationFrame()}} callback the texture MUST be unbounded and detached from all {{WebGLShader}} objects.
+- An [=opaque texture=] MUST behave as though it was allocated with [=texStorage2D=] or [=texStorage3D=], as appropriate, even when using a WebGL 1.0 context.
+
+NOTE: the [=opaque texture|opaque textures=] are allocated when the layer is contructed using the
+[=allocate color textures=] and [=allocate depth textures=] algoritms. The side effect of this pre-allocation is that calling
+{{XRWebGLBinding/getSubImage()}} and {{XRWebGLBinding/getViewSubImage()}} with the same parameters will always return the same texture objects.
+
+NOTE: Changes to the dimensions or format of the [=opaque texture|opaque textures=] are not allowed. GL commands
+may only alter the texel values and texture parameters. Using any of the following
+commands with the WebGLTexture will result in an INVALID_OPERATION error
+being generated, even if it does not affect the dimensions or format: TexImage*, CompressedTexImage*, CopyTexImage* and TexStorage*.
+The <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/es_spec_3.0.pdf#nameddest=section-3.8.4">"Immutable-Format Texture Images"</a>
+section in the OpenGL ES 3.0 spec defines these limitations in more detail.
 
 XRProjectionLayerInit {#xrprojectionlayerinittype}
 ---------------------
@@ -884,11 +890,11 @@ be used with another instance of {{XRWebGLBinding}} as long as both were created
 [=XRWebGLBinding/context=]. The lifetime of layers or instances of {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLBinding}} that created them.
 
 Each {{XRCompositionLayer}} created through {{XRWebGLBinding}} has an internal <dfn>colorTextures</dfn> array which is an |array| of {{WebGLTexture|WebGLTextures}} for color textures and
-an internal <dfn>depthStencilTextures</dfn> which is an |array| of {{WebGLTexture|WebGLTextures}}</dfn> for depth/stencil textures.
+an internal <dfn>depthStencilTextures</dfn> which is an |array| of [=opaque texture|opaque textures=]</dfn> for depth/stencil textures.
 
 Each {{XRProjectionLayer}} created through {{XRWebGLBinding}} has an internal <dfn for="XRProjectionLayer">colorTextures for secondary views</dfn>
-array which is an |array| of {{WebGLTexture|WebGLTextures}} for color textures and an internal <dfn for="XRProjectionLayer">depthStencilTextures for secondary views</dfn>
-array which is an |array| of {{WebGLTexture|WebGLTextures}}</dfn> for depth/stencil textures that are used to render the [=secondary view|secondary views=].
+array which is an |array| of [=opaque texture|opaque textures=] for color textures and an internal <dfn for="XRProjectionLayer">depthStencilTextures for secondary views</dfn>
+array which is an |array| of [=opaque texture|opaque textures=]</dfn> for depth/stencil textures that are used to render the [=secondary view|secondary views=].
 
 <div class="algorithm" data-algorithm="construct-webgl-layer">
 
@@ -954,20 +960,20 @@ To <dfn>allocate color textures for projection layers</dfn> using an {{XRProject
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
           <dd> If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL texture resolution=] excluding the [=secondary view|secondary views=], throw a {{NotSupportedError}} and abort these steps.
-          <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| layers using |context|, |alpha|, |width| and |height|.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| layers using |context|, |alpha|, |width| and |height|.
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
           <dd> For each |view| in the |session|'s [=list of views=]:
             1. If |view| is a [=secondary view=], continue.
             1. Let |width| be the width of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
             1. Let |height| be the height of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
-            1. let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |alpha|, |width| and |height|.
+            1. let |texture| be a [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |alpha|, |width| and |height|.
             1. Append |texture| to |array|.
           <dd> Return |array| and abort these steps.
         </dl>
   1. If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL texture resolution=] excluding the [=secondary view|secondary views=], throw a {{NotSupportedError}} and abort these steps.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |alpha|, |numViews| multiplied by |width| and |height|.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |alpha|, |width| and |numViews| multiplied by |height|.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of [=opaque texture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |alpha|, |numViews| multiplied by |width| and |height|.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of [=opaque texture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |alpha|, |width| and |numViews| multiplied by |height|.
   1. return |array|.
 
 </div>
@@ -988,20 +994,20 @@ To <dfn>allocate depth textures for projection layers</dfn> using an {{XRProject
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}} or {{XRLayerLayout/"default"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-          <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| layers using |context|, |stencil|, |width| and |height|.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| layers using |context|, |stencil|, |width| and |height|.
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
           <dd> For each |view| in the |session|'s [=list of views=]:
             1. If |view| is a [=secondary view=], continue.
             1. Let |width| be the width of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
             1. Let |height| be the height of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
-            1. let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |stencil|, |width| and |height|.
+            1. let |texture| be a [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |stencil|, |width| and |height|.
             1. Append |texture| to |array|.
           <dd> Return |array| and abort these steps.
         </dl>
   1. If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL texture resolution=] excluding the [=secondary view|secondary views=], throw a {{NotSupportedError}} and abort these steps.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |stencil|, |numViews| multiplied by |width| and |height|.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |stencil|, |width| and |numViews| multiplied by |height|.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |stencil|, |numViews| multiplied by |width| and |height|.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |stencil|, |width| and |numViews| multiplied by |height|.
   1. return |array|.
 
 </div>
@@ -1019,9 +1025,9 @@ To <dfn>allocate the color textures for the secondary views</dfn> using an {{XRP
     1. Initialize |texture| as follows:
          <dl class="switch">
           <dt> If |textureType| is {{"texture-array"}}:
-            <dd> Let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |context|, |alpha|, |width| and |height|.
+            <dd> Let |texture| be a [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |context|, |alpha|, |width| and |height|.
           <dt> Otherwise
-            <dd> Let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |alpha|, |width| and |height|.
+            <dd> Let |texture| be a [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |alpha|, |width| and |height|.
          </dl>
     1. Append |texture| to |array|.
   1. Return |array| and abort these steps.
@@ -1044,9 +1050,9 @@ To <dfn>allocate the depth textures for the secondary views</dfn> using an {{XRP
     1. Initialize |texture| as follows:
          <dl class="switch">
           <dt> If |textureType| is {{"texture-array"}}:
-            <dd> Let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |context|, |stencil|, |width| and |height|.
+            <dd> Let |texture| be a [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |context|, |stencil|, |width| and |height|.
           <dt> Otherwise
-            <dd> Let |texture| be a [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |stencil|, |width| and |height|.
+            <dd> Let |texture| be a [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |stencil|, |width| and |height|.
          </dl>
     1. Append |texture| to |array|.
   1. Return |array| and abort these steps.
@@ -1063,21 +1069,21 @@ To <dfn>allocate color textures</dfn> using an {{XRCompositionLayer}} |layer|, a
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-          <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of this |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dt> Otherwise
-          <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dl>
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"stereo"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-          <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 2 layers using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 2 layers using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
-          <dd> Initialize |array| with 2 [=new=] instances of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRProjectionLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRProjectionLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
           <dd> Return |array| and abort these steps.
         </dl>
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/alpha}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/alpha}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
   1. return |array|.
 
 </div>
@@ -1093,21 +1099,21 @@ To <dfn>allocate depth textures</dfn> using an {{XRCompositionLayer}} |layer|, a
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-          <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dt> Otherwise
-          <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         </dl>
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"stereo"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-         <dd> Initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 2 layers using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+         <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 2 layers using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dd> Return |array| and abort these steps.
         <dt> Otherwise
-          <dd> Initialize |array| with 2 [=new=] instances of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dd> Return |array| and abort these steps.
         </dl>
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/stencil}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/stencil}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
   1. return |array|.
 
 </div>
@@ -1157,8 +1163,6 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Return |layer|.
 
 </div>
-
-ISSUE: define "opaque" {{WebGLTexture}}
 
 <div class="algorithm" data-algorithm="createQuadLayerAlgo">
 The <dfn method for="XRWebGLBinding">createQuadLayer(XRTextureType |textureType|, XRQuadLayerInit |init|)</dfn> method creates a new {{XRQuadLayer}} |layer|.
@@ -1268,9 +1272,9 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s [=colorTextures=] as follows, based on the value of |layout|:
     <dl class="switch">
       <dt> {{XRLayerLayout/"mono"}}:
-        <dd> Initialize [=colorTextures=] with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+        <dd> Initialize [=colorTextures=] with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
       <dt> Otherwise
-        <dd> Initialize [=colorTextures=] with 2 [=new=] instances of {{WebGLTexture}} in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+        <dd> Initialize [=colorTextures=] with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
     </dl>
   1. Let |layer|'s [=depthStencilTextures=] be a [=new=] array in the [=relevant realm=] of this {{XRCubeLayer}}.
   1. If |init|'s {{XRLayerInit/depth}} and {{XRLayerInit/stencil}} are set, initialize |layer|'s [=depthStencilTextures=] as follows:
@@ -1278,9 +1282,9 @@ When this method is invoked, the user agent MUST run the following steps:
       <dt> If |context| is not a {{WebGL2RenderingContext}} and the {{WEBGL_depth_texture}} extension is not enabled in |context|.
         <dd> Throw {{TypeError}} and abort these steps.
       <dt> Else if |layout| is {{XRLayerLayout/"mono"}}:
-        <dd> Initialize [=depthStencilTextures=] with 1 [=new=] instance of {{WebGLTexture}} in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+        <dd> Initialize [=depthStencilTextures=] with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
       <dt> Otherwise
-        <dd> Initialize [=depthStencilTextures=] with 2 [=new=] instances of {{WebGLTexture}} in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+        <dd> Initialize [=depthStencilTextures=] with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/alpha}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
     </dl>
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
@@ -1310,7 +1314,7 @@ To <dfn>validate the state of the XRWebGLSubImage creation function</dfn> of an 
 
 <div class="algorithm" data-algorithm="initialize the viewport">
 
-To <dfn>initialize the viewport</dfn> of an {{XRViewport}} |viewport| with a {{WebGLTexture}} |texture|, a {{XRLayerLayout}}
+To <dfn>initialize the viewport</dfn> of an {{XRViewport}} |viewport| with a [=opaque texture=] |texture|, a {{XRLayerLayout}}
 |layout|, an integer |offset| and a integer |num|, the user agent MUST run the following steps:
   1. Set |viewport|'s {{XRViewport/x}} to <code>0</code>.
   1. Set |viewport|'s {{XRViewport/y}} to <code>0</code>.
