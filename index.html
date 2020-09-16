@@ -1222,7 +1222,7 @@ Possible extra rowspan handling
 	}
 </style>
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version 6cf40e14, updated Fri Aug 14 17:42:41 2020 -0700" name="generator">
+  <meta content="Bikeshed version 5f7b0e20, updated Tue Aug 18 15:46:28 2020 -0700" name="generator">
   <link href="https://www.w3.org/TR/webxrlayers-1/" rel="canonical">
   <link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
   <link href="favicon-96x96.png" rel="icon" sizes="96x96" type="image/png">
@@ -1537,7 +1537,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-08-18">18 August 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-09-16">16 September 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1580,7 +1580,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     includes instructions for disclosing a patent. An individual who has actual knowledge of a
     patent which the individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential
     Claim(s)</a> must disclose the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>. </p>
-   <p> This document is governed by the <a href="https://www.w3.org/2019/Process-20190301/" id="w3c_process_revision">1 March 2019 W3C Process Document</a>. </p>
+   <p> This document is governed by the <a href="https://www.w3.org/2020/Process-20200915/" id="w3c_process_revision">15 September 2020 W3C Process Document</a>. </p>
    <p></p>
   </div>
   <div data-fill-with="at-risk"></div>
@@ -1728,7 +1728,7 @@ by this module as a new valid <a data-link-type="dfn" href="https://immersive-we
 not enable layers support for the current active session.</p>
    <h2 class="heading settled" data-level="3" id="xrlayertypes"><span class="secno">3. </span><span class="content">Layer types</span><a class="self-link" href="#xrlayertypes"></a></h2>
    <h3 class="heading settled" data-level="3.1" id="monovsstereo"><span class="secno">3.1. </span><span class="content">Mono and stereo layers</span><a class="self-link" href="#monovsstereo"></a></h3>
-    A stereo layer MUST supply a different <code class="idl"><a data-link-type="idl" href="#xrsubimage" id="ref-for-xrsubimage">XRSubImage</a></code> to render to for each view. 
+    A stereo layer MUST supply an <code class="idl"><a data-link-type="idl" href="#xrsubimage" id="ref-for-xrsubimage">XRSubImage</a></code> to render to for each view. 
    <p>A mono layer MUST supply a single <code class="idl"><a data-link-type="idl" href="#xrsubimage" id="ref-for-xrsubimage①">XRSubImage</a></code> which is shown to each view.</p>
    <p>The <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor">XR Compositor</a> MUST ensure that layers are presented correctly in stereo to the observer.</p>
    <h3 class="heading settled" data-level="3.2" id="xrlayerlayouttype"><span class="secno">3.2. </span><span class="content">XRLayerLayout</span><a class="self-link" href="#xrlayerlayouttype"></a></h3>
@@ -1769,7 +1769,7 @@ should use the <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayou
 
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean②"><c- b>boolean</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="boolean" href="#dom-xrcompositionlayer-needsredraw" id="ref-for-dom-xrcompositionlayer-needsredraw"><c- g>needsRedraw</c-></a>;
 
-  <a class="n" data-link-type="idl-name" href="https://heycam.github.io/webidl/#idl-undefined" id="ref-for-idl-undefined"><c- n>undefined</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="XRCompositionLayer" data-dfn-type="method" data-export data-lt="destroy()" id="dom-xrcompositionlayer-destroy"><code><c- g>destroy</c-></code></dfn>();
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-undefined" id="ref-for-idl-undefined"><c- b>undefined</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="XRCompositionLayer" data-dfn-type="method" data-export data-lt="destroy()" id="dom-xrcompositionlayer-destroy"><code><c- g>destroy</c-></code></dfn>();
 };
 </pre>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCompositionLayer" data-dfn-type="attribute" data-export id="dom-xrcompositionlayer-layout"><code>layout</code></dfn> attribute returns the layout of the layer.</p>
@@ -4446,7 +4446,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
 
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="boolean" href="#dom-xrcompositionlayer-needsredraw"><c- g>needsRedraw</c-></a>;
 
-  <a class="n" data-link-type="idl-name" href="https://heycam.github.io/webidl/#idl-undefined"><c- n>undefined</c-></a> <a href="#dom-xrcompositionlayer-destroy"><code><c- g>destroy</c-></code></a>();
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-undefined"><c- b>undefined</c-></a> <a href="#dom-xrcompositionlayer-destroy"><code><c- g>destroy</c-></code></a>();
 };
 
 [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <a href="#xrprojectionlayer"><code><c- g>XRProjectionLayer</c-></code></a> : <a class="n" data-link-type="idl-name" href="#xrcompositionlayer"><c- n>XRCompositionLayer</c-></a> {
