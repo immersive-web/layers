@@ -863,14 +863,14 @@ The {{XRWebGLBinding}} object is used to create layers that have a GPU backend.
   readonly attribute double nativeProjectionScaleFactor;
 
   XRProjectionLayer createProjectionLayer(XRTextureType textureType,
-                                          optional XRProjectionLayerInit init);
+                                          optional XRProjectionLayerInit init = {});
   XRQuadLayer createQuadLayer(XRTextureType textureType,
-                              optional XRQuadLayerInit init);
+                              optional XRQuadLayerInit init = {});
   XRCylinderLayer createCylinderLayer(XRTextureType textureType,
-                                      optional XRCylinderLayerInit init);
+                                      optional XRCylinderLayerInit init = {});
   XREquirectLayer createEquirectLayer(XRTextureType textureType,
-                                      optional XREquirectLayerInit init);
-  XRCubeLayer createCubeLayer(optional XRCubeLayerInit init);
+                                      optional XREquirectLayerInit init = {});
+  XRCubeLayer createCubeLayer(optional XRCubeLayerInit init = {});
 
   XRWebGLSubImage getSubImage(XRCompositionLayer layer, XRFrame frame, optional XREye eye = "none");
   XRWebGLSubImage getViewSubImage(XRProjectionLayer layer, XRView view);
