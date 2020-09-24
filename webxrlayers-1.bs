@@ -385,6 +385,11 @@ to this layer when {{XRCompositionLayer/needsRedraw}} is <code>true</code>.
 NOTE: if [=XRCompositionLayer/isStatic=] is <code>true</code> the author can only draw into the layer once after creation or once after
 a redraw event. This allows the UA to only allocate a single GPU buffer.
 
+When a writeable attribute is set on an {{XRCompositionLayer}} or any of its derived classes, reading that
+attribute MUST return that value.
+The value MUST also immediately be sent to the underlying [=XR Compositor=]. The [=XR Compositor=] MUST apply
+the value at its earliest convenience.
+
 XRProjectionLayer {#xrprojectionlayertype}
 -----------------
 An {{XRProjectionLayer}} is a layer that fills the entire view of the observer.
