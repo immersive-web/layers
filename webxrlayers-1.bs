@@ -81,9 +81,11 @@ spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: interface; text: WebGLRenderingContext; url: WebGLRenderingContext
     type: interface; text: WebGLRenderingContextBase; url: WebGLRenderingContextBase
     type: interface; text: GLenum
+    type: typedef; text: INVALID_OPERATION; url: WebGLRenderingContextBase
     type: typedef; text: TEXTURE_2D; url: 5.14
     type: typedef; text: TEXTURE_CUBE_MAP; url: 5.14
     type: method; text: clear; url: 5.14.11
+    type: method; text: deleteTexture;  url: 5.14.8
     type: method; text: drawArrays; url: 5.14.11
     type: method; text: drawElements; url: 5.14.11
     type: dfn; text: WebGL viewport; url:#5.14.4
@@ -724,6 +726,7 @@ An [=opaque texture=] functions identically to a standard {{WebGLTexture}} with 
 - The [=XR Compositor=] MUST assume that the [=opaque texture=] for the color attachment contains colors with premultiplied alpha.
 - At the end of the {{XRSession/requestAnimationFrame()}} callback the texture MUST be unbounded and detached from all {{WebGLShader}} objects.
 - An [=opaque texture=] MUST behave as though it was allocated with [=texStorage2D=] or [=texStorage3D=], as appropriate, even when using a WebGL 1.0 context.
+- A call to {{deleteTexture}} with an [=opaque texture=] MUST generate an {{INVALID_OPERATION}} error.
 
 NOTE: the [=opaque texture|opaque textures=] are allocated when the layer is contructed using the
 [=allocate color textures=] and [=allocate depth textures=] algoritms. The side effect of this pre-allocation is that calling
