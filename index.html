@@ -74,6 +74,13 @@
 /*                                   Body                                     */
 /******************************************************************************/
 
+	html {
+		color: black;
+		color: var(--text);
+		background-color: white;
+		background-color: var(--bg);
+	}
+
 	body {
 		counter-reset: example figure issue;
 
@@ -92,11 +99,7 @@
 		overflow-wrap: break-word;
 		hyphens: auto;
 
-		/* Colors */
-		color: black;
-		color: var(--text);
-		background: white top left fixed no-repeat;
-		background-color: var(--bg);
+		background: transparent top left fixed no-repeat;
 		background-size: 25px auto;
 	}
 
@@ -1442,6 +1445,12 @@ pre .property::before, pre .property::after {
 <style>/* style-colors */
 
 /* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+html {
+    color: black;
+    color: var(--text);
+    background-color: white;
+    background-color: var(--bg);
+}
 :root {
     color-scheme: light dark;
 
@@ -1752,7 +1761,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 @media (prefers-color-scheme: dark) {
     :root {
         --text: #ddd;
-        --bg: #111;
+        --bg: black;
 
         --logo-bg: #1a5e9a;
         --logo-active-bg: #c00;
@@ -1865,612 +1874,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     }
 }
 @media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-@media (prefers-color-scheme: dark) {
     .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
 
     c-[a] { color: #d33682 } /* Keyword.Declaration */
@@ -2537,7 +1940,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-09-22">22 September 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-09-25">25 September 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -3135,9 +2538,11 @@ The method will return the associated XRCompositionLayer type.</p>
      <p>At the end of the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrsession-requestanimationframe" id="ref-for-dom-xrsession-requestanimationframe②">requestAnimationFrame()</a></code> callback the texture MUST be unbounded and detached from all <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.8" id="ref-for-5.8">WebGLShader</a></code> objects.</p>
     <li data-md>
      <p>An <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture⑥">opaque texture</a> MUST behave as though it was allocated with <a data-link-type="dfn" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7.6" id="ref-for-3.7.6">texStorage2D</a> or <a data-link-type="dfn" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7.6" id="ref-for-3.7.6①">texStorage3D</a>, as appropriate, even when using a WebGL 1.0 context.</p>
+    <li data-md>
+     <p>A call to <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14.8" id="ref-for-5.14.8">deleteTexture</a></code> with an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture⑦">opaque texture</a> MUST generate an <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContextBase" id="ref-for-WebGLRenderingContextBase">INVALID_OPERATION</a></code> error.</p>
    </ul>
-   <p class="note" role="note"><span>NOTE:</span> the <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture⑦">opaque textures</a> are allocated when the layer is contructed using the <a data-link-type="dfn" href="#allocate-color-textures" id="ref-for-allocate-color-textures">allocate color textures</a> and <a data-link-type="dfn" href="#allocate-depth-textures" id="ref-for-allocate-depth-textures">allocate depth textures</a> algoritms. The side effect of this pre-allocation is that calling <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-getsubimage" id="ref-for-dom-xrwebglbinding-getsubimage①">getSubImage()</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-getviewsubimage" id="ref-for-dom-xrwebglbinding-getviewsubimage①">getViewSubImage()</a></code> with the same parameters will always return the same texture objects.</p>
-   <p class="note" role="note"><span>NOTE:</span> Changes to the dimensions or format of the <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture⑧">opaque textures</a> are not allowed. GL commands
+   <p class="note" role="note"><span>NOTE:</span> the <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture⑧">opaque textures</a> are allocated when the layer is contructed using the <a data-link-type="dfn" href="#allocate-color-textures" id="ref-for-allocate-color-textures">allocate color textures</a> and <a data-link-type="dfn" href="#allocate-depth-textures" id="ref-for-allocate-depth-textures">allocate depth textures</a> algoritms. The side effect of this pre-allocation is that calling <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-getsubimage" id="ref-for-dom-xrwebglbinding-getsubimage①">getSubImage()</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrwebglbinding-getviewsubimage" id="ref-for-dom-xrwebglbinding-getviewsubimage①">getViewSubImage()</a></code> with the same parameters will always return the same texture objects.</p>
+   <p class="note" role="note"><span>NOTE:</span> Changes to the dimensions or format of the <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture⑨">opaque textures</a> are not allowed. GL commands
 may only alter the texel values and texture parameters. Using any of the following
 commands with the WebGLTexture will result in an INVALID_OPERATION error
 being generated, even if it does not affect the dimensions or format: TexImage*, CompressedTexImage*, CopyTexImage* and TexStorage*.
@@ -3243,8 +2648,8 @@ of either a <code class="idl"><a data-link-type="idl" href="https://www.khronos.
    <p class="note" role="note"><span>NOTE:</span> It is possible to create more than one <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⓪">XRWebGLBinding</a></code>. Any layer created with an instance of <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①①">XRWebGLBinding</a></code> can
 be used with another instance of <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①②">XRWebGLBinding</a></code> as long as both were created with the same <a data-link-type="dfn" href="#xrwebglbinding-session" id="ref-for-xrwebglbinding-session">session</a> and the same <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context">context</a>. The lifetime of layers or instances of <code class="idl"><a data-link-type="idl" href="#xrwebglsubimage" id="ref-for-xrwebglsubimage⑤">XRWebGLSubImage</a></code> is not tied to the lifetime of the <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①③">XRWebGLBinding</a></code> that created them.</p>
    <p>Each <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer②⓪">XRCompositionLayer</a></code> created through <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①④">XRWebGLBinding</a></code> has an internal <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="colortextures">colorTextures</dfn> array which is an <var>array</var> of <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLTexture" id="ref-for-WebGLTexture③">WebGLTextures</a></code> for color textures and
-an internal <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="depthstenciltextures">depthStencilTextures</dfn> which is an <var>array</var> of <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture⑨">opaque textures</a> for depth/stencil textures.</p>
-   <p>Each <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer①③">XRProjectionLayer</a></code> created through <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑤">XRWebGLBinding</a></code> has an internal <dfn class="dfn-paneled" data-dfn-for="XRProjectionLayer" data-dfn-type="dfn" data-noexport id="xrprojectionlayer-colortextures-for-secondary-views">colorTextures for secondary views</dfn> array which is an <var>array</var> of <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①⓪">opaque textures</a> for color textures and an internal <dfn class="dfn-paneled" data-dfn-for="XRProjectionLayer" data-dfn-type="dfn" data-noexport id="xrprojectionlayer-depthstenciltextures-for-secondary-views">depthStencilTextures for secondary views</dfn> array which is an <var>array</var> of <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①①">opaque textures</a> for depth/stencil textures that are used to render the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#secondary-view" id="ref-for-secondary-view">secondary views</a>.</p>
+an internal <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="depthstenciltextures">depthStencilTextures</dfn> which is an <var>array</var> of <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①⓪">opaque textures</a> for depth/stencil textures.</p>
+   <p>Each <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer①③">XRProjectionLayer</a></code> created through <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑤">XRWebGLBinding</a></code> has an internal <dfn class="dfn-paneled" data-dfn-for="XRProjectionLayer" data-dfn-type="dfn" data-noexport id="xrprojectionlayer-colortextures-for-secondary-views">colorTextures for secondary views</dfn> array which is an <var>array</var> of <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①①">opaque textures</a> for color textures and an internal <dfn class="dfn-paneled" data-dfn-for="XRProjectionLayer" data-dfn-type="dfn" data-noexport id="xrprojectionlayer-depthstenciltextures-for-secondary-views">depthStencilTextures for secondary views</dfn> array which is an <var>array</var> of <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①②">opaque textures</a> for depth/stencil textures that are used to render the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#secondary-view" id="ref-for-secondary-view">secondary views</a>.</p>
    <div class="algorithm" data-algorithm="construct-webgl-layer">
     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding" data-dfn-type="constructor" data-export data-lt="XRWebGLBinding(session, context)|constructor(session, context)" id="dom-xrwebglbinding-xrwebglbinding"><code>XRWebGLBinding(<var>session</var>, <var>context</var>)</code></dfn> constructor
 MUST perform the following steps when invoked:</p>
@@ -3339,7 +2744,7 @@ MUST perform the following steps when invoked:</p>
       <dl class="switch">
        <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑥">"texture-array"</a></code>: 
        <dd> If the session’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#view" id="ref-for-view①">views</a> in the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xrsession-list-of-views" id="ref-for-xrsession-list-of-views⑦">list of views</a> don’t all have the same <a data-link-type="dfn">recommended WebGL texture resolution</a> excluding the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#secondary-view" id="ref-for-secondary-view⑤">secondary views</a>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①">NotSupportedError</a></code> and abort these steps. 
-       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new⑧">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①②">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm⑧">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7①">TEXTURE_2D_ARRAY</a></code> texture with <var>numViews</var> layers using <var>context</var>, <var>alpha</var>, <var>width</var> and <var>height</var>. 
+       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new⑧">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①③">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm⑧">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7①">TEXTURE_2D_ARRAY</a></code> texture with <var>numViews</var> layers using <var>context</var>, <var>alpha</var>, <var>width</var> and <var>height</var>. 
        <dd> Return <var>array</var> and abort these steps. 
        <dt> Otherwise 
        <dd>
@@ -3352,7 +2757,7 @@ MUST perform the following steps when invoked:</p>
          <li data-md>
           <p>Let <var>height</var> be the height of <var>view</var>’s <a data-link-type="dfn">recommended WebGL texture resolution</a> multiplied by <var>scaleFactor</var>.</p>
          <li data-md>
-          <p>let <var>texture</var> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new⑨">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①③">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm⑨">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14①">TEXTURE_2D</a></code> texture with <var>context</var>, <var>alpha</var>, <var>width</var> and <var>height</var>.</p>
+          <p>let <var>texture</var> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new⑨">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①④">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm⑨">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14①">TEXTURE_2D</a></code> texture with <var>context</var>, <var>alpha</var>, <var>width</var> and <var>height</var>.</p>
          <li data-md>
           <p>Append <var>texture</var> to <var>array</var>.</p>
         </ol>
@@ -3395,7 +2800,7 @@ MUST perform the following steps when invoked:</p>
       <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout④">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-mono" id="ref-for-dom-xrlayerlayout-mono④">"mono"</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-default" id="ref-for-dom-xrlayerlayout-default⑥">"default"</a></code>:</p>
       <dl class="switch">
        <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑦">"texture-array"</a></code>: 
-       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①③">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①④">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①③">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7②">TEXTURE_2D_ARRAY</a></code> texture with <var>numViews</var> layers using <var>context</var>, <var>stencil</var>, <var>width</var> and <var>height</var>. 
+       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①③">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①⑤">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①③">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7②">TEXTURE_2D_ARRAY</a></code> texture with <var>numViews</var> layers using <var>context</var>, <var>stencil</var>, <var>width</var> and <var>height</var>. 
        <dd> Return <var>array</var> and abort these steps. 
        <dt> Otherwise 
        <dd>
@@ -3408,7 +2813,7 @@ MUST perform the following steps when invoked:</p>
          <li data-md>
           <p>Let <var>height</var> be the height of <var>view</var>’s <a data-link-type="dfn">recommended WebGL texture resolution</a> multiplied by <var>scaleFactor</var>.</p>
          <li data-md>
-          <p>let <var>texture</var> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①④">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①⑤">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①④">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14②">TEXTURE_2D</a></code> texture with <var>context</var>, <var>stencil</var>, <var>width</var> and <var>height</var>.</p>
+          <p>let <var>texture</var> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①④">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①⑥">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①④">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14②">TEXTURE_2D</a></code> texture with <var>context</var>, <var>stencil</var>, <var>width</var> and <var>height</var>.</p>
          <li data-md>
           <p>Append <var>texture</var> to <var>array</var>.</p>
         </ol>
@@ -3417,9 +2822,9 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>If the session’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#view" id="ref-for-view③">views</a> in the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xrsession-list-of-views" id="ref-for-xrsession-list-of-views①③">list of views</a> don’t all have the same <a data-link-type="dfn">recommended WebGL texture resolution</a> excluding the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#secondary-view" id="ref-for-secondary-view①①">secondary views</a>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror③">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout⑤">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right⑦">stereo-left-right</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①⑤">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①⑥">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①⑤">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> , <var>stencil</var>, <var>numViews</var> multiplied by <var>width</var> and <var>height</var>.</p>
+      <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout⑤">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right⑦">stereo-left-right</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①⑤">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①⑦">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①⑤">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> , <var>stencil</var>, <var>numViews</var> multiplied by <var>width</var> and <var>height</var>.</p>
      <li data-md>
-      <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout⑥">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-top-bottom" id="ref-for-dom-xrlayerlayout-stereo-top-bottom⑥">stereo-top-bottom</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①⑥">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①⑦">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①⑥">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> , <var>stencil</var>, <var>width</var> and <var>numViews</var> multiplied by <var>height</var>.</p>
+      <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout⑥">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-top-bottom" id="ref-for-dom-xrlayerlayout-stereo-top-bottom⑥">stereo-top-bottom</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①⑥">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①⑧">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①⑥">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> , <var>stencil</var>, <var>width</var> and <var>numViews</var> multiplied by <var>height</var>.</p>
      <li data-md>
       <p>return <var>array</var>.</p>
     </ol>
@@ -3446,9 +2851,9 @@ MUST perform the following steps when invoked:</p>
         <p>Initialize <var>texture</var> as follows:</p>
         <dl class="switch">
          <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑧">"texture-array"</a></code>: 
-         <dd> Let <var>texture</var> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①⑧">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①⑧">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①⑧">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7③">TEXTURE_2D_ARRAY</a></code> texture with <var>context</var>, <var>alpha</var>, <var>width</var> and <var>height</var>. 
+         <dd> Let <var>texture</var> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①⑧">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①⑨">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①⑧">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7③">TEXTURE_2D_ARRAY</a></code> texture with <var>context</var>, <var>alpha</var>, <var>width</var> and <var>height</var>. 
          <dt> Otherwise 
-         <dd> Let <var>texture</var> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①⑨">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture①⑨">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①⑨">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14③">TEXTURE_2D</a></code> texture with <var>context</var>, <var>alpha</var>, <var>width</var> and <var>height</var>. 
+         <dd> Let <var>texture</var> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①⑨">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②⓪">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①⑨">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14③">TEXTURE_2D</a></code> texture with <var>context</var>, <var>alpha</var>, <var>width</var> and <var>height</var>. 
         </dl>
        <li data-md>
         <p>Append <var>texture</var> to <var>array</var>.</p>
@@ -3485,9 +2890,9 @@ MUST perform the following steps when invoked:</p>
         <p>Initialize <var>texture</var> as follows:</p>
         <dl class="switch">
          <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array⑨">"texture-array"</a></code>: 
-         <dd> Let <var>texture</var> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②①">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②⓪">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②①">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7④">TEXTURE_2D_ARRAY</a></code> texture with <var>context</var>, <var>stencil</var>, <var>width</var> and <var>height</var>. 
+         <dd> Let <var>texture</var> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②①">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②①">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②①">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7④">TEXTURE_2D_ARRAY</a></code> texture with <var>context</var>, <var>stencil</var>, <var>width</var> and <var>height</var>. 
          <dt> Otherwise 
-         <dd> Let <var>texture</var> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②②">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②①">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②②">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14④">TEXTURE_2D</a></code> texture with <var>context</var>, <var>stencil</var>, <var>width</var> and <var>height</var>. 
+         <dd> Let <var>texture</var> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②②">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②②">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②②">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14④">TEXTURE_2D</a></code> texture with <var>context</var>, <var>stencil</var>, <var>width</var> and <var>height</var>. 
         </dl>
        <li data-md>
         <p>Append <var>texture</var> to <var>array</var>.</p>
@@ -3508,26 +2913,26 @@ MUST perform the following steps when invoked:</p>
       <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout⑦">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-mono" id="ref-for-dom-xrlayerlayout-mono⑤">"mono"</a></code>:</p>
       <dl class="switch">
        <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array①⓪">"texture-array"</a></code>: 
-       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②④">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②②">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②④">relevant realm</a> of this <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7⑤">TEXTURE_2D_ARRAY</a></code> texture with 1 internal texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha①">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①">viewPixelHeight</a></code> values. 
+       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②④">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②③">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②④">relevant realm</a> of this <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7⑤">TEXTURE_2D_ARRAY</a></code> texture with 1 internal texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha①">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①">viewPixelHeight</a></code> values. 
        <dt> Otherwise 
        <dd>
-         Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②⑤">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②③">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②⑤">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14⑤">TEXTURE_2D</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha②">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth②">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight②">viewPixelHeight</a></code> values. 
+         Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②⑤">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②④">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②⑤">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14⑤">TEXTURE_2D</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha②">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth②">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight②">viewPixelHeight</a></code> values. 
         <dl></dl>
       </dl>
      <li data-md>
       <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout⑧">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo" id="ref-for-dom-xrlayerlayout-stereo④">"stereo"</a></code>:</p>
       <dl class="switch">
        <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array①①">"texture-array"</a></code>: 
-       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②⑥">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②④">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②⑥">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7⑥">TEXTURE_2D_ARRAY</a></code> texture with 2 layers using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha③">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth③">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight③">viewPixelHeight</a></code> values. 
+       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②⑥">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②⑤">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②⑥">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7⑥">TEXTURE_2D_ARRAY</a></code> texture with 2 layers using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha③">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth③">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight③">viewPixelHeight</a></code> values. 
        <dd> Return <var>array</var> and abort these steps. 
        <dt> Otherwise 
-       <dd> Initialize <var>array</var> with 2 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②⑦">new</a> instances of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②⑤">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②⑦">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14⑥">TEXTURE_2D</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-alpha" id="ref-for-dom-xrprojectionlayerinit-alpha①">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth④">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight④">viewPixelHeight</a></code> values. 
+       <dd> Initialize <var>array</var> with 2 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②⑦">new</a> instances of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②⑥">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②⑦">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14⑥">TEXTURE_2D</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-alpha" id="ref-for-dom-xrprojectionlayerinit-alpha①">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth④">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight④">viewPixelHeight</a></code> values. 
        <dd> Return <var>array</var> and abort these steps. 
       </dl>
      <li data-md>
-      <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout⑨">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right⑧">stereo-left-right</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②⑧">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②⑥">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②⑧">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha④">alpha</a></code>, double of <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth⑤">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight⑤">viewPixelHeight</a></code> values.</p>
+      <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout⑨">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right⑧">stereo-left-right</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②⑧">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②⑦">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②⑧">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha④">alpha</a></code>, double of <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth⑤">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight⑤">viewPixelHeight</a></code> values.</p>
      <li data-md>
-      <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout①⓪">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-top-bottom" id="ref-for-dom-xrlayerlayout-stereo-top-bottom⑦">stereo-top-bottom</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②⑨">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②⑦">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②⑨">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha⑤">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth⑥">viewPixelWidth</a></code> and double of <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight⑥">viewPixelHeight</a></code> values.</p>
+      <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout①⓪">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-top-bottom" id="ref-for-dom-xrlayerlayout-stereo-top-bottom⑦">stereo-top-bottom</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new②⑨">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②⑧">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm②⑨">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha⑤">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth⑥">viewPixelWidth</a></code> and double of <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight⑥">viewPixelHeight</a></code> values.</p>
      <li data-md>
       <p>return <var>array</var>.</p>
     </ol>
@@ -3549,24 +2954,24 @@ MUST perform the following steps when invoked:</p>
       <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout①①">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-mono" id="ref-for-dom-xrlayerlayout-mono⑥">"mono"</a></code>:</p>
       <dl class="switch">
        <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array①②">"texture-array"</a></code>: 
-       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new③①">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②⑧">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm③①">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7⑦">TEXTURE_2D_ARRAY</a></code> texture with 1 internal texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil③">stencil</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth⑦">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight⑦">viewPixelHeight</a></code> values. 
+       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new③①">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②⑨">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm③①">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7⑦">TEXTURE_2D_ARRAY</a></code> texture with 1 internal texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil③">stencil</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth⑦">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight⑦">viewPixelHeight</a></code> values. 
        <dt> Otherwise 
-       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new③②">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture②⑨">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm③②">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14⑦">TEXTURE_2D</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil④">stencil</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth⑧">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight⑧">viewPixelHeight</a></code> values. 
+       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new③②">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③⓪">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm③②">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14⑦">TEXTURE_2D</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil④">stencil</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth⑧">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight⑧">viewPixelHeight</a></code> values. 
       </dl>
      <li data-md>
       <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout①②">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo" id="ref-for-dom-xrlayerlayout-stereo⑤">"stereo"</a></code>:</p>
       <dl class="switch">
        <dt> If <var>textureType</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array①③">"texture-array"</a></code>: 
-       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new③③">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③⓪">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm③③">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7⑧">TEXTURE_2D_ARRAY</a></code> texture with 2 layers using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil⑤">stencil</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth⑨">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight⑨">viewPixelHeight</a></code> values. 
+       <dd> Initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new③③">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③①">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm③③">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#3.7" id="ref-for-3.7⑧">TEXTURE_2D_ARRAY</a></code> texture with 2 layers using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil⑤">stencil</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth⑨">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight⑨">viewPixelHeight</a></code> values. 
        <dd> Return <var>array</var> and abort these steps. 
        <dt> Otherwise 
-       <dd> Initialize <var>array</var> with 2 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new③④">new</a> instances of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③①">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm③④">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14⑧">TEXTURE_2D</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil⑥">stencil</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①⓪">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①⓪">viewPixelHeight</a></code> values. 
+       <dd> Initialize <var>array</var> with 2 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new③④">new</a> instances of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③②">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm③④">relevant realm</a> of <var>context</var> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14⑧">TEXTURE_2D</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil⑥">stencil</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①⓪">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①⓪">viewPixelHeight</a></code> values. 
        <dd> Return <var>array</var> and abort these steps. 
       </dl>
      <li data-md>
-      <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout①③">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right⑨">stereo-left-right</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new③⑤">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③②">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm③⑤">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil⑦">stencil</a></code>, double of <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①①">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①①">viewPixelHeight</a></code> values.</p>
+      <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout①③">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right" id="ref-for-dom-xrlayerlayout-stereo-left-right⑨">stereo-left-right</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new③⑤">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③③">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm③⑤">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil⑦">stencil</a></code>, double of <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①①">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①①">viewPixelHeight</a></code> values.</p>
      <li data-md>
-      <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout①④">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-top-bottom" id="ref-for-dom-xrlayerlayout-stereo-top-bottom⑧">stereo-top-bottom</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new③⑥">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③③">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm③⑥">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil⑧">stencil</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①②">viewPixelWidth</a></code> and double of <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①②">viewPixelHeight</a></code> values.</p>
+      <p>If <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout①④">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-top-bottom" id="ref-for-dom-xrlayerlayout-stereo-top-bottom⑧">stereo-top-bottom</a></code>, initialize <var>array</var> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new③⑥">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③④">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm③⑥">relevant realm</a> of <var>context</var> created as a <var>textureType</var> texture using <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil⑧">stencil</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①②">viewPixelWidth</a></code> and double of <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①②">viewPixelHeight</a></code> values.</p>
      <li data-md>
       <p>return <var>array</var>.</p>
     </ol>
@@ -3807,9 +3212,9 @@ MUST perform the following steps when invoked:</p>
       <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures⑥">colorTextures</a> as follows, based on the value of <var>layout</var>:</p>
       <dl class="switch">
        <dt> <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-mono" id="ref-for-dom-xrlayerlayout-mono⑦">"mono"</a></code>: 
-       <dd> Initialize <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures⑦">colorTextures</a> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new④④">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③④">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④④">relevant realm</a> of this <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer①①">XRCubeLayer</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14⑨">TEXTURE_CUBE_MAP</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha⑥">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①③">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①③">viewPixelHeight</a></code> values. 
+       <dd> Initialize <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures⑦">colorTextures</a> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new④④">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③⑤">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④④">relevant realm</a> of this <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer①①">XRCubeLayer</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14⑨">TEXTURE_CUBE_MAP</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha⑥">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①③">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①③">viewPixelHeight</a></code> values. 
        <dt> Otherwise 
-       <dd> Initialize <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures⑧">colorTextures</a> with 2 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new④⑤">new</a> instances of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③⑤">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④⑤">relevant realm</a> of this <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer①②">XRCubeLayer</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14①⓪">TEXTURE_CUBE_MAP</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha⑦">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①④">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①④">viewPixelHeight</a></code> values. 
+       <dd> Initialize <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures⑧">colorTextures</a> with 2 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new④⑤">new</a> instances of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③⑥">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④⑤">relevant realm</a> of this <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer①②">XRCubeLayer</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14①⓪">TEXTURE_CUBE_MAP</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha⑦">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①④">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①④">viewPixelHeight</a></code> values. 
       </dl>
      <li data-md>
       <p>Let <var>layer</var>’s <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures⑤">depthStencilTextures</a> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new④⑥">new</a> array in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④⑥">relevant realm</a> of this <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer①③">XRCubeLayer</a></code>.</p>
@@ -3819,9 +3224,9 @@ MUST perform the following steps when invoked:</p>
        <dt> If <var>context</var> is not a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext⑧">WebGL2RenderingContext</a></code> and the <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/extensions/WEBGL_depth_texture/#webgl_depth_texture" id="ref-for-webgl_depth_texture③">WEBGL_depth_texture</a></code> extension is not enabled in <var>context</var>. 
        <dd> Throw <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror①⑧">TypeError</a></code> and abort these steps. 
        <dt> Else if <var>layout</var> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-mono" id="ref-for-dom-xrlayerlayout-mono⑧">"mono"</a></code>: 
-       <dd> Initialize <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures⑦">depthStencilTextures</a> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new④⑦">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③⑥">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④⑦">relevant realm</a> of this <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer①④">XRCubeLayer</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14①①">TEXTURE_CUBE_MAP</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha⑧">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①⑤">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①⑤">viewPixelHeight</a></code> values. 
+       <dd> Initialize <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures⑦">depthStencilTextures</a> with 1 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new④⑦">new</a> instance of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③⑦">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④⑦">relevant realm</a> of this <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer①④">XRCubeLayer</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14①①">TEXTURE_CUBE_MAP</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha⑧">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①⑤">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①⑤">viewPixelHeight</a></code> values. 
        <dt> Otherwise 
-       <dd> Initialize <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures⑧">depthStencilTextures</a> with 2 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new④⑧">new</a> instances of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③⑦">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④⑧">relevant realm</a> of this <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer①⑤">XRCubeLayer</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14①②">TEXTURE_CUBE_MAP</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha⑨">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①⑥">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①⑥">viewPixelHeight</a></code> values. 
+       <dd> Initialize <a data-link-type="dfn" href="#depthstenciltextures" id="ref-for-depthstenciltextures⑧">depthStencilTextures</a> with 2 <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new④⑧">new</a> instances of an <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③⑧">opaque texture</a> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④⑧">relevant realm</a> of this <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer①⑤">XRCubeLayer</a></code> created as a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14" id="ref-for-5.14①②">TEXTURE_CUBE_MAP</a></code> texture with <var>context</var> and <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha⑨">alpha</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelwidth" id="ref-for-dom-xrlayerinit-viewpixelwidth①⑥">viewPixelWidth</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-viewpixelheight" id="ref-for-dom-xrlayerinit-viewpixelheight①⑥">viewPixelHeight</a></code> values. 
       </dl>
      <li data-md>
       <p>Allocate and initialize resources compatible with <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xr-device" id="ref-for-xr-device④">XR device</a>, including GPU accessible memory buffers, as required to support the compositing of <var>layer</var>.</p>
@@ -3856,7 +3261,7 @@ MUST perform the following steps when invoked:</p>
     </ol>
    </div>
    <div class="algorithm" data-algorithm="initialize the viewport">
-    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="initialize-the-viewport">initialize the viewport</dfn> of an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrviewport" id="ref-for-xrviewport②">XRViewport</a></code> <var>viewport</var> with a <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③⑧">opaque texture</a> <var>texture</var>, a <code class="idl"><a data-link-type="idl" href="#enumdef-xrlayerlayout" id="ref-for-enumdef-xrlayerlayout⑥">XRLayerLayout</a></code> <var>layout</var>, an integer <var>offset</var> and a integer <var>num</var>, the user agent MUST run the following steps:</p>
+    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="initialize-the-viewport">initialize the viewport</dfn> of an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrviewport" id="ref-for-xrviewport②">XRViewport</a></code> <var>viewport</var> with a <a data-link-type="dfn" href="#opaque-texture" id="ref-for-opaque-texture③⑨">opaque texture</a> <var>texture</var>, a <code class="idl"><a data-link-type="idl" href="#enumdef-xrlayerlayout" id="ref-for-enumdef-xrlayerlayout⑥">XRLayerLayout</a></code> <var>layout</var>, an integer <var>offset</var> and a integer <var>num</var>, the user agent MUST run the following steps:</p>
     <ol>
      <li data-md>
       <p>Set <var>viewport</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrviewport-x" id="ref-for-dom-xrviewport-x">x</a></code> to <code>0</code>.</p>
@@ -4646,6 +4051,12 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-3.7.6">6.2. Opaque textures</a> <a href="#ref-for-3.7.6①">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-WebGLRenderingContextBase">
+   <a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContextBase">https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContextBase</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-WebGLRenderingContextBase">6.2. Opaque textures</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-5.14">
    <a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14">https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14</a><b>Referenced in:</b>
    <ul>
@@ -4686,6 +4097,12 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14.11">https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14.11</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-5.14.11">6.9. XRWebGLBinding</a> <a href="#ref-for-5.14.11①">(2)</a> <a href="#ref-for-5.14.11②">(3)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-5.14.8">
+   <a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14.8">https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14.8</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-5.14.8">6.2. Opaque textures</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-5.14.11">
@@ -5323,12 +4740,14 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <li>
     <a data-link-type="biblio">[WEBGL-2]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="term-for-WebGLRenderingContextBase" style="color:initial">INVALID_OPERATION</span>
      <li><span class="dfn-paneled" id="term-for-5.14" style="color:initial">TEXTURE_2D</span>
      <li><span class="dfn-paneled" id="term-for-5.14①" style="color:initial">TEXTURE_CUBE_MAP</span>
      <li><span class="dfn-paneled" id="term-for-WebGLRenderingContext" style="color:initial">WebGLRenderingContext</span>
      <li><span class="dfn-paneled" id="term-for-5.8" style="color:initial">WebGLShader</span>
      <li><span class="dfn-paneled" id="term-for-WebGLTexture" style="color:initial">WebGLTexture</span>
      <li><span class="dfn-paneled" id="term-for-5.14.11" style="color:initial">clear</span>
+     <li><span class="dfn-paneled" id="term-for-5.14.8" style="color:initial">deleteTexture</span>
      <li><span class="dfn-paneled" id="term-for-5.14.11①" style="color:initial">drawArrays</span>
      <li><span class="dfn-paneled" id="term-for-5.14.11②" style="color:initial">drawElements</span>
     </ul>
@@ -6116,8 +5535,8 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <b><a href="#opaque-texture">#opaque-texture</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-opaque-texture">5.2. XRWebGLSubImage</a> <a href="#ref-for-opaque-texture①">(2)</a>
-    <li><a href="#ref-for-opaque-texture②">6.2. Opaque textures</a> <a href="#ref-for-opaque-texture③">(2)</a> <a href="#ref-for-opaque-texture④">(3)</a> <a href="#ref-for-opaque-texture⑤">(4)</a> <a href="#ref-for-opaque-texture⑥">(5)</a> <a href="#ref-for-opaque-texture⑦">(6)</a> <a href="#ref-for-opaque-texture⑧">(7)</a>
-    <li><a href="#ref-for-opaque-texture⑨">6.9. XRWebGLBinding</a> <a href="#ref-for-opaque-texture①⓪">(2)</a> <a href="#ref-for-opaque-texture①①">(3)</a> <a href="#ref-for-opaque-texture①②">(4)</a> <a href="#ref-for-opaque-texture①③">(5)</a> <a href="#ref-for-opaque-texture①④">(6)</a> <a href="#ref-for-opaque-texture①⑤">(7)</a> <a href="#ref-for-opaque-texture①⑥">(8)</a> <a href="#ref-for-opaque-texture①⑦">(9)</a> <a href="#ref-for-opaque-texture①⑧">(10)</a> <a href="#ref-for-opaque-texture①⑨">(11)</a> <a href="#ref-for-opaque-texture②⓪">(12)</a> <a href="#ref-for-opaque-texture②①">(13)</a> <a href="#ref-for-opaque-texture②②">(14)</a> <a href="#ref-for-opaque-texture②③">(15)</a> <a href="#ref-for-opaque-texture②④">(16)</a> <a href="#ref-for-opaque-texture②⑤">(17)</a> <a href="#ref-for-opaque-texture②⑥">(18)</a> <a href="#ref-for-opaque-texture②⑦">(19)</a> <a href="#ref-for-opaque-texture②⑧">(20)</a> <a href="#ref-for-opaque-texture②⑨">(21)</a> <a href="#ref-for-opaque-texture③⓪">(22)</a> <a href="#ref-for-opaque-texture③①">(23)</a> <a href="#ref-for-opaque-texture③②">(24)</a> <a href="#ref-for-opaque-texture③③">(25)</a> <a href="#ref-for-opaque-texture③④">(26)</a> <a href="#ref-for-opaque-texture③⑤">(27)</a> <a href="#ref-for-opaque-texture③⑥">(28)</a> <a href="#ref-for-opaque-texture③⑦">(29)</a> <a href="#ref-for-opaque-texture③⑧">(30)</a>
+    <li><a href="#ref-for-opaque-texture②">6.2. Opaque textures</a> <a href="#ref-for-opaque-texture③">(2)</a> <a href="#ref-for-opaque-texture④">(3)</a> <a href="#ref-for-opaque-texture⑤">(4)</a> <a href="#ref-for-opaque-texture⑥">(5)</a> <a href="#ref-for-opaque-texture⑦">(6)</a> <a href="#ref-for-opaque-texture⑧">(7)</a> <a href="#ref-for-opaque-texture⑨">(8)</a>
+    <li><a href="#ref-for-opaque-texture①⓪">6.9. XRWebGLBinding</a> <a href="#ref-for-opaque-texture①①">(2)</a> <a href="#ref-for-opaque-texture①②">(3)</a> <a href="#ref-for-opaque-texture①③">(4)</a> <a href="#ref-for-opaque-texture①④">(5)</a> <a href="#ref-for-opaque-texture①⑤">(6)</a> <a href="#ref-for-opaque-texture①⑥">(7)</a> <a href="#ref-for-opaque-texture①⑦">(8)</a> <a href="#ref-for-opaque-texture①⑧">(9)</a> <a href="#ref-for-opaque-texture①⑨">(10)</a> <a href="#ref-for-opaque-texture②⓪">(11)</a> <a href="#ref-for-opaque-texture②①">(12)</a> <a href="#ref-for-opaque-texture②②">(13)</a> <a href="#ref-for-opaque-texture②③">(14)</a> <a href="#ref-for-opaque-texture②④">(15)</a> <a href="#ref-for-opaque-texture②⑤">(16)</a> <a href="#ref-for-opaque-texture②⑥">(17)</a> <a href="#ref-for-opaque-texture②⑦">(18)</a> <a href="#ref-for-opaque-texture②⑧">(19)</a> <a href="#ref-for-opaque-texture②⑨">(20)</a> <a href="#ref-for-opaque-texture③⓪">(21)</a> <a href="#ref-for-opaque-texture③①">(22)</a> <a href="#ref-for-opaque-texture③②">(23)</a> <a href="#ref-for-opaque-texture③③">(24)</a> <a href="#ref-for-opaque-texture③④">(25)</a> <a href="#ref-for-opaque-texture③⑤">(26)</a> <a href="#ref-for-opaque-texture③⑥">(27)</a> <a href="#ref-for-opaque-texture③⑦">(28)</a> <a href="#ref-for-opaque-texture③⑧">(29)</a> <a href="#ref-for-opaque-texture③⑨">(30)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dictdef-xrprojectionlayerinit">
