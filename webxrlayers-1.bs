@@ -389,9 +389,15 @@ a redraw event. This allows the UA to only allocate a single GPU buffer.
 
 When a writeable attribute is set on an {{XRCompositionLayer}} or any of its derived classes,
 reading that attribute MUST return that value.
-At the end of the {{XRSession/requestAnimationFrame()}} callback, the value MUST  be sent to
-the underlying [=XR Compositor=]. The [=XR Compositor=] MUST immediately apply the value when
-it presents the {{XRCompositionLayer}}.
+At the end of the {{XRSession/requestAnimationFrame()}} callback, the value MUST be sent to
+the underlying [=XR Compositor=]. The [=XR Compositor=] MUST apply the value next time it presents
+the {{XRFrame}} that was passed to the {{XRSession/requestAnimationFrame()}} callback.
+
+NOTE: this means that the values must be applied when the [=XR Compositor=] redraws the scene using
+the new {{XRFrame}}, even if there was no change in the {{XRWebGLSubImage/colorTexture}} associated
+with the {{XRCompositionLayer}} or the videoframe associated with a media layer. If the
+[=XR Compositor=] redraws the scene with the previous {{XRFrame}}'s state, it must not use the new
+values.
 
 XRProjectionLayer {#xrprojectionlayertype}
 -----------------
