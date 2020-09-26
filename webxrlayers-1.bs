@@ -81,9 +81,11 @@ spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: interface; text: WebGLRenderingContext; url: WebGLRenderingContext
     type: interface; text: WebGLRenderingContextBase; url: WebGLRenderingContextBase
     type: interface; text: GLenum
+    type: typedef; text: INVALID_OPERATION; url: WebGLRenderingContextBase
     type: typedef; text: TEXTURE_2D; url: 5.14
     type: typedef; text: TEXTURE_CUBE_MAP; url: 5.14
     type: method; text: clear; url: 5.14.11
+    type: method; text: deleteTexture;  url: 5.14.8
     type: method; text: drawArrays; url: 5.14.11
     type: method; text: drawElements; url: 5.14.11
     type: dfn; text: WebGL viewport; url:#5.14.4
@@ -385,10 +387,18 @@ to this layer when {{XRCompositionLayer/needsRedraw}} is <code>true</code>.
 NOTE: if [=XRCompositionLayer/isStatic=] is <code>true</code> the author can only draw into the layer once after creation or once after
 a redraw event. This allows the UA to only allocate a single GPU buffer.
 
+When a writeable attribute is set on an {{XRCompositionLayer}} or any of its derived classes,
+reading that attribute MUST return that value.
+At the end of the {{XRSession/requestAnimationFrame()}} callback, the value MUST  be sent to
+the underlying [=XR Compositor=]. The [=XR Compositor=] MUST immediately apply the value when
+it presents the {{XRCompositionLayer}}.
+
 XRProjectionLayer {#xrprojectionlayertype}
 -----------------
 An {{XRProjectionLayer}} is a layer that fills the entire view of the observer.
 Projection layers should be refreshed close to the device's native frame rate.
+
+<img src="images/projection-layer.jpg" style="width:50%; border-style: ridge;"/>
 
 <pre class="idl">
 [Exposed=Window] interface XRProjectionLayer : XRCompositionLayer {
@@ -408,6 +418,8 @@ Only the front of the layer MUST be visible; the back face MUST not be drawn by 
 
 A XRQuadLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position
 of a quad refers to the center of the quad.
+
+<img src="images/quad-layer.jpg" style="width:50%; border-style: ridge;"/>
 
 <pre class="idl">
 [Exposed=Window] interface XRQuadLayer : XRCompositionLayer {
@@ -578,6 +590,8 @@ XRCubeLayer {#xcubelayertype}
 -----------
 A {{XRCubeLayer}} renders a layer where the [=XR Compositor=] renders directly from a cubemap.
 
+<img src="images/cube-layer.jpg" style="width:50%; border-style: ridge;"/>
+
 ISSUE: this section needs clarification
 
 <pre class="idl">
@@ -724,6 +738,7 @@ An [=opaque texture=] functions identically to a standard {{WebGLTexture}} with 
 - The [=XR Compositor=] MUST assume that the [=opaque texture=] for the color attachment contains colors with premultiplied alpha.
 - At the end of the {{XRSession/requestAnimationFrame()}} callback the texture MUST be unbounded and detached from all {{WebGLShader}} objects.
 - An [=opaque texture=] MUST behave as though it was allocated with [=texStorage2D=] or [=texStorage3D=], as appropriate, even when using a WebGL 1.0 context.
+- A call to {{deleteTexture}} with an [=opaque texture=] MUST generate an {{INVALID_OPERATION}} error.
 
 NOTE: the [=opaque texture|opaque textures=] are allocated when the layer is contructed using the
 [=allocate color textures=] and [=allocate depth textures=] algoritms. The side effect of this pre-allocation is that calling
