@@ -764,12 +764,15 @@ is initialized.
 
 <pre class="idl">
 dictionary XRProjectionLayerInit {
+  XRTextureType textureType = "texture";
   boolean depth = true;
   boolean stencil = false;
   boolean alpha = true;
   double scaleFactor = 1.0;
 };
 </pre>
+
+The <dfn dict-member for="XRProjectionLayerInit">textureType</dfn> attribute defines the type of texture that the layer will have.
 
 The <dfn dict-member for="XRProjectionLayerInit">depth</dfn> attribute defines if the {{XRProjectionLayer}} will have a depth buffer.
 
@@ -817,6 +820,7 @@ The {{XRQuadLayerInit}} dictionary represents a set of configurable values that 
 
 <pre class="idl">
 dictionary XRQuadLayerInit : XRLayerInit {
+  XRTextureType textureType = "texture";
   XRRigidTransform? transform;
   float width = 1.0;
   float height = 1.0;
@@ -831,6 +835,7 @@ The {{XRCylinderLayerInit}} dictionary represents a set of configurable values t
 
 <pre class="idl">
 dictionary XRCylinderLayerInit : XRLayerInit {
+  XRTextureType textureType = "texture";
   XRRigidTransform? transform;
   float radius = 2.0;
   float centralAngle = 0.78539;
@@ -848,6 +853,7 @@ The {{XREquirectLayerInit}} dictionary represents a set of configurable values t
 
 <pre class="idl">
 dictionary XREquirectLayerInit : XRLayerInit {
+  XRTextureType textureType = "texture";
   XRRigidTransform? transform;
   float radius = 0;
   float centralHorizontalAngle = 6.28318;
@@ -883,14 +889,10 @@ The {{XRWebGLBinding}} object is used to create layers that have a GPU backend.
 
   readonly attribute double nativeProjectionScaleFactor;
 
-  XRProjectionLayer createProjectionLayer(XRTextureType textureType,
-                                          optional XRProjectionLayerInit init);
-  XRQuadLayer createQuadLayer(XRTextureType textureType,
-                              optional XRQuadLayerInit init);
-  XRCylinderLayer createCylinderLayer(XRTextureType textureType,
-                                      optional XRCylinderLayerInit init);
-  XREquirectLayer createEquirectLayer(XRTextureType textureType,
-                                      optional XREquirectLayerInit init);
+  XRProjectionLayer createProjectionLayer(optional XRProjectionLayerInit init);
+  XRQuadLayer createQuadLayer(optional XRQuadLayerInit init);
+  XRCylinderLayer createCylinderLayer(optional XRCylinderLayerInit init);
+  XREquirectLayer createEquirectLayer(optional XREquirectLayerInit init);
   XRCubeLayer createCubeLayer(optional XRCubeLayerInit init);
 
   XRWebGLSubImage getSubImage(XRCompositionLayer layer, XRFrame frame, optional XREye eye = "none");
@@ -1140,7 +1142,7 @@ To <dfn>allocate depth textures</dfn> using an {{XRCompositionLayer}} |layer|, a
 </div>
 
 <div class="algorithm" data-algorithm="createProjectionLayerAlgo">
-The <dfn method for="XRWebGLBinding">createProjectionLayer(XRTextureType |textureType|, optional XRProjectionLayerInit |init|)</dfn> method creates a new {{XRProjectionLayer}} |layer|.
+The <dfn method for="XRWebGLBinding">createProjectionLayer(optional XRProjectionLayerInit |init|)</dfn> method creates a new {{XRProjectionLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
@@ -1158,24 +1160,24 @@ When this method is invoked, the user agent MUST run the following steps:
         <dt> Otherwise
           <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>true</code>
       </dl>
-  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and {{XRLayerLayout/"default"}}.
+  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |init|'s {{XRProjectionLayerInit/textureType}}, |context| and {{XRLayerLayout/"default"}}.
   1. Let |maximum scalefactor| be the result of [=determine the maximum scalefactor|determining the maximum scalefactor=] with |session|, |context| and |layout|.
   1. If {{XRProjectionLayerInit/scaleFactor}} is larger than |maximum scalefactor|, set {{XRProjectionLayerInit/scaleFactor}} to |maximum scalefactor|.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
-  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures for projection layers|allocating color textures for projection layers=] with |layer|, |textureType|, |init|'s {{XRProjectionLayerInit/alpha}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
-  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures for projection layers|allocating depth textures for projection layers=] with |layer|, |textureType|, |init|'s {{XRProjectionLayerInit/depth}}, |init|'s {{XRProjectionLayerInit/stencil}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
+  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures for projection layers|allocating color textures for projection layers=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}}, |init|'s {{XRProjectionLayerInit/alpha}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
+  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures for projection layers|allocating depth textures for projection layers=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}}, |init|'s {{XRProjectionLayerInit/depth}}, |init|'s {{XRProjectionLayerInit/stencil}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
   1. Initialize the [=XRProjectionLayer/colortextures for secondary views=] as follows:
       <dl class="switch">
         <dt> If the |session| was created with "[=secondary view/secondary-views=]" enabled
-          <dd> Let [=XRProjectionLayer/colortextures for secondary views=] be the result of [=allocate the color textures for the secondary views=] with |layer|, |textureType|, |init|'s {{XRProjectionLayerInit/alpha}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
+          <dd> Let [=XRProjectionLayer/colortextures for secondary views=] be the result of [=allocate the color textures for the secondary views=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}}, |init|'s {{XRProjectionLayerInit/alpha}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
         <dt> Otherwise
           <dd> Let [=XRProjectionLayer/colortextures for secondary views=] be <code>null</code>.
       </dl>
   1. Initialize the [=XRProjectionLayer/depthstenciltextures for secondary views=] as follows:
       <dl class="switch">
         <dt> If the |session| was created with "[=secondary view/secondary-views=]" enabled
-          <dd> Let [=XRProjectionLayer/depthstenciltextures for secondary views=] be the result of [=allocate the depth textures for the secondary views=] with |layer|, |textureType|, |init|'s {{XRProjectionLayerInit/depth}}, |init|'s {{XRProjectionLayerInit/stencil}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
+          <dd> Let [=XRProjectionLayer/depthstenciltextures for secondary views=] be the result of [=allocate the depth textures for the secondary views=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}}, |init|'s {{XRProjectionLayerInit/depth}}, |init|'s {{XRProjectionLayerInit/stencil}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
         <dt> Otherwise
           <dd> Let [=XRProjectionLayer/depthstenciltextures for secondary views=] be <code>null</code>.
       </dl>
@@ -1186,7 +1188,7 @@ When this method is invoked, the user agent MUST run the following steps:
 </div>
 
 <div class="algorithm" data-algorithm="createQuadLayerAlgo">
-The <dfn method for="XRWebGLBinding">createQuadLayer(XRTextureType |textureType|, XRQuadLayerInit |init|)</dfn> method creates a new {{XRQuadLayer}} |layer|.
+The <dfn method for="XRWebGLBinding">createQuadLayer(XRQuadLayerInit |init|)</dfn> method creates a new {{XRQuadLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
@@ -1199,11 +1201,11 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a [=new=] {{XRQuadLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=intialize a composition layer=] on |layer| with |session| and |context|.
   1. Run [=initialize a quad layer=] with |layer| and |init|.
-  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|'s {{XRLayerInit/layout}}.
+  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |init|'s {{XRQuadLayerInit/textureType}}, |context| and |init|'s {{XRLayerInit/layout}}.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
-  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layer|, |textureType| and |init|.
-  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layer|, |textureType| and |init|.
+  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layer|, |init|'s {{XRQuadLayerInit/textureType}} and |init|.
+  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layer|, |init|'s {{XRQuadLayerInit/textureType}} and |init|.
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
@@ -1211,7 +1213,7 @@ When this method is invoked, the user agent MUST run the following steps:
 </div>
 
 <div class="algorithm" data-algorithm="createCylinderLayerAlgo">
-The <dfn method for="XRWebGLBinding">createCylinderLayer(XRTextureType |textureType|, XRCylinderLayerInit |init|)</dfn> method creates a new {{XRCylinderLayer}} |layer|.
+The <dfn method for="XRWebGLBinding">createCylinderLayer(XRCylinderLayerInit |init|)</dfn> method creates a new {{XRCylinderLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
@@ -1224,11 +1226,11 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a [=new=] {{XRCylinderLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=intialize a composition layer=] on |layer| with |session| and |context|.
   1. Run [=initialize a cylinder layer=] with |layer| and |init|.
-  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|'s {{XRLayerInit/layout}}.
+  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |init|'s {{XRCylinderLayerInit/textureType}}, |context| and |init|'s {{XRLayerInit/layout}}.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
-  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layer|, |textureType| and |init|.
-  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layer|, |textureType| and |init|.
+  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layer|, |init|'s {{XRCylinderLayerInit/textureType}} and |init|.
+  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layer|, |init|'s {{XRCylinderLayerInit/textureType}} and |init|.
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
@@ -1236,7 +1238,7 @@ When this method is invoked, the user agent MUST run the following steps:
 </div>
 
 <div class="algorithm" data-algorithm="createEquirectLayerAlgo">
-The <dfn method for="XRWebGLBinding">createEquirectLayer(XRTextureType |textureType|, XREquirectLayerLayerInit |init|)</dfn> method creates a new {{XREquirectLayer}} |layer|.
+The <dfn method for="XRWebGLBinding">createEquirectLayer(XREquirectLayerLayerInit |init|)</dfn> method creates a new {{XREquirectLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
@@ -1251,11 +1253,11 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a [=new=] {{XREquirectLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=intialize a composition layer=] on |layer| with |session| and |context|.
   1. Run [=initialize a equirect layer=] with |layer| and |init|.
-  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |textureType|, |context| and |init|'s {{XRLayerInit/layout}}.
+  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |init|'s {{XRCylinderLayerInit/textureType}}, |context| and |init|'s {{XRLayerInit/layout}}.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
-  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layer|, |textureType| and |init|.
-  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layer|, |textureType| and |init|.
+  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layer|, |init|'s {{XRCylinderLayerInit/textureType}} and |init|.
+  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layer|, |init|'s {{XRCylinderLayerInit/textureType}} and |init|.
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
