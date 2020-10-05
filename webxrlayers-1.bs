@@ -460,7 +460,7 @@ When <dfn lt="initialize a quad layer">initializing an {{XRQuadLayer}} |layer| w
       <dt> Otherwise
       <dd> Let |layer|'s {{XRQuadLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of |layer| initialized with a {{DOMPointInit}} position of <code>{ x: 0.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
     </dl>
-  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRQuadLayerInit/isStatic}}
+  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRLayerInit/isStatic}}
 
 </div>
 
@@ -515,7 +515,7 @@ When <dfn lt="initialize a cylinder layer">initializing an {{XRCylinderLayer}} |
       <dt> Otherwise
       <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of |layer| initialized with a {{DOMPointInit}} position of <code>{ x: 0.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
     </dl>
-  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRCylinderLayerInit/isStatic}}
+  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRLayerInit/isStatic}}
 
 </div>
 
@@ -586,7 +586,7 @@ When <dfn lt="initialize a equirect layer">initializing an {{XREquirectLayer}} |
       <dt> Otherwise
       <dd> Let |layer|'s {{XREquirectLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of |layer|.
     </dl>
-  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XREquirectLayerInit/isStatic}}
+  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRLayerInit/isStatic}}
 
 </div>
 
@@ -797,6 +797,7 @@ dictionary XRLayerInit {
   boolean depth = false;
   boolean stencil = false;
   boolean alpha = true;
+  boolean isStatic = false;
 };
 </pre>
 
@@ -824,7 +825,6 @@ dictionary XRQuadLayerInit : XRLayerInit {
   XRRigidTransform? transform;
   float width = 1.0;
   float height = 1.0;
-  boolean isStatic = false;
 };
 </pre>
 
@@ -840,7 +840,6 @@ dictionary XRCylinderLayerInit : XRLayerInit {
   float radius = 2.0;
   float centralAngle = 0.78539;
   float aspectRatio = 2.0;
-  boolean isStatic = false;
 };
 </pre>
 
@@ -859,7 +858,6 @@ dictionary XREquirectLayerInit : XRLayerInit {
   float centralHorizontalAngle = 6.28318;
   float upperVerticalAngle = 1.570795;
   float lowerVerticalAngle = -1.570795;
-  boolean isStatic = false;
 };
 </pre>
 
@@ -875,7 +873,6 @@ The {{XRCubeLayerInit}} dictionary represents a set of configurable values that 
 <pre class="idl">
 dictionary XRCubeLayerInit : XRLayerInit {
   DOMPointReadOnly? orientation;
-  boolean isStatic = false;
 };
 </pre>
 
@@ -1280,7 +1277,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a [=new=] {{XRCubeLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=intialize a composition layer=] on |layer| with |session| and |context|.
   1. Let |layer|'s {{XRCubeLayer/space}} be the |init|'s {{XRLayerInit/space}}.
-  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRCubeLayerInit/isStatic}}
+  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRLayerInit/isStatic}}
   1. Initialize |layer|'s {{XRCubeLayer/orientation}} as follows:
     <dl class="switch">
       <dt class="switch">If |init|'s {{XRCubeLayerInit/orientation}} is set
