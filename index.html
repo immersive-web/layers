@@ -1198,7 +1198,7 @@ Possible extra rowspan handling
 	ul.index ul,
 	ul.index dl { font-size: smaller; }
 	@media not print {
-		ul.index li span {
+		ul.index li span:not(.dfn-paneled) {
 			white-space: nowrap;
 			color: transparent; }
 		ul.index li a:hover + span,
@@ -1603,7 +1603,7 @@ figcaption:not(.no-marker)::before {
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
+.dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
 .dfn-panel ul { padding: 0; }
@@ -1943,7 +1943,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-10-02">2 October 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-10-05">5 October 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2315,7 +2315,7 @@ set and return the width and height of the layer in meters.</p>
        <dd> Let <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrquadlayer-transform" id="ref-for-dom-xrquadlayer-transform④">transform</a></code> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new①">new</a> <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrrigidtransform" id="ref-for-xrrigidtransform②">XRRigidTransform</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm①">relevant realm</a> of <var>layer</var> initialized with a <code class="idl"><a data-link-type="idl" href="https://drafts.fxtf.org/geometry-1/#dictdef-dompointinit" id="ref-for-dictdef-dompointinit">DOMPointInit</a></code> position of <code>{ x: 0.0, y: 0.0, z: 0.0, w: 1.0 }</code>. 
       </dl>
      <li data-md>
-      <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-isstatic" id="ref-for-xrcompositionlayer-isstatic①">isStatic</a> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrquadlayerinit-isstatic" id="ref-for-dom-xrquadlayerinit-isstatic">isStatic</a></code></p>
+      <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-isstatic" id="ref-for-xrcompositionlayer-isstatic①">isStatic</a> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-isstatic" id="ref-for-dom-xrlayerinit-isstatic">isStatic</a></code></p>
     </ol>
    </div>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRQuadLayer" data-dfn-type="attribute" data-export id="dom-xrquadlayer-onredraw"><code>onredraw</code></dfn> attribute is an Event handler IDL attribute for the <code class="idl"><a data-link-type="idl" href="#eventdef-xrlayer-redraw" id="ref-for-eventdef-xrlayer-redraw①">redraw</a></code> event type.</p>
@@ -2364,7 +2364,7 @@ It grows symmetrically around the 0 angle.</p>
        <dd> Let <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayer-transform" id="ref-for-dom-xrcylinderlayer-transform④">transform</a></code> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new③">new</a> <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrrigidtransform" id="ref-for-xrrigidtransform⑤">XRRigidTransform</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm③">relevant realm</a> of <var>layer</var> initialized with a <code class="idl"><a data-link-type="idl" href="https://drafts.fxtf.org/geometry-1/#dictdef-dompointinit" id="ref-for-dictdef-dompointinit①">DOMPointInit</a></code> position of <code>{ x: 0.0, y: 0.0, z: 0.0, w: 1.0 }</code>. 
       </dl>
      <li data-md>
-      <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-isstatic" id="ref-for-xrcompositionlayer-isstatic②">isStatic</a> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayerinit-isstatic" id="ref-for-dom-xrcylinderlayerinit-isstatic">isStatic</a></code></p>
+      <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-isstatic" id="ref-for-xrcompositionlayer-isstatic②">isStatic</a> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-isstatic" id="ref-for-dom-xrlayerinit-isstatic①">isStatic</a></code></p>
     </ol>
    </div>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCylinderLayer" data-dfn-type="attribute" data-export id="dom-xrcylinderlayer-onredraw"><code>onredraw</code></dfn> attribute is an Event handler IDL attribute for the <code class="idl"><a data-link-type="idl" href="#eventdef-xrlayer-redraw" id="ref-for-eventdef-xrlayer-redraw②">redraw</a></code> event type.</p>
@@ -2427,7 +2427,7 @@ to -π/2 and setting it to a value higher than π/2 will set it to π/2.</p>
        <dd> Let <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-transform" id="ref-for-dom-xrequirectlayer-transform④">transform</a></code> be a <a data-link-type="dfn" href="https://heycam.github.io/webidl/#new" id="ref-for-new⑤">new</a> <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrrigidtransform" id="ref-for-xrrigidtransform⑧">XRRigidTransform</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm⑤">relevant realm</a> of <var>layer</var>. 
       </dl>
      <li data-md>
-      <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-isstatic" id="ref-for-xrcompositionlayer-isstatic③">isStatic</a> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-isstatic" id="ref-for-dom-xrequirectlayerinit-isstatic">isStatic</a></code></p>
+      <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-isstatic" id="ref-for-xrcompositionlayer-isstatic③">isStatic</a> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-isstatic" id="ref-for-dom-xrlayerinit-isstatic②">isStatic</a></code></p>
     </ol>
    </div>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayer" data-dfn-type="attribute" data-export id="dom-xrequirectlayer-onredraw"><code>onredraw</code></dfn> attribute is an Event handler IDL attribute for the <code class="idl"><a data-link-type="idl" href="#eventdef-xrlayer-redraw" id="ref-for-eventdef-xrlayer-redraw③">redraw</a></code> event type.</p>
@@ -2584,6 +2584,7 @@ The <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/es_spec_3.0.pd
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean⑦"><c- b>boolean</c-></a> <a class="idl-code" data-default="false" data-link-type="dict-member" data-type="boolean " href="#dom-xrlayerinit-depth" id="ref-for-dom-xrlayerinit-depth"><c- g>depth</c-></a> = <c- b>false</c->;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean⑧"><c- b>boolean</c-></a> <a class="idl-code" data-default="false" data-link-type="dict-member" data-type="boolean " href="#dom-xrlayerinit-stencil" id="ref-for-dom-xrlayerinit-stencil"><c- g>stencil</c-></a> = <c- b>false</c->;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean⑨"><c- b>boolean</c-></a> <a class="idl-code" data-default="true" data-link-type="dict-member" data-type="boolean " href="#dom-xrlayerinit-alpha" id="ref-for-dom-xrlayerinit-alpha"><c- g>alpha</c-></a> = <c- b>true</c->;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①⓪"><c- b>boolean</c-></a> <dfn class="dfn-paneled idl-code" data-default="false" data-dfn-for="XRLayerInit" data-dfn-type="dict-member" data-export data-type="boolean " id="dom-xrlayerinit-isstatic"><code><c- g>isStatic</c-></code></dfn> = <c- b>false</c->;
 };
 </pre>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRLayerInit" data-dfn-type="dict-member" data-export id="dom-xrlayerinit-space"><code>space</code></dfn> attribute defines the spatial relationship with the user’s physical environment.</p>
@@ -2600,7 +2601,6 @@ the rectangular dimensions of the <code class="idl"><a data-link-type="idl" href
   <a data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrrigidtransform" id="ref-for-xrrigidtransform⑨"><c- n>XRRigidTransform</c-></a>? <dfn class="dfn-paneled idl-code" data-dfn-for="XRQuadLayerInit" data-dfn-type="dict-member" data-export data-type="XRRigidTransform? " id="dom-xrquadlayerinit-transform"><code><c- g>transform</c-></code></dfn>;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⓪"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="1.0" data-dfn-for="XRQuadLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrquadlayerinit-width"><code><c- g>width</c-></code></dfn> = 1.0;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①①"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="1.0" data-dfn-for="XRQuadLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrquadlayerinit-height"><code><c- g>height</c-></code></dfn> = 1.0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①⓪"><c- b>boolean</c-></a> <dfn class="dfn-paneled idl-code" data-default="false" data-dfn-for="XRQuadLayerInit" data-dfn-type="dict-member" data-export data-type="boolean " id="dom-xrquadlayerinit-isstatic"><code><c- g>isStatic</c-></code></dfn> = <c- b>false</c->;
 };
 </pre>
    <h3 class="heading settled" data-level="6.6" id="xrcylinderlayerinit"><span class="secno">6.6. </span><span class="content">XRCylinderLayerInit</span><a class="self-link" href="#xrcylinderlayerinit"></a></h3>
@@ -2611,7 +2611,6 @@ the rectangular dimensions of the <code class="idl"><a data-link-type="idl" href
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①②"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="2.0" data-dfn-for="XRCylinderLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrcylinderlayerinit-radius"><code><c- g>radius</c-></code></dfn> = 2.0;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①③"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="0.78539" data-dfn-for="XRCylinderLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrcylinderlayerinit-centralangle"><code><c- g>centralAngle</c-></code></dfn> = 0.78539;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①④"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="2.0" data-dfn-for="XRCylinderLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrcylinderlayerinit-aspectratio"><code><c- g>aspectRatio</c-></code></dfn> = 2.0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①①"><c- b>boolean</c-></a> <dfn class="dfn-paneled idl-code" data-default="false" data-dfn-for="XRCylinderLayerInit" data-dfn-type="dict-member" data-export data-type="boolean " id="dom-xrcylinderlayerinit-isstatic"><code><c- g>isStatic</c-></code></dfn> = <c- b>false</c->;
 };
 </pre>
    <p>The default value of <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayerinit-centralangle" id="ref-for-dom-xrcylinderlayerinit-centralangle①">centralAngle</a></code> is π / 4.</p>
@@ -2624,7 +2623,6 @@ the rectangular dimensions of the <code class="idl"><a data-link-type="idl" href
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⑥"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="6.28318" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrequirectlayerinit-centralhorizontalangle"><code><c- g>centralHorizontalAngle</c-></code></dfn> = 6.28318;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⑦"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="1.570795" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrequirectlayerinit-upperverticalangle"><code><c- g>upperVerticalAngle</c-></code></dfn> = 1.570795;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float" id="ref-for-idl-float①⑧"><c- b>float</c-></a> <dfn class="dfn-paneled idl-code" data-default="-1.570795" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="float " id="dom-xrequirectlayerinit-lowerverticalangle"><code><c- g>lowerVerticalAngle</c-></code></dfn> = -1.570795;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①②"><c- b>boolean</c-></a> <dfn class="dfn-paneled idl-code" data-default="false" data-dfn-for="XREquirectLayerInit" data-dfn-type="dict-member" data-export data-type="boolean " id="dom-xrequirectlayerinit-isstatic"><code><c- g>isStatic</c-></code></dfn> = <c- b>false</c->;
 };
 </pre>
    <p>The default value of <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayerinit-centralhorizontalangle" id="ref-for-dom-xrequirectlayerinit-centralhorizontalangle①">centralHorizontalAngle</a></code> is 2π.
@@ -2634,7 +2632,6 @@ The default value of <code class="idl"><a data-link-type="idl" href="#dom-xrequi
    <p>The <code class="idl"><a data-link-type="idl" href="#dictdef-xrcubelayerinit" id="ref-for-dictdef-xrcubelayerinit">XRCubeLayerInit</a></code> dictionary represents a set of configurable values that describe how an <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer⑥">XRCubeLayer</a></code> is initialized.</p>
 <pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-xrcubelayerinit"><code><c- g>XRCubeLayerInit</c-></code></dfn> : <a data-link-type="idl-name" href="#dictdef-xrlayerinit" id="ref-for-dictdef-xrlayerinit④"><c- n>XRLayerInit</c-></a> {
   <a data-link-type="idl-name" href="https://drafts.fxtf.org/geometry-1/#dompointreadonly" id="ref-for-dompointreadonly①"><c- n>DOMPointReadOnly</c-></a>? <dfn class="dfn-paneled idl-code" data-dfn-for="XRCubeLayerInit" data-dfn-type="dict-member" data-export data-type="DOMPointReadOnly? " id="dom-xrcubelayerinit-orientation"><code><c- g>orientation</c-></code></dfn>;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①③"><c- b>boolean</c-></a> <dfn class="dfn-paneled idl-code" data-default="false" data-dfn-for="XRCubeLayerInit" data-dfn-type="dict-member" data-export data-type="boolean " id="dom-xrcubelayerinit-isstatic"><code><c- g>isStatic</c-></code></dfn> = <c- b>false</c->;
 };
 </pre>
    <h3 class="heading settled" data-level="6.9" id="XRWebGLBindingtype"><span class="secno">6.9. </span><span class="content">XRWebGLBinding</span><a class="self-link" href="#XRWebGLBindingtype"></a></h3>
@@ -3204,7 +3201,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Let <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayer-space" id="ref-for-dom-xrcubelayer-space④">space</a></code> be the <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-space" id="ref-for-dom-xrlayerinit-space①②">space</a></code>.</p>
      <li data-md>
-      <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-isstatic" id="ref-for-xrcompositionlayer-isstatic⑤">isStatic</a> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayerinit-isstatic" id="ref-for-dom-xrcubelayerinit-isstatic">isStatic</a></code></p>
+      <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-isstatic" id="ref-for-xrcompositionlayer-isstatic⑤">isStatic</a> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-isstatic" id="ref-for-dom-xrlayerinit-isstatic③">isStatic</a></code></p>
      <li data-md>
       <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayer-orientation" id="ref-for-dom-xrcubelayer-orientation②">orientation</a></code> as follows:</p>
       <dl class="switch">
@@ -3448,7 +3445,7 @@ is initialized.
 <pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-xrmedialayerinit"><code><c- g>XRMediaLayerInit</c-></code></dfn> {
   <c- b>required</c-> <a data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrspace" id="ref-for-xrspace①②"><c- n>XRSpace</c-></a> <a class="idl-code" data-link-type="dict-member" data-type="XRSpace " href="#dom-xrmedialayerinit-space" id="ref-for-dom-xrmedialayerinit-space"><c- g>space</c-></a>;
   <a data-link-type="idl-name" href="#enumdef-xrlayerlayout" id="ref-for-enumdef-xrlayerlayout⑦"><c- n>XRLayerLayout</c-></a> <a class="idl-code" data-default="&quot;mono&quot;" data-link-type="dict-member" data-type="XRLayerLayout " href="#dom-xrmedialayerinit-layout" id="ref-for-dom-xrmedialayerinit-layout"><c- g>layout</c-></a> = "mono";
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①④"><c- b>boolean</c-></a> <a class="idl-code" data-default="false" data-link-type="dict-member" data-type="boolean " href="#dom-xrmedialayerinit-invertstereo" id="ref-for-dom-xrmedialayerinit-invertstereo"><c- g>invertStereo</c-></a> = <c- b>false</c->;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①①"><c- b>boolean</c-></a> <a class="idl-code" data-default="false" data-link-type="dict-member" data-type="boolean " href="#dom-xrmedialayerinit-invertstereo" id="ref-for-dom-xrmedialayerinit-invertstereo"><c- g>invertStereo</c-></a> = <c- b>false</c->;
 };
 </pre>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRMediaLayerInit" data-dfn-type="dict-member" data-export id="dom-xrmedialayerinit-space"><code>space</code></dfn> attribute defines the spatial relationship with the user’s physical environment.</p>
@@ -3804,10 +3801,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     isStatic
     <ul>
      <li><a href="#xrcompositionlayer-isstatic">dfn for XRCompositionLayer</a><span>, in §3.3</span>
-     <li><a href="#dom-xrcubelayerinit-isstatic">dict-member for XRCubeLayerInit</a><span>, in §6.8</span>
-     <li><a href="#dom-xrcylinderlayerinit-isstatic">dict-member for XRCylinderLayerInit</a><span>, in §6.6</span>
-     <li><a href="#dom-xrequirectlayerinit-isstatic">dict-member for XREquirectLayerInit</a><span>, in §6.7</span>
-     <li><a href="#dom-xrquadlayerinit-isstatic">dict-member for XRQuadLayerInit</a><span>, in §6.5</span>
+     <li><a href="#dom-xrlayerinit-isstatic">dict-member for XRLayerInit</a><span>, in §6.4</span>
     </ul>
    <li>
     layer
@@ -4227,12 +4221,8 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-idl-boolean">3.3. XRCompositionLayer</a> <a href="#ref-for-idl-boolean①">(2)</a> <a href="#ref-for-idl-boolean②">(3)</a>
     <li><a href="#ref-for-idl-boolean③">3.4. XRProjectionLayer</a>
     <li><a href="#ref-for-idl-boolean④">6.3. XRProjectionLayerInit</a> <a href="#ref-for-idl-boolean⑤">(2)</a> <a href="#ref-for-idl-boolean⑥">(3)</a>
-    <li><a href="#ref-for-idl-boolean⑦">6.4. XRLayerInit</a> <a href="#ref-for-idl-boolean⑧">(2)</a> <a href="#ref-for-idl-boolean⑨">(3)</a>
-    <li><a href="#ref-for-idl-boolean①⓪">6.5. XRQuadLayerInit</a>
-    <li><a href="#ref-for-idl-boolean①①">6.6. XRCylinderLayerInit</a>
-    <li><a href="#ref-for-idl-boolean①②">6.7. XREquirectLayerInit</a>
-    <li><a href="#ref-for-idl-boolean①③">6.8. XRCubeLayerInit</a>
-    <li><a href="#ref-for-idl-boolean①④">7.1. XRMediaLayerInit</a>
+    <li><a href="#ref-for-idl-boolean⑦">6.4. XRLayerInit</a> <a href="#ref-for-idl-boolean⑧">(2)</a> <a href="#ref-for-idl-boolean⑨">(3)</a> <a href="#ref-for-idl-boolean①⓪">(4)</a>
+    <li><a href="#ref-for-idl-boolean①①">7.1. XRMediaLayerInit</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-double">
@@ -4733,151 +4723,151 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-event" style="color:initial">Event</span>
-     <li><span class="dfn-paneled" id="term-for-dictdef-eventinit" style="color:initial">EventInit</span>
-     <li><span class="dfn-paneled" id="term-for-concept-event-fire" style="color:initial">fire an event</span>
+     <li><span class="dfn-paneled" id="term-for-event">Event</span>
+     <li><span class="dfn-paneled" id="term-for-dictdef-eventinit">EventInit</span>
+     <li><span class="dfn-paneled" id="term-for-concept-event-fire">fire an event</span>
     </ul>
    <li>
     <a data-link-type="biblio">[geometry-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dictdef-dompointinit" style="color:initial">DOMPointInit</span>
-     <li><span class="dfn-paneled" id="term-for-dompointreadonly" style="color:initial">DOMPointReadOnly</span>
-     <li><span class="dfn-paneled" id="term-for-dom-dompointreadonly-frompoint" style="color:initial">fromPoint()</span>
+     <li><span class="dfn-paneled" id="term-for-dictdef-dompointinit">DOMPointInit</span>
+     <li><span class="dfn-paneled" id="term-for-dompointreadonly">DOMPointReadOnly</span>
+     <li><span class="dfn-paneled" id="term-for-dom-dompointreadonly-frompoint">fromPoint()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-eventhandler" style="color:initial">EventHandler</span>
-     <li><span class="dfn-paneled" id="term-for-htmlvideoelement" style="color:initial">HTMLVideoElement</span>
-     <li><span class="dfn-paneled" id="term-for-check-the-usability-of-the-image-argument" style="color:initial">check the usability of the image argument</span>
-     <li><span class="dfn-paneled" id="term-for-queue-a-task" style="color:initial">queue a task</span>
-     <li><span class="dfn-paneled" id="term-for-concept-relevant-realm" style="color:initial">relevant realm</span>
+     <li><span class="dfn-paneled" id="term-for-eventhandler">EventHandler</span>
+     <li><span class="dfn-paneled" id="term-for-htmlvideoelement">HTMLVideoElement</span>
+     <li><span class="dfn-paneled" id="term-for-check-the-usability-of-the-image-argument">check the usability of the image argument</span>
+     <li><span class="dfn-paneled" id="term-for-queue-a-task">queue a task</span>
+     <li><span class="dfn-paneled" id="term-for-concept-relevant-realm">relevant realm</span>
     </ul>
    <li>
     <a data-link-type="biblio">[PERMISSIONS-REQUEST]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-permissions-request" style="color:initial">request(permissionDesc)</span>
+     <li><span class="dfn-paneled" id="term-for-dom-permissions-request">request(permissionDesc)</span>
     </ul>
    <li>
     <a data-link-type="biblio">[webgl 2.0]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-3.7" style="color:initial">TEXTURE_2D_ARRAY</span>
-     <li><span class="dfn-paneled" id="term-for-WebGL2RenderingContext" style="color:initial">WebGL2RenderingContext</span>
-     <li><span class="dfn-paneled" id="term-for-3.7.6" style="color:initial">texstorage2d</span>
-     <li><span class="dfn-paneled" id="term-for-3.7.6①" style="color:initial">texstorage3d</span>
+     <li><span class="dfn-paneled" id="term-for-3.7">TEXTURE_2D_ARRAY</span>
+     <li><span class="dfn-paneled" id="term-for-WebGL2RenderingContext">WebGL2RenderingContext</span>
+     <li><span class="dfn-paneled" id="term-for-3.7.6">texstorage2d</span>
+     <li><span class="dfn-paneled" id="term-for-3.7.6①">texstorage3d</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WEBGL-2]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-WebGLRenderingContextBase" style="color:initial">INVALID_OPERATION</span>
-     <li><span class="dfn-paneled" id="term-for-5.14" style="color:initial">TEXTURE_2D</span>
-     <li><span class="dfn-paneled" id="term-for-5.14①" style="color:initial">TEXTURE_CUBE_MAP</span>
-     <li><span class="dfn-paneled" id="term-for-WebGLRenderingContext" style="color:initial">WebGLRenderingContext</span>
-     <li><span class="dfn-paneled" id="term-for-5.8" style="color:initial">WebGLShader</span>
-     <li><span class="dfn-paneled" id="term-for-WebGLTexture" style="color:initial">WebGLTexture</span>
-     <li><span class="dfn-paneled" id="term-for-5.14.11" style="color:initial">clear</span>
-     <li><span class="dfn-paneled" id="term-for-5.14.8" style="color:initial">deleteTexture</span>
-     <li><span class="dfn-paneled" id="term-for-5.14.11①" style="color:initial">drawArrays</span>
-     <li><span class="dfn-paneled" id="term-for-5.14.11②" style="color:initial">drawElements</span>
+     <li><span class="dfn-paneled" id="term-for-WebGLRenderingContextBase">INVALID_OPERATION</span>
+     <li><span class="dfn-paneled" id="term-for-5.14">TEXTURE_2D</span>
+     <li><span class="dfn-paneled" id="term-for-5.14①">TEXTURE_CUBE_MAP</span>
+     <li><span class="dfn-paneled" id="term-for-WebGLRenderingContext">WebGLRenderingContext</span>
+     <li><span class="dfn-paneled" id="term-for-5.8">WebGLShader</span>
+     <li><span class="dfn-paneled" id="term-for-WebGLTexture">WebGLTexture</span>
+     <li><span class="dfn-paneled" id="term-for-5.14.11">clear</span>
+     <li><span class="dfn-paneled" id="term-for-5.14.8">deleteTexture</span>
+     <li><span class="dfn-paneled" id="term-for-5.14.11①">drawArrays</span>
+     <li><span class="dfn-paneled" id="term-for-5.14.11②">drawElements</span>
     </ul>
    <li>
     <a data-link-type="biblio">[webgl_depth_texture]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-webgl_depth_texture" style="color:initial">WEBGL_depth_texture</span>
+     <li><span class="dfn-paneled" id="term-for-webgl_depth_texture">WEBGL_depth_texture</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-idl-DOMString" style="color:initial">DOMString</span>
-     <li><span class="dfn-paneled" id="term-for-Exposed" style="color:initial">Exposed</span>
-     <li><span class="dfn-paneled" id="term-for-idl-frozen-array" style="color:initial">FrozenArray</span>
-     <li><span class="dfn-paneled" id="term-for-invalidstateerror" style="color:initial">InvalidStateError</span>
-     <li><span class="dfn-paneled" id="term-for-notsupportederror" style="color:initial">NotSupportedError</span>
-     <li><span class="dfn-paneled" id="term-for-operationerror" style="color:initial">OperationError</span>
-     <li><span class="dfn-paneled" id="term-for-SameObject" style="color:initial">SameObject</span>
-     <li><span class="dfn-paneled" id="term-for-SecureContext" style="color:initial">SecureContext</span>
-     <li><span class="dfn-paneled" id="term-for-exceptiondef-typeerror" style="color:initial">TypeError</span>
-     <li><span class="dfn-paneled" id="term-for-idl-boolean" style="color:initial">boolean</span>
-     <li><span class="dfn-paneled" id="term-for-idl-double" style="color:initial">double</span>
-     <li><span class="dfn-paneled" id="term-for-idl-float" style="color:initial">float</span>
-     <li><span class="dfn-paneled" id="term-for-new" style="color:initial">new</span>
-     <li><span class="dfn-paneled" id="term-for-this" style="color:initial">this</span>
-     <li><span class="dfn-paneled" id="term-for-idl-undefined" style="color:initial">undefined</span>
-     <li><span class="dfn-paneled" id="term-for-idl-unsigned-long" style="color:initial">unsigned long</span>
+     <li><span class="dfn-paneled" id="term-for-idl-DOMString">DOMString</span>
+     <li><span class="dfn-paneled" id="term-for-Exposed">Exposed</span>
+     <li><span class="dfn-paneled" id="term-for-idl-frozen-array">FrozenArray</span>
+     <li><span class="dfn-paneled" id="term-for-invalidstateerror">InvalidStateError</span>
+     <li><span class="dfn-paneled" id="term-for-notsupportederror">NotSupportedError</span>
+     <li><span class="dfn-paneled" id="term-for-operationerror">OperationError</span>
+     <li><span class="dfn-paneled" id="term-for-SameObject">SameObject</span>
+     <li><span class="dfn-paneled" id="term-for-SecureContext">SecureContext</span>
+     <li><span class="dfn-paneled" id="term-for-exceptiondef-typeerror">TypeError</span>
+     <li><span class="dfn-paneled" id="term-for-idl-boolean">boolean</span>
+     <li><span class="dfn-paneled" id="term-for-idl-double">double</span>
+     <li><span class="dfn-paneled" id="term-for-idl-float">float</span>
+     <li><span class="dfn-paneled" id="term-for-new">new</span>
+     <li><span class="dfn-paneled" id="term-for-this">this</span>
+     <li><span class="dfn-paneled" id="term-for-idl-undefined">undefined</span>
+     <li><span class="dfn-paneled" id="term-for-idl-unsigned-long">unsigned long</span>
     </ul>
    <li>
     <a data-link-type="biblio">[webxr]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-xrreferencespacetype-bounded-floor" style="color:initial">"bounded-floor"</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrsessionmode-immersive-vr" style="color:initial">"immersive-vr"</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrsessionmode-inline" style="color:initial">"inline"</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xreye-left" style="color:initial">"left"</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrreferencespacetype-local" style="color:initial">"local"</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrreferencespacetype-local-floor" style="color:initial">"local-floor"</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xreye-none" style="color:initial">"none"</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xreye-right" style="color:initial">"right"</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrreferencespacetype-unbounded" style="color:initial">"unbounded"</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrreferencespacetype-viewer" style="color:initial">"viewer"</span>
-     <li><span class="dfn-paneled" id="term-for-enumdef-xreye" style="color:initial">XREye</span>
-     <li><span class="dfn-paneled" id="term-for-xrframe" style="color:initial">XRFrame</span>
-     <li><span class="dfn-paneled" id="term-for-xrlayer" style="color:initial">XRLayer</span>
-     <li><span class="dfn-paneled" id="term-for-xrreferencespace" style="color:initial">XRReferenceSpace</span>
-     <li><span class="dfn-paneled" id="term-for-xrrenderstate" style="color:initial">XRRenderState</span>
-     <li><span class="dfn-paneled" id="term-for-dictdef-xrrenderstateinit" style="color:initial">XRRenderStateInit</span>
-     <li><span class="dfn-paneled" id="term-for-xrrigidtransform" style="color:initial">XRRigidTransform</span>
-     <li><span class="dfn-paneled" id="term-for-xrsession" style="color:initial">XRSession</span>
-     <li><span class="dfn-paneled" id="term-for-xrspace" style="color:initial">XRSpace</span>
-     <li><span class="dfn-paneled" id="term-for-xrview" style="color:initial">XRView</span>
-     <li><span class="dfn-paneled" id="term-for-xrviewport" style="color:initial">XRViewport</span>
-     <li><span class="dfn-paneled" id="term-for-xrwebgllayer" style="color:initial">XRWebGLLayer</span>
-     <li><span class="dfn-paneled" id="term-for-typedefdef-xrwebglrenderingcontext" style="color:initial">XRWebGLRenderingContext</span>
-     <li><span class="dfn-paneled" id="term-for-view-active" style="color:initial">active <small>(for view)</small></span>
-     <li><span class="dfn-paneled" id="term-for-active-immersive-session" style="color:initial">active immersive session</span>
-     <li><span class="dfn-paneled" id="term-for-active-render-state" style="color:initial">active render state</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrrenderstateinit-baselayer" style="color:initial">baseLayer <small>(for XRRenderStateInit)</small></span>
-     <li><span class="dfn-paneled" id="term-for-feature-descriptor" style="color:initial">feature descriptor</span>
-     <li><span class="dfn-paneled" id="term-for-feature-requirements" style="color:initial">feature requirements</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrviewport-height" style="color:initial">height</span>
-     <li><span class="dfn-paneled" id="term-for-immersive-xr-device" style="color:initial">immersive xr device</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrrenderstateinit-layers" style="color:initial">layers</span>
-     <li><span class="dfn-paneled" id="term-for-xrsession-list-of-views" style="color:initial">list of views</span>
-     <li><span class="dfn-paneled" id="term-for-opaque-framebuffer" style="color:initial">opaque framebuffer</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrpermissiondescriptor-optionalfeatures" style="color:initial">optionalFeatures</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrrigidtransform-orientation" style="color:initial">orientation</span>
-     <li><span class="dfn-paneled" id="term-for-pending-render-state" style="color:initial">pending render state</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrrigidtransform-position" style="color:initial">position</span>
-     <li><span class="dfn-paneled" id="term-for-primary-view" style="color:initial">primary view</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrsession-renderstate" style="color:initial">renderState</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrsession-requestanimationframe" style="color:initial">requestAnimationFrame(callback)</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrsystem-requestsession" style="color:initial">requestSession(mode)</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrpermissiondescriptor-requiredfeatures" style="color:initial">requiredFeatures</span>
-     <li><span class="dfn-paneled" id="term-for-secondary-view" style="color:initial">secondary view</span>
-     <li><span class="dfn-paneled" id="term-for-secondary-view-secondary-views" style="color:initial">secondary-views</span>
-     <li><span class="dfn-paneled" id="term-for-xrwebgllayer-session" style="color:initial">session <small>(for XRWebGLLayer)</small></span>
-     <li><span class="dfn-paneled" id="term-for-xrreferencespace-type" style="color:initial">type</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrsession-updaterenderstate" style="color:initial">updateRenderState()</span>
-     <li><span class="dfn-paneled" id="term-for-view" style="color:initial">view</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrviewport-width" style="color:initial">width</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrviewport-x" style="color:initial">x</span>
-     <li><span class="dfn-paneled" id="term-for-xr-animation-frame" style="color:initial">xr animation frame</span>
-     <li><span class="dfn-paneled" id="term-for-xr-device" style="color:initial">xr device</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrviewport-y" style="color:initial">y</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrreferencespacetype-bounded-floor">"bounded-floor"</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrsessionmode-immersive-vr">"immersive-vr"</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrsessionmode-inline">"inline"</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xreye-left">"left"</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrreferencespacetype-local">"local"</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrreferencespacetype-local-floor">"local-floor"</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xreye-none">"none"</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xreye-right">"right"</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrreferencespacetype-unbounded">"unbounded"</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrreferencespacetype-viewer">"viewer"</span>
+     <li><span class="dfn-paneled" id="term-for-enumdef-xreye">XREye</span>
+     <li><span class="dfn-paneled" id="term-for-xrframe">XRFrame</span>
+     <li><span class="dfn-paneled" id="term-for-xrlayer">XRLayer</span>
+     <li><span class="dfn-paneled" id="term-for-xrreferencespace">XRReferenceSpace</span>
+     <li><span class="dfn-paneled" id="term-for-xrrenderstate">XRRenderState</span>
+     <li><span class="dfn-paneled" id="term-for-dictdef-xrrenderstateinit">XRRenderStateInit</span>
+     <li><span class="dfn-paneled" id="term-for-xrrigidtransform">XRRigidTransform</span>
+     <li><span class="dfn-paneled" id="term-for-xrsession">XRSession</span>
+     <li><span class="dfn-paneled" id="term-for-xrspace">XRSpace</span>
+     <li><span class="dfn-paneled" id="term-for-xrview">XRView</span>
+     <li><span class="dfn-paneled" id="term-for-xrviewport">XRViewport</span>
+     <li><span class="dfn-paneled" id="term-for-xrwebgllayer">XRWebGLLayer</span>
+     <li><span class="dfn-paneled" id="term-for-typedefdef-xrwebglrenderingcontext">XRWebGLRenderingContext</span>
+     <li><span class="dfn-paneled" id="term-for-view-active">active <small>(for view)</small></span>
+     <li><span class="dfn-paneled" id="term-for-active-immersive-session">active immersive session</span>
+     <li><span class="dfn-paneled" id="term-for-active-render-state">active render state</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrrenderstateinit-baselayer">baseLayer <small>(for XRRenderStateInit)</small></span>
+     <li><span class="dfn-paneled" id="term-for-feature-descriptor">feature descriptor</span>
+     <li><span class="dfn-paneled" id="term-for-feature-requirements">feature requirements</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrviewport-height">height</span>
+     <li><span class="dfn-paneled" id="term-for-immersive-xr-device">immersive xr device</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrrenderstateinit-layers">layers</span>
+     <li><span class="dfn-paneled" id="term-for-xrsession-list-of-views">list of views</span>
+     <li><span class="dfn-paneled" id="term-for-opaque-framebuffer">opaque framebuffer</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrpermissiondescriptor-optionalfeatures">optionalFeatures</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrrigidtransform-orientation">orientation</span>
+     <li><span class="dfn-paneled" id="term-for-pending-render-state">pending render state</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrrigidtransform-position">position</span>
+     <li><span class="dfn-paneled" id="term-for-primary-view">primary view</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrsession-renderstate">renderState</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrsession-requestanimationframe">requestAnimationFrame(callback)</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrsystem-requestsession">requestSession(mode)</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrpermissiondescriptor-requiredfeatures">requiredFeatures</span>
+     <li><span class="dfn-paneled" id="term-for-secondary-view">secondary view</span>
+     <li><span class="dfn-paneled" id="term-for-secondary-view-secondary-views">secondary-views</span>
+     <li><span class="dfn-paneled" id="term-for-xrwebgllayer-session">session <small>(for XRWebGLLayer)</small></span>
+     <li><span class="dfn-paneled" id="term-for-xrreferencespace-type">type</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrsession-updaterenderstate">updateRenderState()</span>
+     <li><span class="dfn-paneled" id="term-for-view">view</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrviewport-width">width</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrviewport-x">x</span>
+     <li><span class="dfn-paneled" id="term-for-xr-animation-frame">xr animation frame</span>
+     <li><span class="dfn-paneled" id="term-for-xr-device">xr device</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrviewport-y">y</span>
     </ul>
    <li>
     <a data-link-type="biblio">[webxr device api - level 1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-animationframe" style="color:initial">animationframe</span>
-     <li><span class="dfn-paneled" id="term-for-ended" style="color:initial">ended</span>
-     <li><span class="dfn-paneled" id="term-for-immersive-session" style="color:initial">immersive session</span>
-     <li><span class="dfn-paneled" id="term-for-native-webgl-framebuffer-resolution" style="color:initial">native webgl framebuffer resolution</span>
-     <li><span class="dfn-paneled" id="term-for-recommended-webgl-framebuffer-resolution" style="color:initial">recommended webgl framebuffer resolution</span>
-     <li><span class="dfn-paneled" id="term-for-xr-compatible" style="color:initial">xr compatible</span>
-     <li><span class="dfn-paneled" id="term-for-xr-compositor" style="color:initial">xr compositor</span>
+     <li><span class="dfn-paneled" id="term-for-animationframe">animationframe</span>
+     <li><span class="dfn-paneled" id="term-for-ended">ended</span>
+     <li><span class="dfn-paneled" id="term-for-immersive-session">immersive session</span>
+     <li><span class="dfn-paneled" id="term-for-native-webgl-framebuffer-resolution">native webgl framebuffer resolution</span>
+     <li><span class="dfn-paneled" id="term-for-recommended-webgl-framebuffer-resolution">recommended webgl framebuffer resolution</span>
+     <li><span class="dfn-paneled" id="term-for-xr-compatible">xr compatible</span>
+     <li><span class="dfn-paneled" id="term-for-xr-compositor">xr compositor</span>
     </ul>
    <li>
     <a data-link-type="biblio">[webxr-ar-module-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-xrsessionmode-immersive-ar" style="color:initial">"immersive-ar"</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrsessionmode-immersive-ar">"immersive-ar"</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -5005,6 +4995,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a class="idl-code" data-default="false" data-link-type="dict-member" data-type="boolean " href="#dom-xrlayerinit-depth"><c- g>depth</c-></a> = <c- b>false</c->;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a class="idl-code" data-default="false" data-link-type="dict-member" data-type="boolean " href="#dom-xrlayerinit-stencil"><c- g>stencil</c-></a> = <c- b>false</c->;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a class="idl-code" data-default="true" data-link-type="dict-member" data-type="boolean " href="#dom-xrlayerinit-alpha"><c- g>alpha</c-></a> = <c- b>true</c->;
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a data-default="false" data-type="boolean " href="#dom-xrlayerinit-isstatic"><code><c- g>isStatic</c-></code></a> = <c- b>false</c->;
 };
 
 <c- b>dictionary</c-> <a href="#dictdef-xrquadlayerinit"><code><c- g>XRQuadLayerInit</c-></code></a> : <a data-link-type="idl-name" href="#dictdef-xrlayerinit"><c- n>XRLayerInit</c-></a> {
@@ -5012,7 +5003,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <a data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrrigidtransform"><c- n>XRRigidTransform</c-></a>? <a data-type="XRRigidTransform? " href="#dom-xrquadlayerinit-transform"><code><c- g>transform</c-></code></a>;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="1.0" data-type="float " href="#dom-xrquadlayerinit-width"><code><c- g>width</c-></code></a> = 1.0;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="1.0" data-type="float " href="#dom-xrquadlayerinit-height"><code><c- g>height</c-></code></a> = 1.0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a data-default="false" data-type="boolean " href="#dom-xrquadlayerinit-isstatic"><code><c- g>isStatic</c-></code></a> = <c- b>false</c->;
 };
 
 <c- b>dictionary</c-> <a href="#dictdef-xrcylinderlayerinit"><code><c- g>XRCylinderLayerInit</c-></code></a> : <a data-link-type="idl-name" href="#dictdef-xrlayerinit"><c- n>XRLayerInit</c-></a> {
@@ -5021,7 +5011,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="2.0" data-type="float " href="#dom-xrcylinderlayerinit-radius"><code><c- g>radius</c-></code></a> = 2.0;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="0.78539" data-type="float " href="#dom-xrcylinderlayerinit-centralangle"><code><c- g>centralAngle</c-></code></a> = 0.78539;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="2.0" data-type="float " href="#dom-xrcylinderlayerinit-aspectratio"><code><c- g>aspectRatio</c-></code></a> = 2.0;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a data-default="false" data-type="boolean " href="#dom-xrcylinderlayerinit-isstatic"><code><c- g>isStatic</c-></code></a> = <c- b>false</c->;
 };
 
 <c- b>dictionary</c-> <a href="#dictdef-xrequirectlayerinit"><code><c- g>XREquirectLayerInit</c-></code></a> : <a data-link-type="idl-name" href="#dictdef-xrlayerinit"><c- n>XRLayerInit</c-></a> {
@@ -5031,12 +5020,10 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="6.28318" data-type="float " href="#dom-xrequirectlayerinit-centralhorizontalangle"><code><c- g>centralHorizontalAngle</c-></code></a> = 6.28318;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="1.570795" data-type="float " href="#dom-xrequirectlayerinit-upperverticalangle"><code><c- g>upperVerticalAngle</c-></code></a> = 1.570795;
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-float"><c- b>float</c-></a> <a data-default="-1.570795" data-type="float " href="#dom-xrequirectlayerinit-lowerverticalangle"><code><c- g>lowerVerticalAngle</c-></code></a> = -1.570795;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a data-default="false" data-type="boolean " href="#dom-xrequirectlayerinit-isstatic"><code><c- g>isStatic</c-></code></a> = <c- b>false</c->;
 };
 
 <c- b>dictionary</c-> <a href="#dictdef-xrcubelayerinit"><code><c- g>XRCubeLayerInit</c-></code></a> : <a data-link-type="idl-name" href="#dictdef-xrlayerinit"><c- n>XRLayerInit</c-></a> {
   <a data-link-type="idl-name" href="https://drafts.fxtf.org/geometry-1/#dompointreadonly"><c- n>DOMPointReadOnly</c-></a>? <a data-type="DOMPointReadOnly? " href="#dom-xrcubelayerinit-orientation"><code><c- g>orientation</c-></code></a>;
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a data-default="false" data-type="boolean " href="#dom-xrcubelayerinit-isstatic"><code><c- g>isStatic</c-></code></a> = <c- b>false</c->;
 };
 
 [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <a href="#xrwebglbinding"><code><c- g>XRWebGLBinding</c-></code></a> {
@@ -5627,6 +5614,15 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-dictdef-xrlayerinit⑤">6.9. XRWebGLBinding</a> <a href="#ref-for-dictdef-xrlayerinit⑥">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="dom-xrlayerinit-isstatic">
+   <b><a href="#dom-xrlayerinit-isstatic">#dom-xrlayerinit-isstatic</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrlayerinit-isstatic">3.5. XRQuadLayer</a>
+    <li><a href="#ref-for-dom-xrlayerinit-isstatic①">3.6. XRCylinderLayer</a>
+    <li><a href="#ref-for-dom-xrlayerinit-isstatic②">3.7. XREquirectLayer</a>
+    <li><a href="#ref-for-dom-xrlayerinit-isstatic③">6.9. XRWebGLBinding</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="dom-xrlayerinit-space">
    <b><a href="#dom-xrlayerinit-space">#dom-xrlayerinit-space</a></b><b>Referenced in:</b>
    <ul>
@@ -5713,12 +5709,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-dom-xrquadlayerinit-height">3.5. XRQuadLayer</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-xrquadlayerinit-isstatic">
-   <b><a href="#dom-xrquadlayerinit-isstatic">#dom-xrquadlayerinit-isstatic</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-xrquadlayerinit-isstatic">3.5. XRQuadLayer</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="dictdef-xrcylinderlayerinit">
    <b><a href="#dictdef-xrcylinderlayerinit">#dictdef-xrcylinderlayerinit</a></b><b>Referenced in:</b>
    <ul>
@@ -5756,12 +5746,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <b><a href="#dom-xrcylinderlayerinit-aspectratio">#dom-xrcylinderlayerinit-aspectratio</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-xrcylinderlayerinit-aspectratio">3.6. XRCylinderLayer</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-xrcylinderlayerinit-isstatic">
-   <b><a href="#dom-xrcylinderlayerinit-isstatic">#dom-xrcylinderlayerinit-isstatic</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-xrcylinderlayerinit-isstatic">3.6. XRCylinderLayer</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dictdef-xrequirectlayerinit">
@@ -5805,12 +5789,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-dom-xrequirectlayerinit-lowerverticalangle①">6.7. XREquirectLayerInit</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-xrequirectlayerinit-isstatic">
-   <b><a href="#dom-xrequirectlayerinit-isstatic">#dom-xrequirectlayerinit-isstatic</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-xrequirectlayerinit-isstatic">3.7. XREquirectLayer</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="dictdef-xrcubelayerinit">
    <b><a href="#dictdef-xrcubelayerinit">#dictdef-xrcubelayerinit</a></b><b>Referenced in:</b>
    <ul>
@@ -5822,12 +5800,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <b><a href="#dom-xrcubelayerinit-orientation">#dom-xrcubelayerinit-orientation</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-xrcubelayerinit-orientation">6.9. XRWebGLBinding</a> <a href="#ref-for-dom-xrcubelayerinit-orientation①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-xrcubelayerinit-isstatic">
-   <b><a href="#dom-xrcubelayerinit-isstatic">#dom-xrcubelayerinit-isstatic</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-xrcubelayerinit-isstatic">6.9. XRWebGLBinding</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="xrwebglbinding">
