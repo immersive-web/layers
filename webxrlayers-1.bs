@@ -471,6 +471,8 @@ XRCylinderLayer {#xrcylinderayertype}
 An {{XRCylinderLayer}} renders a layer that takes up a curved rectangular space in the virtual environment.
 Only the front of the layer MUST be visible; the back face MUST not be drawn by the [=XR Compositor=].
 
+<img src="images/cylinder-layer.png" style="width:50%; border-style: ridge;"/>
+
 A XRCylinderLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position
 of the cylinder refers to the center of the quad.
 
@@ -524,6 +526,8 @@ The <dfn attribute for="XRCylinderLayer">onredraw</dfn> attribute is an Event ha
 XREquirectLayer {#xrequirectlayertype}
 ---------------
 An {{XREquirectLayer}} renders a layer where the [=XR Compositor=] MUST map an equirectangular coded data onto the inside of a sphere.
+
+<img src="images/equirect-layer.png" style="width:50%; border-style: ridge;"/>
 
 ISSUE: this section needs clarification
 
