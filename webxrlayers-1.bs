@@ -1493,6 +1493,48 @@ The <dfn dict-member for="XRMediaLayerInit">layout</dfn> attribute defines the l
 The <dfn dict-member for="XRMediaLayerInit">invertStereo</dfn> attribute defines if the natural location of each view in the video
 should be inverted.
 
+XRMediaQuadLayerInit {#xrmediaquadlayerinittype}
+------------------------
+The {{XRMediaQuadLayerInit}} dictionary represents a set of configurable values that describe how an {{XRQuadLayer}} containing a video
+is initialized.
+
+<pre class="idl">
+dictionary XRMediaQuadLayerInit : XRMediaLayerInit {
+  XRRigidTransform? transform;
+  float? width;
+  float? height;
+};
+</pre>
+
+XRMediaCylinderLayerInit {#xrmediacylinderlayerinittype}
+------------------------
+The {{XRMediaCylinderLayerInit}} dictionary represents a set of configurable values that describe how an {{XRCylinderLayer}} containing a video
+is initialized.
+
+<pre class="idl">
+dictionary XRMediaCylinderLayerInit : XRMediaLayerInit {
+  XRRigidTransform? transform;
+  float radius = 2.0;
+  float centralAngle = 0.78539;
+  float? aspectRatio;
+};
+</pre>
+
+XRMediaEquirectLayerInit {#xrmediaequirectlayerinittype}
+------------------------
+The {{XRMediaEquirectLayerInit}} dictionary represents a set of configurable values that describe how an {{XREquirectLayer}} containing a video
+is initialized.
+
+<pre class="idl">
+dictionary XRMediaEquirectLayerInit : XRMediaLayerInit {
+  XRRigidTransform? transform;
+  float radius = 0.0;
+  float centralHorizontalAngle = 6.28318;
+  float upperVerticalAngle = 1.570795;
+  float lowerVerticalAngle = -1.570795;
+};
+</pre>
+
 XRMediaBinding {#xrmediabindingtype}
 --------------
 The {{XRMediaBinding}} object is used to create layers that display the content of an {{HTMLVideoElement}}.
@@ -1501,12 +1543,13 @@ The {{XRMediaBinding}} object is used to create layers that display the content 
 [Exposed=Window] interface XRMediaBinding {
   constructor(XRSession session);
 
-  XRQuadLayer createQuadLayer(HTMLVideoElement video, XRMediaLayerInit init);
-  XRCylinderLayer createCylinderLayer(HTMLVideoElement video, XRMediaLayerInit init);
-  XREquirectLayer createEquirectLayer(HTMLVideoElement video, XRMediaLayerInit init);
+  XRQuadLayer createQuadLayer(HTMLVideoElement video, optional XRMediaQuadLayerInit init);
+  XRCylinderLayer createCylinderLayer(HTMLVideoElement video, optional XRMediaCylinderLayerInit init);
+  XREquirectLayer createEquirectLayer(HTMLVideoElement video, optional XRMediaEquirectLayerInit init);
 };
-
 </pre>
+
+ISSUE: the init dictionaries shouldn't be optional. This is bikeshed issue 1566.
 
 Each {{XRMediaBinding}} has an associated <dfn dfn-for="XRMediaBinding">session</dfn>, which is the
 {{XRSession}} it was created with.
@@ -1559,8 +1602,18 @@ MUST perform the following steps when invoked:
 
 </div>
 
+<div class="algorithm" data-algorithm="calculateaspectratio">
+To <dfn>calculate the aspect ratio</dfn> of an {{HTMLVideoElement}} |video| and an {{XRLayerLayout}} |layout|, run the following steps:
+  1. Let |width| be the |video|'s {{HTMLVideoElement/videoWidth}}.
+  1. Let |height| be the |video|'s {{HTMLVideoElement/videoHeight}}.
+  1. If |layout| is {{XRLayerLayout/"stereo-left-right"}}, divide |width| by <code>2</code>.
+  1. If |layout| is {{XRLayerLayout/"stereo-top-bottom"}}, divide |height| by <code>2</code>.
+  1. Return |width| divided by |height|.
+
+</div>
+
 <div class="algorithm" data-algorithm="createMediaQuadLayerAlgo">
-The <dfn method for="XRMediaBinding">createQuadLayer(HTMLVideoElement |video|, XRMediaLayerInit |init|)</dfn> method creates a new {{XRQuadLayer}} |layer|.
+The <dfn method for="XRMediaBinding">createQuadLayer(HTMLVideoElement |video|, XRMediaQuadLayerInit |init|)</dfn> method creates a new {{XRQuadLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
@@ -1572,6 +1625,10 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Run [=intialize a composition layer=] on |layer| with |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
+  1. Let |aspectRatio| be the result of [=calculate the aspect ratio=] with |video| and |init|'s {{XRMediaLayerInit/layout}}.
+  1. If |init|'s {{XRMediaQuadLayerInit/width}} and {{XRMediaQuadLayerInit/height}} are <code>undefined</code>, set {{XRMediaQuadLayerInit/width}} to <code>1</code>.
+  1. If |init|'s {{XRMediaQuadLayerInit/height}} is <code>undefined</code>, set {{XRMediaQuadLayerInit/height}} to {{XRMediaQuadLayerInit/width}} divided by |aspectRatio|.
+  1. If |init|'s {{XRMediaQuadLayerInit/width}} is <code>undefined</code>, set {{XRMediaQuadLayerInit/width}} to {{XRMediaQuadLayerInit/height}} multiplied by |aspectRatio|.
   1. Run [=initialize a quad layer=] with |layer| and |init|.
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
@@ -1580,7 +1637,7 @@ When this method is invoked, the user agent MUST run the following steps:
 </div>
 
 <div class="algorithm" data-algorithm="createMediaCylinderLayerAlgo">
-The <dfn method for="XRMediaBinding">createCylinderLayer(HTMLVideoElement |video|, XRMediaLayerInit |init|)</dfn> method creates a new {{XRCylinderLayer}} |layer|.
+The <dfn method for="XRMediaBinding">createCylinderLayer(HTMLVideoElement |video|, XRMediaCylinderLayerInit |init|)</dfn> method creates a new {{XRCylinderLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
@@ -1592,6 +1649,8 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Run [=intialize a composition layer=] on |layer| with |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
+  1. Let |aspectRatio| be the result of [=calculate the aspect ratio=] with |video| and |init|'s {{XRMediaLayerInit/layout}}.
+  1. If |init|'s {{XRMediaCylinderLayerInit/aspectRatio}} is <code>undefined</code>, set {{XRMediaCylinderLayerInit/aspectRatio}} to |aspectRatio|.
   1. Run [=initialize a cylinder layer=] with |layer| and |init|.
   1. Allocate and initialize resources compatible with |session|'s [=/XR device=], including GPU accessible memory buffers, as required to support the compositing of |layer|.
   1. If |layer|’s resources were unable to be created for any reason, throw an {{OperationError}} and abort these steps.
@@ -1600,7 +1659,7 @@ When this method is invoked, the user agent MUST run the following steps:
 </div>
 
 <div class="algorithm" data-algorithm="createMediaEquirectLayerAlgo">
-The <dfn method for="XRMediaBinding">createEquirectLayer(HTMLVideoElement |video|, XRMediaLayerInit |init|)</dfn> method creates a new {{XREquirectLayer}} |layer|.
+The <dfn method for="XRMediaBinding">createEquirectLayer(HTMLVideoElement |video|, XRMediaEquirectLayerInit |init|)</dfn> method creates a new {{XREquirectLayer}} |layer|.
 
 When this method is invoked, the user agent MUST run the following steps:
 
