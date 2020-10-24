@@ -1943,7 +1943,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-10-14">14 October 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-10-24">24 October 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1981,11 +1981,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <p> Publication as an Editors' Draft does not imply endorsement by the <abbr title="World Wide Web Consortium">W3C</abbr> Membership. This is a draft document and may
     be updated, replaced or obsoleted by other documents at any time. It is inappropriate to cite
     this document as other than work in progress. </p>
-   <p> This document was produced by a group operating under the <a href="http://www.w3.org/Consortium/Patent-Policy/"> <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>. <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="https://www.w3.org/2004/01/pp-impl/109735/status" rel="disclosure">public list of any
+   <p> This document was produced by a group operating under the <a href="http://www.w3.org/Consortium/Patent-Policy-20170801/"> <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>. <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="https://www.w3.org/2004/01/pp-impl/109735/status" rel="disclosure">public list of any
     patent disclosures</a> made in connection with the deliverables of the group; that page also
     includes instructions for disclosing a patent. An individual who has actual knowledge of a
-    patent which the individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential
-    Claim(s)</a> must disclose the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>. </p>
+    patent which the individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy-20170801/#def-essential">Essential
+    Claim(s)</a> must disclose the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy-20170801/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>. </p>
    <p> This document is governed by the <a href="https://www.w3.org/2020/Process-20200915/" id="w3c_process_revision">15 September 2020 W3C Process Document</a>. </p>
    <p></p>
   </div>
@@ -3686,6 +3686,9 @@ instances of <code class="idl"><a data-link-type="idl" href="https://immersive-w
 </pre>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRRenderState" data-dfn-type="attribute" data-export id="dom-xrrenderstate-layers"><code>layers</code></dfn> attribute returns an array containing
 the instances of <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer①②">XRLayer</a></code> that are displayed by the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor①⑧">XR Compositor</a>.</p>
+   <p>The <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers①">layers</a></code> array defines the order of the composition of the layers. The <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor①⑨">XR Compositor</a> MUST draw each layer
+in order of its position in the array using <a data-link-type="dfn" href="https://www.w3.org/TR/compositing-1#porterduffcompositingoperators_srcover" id="ref-for-porterduffcompositingoperators_srcover">source-over</a> blending. The <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor②⓪">XR Compositor</a> MUST NOT apply any depth sorting of the layers.</p>
+   <p class="note" role="note"><span>NOTE:</span> this means that each layer can potentially overwrite the previous layers whether or not the previous layers are virtually closer to the viewer.</p>
    <div class="algorithm" data-algorithm="initialize-renderstate-for-layers">
      This module replaces the steps given by <a data-link-type="dfn" href="#layers-initialize-the-render-state" id="ref-for-layers-initialize-the-render-state">initialize the render state</a>. Instead when an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrrenderstate" id="ref-for-xrrenderstate②">XRRenderState</a></code> object <var>state</var> is created for an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession①⓪">XRSession</a></code> <var>session</var>, the user agent MUST <dfn class="dfn-paneled" data-dfn-for="layers" data-dfn-type="dfn" data-noexport id="layers-initialize-the-render-state">initialize the render state</dfn> by running the following steps: 
     <ol>
@@ -3700,7 +3703,7 @@ the instances of <code class="idl"><a data-link-type="idl" href="https://immersi
     <p>This module replaces the steps given by "<a data-link-type="dfn" href="#layers-update-the-pending-layers-state" id="ref-for-layers-update-the-pending-layers-state">update the pending layers state</a>" from the WebXR specification. Instead when the user agent will <dfn class="dfn-paneled" data-dfn-for="layers" data-dfn-type="dfn" data-noexport id="layers-update-the-pending-layers-state">update the pending layers state</dfn> with <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession①①">XRSession</a></code> <var>session</var> and <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dictdef-xrrenderstateinit" id="ref-for-dictdef-xrrenderstateinit②">XRRenderStateInit</a></code> <var>newState</var>, it must run the following steps:</p>
     <ol>
      <li data-md>
-      <p>If both <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-baselayer" id="ref-for-dom-xrrenderstateinit-baselayer">baseLayer</a></code> and <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers①">layers</a></code> are set, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①①">NotSupportedError</a></code> and abort these steps.</p>
+      <p>If both <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-baselayer" id="ref-for-dom-xrrenderstateinit-baselayer">baseLayer</a></code> and <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers②">layers</a></code> are set, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①①">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
       <p>Let <var>activeState</var> be <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#active-render-state" id="ref-for-active-render-state">active render state</a>.</p>
      <li data-md>
@@ -3712,16 +3715,16 @@ the instances of <code class="idl"><a data-link-type="idl" href="https://immersi
         <p>Set <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state①">pending render state</a>'s <code class="idl"><a data-link-type="idl" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers④">layers</a></code> to <code>null</code>.</p>
       </ol>
      <li data-md>
-      <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers②">layers</a></code> is set:</p>
+      <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers③">layers</a></code> is set:</p>
       <ol>
        <li data-md>
-        <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑨">layers</a>" enabled and <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers③">layers</a></code> contains more than <code>1</code> instance, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①②">NotSupportedError</a></code> and abort these steps.</p>
+        <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑨">layers</a>" enabled and <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers④">layers</a></code> contains more than <code>1</code> instance, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror①②">NotSupportedError</a></code> and abort these steps.</p>
        <li data-md>
         <p>If <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state②">pending render state</a> is <code>null</code>, set it to a copy of <var>activeState</var>.</p>
        <li data-md>
-        <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers④">layers</a></code> contains duplicate instances, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②⑤">TypeError</a></code> and abort these steps.</p>
+        <p>If <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑤">layers</a></code> contains duplicate instances, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②⑤">TypeError</a></code> and abort these steps.</p>
        <li data-md>
-        <p>For each <var>layer</var> in <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑤">layers</a></code>:</p>
+        <p>For each <var>layer</var> in <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑥">layers</a></code>:</p>
         <ol>
          <li data-md>
           <p>If <var>layer</var> is an <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer③⓪">XRCompositionLayer</a></code> and <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-session" id="ref-for-xrcompositionlayer-session⑧">session</a> is different from <var>session</var>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②⑥">TypeError</a></code> and abort these steps.</p>
@@ -3731,14 +3734,14 @@ the instances of <code class="idl"><a data-link-type="idl" href="https://immersi
        <li data-md>
         <p>Set <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state③">pending render state</a>'s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstate-baselayer" id="ref-for-dom-xrrenderstate-baselayer">baseLayer</a></code> to <code>null</code>.</p>
        <li data-md>
-        <p>Set <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state④">pending render state</a>'s <code class="idl"><a data-link-type="idl" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers⑤">layers</a></code> to <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑥">layers</a></code>.</p>
+        <p>Set <var>session</var>’s <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#pending-render-state" id="ref-for-pending-render-state④">pending render state</a>'s <code class="idl"><a data-link-type="idl" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers⑤">layers</a></code> to <var>newState</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑦">layers</a></code>.</p>
       </ol>
     </ol>
    </div>
    <h3 class="heading settled" data-level="9.3" id="xrcompositorchanges"><span class="secno">9.3. </span><span class="content">XRCompositor changes</span><a class="self-link" href="#xrcompositorchanges"></a></h3>
-    The <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor①⑨">XR Compositor</a> MUST be extended so all <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer①③">XRLayer</a></code> instances from the <code class="idl"><a data-link-type="idl" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers⑥">layers</a></code> array are composited
-at the same time. All other requirements for <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor②⓪">WebXR</a> MUST continue to apply. 
-   <p>If the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor②①">XR Compositor</a> is rendering to a <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#view" id="ref-for-view⑥">view</a> with an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#enumdef-xreye" id="ref-for-enumdef-xreye①">XREye</a></code> of <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xreye-none" id="ref-for-dom-xreye-none③">"none"</a></code> and drawing an <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer③①">XRCompositionLayer</a></code> which is NOT an <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer②①">XRProjectionLayer</a></code> and does NOT have a <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout②④">layout</a></code> of <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-mono" id="ref-for-dom-xrlayerlayout-mono⑨">"mono"</a></code>, the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor②②">XR Compositor</a> MUST render that layer
+    The <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor②①">XR Compositor</a> MUST be extended so all <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer①③">XRLayer</a></code> instances from the <code class="idl"><a data-link-type="idl" href="#dom-xrrenderstate-layers" id="ref-for-dom-xrrenderstate-layers⑥">layers</a></code> array are composited
+at the same time. All other requirements for <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor②②">WebXR</a> MUST continue to apply. 
+   <p>If the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor②③">XR Compositor</a> is rendering to a <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#view" id="ref-for-view⑥">view</a> with an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#enumdef-xreye" id="ref-for-enumdef-xreye①">XREye</a></code> of <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xreye-none" id="ref-for-dom-xreye-none③">"none"</a></code> and drawing an <code class="idl"><a data-link-type="idl" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer③①">XRCompositionLayer</a></code> which is NOT an <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer②①">XRProjectionLayer</a></code> and does NOT have a <code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-layout" id="ref-for-dom-xrcompositionlayer-layout②④">layout</a></code> of <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-mono" id="ref-for-dom-xrlayerlayout-mono⑨">"mono"</a></code>, the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor②④">XR Compositor</a> MUST render that layer
 as if the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#view" id="ref-for-view⑦">view</a> had an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#enumdef-xreye" id="ref-for-enumdef-xreye②">XREye</a></code> of <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xreye-left" id="ref-for-dom-xreye-left">"left"</a></code>.</p>
    <p class="note" role="note"><span>NOTE:</span> This means that the side for the right eye of the layer is ignored. This enables authors to use the same assets for stereoscopic and
 monoscopic devices.</p>
@@ -3752,7 +3755,7 @@ resolution large enough to contain the view.
      <li data-md>
       <p>If <var>state</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstate-baselayer" id="ref-for-dom-xrrenderstate-baselayer①">baseLayer</a></code> is not <code>null</code>, return <code>true</code>.</p>
      <li data-md>
-      <p>If <var>state</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑦">layers</a></code> is not empty, return <code>true</code>.</p>
+      <p>If <var>state</var>’s <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers⑧">layers</a></code> is not empty, return <code>true</code>.</p>
      <li data-md>
       <p>return <code>false</code>.</p>
     </ol>
@@ -4036,6 +4039,12 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <li><a href="#dom-xrwebglbinding-xrwebglbinding">XRWebGLBinding(session, context)</a><span>, in §6.9</span>
    <li><a href="#xrwebglsubimage">XRWebGLSubImage</a><span>, in §5.2</span>
   </ul>
+  <aside class="dfn-panel" data-for="term-for-porterduffcompositingoperators_srcover">
+   <a href="https://www.w3.org/TR/compositing-1#porterduffcompositingoperators_srcover">https://www.w3.org/TR/compositing-1#porterduffcompositingoperators_srcover</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-porterduffcompositingoperators_srcover">9.1. XRRenderState changes</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-event">
    <a href="https://dom.spec.whatwg.org/#event">https://dom.spec.whatwg.org/#event</a><b>Referenced in:</b>
    <ul>
@@ -4602,9 +4611,9 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <aside class="dfn-panel" data-for="term-for-dom-xrrenderstateinit-layers">
    <a href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers">https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrrenderstateinit-layers">9.1. XRRenderState changes</a>
-    <li><a href="#ref-for-dom-xrrenderstateinit-layers①">9.2. updateRenderState changes</a> <a href="#ref-for-dom-xrrenderstateinit-layers②">(2)</a> <a href="#ref-for-dom-xrrenderstateinit-layers③">(3)</a> <a href="#ref-for-dom-xrrenderstateinit-layers④">(4)</a> <a href="#ref-for-dom-xrrenderstateinit-layers⑤">(5)</a> <a href="#ref-for-dom-xrrenderstateinit-layers⑥">(6)</a>
-    <li><a href="#ref-for-dom-xrrenderstateinit-layers⑦">9.5. Animation frames changes</a>
+    <li><a href="#ref-for-dom-xrrenderstateinit-layers">9.1. XRRenderState changes</a> <a href="#ref-for-dom-xrrenderstateinit-layers①">(2)</a>
+    <li><a href="#ref-for-dom-xrrenderstateinit-layers②">9.2. updateRenderState changes</a> <a href="#ref-for-dom-xrrenderstateinit-layers③">(2)</a> <a href="#ref-for-dom-xrrenderstateinit-layers④">(3)</a> <a href="#ref-for-dom-xrrenderstateinit-layers⑤">(4)</a> <a href="#ref-for-dom-xrrenderstateinit-layers⑥">(5)</a> <a href="#ref-for-dom-xrrenderstateinit-layers⑦">(6)</a>
+    <li><a href="#ref-for-dom-xrrenderstateinit-layers⑧">9.5. Animation frames changes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-xrsession-list-of-views">
@@ -4807,8 +4816,8 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-xr-compositor①⑤">6.2. Opaque textures</a>
     <li><a href="#ref-for-xr-compositor①⑥">6.9. XRWebGLBinding</a>
     <li><a href="#ref-for-xr-compositor①⑦">8.2. Event Types</a>
-    <li><a href="#ref-for-xr-compositor①⑧">9.1. XRRenderState changes</a>
-    <li><a href="#ref-for-xr-compositor①⑨">9.3. XRCompositor changes</a> <a href="#ref-for-xr-compositor②⓪">(2)</a> <a href="#ref-for-xr-compositor②①">(3)</a> <a href="#ref-for-xr-compositor②②">(4)</a>
+    <li><a href="#ref-for-xr-compositor①⑧">9.1. XRRenderState changes</a> <a href="#ref-for-xr-compositor①⑨">(2)</a> <a href="#ref-for-xr-compositor②⓪">(3)</a>
+    <li><a href="#ref-for-xr-compositor②①">9.3. XRCompositor changes</a> <a href="#ref-for-xr-compositor②②">(2)</a> <a href="#ref-for-xr-compositor②③">(3)</a> <a href="#ref-for-xr-compositor②④">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-xrsessionmode-immersive-ar">
@@ -4819,6 +4828,11 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
+   <li>
+    <a data-link-type="biblio">[compositing-1]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-porterduffcompositingoperators_srcover">source-over</span>
+    </ul>
    <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
@@ -4974,6 +4988,8 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
+   <dt id="biblio-compositing-1">[COMPOSITING-1]
+   <dd>Rik Cabanier; Nikos Andronikos. <a href="https://www.w3.org/TR/compositing-1/">Compositing and Blending Level 1</a>. 13 January 2015. CR. URL: <a href="https://www.w3.org/TR/compositing-1/">https://www.w3.org/TR/compositing-1/</a>
    <dt id="biblio-dom">[DOM]
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-geometry-1">[GEOMETRY-1]
