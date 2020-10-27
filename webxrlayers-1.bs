@@ -97,12 +97,15 @@ spec: WebGL 2.0; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/
     type: dfn; text: texStorage3D; url: 3.7.6
 spec: WEBGL_depth_texture; urlPrefix: https://www.khronos.org/registry/webgl/extensions/WEBGL_depth_texture/
     type: typedef; text: WEBGL_depth_texture
+    type: typedef; text: UNSIGNED_INT_24_8_WEBGL
 spec:html; urlPrefix: https://html.spec.whatwg.org/multipage/
     type: dfn; text: current realm; url: webappapis.html#current
 spec: ECMAScript; urlPrefix: https://tc39.github.io/ecma262/#
     type: dfn; text: Realm; url: realm
-    type: typedef; text: UNSIGNED_INT_24_8_WEBGL
+spec: compositing-1; urlPrefix: https://www.w3.org/TR/compositing-1
+    type: dfn; text: source-over; url: porterduffcompositingoperators_srcover
 </pre>
+
 
 <pre class=link-defaults>
     spec:webxr-ar-module-1; type:enum-value; text:"immersive-ar"
@@ -1748,6 +1751,11 @@ instances of {{XRLayer}}.
 
 The <dfn attribute for="XRRenderState">layers</dfn> attribute returns an array containing
 the instances of {{XRLayer}} that are displayed by the [=XR Compositor=].
+
+The {{XRRenderStateInit/layers}} array defines the order of the composition of the layers. The [=XR Compositor=] MUST draw each layer
+in order of its position in the array using [=source-over=] blending. The [=XR Compositor=] MUST NOT apply any depth sorting of the layers.
+
+NOTE: this means that each layer can potentially overwrite the previous layers whether or not the previous layers are virtually closer to the viewer.
 
 <div class="algorithm" data-algorithm="initialize-renderstate-for-layers">
 This module replaces the steps given by [=initialize the render state=]. Instead when an {{XRRenderState}} object |state|
