@@ -775,9 +775,7 @@ is initialized.
 dictionary XRProjectionLayerInit {
   XRTextureType textureType = "texture";
   GLenum colorFormat = 0x1907; // RGBA
-  GLenum depthFormat = 0x84FA; // UNSIGNED_INT_24_8_WEBGL
-  boolean depth = true;
-  boolean stencil = false;
+  GLenum? depthFormat;
   double scaleFactor = 1.0;
 };
 </pre>
@@ -788,11 +786,7 @@ The <dfn dict-member for="XRProjectionLayerInit">colorFormat</dfn> attribute def
 The default value is {{RGBA}}.
 
 The <dfn dict-member for="XRProjectionLayerInit">depthFormat</dfn> attribute defines the data type of the depth texture data.
-The default value is {{UNSIGNED_INT_24_8_WEBGL}}.
-
-The <dfn dict-member for="XRProjectionLayerInit">depth</dfn> attribute defines if the {{XRProjectionLayer}} will have a depth buffer.
-
-The <dfn dict-member for="XRProjectionLayerInit">stencil</dfn> attribute defines if the {{XRProjectionLayer}} will have a stencil buffer.
+If {{XRProjectionLayerInit/depthFormat}} is not supplied, the layer will not provide a depth/stencil texture.
 
 The <dfn dict-member for="XRProjectionLayerInit">scaleFactor</dfn> attribute defines the value that the |session|'s
 [=recommended WebGL framebuffer resolution=] MUST be multiplied by determining the resolution of the layer's attachments.
@@ -806,12 +800,10 @@ The {{XRLayerInit}} dictionary represents a set of common configurable values fo
 dictionary XRLayerInit {
   required XRSpace space;
   GLenum colorFormat = 0x1907; // RGBA
-  GLenum depthFormat = 0x84FA; // UNSIGNED_INT_24_8_WEBGL
+  GLenum? depthFormat;
   required unsigned long viewPixelWidth;
   required unsigned long viewPixelHeight;
   XRLayerLayout layout = "mono";
-  boolean depth = false;
-  boolean stencil = false;
   boolean isStatic = false;
 };
 </pre>
@@ -822,16 +814,12 @@ The <dfn dict-member for="XRLayerInit">colorFormat</dfn> attribute defines the d
 The default value is {{RGBA}}.
 
 The <dfn dict-member for="XRLayerInit">depthFormat</dfn> attribute defines the data type of the depth texture data.
-The default value is {{UNSIGNED_INT_24_8_WEBGL}}.
+If {{XRLayerInit/depthFormat}} is not supplied, the layer will not provide a depth/stencil texture.
 
 The <dfn dict-member for="XRLayerInit">viewPixelWidth</dfn> and <dfn dict-member for="XRLayerInit">viewPixelHeight</dfn> attributes define
 the rectangular dimensions of the {{XRCompositionLayer}}.
 
 The <dfn dict-member for="XRLayerInit">layout</dfn> attribute defines the layout of the layer.
-
-The <dfn dict-member for="XRLayerInit">depth</dfn> attribute defines if the {{XRCompositionLayer}} view will have a depth buffer.
-
-The <dfn dict-member for="XRLayerInit">stencil</dfn> attribute defines if the {{XRCompositionLayer}} view will have a stencil buffer.
 
 XRQuadLayerInit {#xrquadlayerinit}
 -------------------
@@ -1135,27 +1123,27 @@ To <dfn>allocate color textures</dfn> using an {{XRCompositionLayer}} |layer|, a
 To <dfn>allocate depth textures</dfn> using an {{XRCompositionLayer}} |layer|, an {{XRTextureType}} |textureType| and an {{XRLayerInit}} |init|, the user agent MUST run the following steps:
   1. let |array| be a [=new=] array in the [=relevant realm=] of |context|.
   1. let |context| be |layer|'s [=XRCompositionLayer/context=].
-  1. If |init|'s {{XRLayerInit/depth}} and {{XRLayerInit/stencil}} are not set, return |array| and abort these steps.
+  1. If |init|'s {{XRLayerInit/depthFormat}} is not set, return |array| and abort these steps.
   1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
-  1. If |init|'s {{XRLayerInit/depth}} or {{XRLayerInit/stencil}} are set and |depthsupport| is false, throw {{TypeError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/depthFormat}} is set and |depthsupport| is false, throw {{TypeError}} and abort these steps.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dt> Otherwise
-          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s  {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         </dl>
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"stereo"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-         <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 2 layers using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+         <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 2 layers using |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dd> Return |array| and abort these steps.
         <dt> Otherwise
-          <dd> Initialize |array| with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dd> Return |array| and abort these steps.
         </dl>
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/depthFormat}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/stencil}}, {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/depthFormat}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
   1. return |array|.
 
 </div>
@@ -1174,7 +1162,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to <code>false</code>.
   1. Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} as follows:
       <dl class="switch">
-        <dt> If |init|'s {{XRProjectionLayerInit/depth}} value is <code>false</code> and the [=XR Compositor=] will make use of depth values
+        <dt> If |init|'s {{XRProjectionLayerInit/depthFormat}} is <code>false</code> and the [=XR Compositor=] will make use of depth values
           <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>false</code>
         <dt> Otherwise
           <dd> Initialize |layer|'s {{XRProjectionLayer/ignoreDepthValues}} to <code>true</code>
@@ -1185,7 +1173,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
   1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures for projection layers|allocating color textures for projection layers=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}}, |init|'s {{XRProjectionLayerInit/colorFormat}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
-  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures for projection layers|allocating depth textures for projection layers=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}}, |init|'s {{XRProjectionLayerInit/depthFormat}}, |init|'s {{XRProjectionLayerInit/depth}}, |init|'s {{XRProjectionLayerInit/stencil}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
+  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures for projection layers|allocating depth textures for projection layers=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}}, |init|'s {{XRProjectionLayerInit/depthFormat}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
   1. Initialize the [=XRProjectionLayer/colortextures for secondary views=] as follows:
       <dl class="switch">
         <dt> If the |session| was created with "[=secondary view/secondary-views=]" enabled
@@ -1196,7 +1184,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Initialize the [=XRProjectionLayer/depthstenciltextures for secondary views=] as follows:
       <dl class="switch">
         <dt> If the |session| was created with "[=secondary view/secondary-views=]" enabled
-          <dd> Let [=XRProjectionLayer/depthstenciltextures for secondary views=] be the result of [=allocate the depth textures for the secondary views=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}}, |init|'s {{XRProjectionLayerInit/depthFormat}}, |init|'s {{XRProjectionLayerInit/depth}}, |init|'s {{XRProjectionLayerInit/stencil}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
+          <dd> Let [=XRProjectionLayer/depthstenciltextures for secondary views=] be the result of [=allocate the depth textures for the secondary views=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}}, |init|'s {{XRProjectionLayerInit/depthFormat}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
         <dt> Otherwise
           <dd> Let [=XRProjectionLayer/depthstenciltextures for secondary views=] be <code>null</code>.
       </dl>
@@ -1319,7 +1307,7 @@ When this method is invoked, the user agent MUST run the following steps:
         <dd> Initialize [=colorTextures=] with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
     </dl>
   1. Let |layer|'s [=depthStencilTextures=] be a [=new=] array in the [=relevant realm=] of this {{XRCubeLayer}}.
-  1. If |init|'s {{XRLayerInit/depth}} and {{XRLayerInit/stencil}} are set, initialize |layer|'s [=depthStencilTextures=] as follows:
+  1. If |init|'s {{XRLayerInit/depthFormat}} is set, initialize |layer|'s [=depthStencilTextures=] as follows:
     <dl class="switch">
       <dt> If |context| is not a {{WebGL2RenderingContext}} and the {{WEBGL_depth_texture}} extension is not enabled in |context|.
         <dd> Throw {{TypeError}} and abort these steps.
