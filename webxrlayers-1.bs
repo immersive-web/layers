@@ -774,7 +774,7 @@ is initialized.
 <pre class="idl">
 dictionary XRProjectionLayerInit {
   XRTextureType textureType = "texture";
-  GLenum colorFormat = 0x1907; // RGBA
+  GLenum colorFormat = 0x1908; // RGBA
   GLenum? depthFormat;
   double scaleFactor = 1.0;
 };
@@ -799,7 +799,7 @@ The {{XRLayerInit}} dictionary represents a set of common configurable values fo
 <pre class="idl">
 dictionary XRLayerInit {
   required XRSpace space;
-  GLenum colorFormat = 0x1907; // RGBA
+  GLenum colorFormat = 0x1908; // RGBA
   GLenum? depthFormat;
   required unsigned long viewPixelWidth;
   required unsigned long viewPixelHeight;
