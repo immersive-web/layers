@@ -896,7 +896,7 @@ For WebGL1 contexts with the '{{WEBGL_depth_texture}}' [=extension=] enabled or 
  - {{DEPTH_COMPONENT}}
  - {{DEPTH_STENCIL}}
 
-For WebGL2 contexts these additional formats are supported::
+For WebGL2 contexts these additional formats are supported:
 
  - {{DEPTH_COMPONENT24}}
  - {{DEPTH24_STENCIL8}}
