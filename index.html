@@ -1485,7 +1485,7 @@ Possible extra rowspan handling
 	}
 </style>
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <meta content="Bikeshed version c5172e83, updated Fri Nov 20 15:35:20 2020 -0800" name="generator">
+  <meta content="Bikeshed version 4e8dd937, updated Fri Nov 13 16:49:31 2020 -0800" name="generator">
   <link href="https://www.w3.org/TR/webxrlayers-1/" rel="canonical">
   <link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
   <link href="favicon-96x96.png" rel="icon" sizes="96x96" type="image/png">
@@ -2114,7 +2114,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-11-23">23 November 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-12-01">1 December 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2442,7 +2442,7 @@ values.</p>
    <h3 class="heading settled" data-level="3.4" id="xrprojectionlayertype"><span class="secno">3.4. </span><span class="content">XRProjectionLayer</span><a class="self-link" href="#xrprojectionlayertype"></a></h3>
     An <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer④">XRProjectionLayer</a></code> is a layer that fills the entire view of the observer.
 Projection layers should be refreshed close to the device’s native frame rate. 
-   <p><img src="images/projection-layer.jpg" style="width:50%; border-style: ridge;"></p>
+   <p><img alt="representation of a projection layer" src="images/projection-layer.jpg" style="width:50%; border-style: ridge;"></p>
 <pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrprojectionlayer"><code><c- g>XRProjectionLayer</c-></code></dfn> : <a data-link-type="idl-name" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer⑨"><c- n>XRCompositionLayer</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean③"><c- b>boolean</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="boolean" href="#dom-xrprojectionlayer-ignoredepthvalues" id="ref-for-dom-xrprojectionlayer-ignoredepthvalues"><c- g>ignoreDepthValues</c-></a>;
 };
@@ -2454,7 +2454,7 @@ is <code>false</code> it indicates that the content of the depth buffer attachme
 Only the front of the layer MUST be visible; the back face MUST not be drawn by the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor①①">XR Compositor</a>. 
    <p>A XRQuadLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position
 of a quad refers to the center of the quad.</p>
-   <p><img src="images/quad-layer.jpg" style="width:50%; border-style: ridge;"></p>
+   <p><img alt="representation of a quad layer" src="images/quad-layer.jpg" style="width:50%; border-style: ridge;"></p>
 <pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrquadlayer"><code><c- g>XRQuadLayer</c-></code></dfn> : <a data-link-type="idl-name" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer①⓪"><c- n>XRCompositionLayer</c-></a> {
   <c- b>attribute</c-> <a data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrspace" id="ref-for-xrspace①"><c- n>XRSpace</c-></a> <a class="idl-code" data-link-type="attribute" data-type="XRSpace" href="#dom-xrquadlayer-space" id="ref-for-dom-xrquadlayer-space"><c- g>space</c-></a>;
   <c- b>attribute</c-> <a data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrrigidtransform" id="ref-for-xrrigidtransform"><c- n>XRRigidTransform</c-></a> <a class="idl-code" data-link-type="attribute" data-type="XRRigidTransform" href="#dom-xrquadlayer-transform" id="ref-for-dom-xrquadlayer-transform"><c- g>transform</c-></a>;
@@ -2496,7 +2496,7 @@ set and return the width and height of the layer in meters.</p>
    <h3 class="heading settled" data-level="3.6" id="xrcylinderayertype"><span class="secno">3.6. </span><span class="content">XRCylinderLayer</span><a class="self-link" href="#xrcylinderayertype"></a></h3>
     An <code class="idl"><a data-link-type="idl" href="#xrcylinderlayer" id="ref-for-xrcylinderlayer">XRCylinderLayer</a></code> renders a layer that takes up a curved rectangular space in the virtual environment.
 Only the front of the layer MUST be visible; the back face MUST not be drawn by the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor①②">XR Compositor</a>. 
-   <p><img src="images/cylinder-layer.png" style="width:50%; border-style: ridge;"></p>
+   <p><img alt="representation of a cylinder layer" src="images/cylinder-layer.png" style="width:50%; border-style: ridge;"></p>
    <p>A XRCylinderLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position
 of the cylinder refers to the center of the quad.</p>
 <pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed③"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrcylinderlayer"><code><c- g>XRCylinderLayer</c-></code></dfn> : <a data-link-type="idl-name" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer①①"><c- n>XRCompositionLayer</c-></a> {
@@ -2518,7 +2518,7 @@ When setting the <code class="idl"><a data-link-type="idl" href="#dom-xrcylinder
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCylinderLayer" data-dfn-type="attribute" data-export id="dom-xrcylinderlayer-centralangle"><code>centralAngle</code></dfn> attribute controls the angle in radians of the visible section of the cylinder.
 It grows symmetrically around the 0 angle.</p>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCylinderLayer" data-dfn-type="attribute" data-export id="dom-xrcylinderlayer-aspectratio"><code>aspectRatio</code></dfn> attribute controls the ratio of the visible cylinder section.</p>
-   <p><img src="images/cylinder_layer_params.png" style="width:80%"></p>
+   <p><img alt="description of the parameters of a cylinder layer" src="images/cylinder_layer_params.png" style="width:80%"></p>
    <div class="algorithm" data-algorithm="initCylinderLayerAlgo">
      When <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="initialize a cylinder layer" data-noexport id="initialize-a-cylinder-layer">initializing an <code class="idl"><a data-link-type="idl" href="#xrcylinderlayer" id="ref-for-xrcylinderlayer①">XRCylinderLayer</a></code> <var>layer</var> with an <code class="idl"><a data-link-type="idl" href="#dictdef-xrcylinderlayerinit" id="ref-for-dictdef-xrcylinderlayerinit">XRCylinderLayerInit</a></code> <var>init</var></dfn>, the user agent MUST run the following steps: 
     <ol>
@@ -2545,7 +2545,7 @@ It grows symmetrically around the 0 angle.</p>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCylinderLayer" data-dfn-type="attribute" data-export id="dom-xrcylinderlayer-onredraw"><code>onredraw</code></dfn> attribute is an Event handler IDL attribute for the <code class="idl"><a data-link-type="idl" href="#eventdef-xrlayer-redraw" id="ref-for-eventdef-xrlayer-redraw②">redraw</a></code> event type.</p>
    <h3 class="heading settled" data-level="3.7" id="xrequirectlayertype"><span class="secno">3.7. </span><span class="content">XREquirectLayer</span><a class="self-link" href="#xrequirectlayertype"></a></h3>
     An <code class="idl"><a data-link-type="idl" href="#xrequirectlayer" id="ref-for-xrequirectlayer">XREquirectLayer</a></code> renders a layer where the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor①③">XR Compositor</a> MUST map an equirectangular coded data onto the inside of a sphere. 
-   <p><img src="images/equirect-layer.png" style="width:50%; border-style: ridge;"></p>
+   <p><img alt="representation of an equirect layer" src="images/equirect-layer.png" style="width:50%; border-style: ridge;"></p>
    <p class="issue" id="issue-9b6533f8"><a class="self-link" href="#issue-9b6533f8"></a> this section needs clarification</p>
 <pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed④"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrequirectlayer"><code><c- g>XREquirectLayer</c-></code></dfn> : <a data-link-type="idl-name" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer①②"><c- n>XRCompositionLayer</c-></a> {
   <c- b>attribute</c-> <a data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrspace" id="ref-for-xrspace③"><c- n>XRSpace</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayer" data-dfn-type="attribute" data-export data-type="XRSpace" id="dom-xrequirectlayer-space"><code><c- g>space</c-></code></dfn>;
@@ -2568,7 +2568,7 @@ It grows symmetrically around the 0 angle.</p>
 a value higher than 2π will set it to 2π.</p>
    <p>Setting <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-upperverticalangle" id="ref-for-dom-xrequirectlayer-upperverticalangle①">upperVerticalAngle</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-lowerverticalangle" id="ref-for-dom-xrequirectlayer-lowerverticalangle①">lowerVerticalAngle</a></code> to a value less than -π/2 will set it
 to -π/2 and setting it to a value higher than π/2 will set it to π/2.</p>
-   <p><img src="images/equirect.png" style="width:50%"></p>
+   <p><img alt="description of the parameters of an equirect layer" src="images/equirect.png" style="width:50%"></p>
    <p>When assigning an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrspace" id="ref-for-xrspace④">XRSpace</a></code> to the <code class="idl"><a data-link-type="idl" href="#dom-xrequirectlayer-space" id="ref-for-dom-xrequirectlayer-space②">space</a></code> attribute, first run the following steps.</p>
    <div class="algorithm" data-algorithm="setting the space on an equirect layer">
     <p>When <var>setting the space on an equirect layer</var> with <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrspace" id="ref-for-xrspace⑤">XRSpace</a></code> <var>space</var> and <code class="idl"><a data-link-type="idl" href="#xrequirectlayer" id="ref-for-xrequirectlayer①">XREquirectLayer</a></code> <var>layer</var>, the user agent MUST run the following steps to validate if the <var>space</var> is valid:</p>
@@ -2609,7 +2609,7 @@ to -π/2 and setting it to a value higher than π/2 will set it to π/2.</p>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XREquirectLayer" data-dfn-type="attribute" data-export id="dom-xrequirectlayer-onredraw"><code>onredraw</code></dfn> attribute is an Event handler IDL attribute for the <code class="idl"><a data-link-type="idl" href="#eventdef-xrlayer-redraw" id="ref-for-eventdef-xrlayer-redraw③">redraw</a></code> event type.</p>
    <h3 class="heading settled" data-level="3.8" id="xcubelayertype"><span class="secno">3.8. </span><span class="content">XRCubeLayer</span><a class="self-link" href="#xcubelayertype"></a></h3>
     A <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer">XRCubeLayer</a></code> renders a layer where the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor①④">XR Compositor</a> renders directly from a cubemap. 
-   <p><img src="images/cube-layer.jpg" style="width:50%; border-style: ridge;"></p>
+   <p><img alt="representation of a cube layer" src="images/cube-layer.jpg" style="width:50%; border-style: ridge;"></p>
    <p class="issue" id="issue-9b6533f8①"><a class="self-link" href="#issue-9b6533f8①"></a> this section needs clarification</p>
 <pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed⑤"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrcubelayer"><code><c- g>XRCubeLayer</c-></code></dfn> : <a data-link-type="idl-name" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer①③"><c- n>XRCompositionLayer</c-></a> {
   <c- b>attribute</c-> <a data-link-type="idl-name" href="https://immersive-web.github.io/webxr/#xrspace" id="ref-for-xrspace⑥"><c- n>XRSpace</c-></a> <a class="idl-code" data-link-type="attribute" data-type="XRSpace" href="#dom-xrcubelayer-space" id="ref-for-dom-xrcubelayer-space"><c- g>space</c-></a>;
