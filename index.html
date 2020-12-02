@@ -2114,7 +2114,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-12-01">1 December 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-12-02">2 December 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2122,7 +2122,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <dt>Latest published version:
      <dd><a href="https://www.w3.org/TR/webxrlayers-1/">https://www.w3.org/TR/webxrlayers-1/</a>
      <dt>Previous Versions:
-     <dd><a href rel="prev"></a>
+     <dd><a href="https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/" rel="prev">https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/</a>
      <dt>Issue Tracking:
      <dd><a href="https://github.com/immersive-web/layers/issues/">GitHub</a>
      <dd><a href="#issues-index">Inline In Spec</a>
@@ -2293,9 +2293,9 @@ match it with the most recent HMD pose. This may significantly reduce the effect
    </section>
    <h2 class="heading settled" data-level="2" id="initialization"><span class="secno">2. </span><span class="content">Initialization</span><a class="self-link" href="#initialization"></a></h2>
    <p>If an application wants to create layers other than of type <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer①">XRProjectionLayer</a></code> during a session,
-the session MUST be requested with an appropriate <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor">feature descriptor</a>. The string "<dfn class="dfn-paneled" data-dfn-for="feature descriptor" data-dfn-type="dfn" data-noexport id="feature-descriptor-layers">layers</dfn>" is introduced
-by this module as a new valid <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor①">feature descriptor</a> for the WebXR Layers feature.</p>
-   <p>Layers of type <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer②">XRProjectionLayer</a></code> MUST always be supported, regardless if the <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor②">feature descriptor</a> was requested.</p>
+the session MUST be requested with an appropriate <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#feature-descriptor" id="ref-for-feature-descriptor">feature descriptor</a>. The string "<dfn class="dfn-paneled" data-dfn-for="feature descriptor" data-dfn-type="dfn" data-noexport id="feature-descriptor-layers">layers</dfn>" is introduced
+by this module as a new valid <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#feature-descriptor" id="ref-for-feature-descriptor①">feature descriptor</a> for the WebXR Layers feature.</p>
+   <p>Layers of type <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer②">XRProjectionLayer</a></code> MUST always be supported, regardless if the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#feature-descriptor" id="ref-for-feature-descriptor②">feature descriptor</a> was requested.</p>
    <div class="example" id="example-3a50cd84">
     <a class="self-link" href="#example-3a50cd84"></a> The following code requests layers as an optional feature. 
 <pre class="highlight">navigator<c- p>.</c->xr<c- p>.</c->requestSession<c- p>(</c-><c- t>'immersive-vr'</c-><c- p>,</c-> <c- p>{</c->
@@ -2304,7 +2304,7 @@ by this module as a new valid <a data-link-type="dfn" href="https://immersive-we
 </pre>
    </div>
    <p>Layers are only supported for XRSessions created with XRSessionMode of <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrsessionmode-immersive-vr" id="ref-for-dom-xrsessionmode-immersive-vr">"immersive-vr"</a></code> or <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr-ar-module/#dom-xrsessionmode-immersive-ar" id="ref-for-dom-xrsessionmode-immersive-ar">"immersive-ar"</a></code>. <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrsessionmode-inline" id="ref-for-dom-xrsessionmode-inline">"inline"</a></code> sessions MUST not support layers.</p>
-   <p>The "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers">layers</a>" <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor③">feature descriptor</a> has a <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-requirements" id="ref-for-feature-requirements">feature requirement</a> that it cannot be enabled when there is an <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#active-immersive-session" id="ref-for-active-immersive-session">active immersive session</a>.</p>
+   <p>The "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers">layers</a>" <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#feature-descriptor" id="ref-for-feature-descriptor③">feature descriptor</a> has a <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-requirements" id="ref-for-feature-requirements">feature requirement</a> that it cannot be enabled when there is an <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#active-immersive-session" id="ref-for-active-immersive-session">active immersive session</a>.</p>
    <p class="note" role="note"><span>NOTE:</span> This means that executing the <code class="idl"><a data-link-type="idl" href="https://wicg.github.io/permissions-request/#dom-permissions-request" id="ref-for-dom-permissions-request">request(permissionDesc)</a></code> API with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers①">layers</a>" will
 not enable layers support for the current active session.</p>
    <h2 class="heading settled" data-level="3" id="xrlayertypes"><span class="secno">3. </span><span class="content">Layer types</span><a class="self-link" href="#xrlayertypes"></a></h2>
@@ -3946,7 +3946,7 @@ instances of <code class="idl"><a data-link-type="idl" href="https://immersive-w
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRRenderState" data-dfn-type="attribute" data-export id="dom-xrrenderstate-layers"><code>layers</code></dfn> attribute returns an array containing
 the instances of <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrlayer" id="ref-for-xrlayer①②">XRLayer</a></code> that are displayed by the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor②②">XR Compositor</a>.</p>
    <p>The <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-layers" id="ref-for-dom-xrrenderstateinit-layers①">layers</a></code> array defines the order of the composition of the layers. The <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor②③">XR Compositor</a> MUST draw each layer
-in order of its position in the array using <a data-link-type="dfn" href="https://www.w3.org/TR/compositing-1#porterduffcompositingoperators_srcover" id="ref-for-porterduffcompositingoperators_srcover">source-over</a> blending. The <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor②④">XR Compositor</a> MUST NOT apply any depth sorting of the layers.</p>
+in order of its position in the array using <a data-link-type="dfn" href="https://www.w3.org/TR/compositing-1/#porterduffcompositingoperators_srcover" id="ref-for-porterduffcompositingoperators_srcover">source-over</a> blending. The <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor②④">XR Compositor</a> MUST NOT apply any depth sorting of the layers.</p>
    <p class="note" role="note"><span>NOTE:</span> this means that each layer can potentially overwrite the previous layers whether or not the previous layers are virtually closer to the viewer.</p>
    <div class="algorithm" data-algorithm="initialize-renderstate-for-layers">
      This module replaces the steps given by <a data-link-type="dfn" href="#layers-initialize-the-render-state" id="ref-for-layers-initialize-the-render-state">initialize the render state</a>. Instead when an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrrenderstate" id="ref-for-xrrenderstate②">XRRenderState</a></code> object <var>state</var> is created for an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession①⓪">XRSession</a></code> <var>session</var>, the user agent MUST <dfn class="dfn-paneled" data-dfn-for="layers" data-dfn-type="dfn" data-noexport id="layers-initialize-the-render-state">initialize the render state</dfn> by running the following steps: 
@@ -4297,7 +4297,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <li><a href="#xrwebglsubimage">XRWebGLSubImage</a><span>, in §5.2</span>
   </ul>
   <aside class="dfn-panel" data-for="term-for-porterduffcompositingoperators_srcover">
-   <a href="https://www.w3.org/TR/compositing-1#porterduffcompositingoperators_srcover">https://www.w3.org/TR/compositing-1#porterduffcompositingoperators_srcover</a><b>Referenced in:</b>
+   <a href="https://www.w3.org/TR/compositing-1/#porterduffcompositingoperators_srcover">https://www.w3.org/TR/compositing-1/#porterduffcompositingoperators_srcover</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-porterduffcompositingoperators_srcover">9.1. XRRenderState changes</a>
    </ul>
@@ -4908,14 +4908,27 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-active-render-state">9.2. updateRenderState changes</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-animationframe">
+   <a href="https://www.w3.org/TR/webxr/#animationframe">https://www.w3.org/TR/webxr/#animationframe</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-animationframe">6.9. XRWebGLBinding</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-dom-xrrenderstateinit-baselayer">
    <a href="https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-baselayer">https://immersive-web.github.io/webxr/#dom-xrrenderstateinit-baselayer</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-xrrenderstateinit-baselayer">9.2. updateRenderState changes</a> <a href="#ref-for-dom-xrrenderstateinit-baselayer①">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-ended">
+   <a href="https://www.w3.org/TR/webxr/#ended">https://www.w3.org/TR/webxr/#ended</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-ended">6.9. XRWebGLBinding</a> <a href="#ref-for-ended①">(2)</a> <a href="#ref-for-ended②">(3)</a> <a href="#ref-for-ended③">(4)</a> <a href="#ref-for-ended④">(5)</a> <a href="#ref-for-ended⑤">(6)</a>
+    <li><a href="#ref-for-ended⑥">7.5. XRMediaBinding</a> <a href="#ref-for-ended⑦">(2)</a> <a href="#ref-for-ended⑧">(3)</a> <a href="#ref-for-ended⑨">(4)</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-feature-descriptor">
-   <a href="https://immersive-web.github.io/webxr/#feature-descriptor">https://immersive-web.github.io/webxr/#feature-descriptor</a><b>Referenced in:</b>
+   <a href="https://www.w3.org/TR/webxr/#feature-descriptor">https://www.w3.org/TR/webxr/#feature-descriptor</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-feature-descriptor">2. Initialization</a> <a href="#ref-for-feature-descriptor①">(2)</a> <a href="#ref-for-feature-descriptor②">(3)</a> <a href="#ref-for-feature-descriptor③">(4)</a>
    </ul>
@@ -4930,6 +4943,13 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <a href="https://immersive-web.github.io/webxr/#dom-xrviewport-height">https://immersive-web.github.io/webxr/#dom-xrviewport-height</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-xrviewport-height">6.9. XRWebGLBinding</a> <a href="#ref-for-dom-xrviewport-height①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-immersive-session">
+   <a href="https://www.w3.org/TR/webxr/#immersive-session">https://www.w3.org/TR/webxr/#immersive-session</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-immersive-session">6.9. XRWebGLBinding</a>
+    <li><a href="#ref-for-immersive-session①">7.5. XRMediaBinding</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-immersive-xr-device">
@@ -4951,6 +4971,12 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <ul>
     <li><a href="#ref-for-xrsession-list-of-views">3.2. XRLayerLayout</a>
     <li><a href="#ref-for-xrsession-list-of-views①">6.9. XRWebGLBinding</a> <a href="#ref-for-xrsession-list-of-views②">(2)</a> <a href="#ref-for-xrsession-list-of-views③">(3)</a> <a href="#ref-for-xrsession-list-of-views④">(4)</a> <a href="#ref-for-xrsession-list-of-views⑤">(5)</a> <a href="#ref-for-xrsession-list-of-views⑥">(6)</a> <a href="#ref-for-xrsession-list-of-views⑦">(7)</a> <a href="#ref-for-xrsession-list-of-views⑧">(8)</a> <a href="#ref-for-xrsession-list-of-views⑨">(9)</a> <a href="#ref-for-xrsession-list-of-views①⓪">(10)</a> <a href="#ref-for-xrsession-list-of-views①①">(11)</a> <a href="#ref-for-xrsession-list-of-views①②">(12)</a> <a href="#ref-for-xrsession-list-of-views①③">(13)</a> <a href="#ref-for-xrsession-list-of-views①④">(14)</a> <a href="#ref-for-xrsession-list-of-views①⑤">(15)</a> <a href="#ref-for-xrsession-list-of-views①⑥">(16)</a> <a href="#ref-for-xrsession-list-of-views①⑦">(17)</a> <a href="#ref-for-xrsession-list-of-views①⑧">(18)</a> <a href="#ref-for-xrsession-list-of-views①⑨">(19)</a> <a href="#ref-for-xrsession-list-of-views②⓪">(20)</a> <a href="#ref-for-xrsession-list-of-views②①">(21)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-native-webgl-framebuffer-resolution">
+   <a href="https://www.w3.org/TR/webxr/#native-webgl-framebuffer-resolution">https://www.w3.org/TR/webxr/#native-webgl-framebuffer-resolution</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-native-webgl-framebuffer-resolution">6.9. XRWebGLBinding</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-opaque-framebuffer">
@@ -4991,6 +5017,13 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <a href="https://immersive-web.github.io/webxr/#primary-view">https://immersive-web.github.io/webxr/#primary-view</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-primary-view">6.9. XRWebGLBinding</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-recommended-webgl-framebuffer-resolution">
+   <a href="https://www.w3.org/TR/webxr/#recommended-webgl-framebuffer-resolution">https://www.w3.org/TR/webxr/#recommended-webgl-framebuffer-resolution</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-recommended-webgl-framebuffer-resolution">6.3. XRProjectionLayerInit</a>
+    <li><a href="#ref-for-recommended-webgl-framebuffer-resolution①">6.9. XRWebGLBinding</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-xrsession-renderstate">
@@ -5081,52 +5114,6 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-xr-animation-frame⑤">8.2. Event Types</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-xr-device">
-   <a href="https://immersive-web.github.io/webxr/#xr-device">https://immersive-web.github.io/webxr/#xr-device</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-xr-device">6.9. XRWebGLBinding</a> <a href="#ref-for-xr-device①">(2)</a> <a href="#ref-for-xr-device②">(3)</a> <a href="#ref-for-xr-device③">(4)</a> <a href="#ref-for-xr-device④">(5)</a>
-    <li><a href="#ref-for-xr-device⑤">7.5. XRMediaBinding</a> <a href="#ref-for-xr-device⑥">(2)</a> <a href="#ref-for-xr-device⑦">(3)</a> <a href="#ref-for-xr-device⑧">(4)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-dom-xrviewport-y">
-   <a href="https://immersive-web.github.io/webxr/#dom-xrviewport-y">https://immersive-web.github.io/webxr/#dom-xrviewport-y</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-xrviewport-y">6.9. XRWebGLBinding</a> <a href="#ref-for-dom-xrviewport-y①">(2)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-animationframe">
-   <a href="https://www.w3.org/TR/webxr/#animationframe">https://www.w3.org/TR/webxr/#animationframe</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-animationframe">6.9. XRWebGLBinding</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-ended">
-   <a href="https://www.w3.org/TR/webxr/#ended">https://www.w3.org/TR/webxr/#ended</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-ended">6.9. XRWebGLBinding</a> <a href="#ref-for-ended①">(2)</a> <a href="#ref-for-ended②">(3)</a> <a href="#ref-for-ended③">(4)</a> <a href="#ref-for-ended④">(5)</a> <a href="#ref-for-ended⑤">(6)</a>
-    <li><a href="#ref-for-ended⑥">7.5. XRMediaBinding</a> <a href="#ref-for-ended⑦">(2)</a> <a href="#ref-for-ended⑧">(3)</a> <a href="#ref-for-ended⑨">(4)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-immersive-session">
-   <a href="https://www.w3.org/TR/webxr/#immersive-session">https://www.w3.org/TR/webxr/#immersive-session</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-immersive-session">6.9. XRWebGLBinding</a>
-    <li><a href="#ref-for-immersive-session①">7.5. XRMediaBinding</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-native-webgl-framebuffer-resolution">
-   <a href="https://www.w3.org/TR/webxr/#native-webgl-framebuffer-resolution">https://www.w3.org/TR/webxr/#native-webgl-framebuffer-resolution</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-native-webgl-framebuffer-resolution">6.9. XRWebGLBinding</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-recommended-webgl-framebuffer-resolution">
-   <a href="https://www.w3.org/TR/webxr/#recommended-webgl-framebuffer-resolution">https://www.w3.org/TR/webxr/#recommended-webgl-framebuffer-resolution</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-recommended-webgl-framebuffer-resolution">6.3. XRProjectionLayerInit</a>
-    <li><a href="#ref-for-recommended-webgl-framebuffer-resolution①">6.9. XRWebGLBinding</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-xr-compatible">
    <a href="https://www.w3.org/TR/webxr/#xr-compatible">https://www.w3.org/TR/webxr/#xr-compatible</a><b>Referenced in:</b>
    <ul>
@@ -5150,6 +5137,19 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-xr-compositor②①">8.2. Event Types</a>
     <li><a href="#ref-for-xr-compositor②②">9.1. XRRenderState changes</a> <a href="#ref-for-xr-compositor②③">(2)</a> <a href="#ref-for-xr-compositor②④">(3)</a>
     <li><a href="#ref-for-xr-compositor②⑤">9.3. XRCompositor changes</a> <a href="#ref-for-xr-compositor②⑥">(2)</a> <a href="#ref-for-xr-compositor②⑦">(3)</a> <a href="#ref-for-xr-compositor②⑧">(4)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-xr-device">
+   <a href="https://immersive-web.github.io/webxr/#xr-device">https://immersive-web.github.io/webxr/#xr-device</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-xr-device">6.9. XRWebGLBinding</a> <a href="#ref-for-xr-device①">(2)</a> <a href="#ref-for-xr-device②">(3)</a> <a href="#ref-for-xr-device③">(4)</a> <a href="#ref-for-xr-device④">(5)</a>
+    <li><a href="#ref-for-xr-device⑤">7.5. XRMediaBinding</a> <a href="#ref-for-xr-device⑥">(2)</a> <a href="#ref-for-xr-device⑦">(3)</a> <a href="#ref-for-xr-device⑧">(4)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-xrviewport-y">
+   <a href="https://immersive-web.github.io/webxr/#dom-xrviewport-y">https://immersive-web.github.io/webxr/#dom-xrviewport-y</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrviewport-y">6.9. XRWebGLBinding</a> <a href="#ref-for-dom-xrviewport-y①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-xrsessionmode-immersive-ar">
@@ -5276,19 +5276,24 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
      <li><span class="dfn-paneled" id="term-for-view-active">active <small>(for view)</small></span>
      <li><span class="dfn-paneled" id="term-for-active-immersive-session">active immersive session</span>
      <li><span class="dfn-paneled" id="term-for-active-render-state">active render state</span>
+     <li><span class="dfn-paneled" id="term-for-animationframe">animationframe</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrrenderstateinit-baselayer">baseLayer <small>(for XRRenderStateInit)</small></span>
+     <li><span class="dfn-paneled" id="term-for-ended">ended</span>
      <li><span class="dfn-paneled" id="term-for-feature-descriptor">feature descriptor</span>
      <li><span class="dfn-paneled" id="term-for-feature-requirements">feature requirements</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrviewport-height">height</span>
+     <li><span class="dfn-paneled" id="term-for-immersive-session">immersive session</span>
      <li><span class="dfn-paneled" id="term-for-immersive-xr-device">immersive xr device</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrrenderstateinit-layers">layers</span>
      <li><span class="dfn-paneled" id="term-for-xrsession-list-of-views">list of views</span>
+     <li><span class="dfn-paneled" id="term-for-native-webgl-framebuffer-resolution">native webgl framebuffer resolution</span>
      <li><span class="dfn-paneled" id="term-for-opaque-framebuffer">opaque framebuffer</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrpermissiondescriptor-optionalfeatures">optionalFeatures</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrrigidtransform-orientation">orientation</span>
      <li><span class="dfn-paneled" id="term-for-pending-render-state">pending render state</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrrigidtransform-position">position</span>
      <li><span class="dfn-paneled" id="term-for-primary-view">primary view</span>
+     <li><span class="dfn-paneled" id="term-for-recommended-webgl-framebuffer-resolution">recommended webgl framebuffer resolution</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrsession-renderstate">renderState</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrsession-requestanimationframe">requestAnimationFrame(callback)</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrsystem-requestsession">requestSession(mode)</span>
@@ -5302,19 +5307,10 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
      <li><span class="dfn-paneled" id="term-for-dom-xrviewport-width">width</span>
      <li><span class="dfn-paneled" id="term-for-dom-xrviewport-x">x</span>
      <li><span class="dfn-paneled" id="term-for-xr-animation-frame">xr animation frame</span>
-     <li><span class="dfn-paneled" id="term-for-xr-device">xr device</span>
-     <li><span class="dfn-paneled" id="term-for-dom-xrviewport-y">y</span>
-    </ul>
-   <li>
-    <a data-link-type="biblio">[webxr device api - level 1]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="term-for-animationframe">animationframe</span>
-     <li><span class="dfn-paneled" id="term-for-ended">ended</span>
-     <li><span class="dfn-paneled" id="term-for-immersive-session">immersive session</span>
-     <li><span class="dfn-paneled" id="term-for-native-webgl-framebuffer-resolution">native webgl framebuffer resolution</span>
-     <li><span class="dfn-paneled" id="term-for-recommended-webgl-framebuffer-resolution">recommended webgl framebuffer resolution</span>
      <li><span class="dfn-paneled" id="term-for-xr-compatible">xr compatible</span>
      <li><span class="dfn-paneled" id="term-for-xr-compositor">xr compositor</span>
+     <li><span class="dfn-paneled" id="term-for-xr-device">xr device</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrviewport-y">y</span>
     </ul>
    <li>
     <a data-link-type="biblio">[webxr-ar-module-1]</a> defines the following terms:
