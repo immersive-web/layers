@@ -129,7 +129,7 @@ spec:html; urlPrefix: https://html.spec.whatwg.org/multipage/
     type: dfn; text: current realm; url: webappapis.html#current
 spec: ECMAScript; urlPrefix: https://tc39.github.io/ecma262/#
     type: dfn; text: Realm; url: realm
-spec: compositing-1; urlPrefix: https://www.w3.org/TR/compositing-1
+spec: compositing-1; urlPrefix: https://www.w3.org/TR/compositing-1/
     type: dfn; text: source-over; url: porterduffcompositingoperators_srcover
 </pre>
 
