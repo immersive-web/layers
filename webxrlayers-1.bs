@@ -20,7 +20,7 @@ spec:infra;
     type: dfn; text:string
 spec: permissions-request-1;
     type: dfn; text: request(permissionDesc); for: Permissions
-spec: webxr-1;
+spec: webxr;
     type: dfn; text: immersive xr device; for: XR
     type: dfn; text: xr device; for: /
     type: dfn; text: active; for: XRFrame
@@ -59,7 +59,7 @@ spec:webidl;
 </pre>
 
 <pre class="anchors">
-spec: WebXR Device API - Level 1; urlPrefix: https://www.w3.org/TR/webxr/#
+spec: webxr; urlPrefix: https://www.w3.org/TR/webxr/
     type: dfn; text: feature descriptor
     type: dfn; text: xr compositor
     type: dfn; text: recommended WebGL framebuffer resolution
