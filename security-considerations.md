@@ -19,8 +19,7 @@ No.
 This specification builds on top of WebXR for its state management. It doesn't introduce new concepts.
 
 ## What information from the underlying platform, e.g. configuration data, is exposed by this specification to an origin?
-The specification returns a [list of supported swapchain texture formats](https://immersive-web.github.io/layers/#dom-xrwebglbinding-supportedcolorformats) which could reveal the configuration of the device.
-This part of the spec is still in discussion and might change. I'd like to hear the TAG's opinion on this given that this capability is generally already available in WebGL for regular textures. Also, this API is only available when the device is running an immersive session.
+No additional information (apart from support for the API) is exposed.
 
 ## Does this specification allow an origin access to sensors on a user’s device
 No. No new sensor data is requested for this feature.
