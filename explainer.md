@@ -20,6 +20,8 @@ Other XR APIs (such as OpenXR, Oculus PC & Mobile SDKs, Unreal & Unity game engi
 
   Pose sampling for composition layers may occur at the very end of the frame and then certain reprojection techniques could be used to update the layer's pose to match it with the most recent HMD pose. This may significantly reduce the effective latency for the layers' rendering and as a result improve overall experience.
 
+The capabilities of the WebXR Layers API closely mirrors what [OpenXR](https://www.khronos.org/registry/OpenXR/specs/1.0/html/xrspec.html#composition-layer-types) supports.
+
 ### Examples of use cases
 
 Composition layers are useful for displaying information, text, video, or textures that are intended to be focal objects in your scene. Composition layers could also be useful for displaying simple environments and backgrounds to your scene.
@@ -28,17 +30,42 @@ One of the very common use cases of WebXR is 180 and/or 360 photos or videos, bo
 
 Another example where composition layers are going to shine is displaying text or high resolution textures in the virtual world. Since composition layers allow to sample source texture at full resolution without multiple re-samplings the readability of the text is going to be significantly improved.
 
+In addition to layers that are anchored to spaces, it also offers projection layers. These layers closely mirror WebXR's [XRWebGLLayer](https://immersive-web.github.io/webxr/#xrwebgllayer-interface) in that they cover the entire field of view.
+Generally, authors will draw content in these layers where the 3D effect is calculated by the scene itself. (ie controllers)
+Projection layers are implemented more efficiently than XRWebGLLayer and their use is more flexible so authors should use them instead.
+
+## Goals
+ 1. Provide a new API that exposes composition layers to the web.
+ 1. Provide the ability to draw to those layers with WebGL 1 or 2.
+ 1. Provide the abilith to draw video directly to a subset of these layers.
+ 1. Provide backward compatibility for content that draws with WebXR's XRWebGLLayer.
+ 1. Provide ability to have layers on any device that supports WebXR.
+
+## Non-goals
+ 1. Create a new mechanism for immersive sessions. Everything defined in the WebXR spec should still apply.
+ 1. Design a new hit test API.
+ 1. Require that every device supports all types of layers.
+
+## Other potential solutions considered
+We briefly considered exposing the more low-level [swapchain mechanism](https://www.khronos.org/registry/OpenXR/specs/1.0/html/xrspec.html#swapchain-image-management) which is how OpenXR defines layers.
+We decided not to go down that path because it doesn't mesh well with the current WebXR API and it would be harder to use for authors.
+Instead, we provided higher level objects that hide this complexity behind the scenes.
+
+This also allows implementations to support layers if they have no swapchain support.
+
 ## Usage
 
 Using the Layers API consists of three primary steps:
 
   1. Creating the layers with a given graphics API.
-  1. Positioning the layers and adding them to the session's layers array.
+  1. For non-projection layers, positioning the layers and adding them to the session's layers array.
   1. Rendering to the graphics API resources during the frame loop.
 
 ### Graphics API binding
 
-When a layer is created it is backed by a GPU resource, typically a texture, provided by one of the Web platform's graphics APIs. In order to specify which API is providing the layer's GPU resources an Layer Factory for the API in question must be created. For example, creating a layer factory for WebGL would function like this:
+At its most basic, each layer is represented by an ["opaque" texture](https://immersive-web.github.io/layers/#xropaquetextures). These textures have special behavior that is defined by the spec. They are also special in that they are composited by the system compositor, not the UA.
+
+When a layer is created it is backed by a GPU resource (= opaque texture) provided by one of the Web platform's graphics APIs. In order to specify which API is providing the layer's GPU resources an Layer Factory for the API in question must be created. For example, creating a layer factory for WebGL would function like this:
 
 ```js
 const canvas = document.createElement('canvas');
