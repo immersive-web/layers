@@ -5,7 +5,7 @@ Group: immersivewebwg
 Status: ED
 TR: https://www.w3.org/TR/webxrlayers-1/
 ED: https://immersive-web.github.io/layers/
-Previous Version:
+Previous Version: https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/
 Repository: immersive-web/layers
 Level: 1
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-immersive-web/
@@ -20,7 +20,7 @@ spec:infra;
     type: dfn; text:string
 spec: permissions-request-1;
     type: dfn; text: request(permissionDesc); for: Permissions
-spec: webxr-1;
+spec: webxr;
     type: dfn; text: immersive xr device; for: XR
     type: dfn; text: xr device; for: /
     type: dfn; text: active; for: XRFrame
@@ -59,7 +59,7 @@ spec:webidl;
 </pre>
 
 <pre class="anchors">
-spec: WebXR Device API - Level 1; urlPrefix: https://www.w3.org/TR/webxr/#
+spec: webxr; urlPrefix: https://www.w3.org/TR/webxr/
     type: dfn; text: feature descriptor
     type: dfn; text: xr compositor
     type: dfn; text: recommended WebGL framebuffer resolution
@@ -90,11 +90,38 @@ spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: dfn; text: WebGL viewport; url:#5.14.4
     type: typedef; text: GLenum; url: #5.1
     type: typedef; text: RGBA; url: #5.14
+    type: typedef; text: RGB; url: #5.14
+    type: dfn; text: extension; url:#5.14.14
+spec: ; urlPrefix: https://www.khronos.org/registry/webgl/extensions/EXT_sRGB/
+    type: typedef; text: SRGB_EXT
+    type: typedef; text: SRGB_ALPHA_EXT
+    type: typedef; text: EXT_sRGB
+spec: ; urlPrefix: https://www.khronos.org/registry/webgl/extensions/WEBGL_depth_texture/
+    type: typedef; text: DEPTH_COMPONENT
+    type: typedef; text: DEPTH_STENCIL
+    type: typedef; text: WEBGL_depth_texture
+spec: ; urlPrefix: https://www.khronos.org/registry/webgl/extensions/WEBGL_compressed_texture_etc/
+    type: typedef; text: COMPRESSED_RGB8_ETC2
+    type: typedef; text: COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
+    type: typedef; text: COMPRESSED_RGBA8_ETC2_EAC
+    type: typedef; text: COMPRESSED_SRGB8_ETC2
+    type: typedef; text: COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2
+    type: typedef; text: COMPRESSED_SRGB8_ALPHA8_ETC2_EAC
+    type: typedef; text: WEBGL_compressed_texture_etc
+spec: ; urlPrefix: https://www.khronos.org/registry/webgl/extensions/WEBGL_compressed_texture_astc/
+    type: typedef; text: WEBGL_compressed_texture_astc
 spec: WebGL 2.0; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/2.0/
     type: interface; text: WebGL2RenderingContext; url: WebGL2RenderingContext
     type: typedef; text: TEXTURE_2D_ARRAY; url: 3.7
     type: dfn; text: texStorage2D; url: 3.7.6
     type: dfn; text: texStorage3D; url: 3.7.6
+    type: typedef; text: RGB8; url: #5.14
+    type: typedef; text: RGBA8; url: #5.14
+    type: typedef; text: SRGB8; url: #5.14
+    type: typedef; text: SRGB8_ALPHA8; url: #5.14
+    type: typedef; text: DEPTH_COMPONENT24; url: #5.14
+    type: typedef; text: DEPTH24_STENCIL8; url: #5.14
+    type: typedef; text: STENCIL_INDEX8; url: #5.14
 spec: WEBGL_depth_texture; urlPrefix: https://www.khronos.org/registry/webgl/extensions/WEBGL_depth_texture/
     type: typedef; text: WEBGL_depth_texture
     type: typedef; text: UNSIGNED_INT_24_8_WEBGL
@@ -102,7 +129,7 @@ spec:html; urlPrefix: https://html.spec.whatwg.org/multipage/
     type: dfn; text: current realm; url: webappapis.html#current
 spec: ECMAScript; urlPrefix: https://tc39.github.io/ecma262/#
     type: dfn; text: Realm; url: realm
-spec: compositing-1; urlPrefix: https://www.w3.org/TR/compositing-1
+spec: compositing-1; urlPrefix: https://www.w3.org/TR/compositing-1/
     type: dfn; text: source-over; url: porterduffcompositingoperators_srcover
 </pre>
 
@@ -409,7 +436,7 @@ XRProjectionLayer {#xrprojectionlayertype}
 An {{XRProjectionLayer}} is a layer that fills the entire view of the observer.
 Projection layers should be refreshed close to the device's native frame rate.
 
-<img src="images/projection-layer.jpg" style="width:50%; border-style: ridge;"/>
+<img alt="representation of a projection layer" src="images/projection-layer.jpg" style="width:50%; border-style: ridge;"/>
 
 <pre class="idl">
 [Exposed=Window] interface XRProjectionLayer : XRCompositionLayer {
@@ -430,7 +457,7 @@ Only the front of the layer MUST be visible; the back face MUST not be drawn by 
 A XRQuadLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position
 of a quad refers to the center of the quad.
 
-<img src="images/quad-layer.jpg" style="width:50%; border-style: ridge;"/>
+<img alt="representation of a quad layer" src="images/quad-layer.jpg" style="width:50%; border-style: ridge;"/>
 
 <pre class="idl">
 [Exposed=Window] interface XRQuadLayer : XRCompositionLayer {
@@ -476,7 +503,7 @@ XRCylinderLayer {#xrcylinderayertype}
 An {{XRCylinderLayer}} renders a layer that takes up a curved rectangular space in the virtual environment.
 Only the front of the layer MUST be visible; the back face MUST not be drawn by the [=XR Compositor=].
 
-<img src="images/cylinder-layer.png" style="width:50%; border-style: ridge;"/>
+<img alt="representation of a cylinder layer" src="images/cylinder-layer.png" style="width:50%; border-style: ridge;"/>
 
 A XRCylinderLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position
 of the cylinder refers to the center of the quad.
@@ -507,7 +534,7 @@ It grows symmetrically around the 0 angle.
 
 The <dfn attribute for="XRCylinderLayer">aspectRatio</dfn> attribute controls the ratio of the visible cylinder section.
 
-<img src="images/cylinder_layer_params.png" style="width:80%"/>
+<img alt="description of the parameters of a cylinder layer"src="images/cylinder_layer_params.png" style="width:80%"/>
 
 <div class="algorithm" data-algorithm="initCylinderLayerAlgo">
 When <dfn lt="initialize a cylinder layer">initializing an {{XRCylinderLayer}} |layer| with an {{XRCylinderLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
@@ -532,7 +559,7 @@ XREquirectLayer {#xrequirectlayertype}
 ---------------
 An {{XREquirectLayer}} renders a layer where the [=XR Compositor=] MUST map an equirectangular coded data onto the inside of a sphere.
 
-<img src="images/equirect-layer.png" style="width:50%; border-style: ridge;"/>
+<img alt="representation of an equirect layer" src="images/equirect-layer.png" style="width:50%; border-style: ridge;"/>
 
 ISSUE: this section needs clarification
 
@@ -568,7 +595,7 @@ a value higher than 2π will set it to 2π.
 Setting {{XREquirectLayer/upperVerticalAngle}} or {{XREquirectLayer/lowerVerticalAngle}} to a value less than -π/2 will set it
 to -π/2 and setting it to a value higher than π/2 will set it to π/2.
 
-<img src="images/equirect.png" style="width:50%"/>
+<img alt="description of the parameters of an equirect layer" src="images/equirect.png" style="width:50%"/>
 
 When assigning an {{XRSpace}} to the {{XREquirectLayer/space}} attribute, first run the following steps.
 
@@ -605,7 +632,7 @@ XRCubeLayer {#xcubelayertype}
 -----------
 A {{XRCubeLayer}} renders a layer where the [=XR Compositor=] renders directly from a cubemap.
 
-<img src="images/cube-layer.jpg" style="width:50%; border-style: ridge;"/>
+<img alt="representation of a cube layer" src="images/cube-layer.jpg" style="width:50%; border-style: ridge;"/>
 
 ISSUE: this section needs clarification
 
@@ -775,7 +802,7 @@ is initialized.
 dictionary XRProjectionLayerInit {
   XRTextureType textureType = "texture";
   GLenum colorFormat = 0x1908; // RGBA
-  GLenum? depthFormat;
+  GLenum depthFormat = 0x1902; // DEPTH_COMPONENT
   double scaleFactor = 1.0;
 };
 </pre>
@@ -783,10 +810,35 @@ dictionary XRProjectionLayerInit {
 The <dfn dict-member for="XRProjectionLayerInit">textureType</dfn> attribute defines the type of texture that the layer will have.
 
 The <dfn dict-member for="XRProjectionLayerInit">colorFormat</dfn> attribute defines the data type of the color texture data.
-The default value is {{RGBA}}.
+
+This is the <dfn>list of color formats for projection layers</dfn> that the [=XR Compositor=] MUST support:
+
+ - {{RGBA}}
+ - {{RGB}}
+ - {{SRGB_EXT}} for contexts with the '{{EXT_sRGB}}' [=extension=] enabled
+ - {{SRGB_ALPHA_EXT}} for contexts with the '{{EXT_sRGB}}' [=extension=] enabled
+
+ For WebGL2 contexts these additional formats are supported:
+
+ - {{RGBA8}}
+ - {{RGB8}}
+ - {{SRGB8}}
+ - {{SRGB8_ALPHA8}}
 
 The <dfn dict-member for="XRProjectionLayerInit">depthFormat</dfn> attribute defines the data type of the depth texture data.
-If {{XRProjectionLayerInit/depthFormat}} is not supplied, the layer will not provide a depth/stencil texture.
+If {{XRProjectionLayerInit/depthFormat}} is <code>0</code> the layer will not provide a depth/stencil texture.
+
+This is the <dfn>list of depth formats for projection layers</dfn> that the [=XR Compositor=] MUST support:
+
+For WebGL1 contexts with the '{{WEBGL_depth_texture}}' [=extension=] enabled or WebGL2 contexts:
+
+ - {{DEPTH_COMPONENT}}
+ - {{DEPTH_STENCIL}}
+
+For WebGL2 contexts these additional formats are supported:
+
+ - {{DEPTH_COMPONENT24}}
+ - {{DEPTH24_STENCIL8}}
 
 The <dfn dict-member for="XRProjectionLayerInit">scaleFactor</dfn> attribute defines the value that the |session|'s
 [=recommended WebGL framebuffer resolution=] MUST be multiplied by determining the resolution of the layer's attachments.
@@ -811,10 +863,43 @@ dictionary XRLayerInit {
 The <dfn dict-member for="XRLayerInit">space</dfn> attribute defines the spatial relationship with the user’s physical environment.
 
 The <dfn dict-member for="XRLayerInit">colorFormat</dfn> attribute defines the data type of the color texture data.
-The default value is {{RGBA}}.
+
+This is the <dfn>list of color formats for non-projection layers</dfn> that the [=XR Compositor=] MUST support:
+ - {{RGBA}}
+ - {{RGB}}
+ - {{SRGB_EXT}} for contexts with the '{{EXT_sRGB}}' [=extension=] enabled
+ - {{SRGB_ALPHA_EXT}} for contexts with the '{{EXT_sRGB}}' [=extension=] enabled
+
+For WebGL2 contexts these additional formats are supported:
+ - {{RGBA8}}
+ - {{RGB8}}
+ - {{SRGB8}}
+ - {{SRGB8_ALPHA8}}
+
+For contexts with the '{{WEBGL_compressed_texture_etc}}' [=extension=] enabled these additional formats are supported:
+ - {{COMPRESSED_RGB8_ETC2}}
+ - {{COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2}}
+ - {{COMPRESSED_RGBA8_ETC2_EAC}}
+ - {{COMPRESSED_SRGB8_ETC2}}
+ - {{COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2}}
+ - {{COMPRESSED_SRGB8_ALPHA8_ETC2_EAC}}
+
+For contexts with the '{{WEBGL_compressed_texture_astc}}' [=extension=] enabled all the formats of that [=extension=] are supported.
 
 The <dfn dict-member for="XRLayerInit">depthFormat</dfn> attribute defines the data type of the depth texture data.
 If {{XRLayerInit/depthFormat}} is not supplied, the layer will not provide a depth/stencil texture.
+
+This is the <dfn>list of depth formats for non-projection layers</dfn> that the [=XR Compositor=] MUST support:
+
+For WebGL1 contexts with the '{{WEBGL_depth_texture}}' [=extension=] enabled or WebGL2 contexts:
+
+ - {{DEPTH_COMPONENT}}
+ - {{DEPTH_STENCIL}}
+
+For WebGL2 contexts these additional formats are supported:
+
+ - {{DEPTH_COMPONENT24}}
+ - {{DEPTH24_STENCIL8}}
 
 The <dfn dict-member for="XRLayerInit">viewPixelWidth</dfn> and <dfn dict-member for="XRLayerInit">viewPixelHeight</dfn> attributes define
 the rectangular dimensions of the {{XRCompositionLayer}}.
@@ -901,9 +986,6 @@ The {{XRWebGLBinding}} object is used to create layers that have a GPU backend.
 
   XRWebGLSubImage getSubImage(XRCompositionLayer layer, XRFrame frame, optional XREye eye = "none");
   XRWebGLSubImage getViewSubImage(XRProjectionLayer layer, XRView view);
-
-  readonly attribute FrozenArray&lt;GLenum&gt; supportedColorFormats;
-  readonly attribute FrozenArray&lt;GLenum&gt; supportedDepthStencilFormats;
 };
 </pre>
 
@@ -986,6 +1068,7 @@ To <dfn>allocate color textures for projection layers</dfn> using an {{XRProject
   1. Let |view| be the first entry in the |session|'s [=list of views=] that is not a [=secondary view|secondary views=].
   1. Let |width| be the width of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
   1. Let |height| be the height of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
+  1. If |textureFormat| is not in the [=list of color formats for projection layers=], throw a {{NotSupportedError}} and abort these steps.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}} or {{XRLayerLayout/"default"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
@@ -1010,13 +1093,12 @@ To <dfn>allocate color textures for projection layers</dfn> using an {{XRProject
 
 <div class="algorithm" data-algorithm="allocate depth textures for projection layers">
 
-To <dfn>allocate depth textures for projection layers</dfn> using an {{XRProjectionLayer}} |layer|, an {{XRTextureType}} |textureType|, a {{GLenum}} |textureFormat|, a boolean |depth|, a boolean |stencil| and a float |scaleFactor|, the user agent MUST run the following steps:
+To <dfn>allocate depth textures for projection layers</dfn> using an {{XRProjectionLayer}} |layer|, an {{XRTextureType}} |textureType|, a {{GLenum}} |textureFormat| and a float |scaleFactor|, the user agent MUST run the following steps:
   1. let |array| be a [=new=] array in the [=relevant realm=] of |context|.
   1. let |context| be |layer|'s [=XRCompositionLayer/context=].
   1. let |session| be |layer|'s [=XRCompositionLayer/session=].
-  1. If |depth| and |stencil| are not set, return |array| and abort these steps.
-  1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
-  1. If |depth| or |stencil| are set and |depthsupport| is false, throw {{TypeError}} and abort these steps.
+  1. If |textureFormat| is <code>0</code>, return |array| and abort these steps.
+  1. If |textureFormat| is not in the [=list of depth formats for projection layers=], throw a {{NotSupportedError}} and abort these steps.
   1. let |numViews| be the number of the |session|'s [=list of views=] excluding the [=secondary view|secondary views=].
   1. Let |view| be the first entry in the |session|'s [=list of views=] that is not a [=secondary view=].
   1. Let |width| be the width of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
@@ -1048,6 +1130,7 @@ To <dfn>allocate the color textures for the secondary views</dfn> using an {{XRP
   1. Let |context| be |layer|'s [=XRCompositionLayer/context=].
   1. Let |session| be |layer|'s [=XRCompositionLayer/session=].
   1. Let |array| be a [=new=] array in the [=relevant realm=] of |context|.
+  1. If |textureFormat| is not in the [=list of color formats for projection layers=], throw a {{NotSupportedError}} and abort these steps.
   1. For each |view| in the |session|'s [=list of views=]:
     1. If |view| is not a [=secondary view=], continue.
     1. Let |width| be the width of |view|'s [=recommended WebGL texture resolution=] multiplied by |scaleFactor|.
@@ -1066,12 +1149,11 @@ To <dfn>allocate the color textures for the secondary views</dfn> using an {{XRP
 
 <div class="algorithm" data-algorithm="allocate depth textures for the secondary views">
 
-To <dfn>allocate the depth textures for the secondary views</dfn> using an {{XRProjectionLayer}} |layer|, an {{XRTextureType}} |textureType|, a {{GLenum}} |textureFormat|, a boolean |depth|, a boolean |stencil| and a float |scaleFactor|, the user agent MUST run the following steps:
+To <dfn>allocate the depth textures for the secondary views</dfn> using an {{XRProjectionLayer}} |layer|, an {{XRTextureType}} |textureType|, a {{GLenum}} |textureFormat| and a float |scaleFactor|, the user agent MUST run the following steps:
   1. Let |context| be |layer|'s [=XRCompositionLayer/context=].
   1. Let |session| be |layer|'s [=XRCompositionLayer/session=].
-  1. If |depth| and |stencil| are not set, return <code>null</code> and abort these steps.
-  1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
-  1. If |depth| or |stencil| are set and |depthsupport| is false, throw {{TypeError}} and abort these steps.
+  1. If |textureFormat| is <code>0</code>, return |array| and abort these steps.
+  1. If |textureFormat| is not in the [=list of depth formats for projection layers=], throw a {{NotSupportedError}} and abort these steps.
   1. Let |array| be a [=new=] array in the [=relevant realm=] of |context|.
   1. For each |view| in the |session|'s [=list of views=]:
     1. If |view| is not a [=secondary view=], continue.
@@ -1096,6 +1178,7 @@ ISSUE: the scaleFactor needs to be recalculated for the secondary views.
 To <dfn>allocate color textures</dfn> using an {{XRCompositionLayer}} |layer|, an {{XRTextureType}} |textureType| and an {{XRLayerInit}} |init|, the user agent MUST run the following steps:
   1. let |array| be a [=new=] array in the [=relevant realm=] of |context|.
   1. let |context| be |layer|'s [=XRCompositionLayer/context=].
+  1. If |init|'s {{XRLayerInit/colorFormat}} is not in the [=list of color formats for non-projection layers=], throw a {{NotSupportedError}} and abort these steps.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
@@ -1124,8 +1207,7 @@ To <dfn>allocate depth textures</dfn> using an {{XRCompositionLayer}} |layer|, a
   1. let |array| be a [=new=] array in the [=relevant realm=] of |context|.
   1. let |context| be |layer|'s [=XRCompositionLayer/context=].
   1. If |init|'s {{XRLayerInit/depthFormat}} is not set, return |array| and abort these steps.
-  1. let |depthsupport| be true if |context| is a {{WebGL2RenderingContext}} or the {{WEBGL_depth_texture}} extension is enabled in |context|.
-  1. If |init|'s {{XRLayerInit/depthFormat}} is set and |depthsupport| is false, throw {{TypeError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/depthFormat}} is not in the [=list of depth formats for non-projection layers=], throw a {{NotSupportedError}} and abort these steps.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
@@ -1309,7 +1391,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer|'s [=depthStencilTextures=] be a [=new=] array in the [=relevant realm=] of this {{XRCubeLayer}}.
   1. If |init|'s {{XRLayerInit/depthFormat}} is set, initialize |layer|'s [=depthStencilTextures=] as follows:
     <dl class="switch">
-      <dt> If |context| is not a {{WebGL2RenderingContext}} and the {{WEBGL_depth_texture}} extension is not enabled in |context|.
+      <dt> If |context| is not a {{WebGL2RenderingContext}} and the {{WEBGL_depth_texture}} [=extension=] is not enabled in |context|.
         <dd> Throw {{TypeError}} and abort these steps.
       <dt> Else if |layout| is {{XRLayerLayout/"mono"}}:
         <dd> Initialize [=depthStencilTextures=] with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
@@ -1475,10 +1557,6 @@ an [=XR animation frame=] completes, but only if at least one of the following h
   - {{XRLayer}} is an {{XRCompositionLayer}} and {{XRWebGLBinding/getSubImage()}} or {{XRWebGLBinding/getViewSubImage()}} was called and any rendering operation has been called that affects the color value of the {{XRWebGLSubImage/colorTexture}} texture.
 
 Before the [=opaque framebuffer=] or {{XRWebGLSubImage/colorTexture}} texture are presented to the [=immersive XR device=] the user agent MUST ensure that all rendering operations have been flushed.
-
-The <dfn attribute for="XRWebGLBinding">supportedColorFormats</dfn> method returns an array that is populated with the color formats that are supported by the [=XR Compositor=].
-
-The <dfn attribute for="XRWebGLBinding">supportedDepthStencilFormats</dfn> method returns an array that is populated with the depth formats that are supported by the [=XR Compositor=].
 
 Video layer creation {#videolayer}
 ====================
