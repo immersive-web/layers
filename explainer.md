@@ -65,7 +65,7 @@ Using the Layers API consists of three primary steps:
 
 At its most basic, each layer is represented by an ["opaque" texture](https://immersive-web.github.io/layers/#xropaquetextures). These textures have special behavior that is defined by the spec. They are also special in that they are composited by the system compositor, not the UA.
 
-When a layer is created it is backed by a GPU resource (= opaque texture) provided by one of the Web platform's graphics APIs. In order to specify which API is providing the layer's GPU resources an Layer Factory for the API in question must be created. For example, creating a layer factory for WebGL would function like this:
+When a layer is created it is backed by a GPU resource (= ["opaque" texture](https://immersive-web.github.io/layers/#xropaquetextures)) provided by one of the Web platform's graphics APIs. In order to specify which API is providing the layer's GPU resources a Layer Factory for the API in question must be created. For example, creating a layer factory for WebGL would function like this:
 
 ```js
 const canvas = document.createElement('canvas');
@@ -86,6 +86,11 @@ const xrGpuBinding = new XRWebGPUBinding(xrSession, gpuDevice);
 Each graphics API may have unique requirements that must be satisfied before a context can be used in the creation of a layer factory. For example, a `WebGLRenderingContext` must have its `xrCompatible` flag set prior to being passed to the constructor of the `XRWebGLBinding` instance.
 
 Any interaction between the `XRSession` the graphics API, such as allocating or retrieving textures, will go through this `XRWebGLBinding` instance, and the exact mechanics of the interaction will typically be API specific. This allows the rest of the WebXR API to be graphics API agnostic and more easily adapt to future advances in rendering techniques.
+
+## Enabling layer creation
+
+By default, authors can create a single projection layer and add it to the layers array.
+To request more layers or layer types, they have to request ["layers"](https://immersive-web.github.io/layers/#feature-descriptor-layers) support using the feature descriptor in the [`requestSession`](https://immersive-web.github.io/webxr/#dom-xrsystem-requestsession) call.
 
 ## Layer creation
 
@@ -150,6 +155,7 @@ This explainer will not cover the details of positioning and shaping every possi
 ## Setting the layers array
 
 Layers are not presented to the XR device until they have been added to the `layers` `XRRenderState` property with the `updateRenderState()` method. Setting the `layers` array will override the `baseLayer` if one is present, with `baseLayer` reporting `null`. Layers will be presented in the order they are given in the `layers` array, with layers being given in "back-to-front" order. Layers may have alpha blending applied if the layer's `blendSourceAlpha` attribute is `true`, but no depth testing may be performed between layers.
+Setting both the `baselayer` and populating the `layers` array will be rejected.
 
 In addition to the `XRLayer`-derived types, the existing `XRWebGLLayer` may be passed to the layers array as well. This layer type remains useful as a mechanism for rendering antialiased content with WebGL 1.0 contexts. `XRWebGLLayer` functions as an `XRProjectionLayer`, but they are kept as distinct types for better forwards compatibility.
 
@@ -276,7 +282,7 @@ The `XRMediaBinding` can then be used to create `XRQuadLayer`s, `XRCylinderLayer
 ```js
 const video = document.createElement('video');
 video.src = 'never-gonna-give-you-up.mp4';
-const layer = xrMediaBinding.createQuadVideoLayer(video);
+const layer = xrMediaBinding.createQuadLayer(video);
 ```
 
 That layer can then be added to the layers list like any of the WebGL layers above, and even intermixed with layers created by an `XRWebGLBinding`. Once the video layer has been added to the session's layer list it will continuously display the current frame of the video element with no additional interaction from the API. Playback is controlled via the standard `HTMLVideoElement` controls.
@@ -284,7 +290,7 @@ That layer can then be added to the layers list like any of the WebGL layers abo
 Videos may also contain stereo data, typically encoded with both eye's video information embedded in a single video frame either side-by-side or one on top of the other. In order to display these properly the layout of the stereo streams needs to be specified, like so:
 
 ```js
-const layer = xrMediaBinding.createQuadVideoLayer(video, { layout: 'stereo-top-bottom' });
+const layer = xrMediaBinding.createQuadLayer(video, { layout: 'stereo-top-bottom' });
 ```
 
 This will then cause only the top half of the video to show to the left eye and the bottom half of the video to show to the right eye. If more complex layouts are required than are described by the `XRLayerLayout` enum then the video must be manually rendered using an `XRWebGLBinding` layer instead.
