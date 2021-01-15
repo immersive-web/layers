@@ -782,6 +782,31 @@ An [=opaque texture=] functions identically to a standard {{WebGLTexture}} with 
 - An [=opaque texture=] MUST behave as though it was allocated with [=texStorage2D=] or [=texStorage3D=], as appropriate, even when using a WebGL 1.0 context.
 - A call to {{deleteTexture}} with an [=opaque texture=] MUST generate an {{INVALID_OPERATION}} error.
 
+The buffers attached to an [=opaque texture=] MUST be cleared to the values in the table below prior to the processing of each [=XR animation frame=].
+
+<table class="tg">
+  <thead>
+    <tr>
+      <th>Buffer</th>
+      <th>Clear Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Color</td>
+      <td>(0, 0, 0, 0)</td>
+    </tr>
+    <tr>
+      <td>Depth</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <td>Stencil</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
 NOTE: the [=opaque texture|opaque textures=] are allocated when the layer is contructed using the
 [=allocate color textures=] and [=allocate depth textures=] algoritms. The side effect of this pre-allocation is that calling
 {{XRWebGLBinding/getSubImage()}} and {{XRWebGLBinding/getViewSubImage()}} with the same parameters will always return the same texture objects.
