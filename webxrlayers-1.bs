@@ -440,9 +440,24 @@ Projection layers should be refreshed close to the device's native frame rate.
 
 <pre class="idl">
 [Exposed=Window] interface XRProjectionLayer : XRCompositionLayer {
+  readonly attribute unsigned long textureWidth;
+  readonly attribute unsigned long textureHeight;
+  readonly attribute unsigned long textureLayers;
+
   readonly attribute boolean ignoreDepthValues;
 };
 </pre>
+
+The <dfn attribute for="XRProjectionLayer">textureWidth</dfn> attribute returns the width in pixels of
+the [=colorTextures=] textures of this layer.
+
+The <dfn attribute for="XRProjectionLayer">textureHeight</dfn> attribute returns the height in pixels of
+the [=colorTextures=] textures of this layer.
+
+The <dfn attribute for="XRProjectionLayer">textureLayers</dfn> attribute returns the number of layers of
+the [=colorTextures=] textures of this layer if the {{XRProjectionLayer}} was initialized with a
+{{XRProjectionLayerInit/textureType}} of {{"texture-array"}}. Otherwise it will return <code>1</code>.
+
 
 The <dfn attribute for="XRProjectionLayer">ignoreDepthValues</dfn> attribute, if <code>true</code>, indicates that the
 [=XR Compositor=] MUST NOT make use of values in the depth buffer attachment when rendering. When the attribute
@@ -1110,8 +1125,8 @@ To <dfn>allocate color textures for projection layers</dfn> using an {{XRProject
           <dd> Return |array| and abort these steps.
         </dl>
   1. If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL texture resolution=] excluding the [=secondary view|secondary views=], throw a {{NotSupportedError}} and abort these steps.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of [=opaque texture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |textureFormat|, |numViews| multiplied by |width| and |height|.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of [=opaque texture}} in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |textureFormat|, |width| and |numViews| multiplied by |height|.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |textureFormat|, |numViews| multiplied by |width| and |height|.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |textureFormat|, |width| and |numViews| multiplied by |height|.
   1. return |array|.
 
 </div>
