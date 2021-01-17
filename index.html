@@ -633,7 +633,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-01-15">15 January 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-01-17">17 January 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -965,7 +965,7 @@ Projection layers should be refreshed close to the device’s native frame rate.
 <pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrprojectionlayer"><code><c- g>XRProjectionLayer</c-></code></dfn> : <a data-link-type="idl-name" href="#xrcompositionlayer" id="ref-for-xrcompositionlayer⑨"><c- n>XRCompositionLayer</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrprojectionlayer-texturewidth" id="ref-for-dom-xrprojectionlayer-texturewidth"><c- g>textureWidth</c-></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long①"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrprojectionlayer-textureheight" id="ref-for-dom-xrprojectionlayer-textureheight"><c- g>textureHeight</c-></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long②"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrprojectionlayer-texturelayers" id="ref-for-dom-xrprojectionlayer-texturelayers"><c- g>textureLayers</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long②"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrprojectionlayer-texturearraylength" id="ref-for-dom-xrprojectionlayer-texturearraylength"><c- g>textureArrayLength</c-></a>;
 
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean③"><c- b>boolean</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="boolean" href="#dom-xrprojectionlayer-ignoredepthvalues" id="ref-for-dom-xrprojectionlayer-ignoredepthvalues"><c- g>ignoreDepthValues</c-></a>;
 };
@@ -974,7 +974,7 @@ Projection layers should be refreshed close to the device’s native frame rate.
 the <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures①">colorTextures</a> textures of this layer.</p>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRProjectionLayer" data-dfn-type="attribute" data-export id="dom-xrprojectionlayer-textureheight"><code>textureHeight</code></dfn> attribute returns the height in pixels of
 the <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures②">colorTextures</a> textures of this layer.</p>
-   <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRProjectionLayer" data-dfn-type="attribute" data-export id="dom-xrprojectionlayer-texturelayers"><code>textureLayers</code></dfn> attribute returns the number of layers of
+   <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRProjectionLayer" data-dfn-type="attribute" data-export id="dom-xrprojectionlayer-texturearraylength"><code>textureArrayLength</code></dfn> attribute returns the number of layers of
 the <a data-link-type="dfn" href="#colortextures" id="ref-for-colortextures③">colorTextures</a> textures of this layer if the <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer⑤">XRProjectionLayer</a></code> was initialized with a <code class="idl"><a data-link-type="idl" href="#dom-xrprojectionlayerinit-texturetype" id="ref-for-dom-xrprojectionlayerinit-texturetype">textureType</a></code> of <code class="idl"><a data-link-type="idl" href="#dom-xrtexturetype-texture-array" id="ref-for-dom-xrtexturetype-texture-array①">"texture-array"</a></code>. Otherwise it will return <code>1</code>.</p>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRProjectionLayer" data-dfn-type="attribute" data-export id="dom-xrprojectionlayer-ignoredepthvalues"><code>ignoreDepthValues</code></dfn> attribute, if <code>true</code>, indicates that the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor⑨">XR Compositor</a> MUST NOT make use of values in the depth buffer attachment when rendering. When the attribute
 is <code>false</code> it indicates that the content of the depth buffer attachment will be used by the <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#xr-compositor" id="ref-for-xr-compositor①⓪">XR Compositor</a> and is expected to be representative of the scene rendered into the layer.</p>
@@ -2771,13 +2771,13 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <li><a href="#dom-xrtexturetype-texture">texture</a><span>, in §5.3</span>
    <li><a href="#dom-xrtexturetype-texture-array">"texture-array"</a><span>, in §5.3</span>
    <li><a href="#dom-xrtexturetype-texture-array">texture-array</a><span>, in §5.3</span>
+   <li><a href="#dom-xrprojectionlayer-texturearraylength">textureArrayLength</a><span>, in §3.4</span>
    <li>
     textureHeight
     <ul>
      <li><a href="#dom-xrprojectionlayer-textureheight">attribute for XRProjectionLayer</a><span>, in §3.4</span>
      <li><a href="#dom-xrwebglsubimage-textureheight">attribute for XRWebGLSubImage</a><span>, in §5.2</span>
     </ul>
-   <li><a href="#dom-xrprojectionlayer-texturelayers">textureLayers</a><span>, in §3.4</span>
    <li>
     textureType
     <ul>
@@ -3926,7 +3926,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
 [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <a href="#xrprojectionlayer"><code><c- g>XRProjectionLayer</c-></code></a> : <a data-link-type="idl-name" href="#xrcompositionlayer"><c- n>XRCompositionLayer</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrprojectionlayer-texturewidth"><c- g>textureWidth</c-></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrprojectionlayer-textureheight"><c- g>textureHeight</c-></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrprojectionlayer-texturelayers"><c- g>textureLayers</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="unsigned long" href="#dom-xrprojectionlayer-texturearraylength"><c- g>textureArrayLength</c-></a>;
 
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="boolean" href="#dom-xrprojectionlayer-ignoredepthvalues"><c- g>ignoreDepthValues</c-></a>;
 };
@@ -4316,10 +4316,10 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
     <li><a href="#ref-for-dom-xrprojectionlayer-textureheight">3.4. XRProjectionLayer</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="dom-xrprojectionlayer-texturelayers">
-   <b><a href="#dom-xrprojectionlayer-texturelayers">#dom-xrprojectionlayer-texturelayers</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="dom-xrprojectionlayer-texturearraylength">
+   <b><a href="#dom-xrprojectionlayer-texturearraylength">#dom-xrprojectionlayer-texturearraylength</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrprojectionlayer-texturelayers">3.4. XRProjectionLayer</a>
+    <li><a href="#ref-for-dom-xrprojectionlayer-texturearraylength">3.4. XRProjectionLayer</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrprojectionlayer-ignoredepthvalues">

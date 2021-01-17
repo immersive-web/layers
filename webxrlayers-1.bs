@@ -442,7 +442,7 @@ Projection layers should be refreshed close to the device's native frame rate.
 [Exposed=Window] interface XRProjectionLayer : XRCompositionLayer {
   readonly attribute unsigned long textureWidth;
   readonly attribute unsigned long textureHeight;
-  readonly attribute unsigned long textureLayers;
+  readonly attribute unsigned long textureArrayLength;
 
   readonly attribute boolean ignoreDepthValues;
 };
@@ -454,7 +454,7 @@ the [=colorTextures=] textures of this layer.
 The <dfn attribute for="XRProjectionLayer">textureHeight</dfn> attribute returns the height in pixels of
 the [=colorTextures=] textures of this layer.
 
-The <dfn attribute for="XRProjectionLayer">textureLayers</dfn> attribute returns the number of layers of
+The <dfn attribute for="XRProjectionLayer">textureArrayLength</dfn> attribute returns the number of layers of
 the [=colorTextures=] textures of this layer if the {{XRProjectionLayer}} was initialized with a
 {{XRProjectionLayerInit/textureType}} of {{"texture-array"}}. Otherwise it will return <code>1</code>.
 
