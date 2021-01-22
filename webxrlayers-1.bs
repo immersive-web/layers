@@ -822,6 +822,9 @@ The buffers attached to an [=opaque texture=] MUST be cleared to the values in t
   </tbody>
 </table>
 
+If the [=opaque texture=] was created with <code>2</code> or more {{XRLayerInit/mipLevels}},
+the author SHOULD populate all the mip levels. The user agent MUST NOT assume that it should create the mip levels.
+
 NOTE: the [=opaque texture|opaque textures=] are allocated when the layer is contructed using the
 [=allocate color textures=] and [=allocate depth textures=] algoritms. The side effect of this pre-allocation is that calling
 {{XRWebGLBinding/getSubImage()}} and {{XRWebGLBinding/getViewSubImage()}} with the same parameters will always return the same texture objects.
@@ -883,6 +886,10 @@ For WebGL2 contexts these additional formats are supported:
 The <dfn dict-member for="XRProjectionLayerInit">scaleFactor</dfn> attribute defines the value that the |session|'s
 [=recommended WebGL framebuffer resolution=] MUST be multiplied by determining the resolution of the layer's attachments.
 
+NOTE: the {{XRProjectionLayerInit}} dictionary does not have support to configure {{XRLayerInit/mipLevels}} like
+{{XRLayerInit}}. If a user agent wants to support mipmapping on projection layers, it is free to allocate the texture with mips.
+In that case the user agent (and not the author) is responsible for generating all the mip levels.
+
 XRLayerInit {#xrlayerinittype}
 ---------------------
 The {{XRLayerInit}} dictionary represents a set of common configurable values for {{XRQuadLayer}}, {{XRCylinderLayer}},
@@ -893,6 +900,7 @@ dictionary XRLayerInit {
   required XRSpace space;
   GLenum colorFormat = 0x1908; // RGBA
   GLenum? depthFormat;
+  unsigned long mipLevels = 1;
   required unsigned long viewPixelWidth;
   required unsigned long viewPixelHeight;
   XRLayerLayout layout = "mono";
@@ -940,6 +948,8 @@ For WebGL2 contexts these additional formats are supported:
 
  - {{DEPTH_COMPONENT24}}
  - {{DEPTH24_STENCIL8}}
+
+The <dfn dict-member for="XRLayerInit">mipLevels</dfn> attribute defines the desired number of mip levels in the color and texture data.
 
 The <dfn dict-member for="XRLayerInit">viewPixelWidth</dfn> and <dfn dict-member for="XRLayerInit">viewPixelHeight</dfn> attributes define
 the rectangular dimensions of the {{XRCompositionLayer}}.
@@ -1219,24 +1229,26 @@ To <dfn>allocate color textures</dfn> using an {{XRCompositionLayer}} |layer|, a
   1. let |array| be a [=new=] array in the [=relevant realm=] of |context|.
   1. let |context| be |layer|'s [=XRCompositionLayer/context=].
   1. If |init|'s {{XRLayerInit/colorFormat}} is not in the [=list of color formats for non-projection layers=], throw a {{NotSupportedError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/mipLevels}} is smaller than <code>1</code>, throw a {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/mipLevels}} is larger than <code>1</code> and {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} are not powers of <code>2</code>, throw a {{InvalidStateError}} and abort these steps
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dt> Otherwise
-          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dl>
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"stereo"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 2 layers using |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 2 layers using |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
-          <dd> Initialize |array| with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
           <dd> Return |array| and abort these steps.
         </dl>
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/colorFormat}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/mipLevels}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
   1. return |array|.
 
 </div>
@@ -1248,24 +1260,26 @@ To <dfn>allocate depth textures</dfn> using an {{XRCompositionLayer}} |layer|, a
   1. let |context| be |layer|'s [=XRCompositionLayer/context=].
   1. If |init|'s {{XRLayerInit/depthFormat}} is not set, return |array| and abort these steps.
   1. If |init|'s {{XRLayerInit/depthFormat}} is not in the [=list of depth formats for non-projection layers=], throw a {{NotSupportedError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/mipLevels}} is smaller than <code>1</code>, throw a {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRLayerInit/mipLevels}} is larger than <code>1</code> and {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} are not powers of <code>2</code>, throw a {{InvalidStateError}} and abort these steps.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dt> Otherwise
-          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s  {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s  {{XRLayerInit/depthFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         </dl>
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"stereo"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-         <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 2 layers using |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+         <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with 2 layers using |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dd> Return |array| and abort these steps.
         <dt> Otherwise
-          <dd> Initialize |array| with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
         <dd> Return |array| and abort these steps.
         </dl>
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/depthFormat}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/mipLevels}}, double of {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+  1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and double of {{XRLayerInit/viewPixelHeight}} values.
   1. return |array|.
 
 </div>
