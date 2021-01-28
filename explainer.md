@@ -267,6 +267,11 @@ function onXRFrame(time, xrFrame) {
 }
 ```
 
+The textures that are returned from `getSubImage` and `getViewSubImage` are specially defined `opaque` textures.
+The layers specification has more details on their exact behavior but of note is that you can't access their pixel data at any point and they are only valid during an `XRSession`'s [requestAnimationFrame](https://immersive-web.github.io/webxr/#dom-xrsession-requestanimationframe) call and after a call to getSubImage/getViewSubImage. If you use outside these constraints, they are considered invalid.
+
+Composition of these layers must also be independant of the pixel content of the layers. 
+
 ## Video layers
 
 Video playback is a very common use case in VR, especially with 180, 360, and stereo videos. While videos can be displayed by copying the video output frame-by-frame over to WebGL textures this has several downsides, including introducing extra copies, introducing stutter or becoming de-synced from the audio due to limits on when you can copy the texture, and inability to display encrypted media. As a result having a method for presenting videos directly as a layer offers an opportunity to make video playback easier, faster, and higher quality.
