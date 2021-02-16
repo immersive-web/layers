@@ -268,9 +268,9 @@ function onXRFrame(time, xrFrame) {
 ```
 
 The textures that are returned from `getSubImage` and `getViewSubImage` are specially defined `opaque` textures.
-The layers specification has more details on their exact behavior but of note is that you can't access their pixel data at any point and they are only valid during an `XRSession`'s [requestAnimationFrame](https://immersive-web.github.io/webxr/#dom-xrsession-requestanimationframe) call and after a call to getSubImage/getViewSubImage. If you use outside these constraints, they are considered invalid.
+The layers specification has more details on their exact behavior but of note is that you can't access their pixel data at any point and they are only valid during an `XRSession`'s [requestAnimationFrame](https://immersive-web.github.io/webxr/#dom-xrsession-requestanimationframe) call and after a call to getSubImage/getViewSubImage. If you use the textures outside these constraints, they are considered invalid.
 
-Composition of these layers must also be independant of the pixel content of the layers. 
+Composition of these layers must also be independant of their pixel content. For instance, an partially transparent pixel should composite in the same time as a fully opaque pixel.
 
 ## Video layers
 
