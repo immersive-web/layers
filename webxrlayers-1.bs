@@ -1031,11 +1031,11 @@ The {{XRWebGLBinding}} object is used to create layers that have a GPU backend.
 
   readonly attribute double nativeProjectionScaleFactor;
 
-  XRProjectionLayer createProjectionLayer(optional XRProjectionLayerInit init);
-  XRQuadLayer createQuadLayer(optional XRQuadLayerInit init);
-  XRCylinderLayer createCylinderLayer(optional XRCylinderLayerInit init);
-  XREquirectLayer createEquirectLayer(optional XREquirectLayerInit init);
-  XRCubeLayer createCubeLayer(optional XRCubeLayerInit init);
+  XRProjectionLayer createProjectionLayer(optional XRProjectionLayerInit init = {});
+  XRQuadLayer createQuadLayer(optional XRQuadLayerInit init = {});
+  XRCylinderLayer createCylinderLayer(optional XRCylinderLayerInit init = {});
+  XREquirectLayer createEquirectLayer(optional XREquirectLayerInit init = {});
+  XRCubeLayer createCubeLayer(optional XRCubeLayerInit init = {});
 
   XRWebGLSubImage getSubImage(XRCompositionLayer layer, XRFrame frame, optional XREye eye = "none");
   XRWebGLSubImage getViewSubImage(XRProjectionLayer layer, XRView view);
@@ -1689,9 +1689,9 @@ The {{XRMediaBinding}} object is used to create layers that display the content 
 [Exposed=Window] interface XRMediaBinding {
   constructor(XRSession session);
 
-  XRQuadLayer createQuadLayer(HTMLVideoElement video, optional XRMediaQuadLayerInit init);
-  XRCylinderLayer createCylinderLayer(HTMLVideoElement video, optional XRMediaCylinderLayerInit init);
-  XREquirectLayer createEquirectLayer(HTMLVideoElement video, optional XRMediaEquirectLayerInit init);
+  XRQuadLayer createQuadLayer(HTMLVideoElement video, optional XRMediaQuadLayerInit init = {});
+  XRCylinderLayer createCylinderLayer(HTMLVideoElement video, optional XRMediaCylinderLayerInit init = {});
+  XREquirectLayer createEquirectLayer(HTMLVideoElement video, optional XRMediaEquirectLayerInit init = {});
 };
 </pre>
 
