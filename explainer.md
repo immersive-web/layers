@@ -37,7 +37,7 @@ Projection layers are implemented more efficiently than XRWebGLLayer and their u
 ## Goals
  1. Provide a new API that exposes composition layers to the web.
  1. Provide the ability to draw to those layers with WebGL 1 or 2.
- 1. Provide the abilith to draw video directly to a subset of these layers.
+ 1. Provide the ability to draw video directly to a subset of these layers.
  1. Provide backward compatibility for content that draws with WebXR's XRWebGLLayer.
  1. Provide ability to have layers on any device that supports WebXR.
 
