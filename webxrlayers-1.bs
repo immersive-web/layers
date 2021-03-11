@@ -837,6 +837,8 @@ being generated, even if it does not affect the dimensions or format: TexImage*,
 The <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/es_spec_3.0.pdf#nameddest=section-3.8.4">"Immutable-Format Texture Images"</a>
 section in the OpenGL ES 3.0 spec defines these limitations in more detail.
 
+Allocation of the resources for layers (such as memory) MUST be done through the same mechanism as WebGL.
+
 XRProjectionLayerInit {#xrprojectionlayerinittype}
 ---------------------
 The {{XRProjectionLayerInit}} dictionary represents a set of configurable values that describe how an {{XRProjectionLayer}}
@@ -1516,6 +1518,7 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
         <dd> Let |subimage| be a [=new=] {{XRWebGLSubImage}} in the [=relevant realm=] of [=this=].
         <dd> Let |subimage|'s {{XRSubImage/viewport}} be a [=new=] {{XRViewport}} in the [=relevant realm=] of [=this=].
     </dl>
+  1. Let |session| be [=this=] [=XRWebGLBinding/session=].
   1. If |layer| is not in the |session|'s {{XRRenderState/layers}} array, throw a {{TypeError}} and abort these steps.
   1. If |layer|'s type is {{XRProjectionLayer}}, throw a {{TypeError}} and abort these steps.
   1. If |layer|'s {{XRCompositionLayer/layout}} attribute is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
@@ -1962,3 +1965,8 @@ Composition timing MUST be independent of the content that is rendered.
 Moreover, content in a layer MUST not be observable in other layers.
 
 If possible, composition of layers should happen outside the browser to reduce risk of timing attacks or other security vulnerabilities.
+
+Allocation of layers {#xrlayerallocation}
+--------------------
+
+The user agent MAY put limits on any resource allocation such as the maximum pixel size or the number of layers to reduce the identifiability of the GPU hardware.
