@@ -633,7 +633,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-03-11">11 March 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-03-24">24 March 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1045,15 +1045,15 @@ When setting the <code class="idl"><a data-link-type="idl" href="#dom-xrcylinder
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCylinderLayer" data-dfn-type="attribute" data-export id="dom-xrcylinderlayer-radius"><code>radius</code></dfn> attribute controls the radius in meters of the cylinder.</p>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCylinderLayer" data-dfn-type="attribute" data-export id="dom-xrcylinderlayer-centralangle"><code>centralAngle</code></dfn> attribute controls the angle in radians of the visible section of the cylinder.
 It grows symmetrically around the 0 angle.</p>
-   <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCylinderLayer" data-dfn-type="attribute" data-export id="dom-xrcylinderlayer-aspectratio"><code>aspectRatio</code></dfn> attribute controls the ratio of the visible cylinder section.</p>
+   <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="XRCylinderLayer" data-dfn-type="attribute" data-export id="dom-xrcylinderlayer-aspectratio"><code>aspectRatio</code></dfn> attribute controls the ratio of the visible cylinder section. It is the ratio of the width of the visible section of the cylinder divided by its height. The width is calculated by multiplying the <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayer-radius" id="ref-for-dom-xrcylinderlayer-radius①">radius</a></code> with the <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayer-centralangle" id="ref-for-dom-xrcylinderlayer-centralangle①">centralAngle</a></code>.</p>
    <p><img alt="description of the parameters of a cylinder layer" src="images/cylinder_layer_params.png" style="width:80%"></p>
    <div class="algorithm" data-algorithm="initCylinderLayerAlgo">
      When <dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="initialize a cylinder layer" data-noexport id="initialize-a-cylinder-layer">initializing an <code class="idl"><a data-link-type="idl" href="#xrcylinderlayer" id="ref-for-xrcylinderlayer①">XRCylinderLayer</a></code> <var>layer</var> with an <code class="idl"><a data-link-type="idl" href="#dictdef-xrcylinderlayerinit" id="ref-for-dictdef-xrcylinderlayerinit">XRCylinderLayerInit</a></code> <var>init</var></dfn>, the user agent MUST run the following steps: 
     <ol>
      <li data-md>
-      <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayer-radius" id="ref-for-dom-xrcylinderlayer-radius①">radius</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayerinit-radius" id="ref-for-dom-xrcylinderlayerinit-radius">radius</a></code>.</p>
+      <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayer-radius" id="ref-for-dom-xrcylinderlayer-radius②">radius</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayerinit-radius" id="ref-for-dom-xrcylinderlayerinit-radius">radius</a></code>.</p>
      <li data-md>
-      <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayer-centralangle" id="ref-for-dom-xrcylinderlayer-centralangle①">centralAngle</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayerinit-centralangle" id="ref-for-dom-xrcylinderlayerinit-centralangle">centralAngle</a></code>.</p>
+      <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayer-centralangle" id="ref-for-dom-xrcylinderlayer-centralangle②">centralAngle</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayerinit-centralangle" id="ref-for-dom-xrcylinderlayerinit-centralangle">centralAngle</a></code>.</p>
      <li data-md>
       <p>Initialize <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayer-aspectratio" id="ref-for-dom-xrcylinderlayer-aspectratio①">aspectRatio</a></code> to <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcylinderlayerinit-aspectratio" id="ref-for-dom-xrcylinderlayerinit-aspectratio">aspectRatio</a></code>.</p>
      <li data-md>
@@ -4451,13 +4451,13 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
   <aside class="dfn-panel" data-for="dom-xrcylinderlayer-radius">
    <b><a href="#dom-xrcylinderlayer-radius">#dom-xrcylinderlayer-radius</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrcylinderlayer-radius">3.6. XRCylinderLayer</a> <a href="#ref-for-dom-xrcylinderlayer-radius①">(2)</a>
+    <li><a href="#ref-for-dom-xrcylinderlayer-radius">3.6. XRCylinderLayer</a> <a href="#ref-for-dom-xrcylinderlayer-radius①">(2)</a> <a href="#ref-for-dom-xrcylinderlayer-radius②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrcylinderlayer-centralangle">
    <b><a href="#dom-xrcylinderlayer-centralangle">#dom-xrcylinderlayer-centralangle</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-xrcylinderlayer-centralangle">3.6. XRCylinderLayer</a> <a href="#ref-for-dom-xrcylinderlayer-centralangle①">(2)</a>
+    <li><a href="#ref-for-dom-xrcylinderlayer-centralangle">3.6. XRCylinderLayer</a> <a href="#ref-for-dom-xrcylinderlayer-centralangle①">(2)</a> <a href="#ref-for-dom-xrcylinderlayer-centralangle②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-xrcylinderlayer-aspectratio">
