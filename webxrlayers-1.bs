@@ -798,7 +798,7 @@ An [=opaque texture=] functions identically to a standard {{WebGLTexture}} with 
 - An [=opaque texture=] MUST behave as though it was allocated with [=texStorage2D=] or [=texStorage3D=], as appropriate, even when using a WebGL 1.0 context.
 - A call to {{deleteTexture}} with an [=opaque texture=] MUST generate an {{INVALID_OPERATION}} error.
 
-The buffers attached to an [=opaque texture=] MUST be cleared to the values in the table below prior to the processing of each [=XR animation frame=].
+The buffers attached to an [=opaque texture=] MUST be cleared to the values in the table below during the processing of the first call to {{XRWebGLBinding/getViewSubImage()}} or {{XRWebGLBinding/getSubImage()}} in each [=XR animation frame=].
 
 <table class="tg">
   <thead>
@@ -1097,7 +1097,7 @@ To <dfn>determine the layout attribute</dfn> using an {{XRTextureType}} |texture
   1. If |layout| is {{XRLayerLayout/"default"}}, run the following steps:
     1. If the size of [=list of views=] is <code>1</code>, return {{XRLayerLayout/"mono"}} and abort these steps.
     1. If |textureType| is {{"texture-array"}}, return |layout| and abort these steps.
-  1. If |layout| is {{XRLayerLayout/"default"}} or {{XRLayerLayout/"stereo"}}, run the following steps:
+  1. If |layout| is {{XRLayerLayout/"default"}} or {{XRLayerLayout/"stereo"}} and |textureType| is {{"texture"}}, run the following steps:
     1. If the user agent prefers {{XRLayerLayout/"stereo-left-right"}} layout, return {{XRLayerLayout/"stereo-left-right"}} and abort these steps.
     1. If the user agent prefers {{XRLayerLayout/"stereo-top-bottom"}} layout, return {{XRLayerLayout/"stereo-top-bottom"}} and abort these steps.
   1. return |layout|.
