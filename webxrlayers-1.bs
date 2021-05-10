@@ -56,6 +56,8 @@ spec: html;
     type: dfn; text: request the xr permission
 spec:webidl;
     type:dfn; text:new
+spec:dom;
+    type:dfn; text:origin
 </pre>
 
 <pre class="anchors">
@@ -131,6 +133,8 @@ spec: ECMAScript; urlPrefix: https://tc39.github.io/ecma262/#
     type: dfn; text: Realm; url: realm
 spec: compositing-1; urlPrefix: https://www.w3.org/TR/compositing-1/
     type: dfn; text: source-over; url: porterduffcompositingoperators_srcover
+spec:fetch; urlPrefix: https://fetch.spec.whatwg.org/
+    type:dfn; text:cors-protocol; url: cors-protocol
 </pre>
 
 
@@ -270,6 +274,10 @@ The "[=feature descriptor/layers=]" [=feature descriptor=] has a [=feature requi
 NOTE: This means that executing the {{Permissions/request(permissionDesc)}} API with "[=feature descriptor/layers=]" will
 not enable layers support for the current active session.
 
+If an application wants to create [[#domlayer|DOM layers]], the session MUST be requested with an appropriate [=feature descriptor=]. The string "<dfn for="feature descriptor">dom-layers</dfn>" is introduced
+by this module as a new valid [=feature descriptor=] for the WebXR Layers feature.
+
+
 Layer types {#xrlayertypes}
 ===========
 
@@ -370,6 +378,7 @@ or a {{WebGL2RenderingContext}} |context|, the user agent MUST run the following
       <dt> Otherwise
       <dd> Set [=this=] {{XRCompositionLayer/chromaticAberrationCorrection}} to <code>null</code>.
     </dl>
+
 
 </div>
 
@@ -1840,6 +1849,133 @@ When this method is invoked, the user agent MUST run the following steps:
 
 ISSUE: define how the {{XREquirectLayer}}'s parameters affect the video display.
 
+DOM layer creation {#domlayer}
+==================
+
+Description {#xrdomlayerdescription}
+-----------
+DOM Layers allow the display of HTML content within an immersive session.
+They are only enabled when the "[=feature descriptor/dom-layers=]" [=feature descriptor=] is granted to the current {{XRSession}}.
+
+The [=origin=] of the URL MUST be the same as the [=origin=] of the URL that created the immersive session.
+In addition, the `[=child-src=]` and `[=navigate-to=]` Content Security Policies with the document's [=origin=] MUST be applied to the loaded document.
+
+NOTE: this means that the experience can only open pages from the same [=origin=] and these pages can't open iframes to other origins or navigate to other origins.
+
+XRDOMLayerInit {#xrdomlayerinittype}
+--------------
+The {{XRDOMLayerInit}} dictionary represents a set of configurable values that describe how an {{XRCompositionLayer}} containing a web page
+is initialized.
+
+<pre class="idl">
+dictionary XRDOMLayerInit {
+  required XRSpace space;
+  XRRigidTransform? transform;
+};
+</pre>
+
+The <dfn dict-member for="XRDOMLayerInit">space</dfn> attribute defines the spatial relationship with the user’s physical environment.
+
+XRDOMQuadLayerInit {#xrdomquadlayerinittype}
+------------------
+The {{XRDOMQuadLayerInit}} dictionary represents a set of configurable values that describe how an {{XRQuadLayer}} containing a web page
+is initialized.
+
+<pre class="idl">
+dictionary XRDOMQuadLayerInit : XRDOMLayerInit {
+  float? width;
+  float? height;
+};
+</pre>
+
+XRDOMCylinderLayerInit {#xrdomcylinderlayerinittype}
+----------------------
+The {{XRDOMCylinderLayerInit}} dictionary represents a set of configurable values that describe how an {{XRCylinderLayer}} containing a web page
+is initialized.
+
+<pre class="idl">
+dictionary XRDOMCylinderLayerInit : XRDOMLayerInit {
+  float radius = 2.0;
+  float centralAngle = 0.78539;
+  float? aspectRatio;
+};
+</pre>
+
+XRDOMQuadLayerResult {#xrdomquadlayerresulttype}
+--------------------
+The {{XRDOMQuadLayerResult}} class contains the result of calling {{XRDOMBinding/createQuadLayer()}}.
+
+<pre class="idl">
+[SecureContext, Exposed=Window]
+interface XRDOMQuadLayerResult {
+  [SameObject] readonly attribute XRQuadLayer layer;
+  [SameObject] readonly attribute WindowProxy window;
+};
+</pre>
+
+{{XRDOMQuadLayerResult/layer}} contains the layer that was created with the {{XRDOMQuadLayerInit}} parameters.
+
+{{XRDOMQuadLayerResult/window}} contains the {{WindowProxy}} that is associated with the newly created browsing context in the layer.
+
+XRDOMCylinderLayerResult {#xrdomcylinderlayerresulttype}
+--------------------
+The {{XRDOMCylinderLayerResult}} class contains the result of calling {{XRDOMBinding/createCylinderLayer()}}.
+
+<pre class="idl">
+[SecureContext, Exposed=Window]
+interface XRDOMCylinderLayerResult {
+  [SameObject] readonly attribute XRCylinderLayer layer;
+  [SameObject] readonly attribute WindowProxy window;
+};
+</pre>
+
+{{XRDOMCylinderLayerResult/layer}} contains the layer that was created with the {{XRDOMQuadLayerInit}} parameters.
+
+{{XRDOMCylinderLayerResult/window}} contains the {{WindowProxy}} that is associated with the newly created browsing context in the layer.
+
+XRDOMBinding {#xrdombindingtype}
+------------
+The {{XRDOMBinding}} object is used to create layers that display a web page.
+
+<pre class="idl">
+[Exposed=Window] interface XRDOMBinding {
+  constructor(XRSession session);
+
+  XRDOMQuadLayerResult createQuadLayer(DOMString url, optional XRDOMQuadLayerInit init = {});
+  XRDOMCylinderLayerResult createCylinderLayer(DOMString video, optional XRDOMCylinderLayerInit init = {});
+};
+</pre>
+
+ISSUE: the init dictionaries shouldn't be optional. This is bikeshed issue 1566.
+
+<!--
+Each {{XRDOMBinding}} has an associated <dfn dfn-for="XRDOMBinding">session</dfn>, which is the
+{{XRSession}} it was created with.
+-->
+
+NOTE: It is possible to create more than one {{XRDOMBinding}}. The lifetime of a layer is not tied
+to the lifetime of the {{XRDOMBinding}} that created it.
+
+<div class="algorithm" data-algorithm="createDOMQuadLayerAlgo">
+The <dfn method for="XRDOMBinding">createQuadLayer(DOMString |url|, XRQuadLayerInit |init|)</dfn> method creates a new {{XRDOMQuadLayerResult}} |result|.
+
+When this method is invoked, the user agent MUST run the following steps:
+  1. |url|
+  1. |init|
+  1. |result|
+
+</div>
+
+<div class="algorithm" data-algorithm="createDOMCylinderLayerAlgo">
+The <dfn method for="XRDOMBinding">createCylinderLayer(DOMString |url|, XRDOMCylinderLayerInit |init|)</dfn> method creates a new {{XRDOMCylinderLayerResult}} |result|.
+
+When this method is invoked, the user agent MUST run the following steps:
+  1. |url|
+  1. |init|
+  1. |result|
+
+</div>
+
 Events {#events}
 ======
 
@@ -1939,7 +2075,7 @@ monoscopic devices.
 
 XRView changes {#xrviewchanges}
 --------------
-Each [=view=] MUST define a <dfn ignore=''>recommended WebGL texture resolution</dfn> which represents a best estimate of the WebGL texture
+Each [=view=] MUST define a <dfn>recommended WebGL texture resolution</dfn> which represents a best estimate of the WebGL texture
 resolution large enough to contain the view.
 
 Animation frames changes {#animationframeschanges}
