@@ -209,7 +209,7 @@ WebGL layers allocated with the `TEXTURE_2D_ARRAY` target will provide sub image
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const xrGlBinding = new XRWebGLBinding(xrSession, gl);
-const layer = xrGlBinding.createProjectionLayer("texture-array");
+const layer = xrGlBinding.createProjectionLayer({ textureType: "texture-array" });
 const framebuffer = gl.createFramebuffer();
 
 xrSession.updateRenderState({ layers: [layer] });
