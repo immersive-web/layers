@@ -139,7 +139,7 @@ Non-projection layers each have attributes that control where the layer is shown
 ```js
 const quadLayer = xrGlBinding.createQuadLayer({ pixelWidth: 512, pixelHeight: 512 });
 // Position 2 meters away from the origin of xrReferenceSpace with a width and height of 1.5 meters
-quadLayer.referenceSpace = xrReferenceSpace;
+quadLayer.space = xrReferenceSpace;
 quadLayer.transform = new XRRigidTransform({z: -2});
 quadLayer.width = 1.5;
 quadLayer.height = 1.5;
@@ -243,7 +243,7 @@ const quadLayer = xrGlBinding.createQuadLayer({
   pixelWidth: 512, pixelHeight: 512
 });
 // Position 2 meters away from the origin with a width and height of 1.5 meters
-quadLayer.referenceSpace = xrReferenceSpace;
+quadLayer.space = xrReferenceSpace;
 quadLayer.transform = new XRRigidTransform({z: -2});
 quadLayer.width = 1.5;
 quadLayer.height = 1.5;
