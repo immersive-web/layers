@@ -119,7 +119,7 @@ const layer = xrGlBinding.createProjectionLayer({ textureType: "texture-array" }
 Layer types other than an `XRProjectionLayer` must be given an explicit pixel width and height, as well as whether or not the image should be stereo or mono. This is because those properties cannot be inferred from the hardware or layer type as they can with an `XRProjectionLayer`.
 
 ```js
-const layer = xrGlBinding.createQuadLayer({ pixelWidth: 1024, pixelHeight: 768, layout: "stereo" });
+const layer = xrGlBinding.createQuadLayer({ viewPixelWidth: 1024, viewPixelHeight: 768, layout: "stereo" });
 ```
 
 Passing `true` for stereo here indicates that you are able to provide stereo imagery for this layer, but if the XR device is unable to display stereo imagery it may automatically force the layer to be created as mono instead to reduce memory and rendering overhead. Layers that are created as mono will never be automatically changed to stereo, regardless of hardware capabilities. Developers can check the `stereo` attribte of the resulting layer to determine if the layer was allocated with resources for stereo or mono rendering.
@@ -137,7 +137,7 @@ The `XRLayerLayout` attribute determines how the GPU resources of the layers are
 Non-projection layers each have attributes that control where the layer is shown and how it's shaped. For example, the positioning of an `XRQuadLayer` is handled like so:
 
 ```js
-const quadLayer = xrGlBinding.createQuadLayer({ pixelWidth: 512, pixelHeight: 512 });
+const quadLayer = xrGlBinding.createQuadLayer({ viewPixelWidth: 512, viewPixelHeight: 512 });
 // Position 2 meters away from the origin of xrReferenceSpace with a width and height of 1.5 meters
 quadLayer.space = xrReferenceSpace;
 quadLayer.transform = new XRRigidTransform({z: -2});
@@ -161,7 +161,7 @@ In addition to the `XRLayer`-derived types, the existing `XRWebGLLayer` may be p
 
 ```js
 const projectionLayer = new XRWebGLLayer(xrSession, gl);
-const quadLayer = xrGlBinding.createQuadLayer({ pixelWidth: 1024, pixelHeight: 1024 });
+const quadLayer = xrGlBinding.createQuadLayer({ viewPixelWidth: 1024, viewPixelHeight: 1024 });
 
 xrSession.updateRenderState({ layers: [projectionLayer, quadLayer] });
 ```
@@ -240,7 +240,7 @@ For some non-projection layers, such as a mono `XRQuadLayer` being shown on a st
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const xrGlBinding = new XRWebGLBinding(xrSession, gl);
 const quadLayer = xrGlBinding.createQuadLayer({
-  pixelWidth: 512, pixelHeight: 512
+  viewPixelWidth: 512, viewPixelHeight: 512
 });
 // Position 2 meters away from the origin with a width and height of 1.5 meters
 quadLayer.space = xrReferenceSpace;
