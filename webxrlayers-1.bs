@@ -8,7 +8,7 @@ ED: https://immersive-web.github.io/layers/
 Previous Version: https://www.w3.org/TR/2020/WD-webxrlayers-1-20210824/
 Repository: immersive-web/layers
 Level: 1
-Mailing List Archives: https://lists.w3.org/Archives/Public/public-immersive-web/
+Mailing List Archives: https://lists.w3.org/Archives/Public/public-immersive-web-wg/
 
 Editor: Rik Cabanier 106988, Facebook https://oculus.com, cabanier@fb.com
 
