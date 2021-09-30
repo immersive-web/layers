@@ -10,6 +10,10 @@ Repository: immersive-web/layers
 Level: 1
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-immersive-web-wg/
 
+!Participate: <a href="https://github.com/immersive-web/layers/issues/new">File an issue</a> (<a href="https://github.com/immersive-web/layers/issues">open issues</a>)
+!Participate: <a href="https://lists.w3.org/Archives/Public/public-immersive-web-wg/">Mailing list archive</a>
+!Participate: <a href="irc://irc.w3.org:6665/">W3C's #immersive-web IRC</a>
+
 Editor: Rik Cabanier 106988, Facebook https://oculus.com, cabanier@fb.com
 
 Abstract: This specification describes support for various layer types used in a WebXR session.
