@@ -303,6 +303,16 @@ figcaption:not(.no-marker)::before {
 
 .dfn-paneled { cursor: pointer; }
 </style>
+<style>/* style-issues */
+
+a[href].issue-return {
+    float: right;
+    float: inline-end;
+    color: var(--issueheading-text);
+    font-weight: bold;
+    text-decoration: none;
+}
+</style>
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -633,7 +643,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-09-30">30 September 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2021-10-01">1 October 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -3933,7 +3943,7 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <dt id="biblio-webidl">[WebIDL]
    <dd>Boris Zbarsky. <a href="https://heycam.github.io/webidl/"><cite>Web IDL</cite></a>. 15 December 2016. ED. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
    <dt id="biblio-webxr">[WEBXR]
-   <dd>Brandon Jones; et al. <a href="https://www.w3.org/TR/webxr/"><cite>WebXR Device API</cite></a>. 24 August 2021. WD. URL: <a href="https://www.w3.org/TR/webxr/">https://www.w3.org/TR/webxr/</a>
+   <dd>Brandon Jones; et al. <a href="https://www.w3.org/TR/webxr/"><cite>WebXR Device API</cite></a>. 30 September 2021. WD. URL: <a href="https://www.w3.org/TR/webxr/">https://www.w3.org/TR/webxr/</a>
    <dt id="biblio-webxr-ar-module-1">[WEBXR-AR-MODULE-1]
    <dd>Brandon Jones; et al. <a href="https://www.w3.org/TR/webxr-ar-module-1/"><cite>WebXR Augmented Reality Module - Level 1</cite></a>. 24 August 2021. WD. URL: <a href="https://www.w3.org/TR/webxr-ar-module-1/">https://www.w3.org/TR/webxr-ar-module-1/</a>
   </dl>
@@ -4145,19 +4155,19 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
 </pre>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
-   <div class="issue"> how to do hit testing? Should it be done by the UA?<a href="#issue-f8fc5b4f"> ↵ </a></div>
-   <div class="issue"> this section needs clarification<a href="#issue-9b6533f8"> ↵ </a></div>
-   <div class="issue"> this section needs clarification<a href="#issue-9b6533f8①"> ↵ </a></div>
-   <div class="issue"> the init dictionaries shouldn’t be optional. This is bikeshed issue 1566.<a href="#issue-2325a847"> ↵ </a></div>
-   <div class="issue"> special case UA behavior if the size causes the layout to change (ie if the requested width exceeds a limit with <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right">"stereo-left-right"</a></code>)<a href="#issue-c5f51eda"> ↵ </a></div>
-   <div class="issue"> the scaleFactor needs to be recalculated for the secondary views.<a href="#issue-72d3b5f4"> ↵ </a></div>
-   <div class="issue"> Define how cubemap sizes are determined.<a href="#issue-0072179b"> ↵ </a></div>
-   <div class="issue"> How should space be handled. Can you walk to the edge of a cubemap?<a href="#issue-ec6c3781"> ↵ </a></div>
-   <div class="issue"> determine the initial state of <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayer-orientation">orientation</a></code>.<a href="#issue-61920327"> ↵ </a></div>
-   <div class="issue"> the init dictionaries shouldn’t be optional. This is bikeshed issue 1566.<a href="#issue-2325a847①"> ↵ </a></div>
-   <div class="issue"> more clarification is needed on how the video is blitted to the layers.<a href="#issue-fe682fc5"> ↵ </a></div>
-   <div class="issue"> add a better algorithm to describe the drawing.<a href="#issue-da8fb26d"> ↵ </a></div>
-   <div class="issue"> define how the <code class="idl"><a data-link-type="idl" href="#xrequirectlayer">XREquirectLayer</a></code>'s parameters affect the video display.<a href="#issue-d024c1a8"> ↵ </a></div>
+   <div class="issue"> how to do hit testing? Should it be done by the UA? <a class="issue-return" href="#issue-f8fc5b4f" title="Jump to section">↵</a></div>
+   <div class="issue"> this section needs clarification <a class="issue-return" href="#issue-9b6533f8" title="Jump to section">↵</a></div>
+   <div class="issue"> this section needs clarification <a class="issue-return" href="#issue-9b6533f8①" title="Jump to section">↵</a></div>
+   <div class="issue"> the init dictionaries shouldn’t be optional. This is bikeshed issue 1566. <a class="issue-return" href="#issue-2325a847" title="Jump to section">↵</a></div>
+   <div class="issue"> special case UA behavior if the size causes the layout to change (ie if the requested width exceeds a limit with <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-stereo-left-right">"stereo-left-right"</a></code>) <a class="issue-return" href="#issue-c5f51eda" title="Jump to section">↵</a></div>
+   <div class="issue"> the scaleFactor needs to be recalculated for the secondary views. <a class="issue-return" href="#issue-72d3b5f4" title="Jump to section">↵</a></div>
+   <div class="issue"> Define how cubemap sizes are determined. <a class="issue-return" href="#issue-0072179b" title="Jump to section">↵</a></div>
+   <div class="issue"> How should space be handled. Can you walk to the edge of a cubemap? <a class="issue-return" href="#issue-ec6c3781" title="Jump to section">↵</a></div>
+   <div class="issue"> determine the initial state of <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayer-orientation">orientation</a></code>. <a class="issue-return" href="#issue-61920327" title="Jump to section">↵</a></div>
+   <div class="issue"> the init dictionaries shouldn’t be optional. This is bikeshed issue 1566. <a class="issue-return" href="#issue-2325a847①" title="Jump to section">↵</a></div>
+   <div class="issue"> more clarification is needed on how the video is blitted to the layers. <a class="issue-return" href="#issue-fe682fc5" title="Jump to section">↵</a></div>
+   <div class="issue"> add a better algorithm to describe the drawing. <a class="issue-return" href="#issue-da8fb26d" title="Jump to section">↵</a></div>
+   <div class="issue"> define how the <code class="idl"><a data-link-type="idl" href="#xrequirectlayer">XREquirectLayer</a></code>'s parameters affect the video display. <a class="issue-return" href="#issue-d024c1a8" title="Jump to section">↵</a></div>
   </div>
   <aside class="dfn-panel" data-for="feature-descriptor-layers">
    <b><a href="#feature-descriptor-layers">#feature-descriptor-layers</a></b><b>Referenced in:</b>
