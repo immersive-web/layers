@@ -116,7 +116,7 @@ const xrGlBinding = new XRWebGLBinding(xrSession, gl);
 const layer = xrGlBinding.createProjectionLayer({ textureType: "texture-array" });
 ```
 
-Layer types other than an `XRProjectionLayer` must be given an explicit pixel width and height, as well as whether or not the image should be stereo or mono. This is because those properties cannot be inferred from the hardware or layer type as they can with an `XRProjectionLayer`. Additionally, the layer's space needs to be defined as it should be anchored to the world and not the viewer's gaze by default.
+Layer types other than an `XRProjectionLayer` must be given an explicit pixel width and height, as well as whether or not the image should be stereo or mono. This is because those properties cannot be inferred from the hardware or layer type as they can with an `XRProjectionLayer`. The `space` property is required to define where the layer will be anchored.
 
 ```js
 const layer = xrGlBinding.createQuadLayer({ 
