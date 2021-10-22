@@ -1040,6 +1040,7 @@ The {{XRWebGLBinding}} object is used to create layers that have a GPU backend.
   constructor(XRSession session, XRWebGLRenderingContext context);
 
   readonly attribute double nativeProjectionScaleFactor;
+  readonly attribute boolean usesDepthValues;
 
   XRProjectionLayer createProjectionLayer(optional XRProjectionLayerInit init = {});
   XRQuadLayer createQuadLayer(optional XRQuadLayerInit init = {});
@@ -1087,10 +1088,15 @@ MUST perform the following steps when invoked:
 
 </div>
 
-The {{nativeProjectionScaleFactor}} function returns the value that the |session|'s [=recommended WebGL framebuffer resolution=]
+The <dfn attribute for="XRWebGLBinding">nativeProjectionScaleFactor</dfn> function returns the value that the |session|'s [=recommended WebGL framebuffer resolution=]
 MUST be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
 
 ISSUE: special case UA behavior if the size causes the layout to change (ie if the requested width exceeds a limit with {{XRLayerLayout/"stereo-left-right"}})
+
+The <dfn attribute for="XRWebGLBinding">usesDepthValues</dfn> attribute, if <code>false</code>, indicates that the
+[=XR Compositor=] MUST NOT make use of values if there is a depth buffer attachment. When the attribute
+is <code>true</code> it indicates that the content of the depth buffer attachment will be used by the
+[=XR Compositor=] and is expected to be representative of the scene rendered into the layer.
 
 <div class="algorithm" data-algorithm="determine the layout attribute">
 
