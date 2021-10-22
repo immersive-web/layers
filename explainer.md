@@ -104,7 +104,7 @@ The graphics API the layer factory was created with may also require API-specifi
 const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl', { xrCompatible: true });
 const xrGlBinding = new XRWebGLBinding(xrSession, gl);
-const layer = xrGlBinding.createProjectionLayer("texture", { alpha: false });
+const layer = xrGlBinding.createProjectionLayer( { textureType: "texture" });
 ```
 
 This will allocate a layer that supplies a 2D texture as it's output surface, which will then be subdivided into viewports for each `XRView`. If the context passed into the `XRWebGLBinding` was a WebGL 2.0 the developer could optionally choose to allocate a texture array instead, in which every `XRView` will be rendered into a separate level of the array. This allows for some rendering optimizations, such as the use of the `OVR_multiview` extension, to be used.
@@ -113,13 +113,18 @@ This will allocate a layer that supplies a 2D texture as it's output surface, wh
 const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl2', { xrCompatible: true });
 const xrGlBinding = new XRWebGLBinding(xrSession, gl);
-const layer = xrGlBinding.createProjectionLayer("texture-array", { alpha: false });
+const layer = xrGlBinding.createProjectionLayer({ textureType: "texture-array" });
 ```
 
-Layer types other than an `XRProjectionLayer` must be given an explicit pixel width and height, as well as whether or not the image should be stereo or mono. This is because those properties cannot be inferred from the hardware or layer type as they can with an `XRProjectionLayer`.
+Layer types other than an `XRProjectionLayer` must be given an explicit pixel width and height, as well as whether or not the image should be stereo or mono. This is because those properties cannot be inferred from the hardware or layer type as they can with an `XRProjectionLayer`. The `space` property is required to define where the layer will be anchored.
 
 ```js
-const layer = xrGlBinding.createQuadLayer("texture", { pixelWidth: 1024, pixelHeight: 768, layout: "stereo" });
+const layer = xrGlBinding.createQuadLayer({ 
+  space: xrReferenceSpace, 
+  viewPixelWidth: 1024, 
+  viewPixelHeight: 768, 
+  layout: "stereo" 
+});
 ```
 
 Passing `true` for stereo here indicates that you are able to provide stereo imagery for this layer, but if the XR device is unable to display stereo imagery it may automatically force the layer to be created as mono instead to reduce memory and rendering overhead. Layers that are created as mono will never be automatically changed to stereo, regardless of hardware capabilities. Developers can check the `stereo` attribte of the resulting layer to determine if the layer was allocated with resources for stereo or mono rendering.
@@ -137,9 +142,8 @@ The `XRLayerLayout` attribute determines how the GPU resources of the layers are
 Non-projection layers each have attributes that control where the layer is shown and how it's shaped. For example, the positioning of an `XRQuadLayer` is handled like so:
 
 ```js
-const quadLayer = xrGlBinding.createQuadLayer("texture", { pixelWidth: 512, pixelHeight: 512 });
+const quadLayer = xrGlBinding.createQuadLayer({ space: xrReferenceSpace, viewPixelWidth: 512, viewPixelHeight: 512 });
 // Position 2 meters away from the origin of xrReferenceSpace with a width and height of 1.5 meters
-quadLayer.referenceSpace = xrReferenceSpace;
 quadLayer.transform = new XRRigidTransform({z: -2});
 quadLayer.width = 1.5;
 quadLayer.height = 1.5;
@@ -161,7 +165,7 @@ In addition to the `XRLayer`-derived types, the existing `XRWebGLLayer` may be p
 
 ```js
 const projectionLayer = new XRWebGLLayer(xrSession, gl);
-const quadLayer = xrGlBinding.createQuadLayer("texture", { pixelWidth: 1024, pixelHeight: 1024 });
+const quadLayer = xrGlBinding.createQuadLayer({ space: xrReferenceSpace, viewPixelWidth: 1024, viewPixelHeight: 1024 });
 
 xrSession.updateRenderState({ layers: [projectionLayer, quadLayer] });
 ```
@@ -179,7 +183,7 @@ WebGL layers allocated with the `TEXTURE_2D` target will provide sub images with
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const xrGlBinding = new XRWebGLBinding(xrSession, gl);
-const layer = xrGlBinding.createProjectionLayer("texture");
+const layer = xrGlBinding.createProjectionLayer({});
 const framebuffer = gl.createFramebuffer();
 
 xrSession.updateRenderState({ layers: [layer] });
@@ -209,7 +213,7 @@ WebGL layers allocated with the `TEXTURE_2D_ARRAY` target will provide sub image
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const xrGlBinding = new XRWebGLBinding(xrSession, gl);
-const layer = xrGlBinding.createProjectionLayer("texture-array");
+const layer = xrGlBinding.createProjectionLayer({ textureType: "texture-array" });
 const framebuffer = gl.createFramebuffer();
 
 xrSession.updateRenderState({ layers: [layer] });
@@ -223,7 +227,7 @@ function onXRFrame(time, xrFrame) {
   gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
 
   for (let view in xrViewerPose.views) {
-    let subImage = glLayerFactory.getViewSubImage(layer, view);
+    let subImage = xrGlBinding.getViewSubImage(layer, view);
     gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
       subImage.colorTexture, 0, subImage.imageIndex);
     gl.framebufferTextureLayer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT,
@@ -239,11 +243,12 @@ For some non-projection layers, such as a mono `XRQuadLayer` being shown on a st
 ```js
 // Render Loop for a projection layer with a WebGL framebuffer source.
 const xrGlBinding = new XRWebGLBinding(xrSession, gl);
-const quadLayer = xrGlBinding.createQuadLayer("texture", {
-  pixelWidth: 512, pixelHeight: 512
+const quadLayer = xrGlBinding.createQuadLayer({
+  space: xrReferenceSpace, 
+  viewPixelWidth: 512,
+  viewPixelHeight: 512
 });
 // Position 2 meters away from the origin with a width and height of 1.5 meters
-quadLayer.referenceSpace = xrReferenceSpace;
 quadLayer.transform = new XRRigidTransform({z: -2});
 quadLayer.width = 1.5;
 quadLayer.height = 1.5;
