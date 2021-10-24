@@ -1626,6 +1626,9 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
 
 </div>
 
+NOTE: The session should try to defer calls to {{XRWebGLBinding/getSubImage()}} and {{XRWebGLBinding/getViewSubImage()}} to the time that the experience starts drawing using WebGL.
+Typically that would be after the game logic runs. On certain user agents having distinct stages for CPU and GPU dependent code allows them to dynamically optimize system resources.
+
 When an {{XRLayer}} is a member of the {{XRRenderState/layers}} array, it MUST be presented to the [=immersive XR device=] immediately after
 an [=XR animation frame=] completes, but only if at least one of the following has occurred since the previous [=XR animation frame=]:
 
