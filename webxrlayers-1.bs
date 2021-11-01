@@ -1875,6 +1875,18 @@ when the [=XR Compositor=] can no longer reproject the layer.
 
 The author SHOULD redraw the content of the layer at the next [=XR animation frame=]. The event must be of type {{XRLayerEvent}}.
 
+Depth sorting between layers {#depthsorting}
+============================
+By default, the {{XRRenderStateInit/layers}} array defines the order of the composition of the layers and each layer is drawn on top of the previous layer.
+If an application wants to have layers that are sorted by depth, it MUST request a session with the "<dfn for="feature descriptor">depth-sort</dfn>" [=feature descriptor=].
+
+If an {{XRSession}} is created with the "[=depth-sort=]" [=feature descriptor=], {{XRProjectionLayer}}, {{XRQuadLayer}} and {{XRCylinderLayer}} layers MUST be displayed based on their depth as opposed to the location in the {{XRRenderStateInit/layers}} array.
+Other layers types MUST continue to be sorted as before.
+
+{{XRQuadLayer}} and {{XRCylinderLayer}} layers MUST be sorted by their dimensions (for instance {{XRQuadLayerInit/width}} or {{XRCylinderLayerInit/centralAngle}}), transform and space.
+
+{{XRProjectionLayer}} layers MUST be sorted according to the values in their {{XRWebGLSubImage/depthStencilTexture}}. This also implies that if "[=depth-sort=]" is enabled, the [=XR Compositor=] MUST make use of depth values and {{XRProjectionLayer/ignoreDepthValues}} MUST be set to `true`.
+
 WebXR Device API Integration {#webxrintegration}
 ============================
 
@@ -1892,8 +1904,8 @@ instances of {{XRLayer}}.
 The <dfn attribute for="XRRenderState">layers</dfn> attribute returns an array containing
 the instances of {{XRLayer}} that are displayed by the [=XR Compositor=].
 
-The {{XRRenderStateInit/layers}} array defines the order of the composition of the layers. The [=XR Compositor=] MUST draw each layer
-in order of its position in the array using [=source-over=] blending. The [=XR Compositor=] MUST NOT apply any depth sorting of the layers.
+By default, the {{XRRenderStateInit/layers}} array defines the order of the composition of the layers. The [=XR Compositor=] MUST draw each layer
+in order of its position in the array using [=source-over=] blending. Unless the "[=depth-sort=]" [=feature descriptor=] is enabled, the [=XR Compositor=] MUST NOT apply any depth sorting of the layers.
 
 NOTE: this means that each layer can potentially overwrite the previous layers whether or not the previous layers are virtually closer to the viewer.
 
@@ -1943,7 +1955,7 @@ monoscopic devices.
 
 XRView changes {#xrviewchanges}
 --------------
-Each [=view=] MUST define a <dfn ignore=''>recommended WebGL texture resolution</dfn> which represents a best estimate of the WebGL texture
+Each [=view=] MUST define a <dfn>recommended WebGL texture resolution</dfn> which represents a best estimate of the WebGL texture
 resolution large enough to contain the view.
 
 Animation frames changes {#animationframeschanges}
