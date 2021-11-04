@@ -1040,6 +1040,7 @@ The {{XRWebGLBinding}} object is used to create layers that have a GPU backend.
   constructor(XRSession session, XRWebGLRenderingContext context);
 
   readonly attribute double nativeProjectionScaleFactor;
+  readonly attribute boolean usesDepthValues;
 
   XRProjectionLayer createProjectionLayer(optional XRProjectionLayerInit init = {});
   XRQuadLayer createQuadLayer(optional XRQuadLayerInit init = {});
@@ -1087,10 +1088,15 @@ MUST perform the following steps when invoked:
 
 </div>
 
-The {{nativeProjectionScaleFactor}} function returns the value that the |session|'s [=recommended WebGL framebuffer resolution=]
+The <dfn attribute for="XRWebGLBinding">nativeProjectionScaleFactor</dfn> function returns the value that the |session|'s [=recommended WebGL framebuffer resolution=]
 MUST be multiplied by to yield the |session|'s [=native WebGL framebuffer resolution=].
 
 ISSUE: special case UA behavior if the size causes the layout to change (ie if the requested width exceeds a limit with {{XRLayerLayout/"stereo-left-right"}})
+
+The <dfn attribute for="XRWebGLBinding">usesDepthValues</dfn> attribute, if <code>false</code>, indicates that the
+[=XR Compositor=] MUST NOT make use of values if there is a depth buffer attachment. When the attribute
+is <code>true</code> it indicates that the content of the depth buffer attachment will be used by the
+[=XR Compositor=] and is expected to be representative of the scene rendered into the layer.
 
 <div class="algorithm" data-algorithm="determine the layout attribute">
 
@@ -1626,6 +1632,9 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
 
 </div>
 
+NOTE: The session should try to defer calls to {{XRWebGLBinding/getSubImage()}} and {{XRWebGLBinding/getViewSubImage()}} to the time that the experience starts drawing using WebGL.
+Typically that would be after the game logic runs. On certain user agents having distinct stages for CPU and GPU dependent code allows them to dynamically optimize system resources.
+
 When an {{XRLayer}} is a member of the {{XRRenderState/layers}} array, it MUST be presented to the [=immersive XR device=] immediately after
 an [=XR animation frame=] completes, but only if at least one of the following has occurred since the previous [=XR animation frame=]:
 
@@ -1875,6 +1884,18 @@ when the [=XR Compositor=] can no longer reproject the layer.
 
 The author SHOULD redraw the content of the layer at the next [=XR animation frame=]. The event must be of type {{XRLayerEvent}}.
 
+Depth sorting between layers {#depthsorting}
+============================
+By default, the {{XRRenderStateInit/layers}} array defines the order of the composition of the layers and each layer is drawn on top of the previous layer.
+If an application wants to have layers that are sorted by depth, it MUST request a session with the "<dfn for="feature descriptor">depth-sorted-layers</dfn>" [=feature descriptor=].
+
+If an {{XRSession}} is created with the "[=depth-sorted-layers=]" [=feature descriptor=], {{XRProjectionLayer}}, {{XRQuadLayer}} and {{XRCylinderLayer}} layers MUST be displayed based on their depth as opposed to the location in the {{XRRenderStateInit/layers}} array.
+Other layers types MUST continue to be sorted as before.
+
+{{XRQuadLayer}} and {{XRCylinderLayer}} layers MUST be sorted by their dimensions (for instance {{XRQuadLayerInit/width}} or {{XRCylinderLayerInit/centralAngle}}), transform and space.
+
+{{XRProjectionLayer}} layers MUST be sorted according to the values in their {{XRWebGLSubImage/depthStencilTexture}}. This also implies that if "[=depth-sorted-layers=]" is enabled, the [=XR Compositor=] MUST make use of depth values and {{XRProjectionLayer/ignoreDepthValues}} MUST be set to `true`.
+
 WebXR Device API Integration {#webxrintegration}
 ============================
 
@@ -1892,8 +1913,8 @@ instances of {{XRLayer}}.
 The <dfn attribute for="XRRenderState">layers</dfn> attribute returns an array containing
 the instances of {{XRLayer}} that are displayed by the [=XR Compositor=].
 
-The {{XRRenderStateInit/layers}} array defines the order of the composition of the layers. The [=XR Compositor=] MUST draw each layer
-in order of its position in the array using [=source-over=] blending. The [=XR Compositor=] MUST NOT apply any depth sorting of the layers.
+By default, the {{XRRenderStateInit/layers}} array defines the order of the composition of the layers. The [=XR Compositor=] MUST draw each layer
+in order of its position in the array using [=source-over=] blending. Unless the "[=depth-sorted-layers=]" [=feature descriptor=] is enabled, the [=XR Compositor=] MUST NOT apply any depth sorting of the layers.
 
 NOTE: this means that each layer can potentially overwrite the previous layers whether or not the previous layers are virtually closer to the viewer.
 
@@ -1943,7 +1964,7 @@ monoscopic devices.
 
 XRView changes {#xrviewchanges}
 --------------
-Each [=view=] MUST define a <dfn ignore=''>recommended WebGL texture resolution</dfn> which represents a best estimate of the WebGL texture
+Each [=view=] MUST define a <dfn>recommended WebGL texture resolution</dfn> which represents a best estimate of the WebGL texture
 resolution large enough to contain the view.
 
 Animation frames changes {#animationframeschanges}
