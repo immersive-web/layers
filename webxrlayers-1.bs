@@ -205,26 +205,26 @@ Introduction {#intro}
 
 <section class="non-normative">
 
-The spec adds support of `composition` layers to the WebXR spec. The benefits of layers are as follows:
+This specification adds support of `composition` layers to the WebXR spec. The benefits of layers are as follows:
 
- * <b>Performance and judder</b> Composition layers are presented at the frame rate of the compositor (i.e. native refresh rate of HMD) rather than at the application frame rate.
+ * <b>Performance and judder</b>: Composition layers are presented at the frame rate of the compositor (i.e. native refresh rate of HMD) rather than at the application frame rate.
     Even when the application is not updating the layer's rendering at the native refresh rate of the compositor, the compositor might be able to re-project the existing
     rendering to the proper pose. This results in smoother rendering and less judder. Another feature of layers is that each of them can have different resolution. This allows the
     application to scale down the main eye buffer resolution on low performance systems, but keeping essential information, such as text or a map, in its own layer at a higher
     resolution.
 
- * <b>Legibility/visual fidelity</b> The resolution for eye-buffers for 3D world rendering can be set to relatively low values especially on low performance systems. It would
-    be impossible to render high fidelity content, such as text, in this case. Each layer may have its own resolution and it will be re-sampled only once by the compositor (in contrary
-    to the traditional approach with rendering layers via WebGL where the layer's content got re-sampled at least twice: once when rendering into WebGL
-    eye-buffer (and losing a lot of details due to limited eye-buffer resolution) and the second time by the compositor).
+ * <b>Legibility/visual fidelity</b>: In regular WebXR, the resolution for eye-buffers might be reduced to relatively low values especially on low performance systems. This makes
+    it harder to render high fidelity content, such as text. With Composition Layers, a static cylinder or quad layer can be drawn once at high resolution and is resampled only once by the compositor. This contrasts with
+    the traditional approach with rendering an {{XRWebGLLayer}} where content is produced at the device's refresh rate and resampled at least twice: once when rendering into WebGL eye-buffer (which can lose details due to
+    lower eye-buffer resolution) and the second time by the compositor.
 
- * <b>Power consumption / battery life</b> Due to reduced rendering pipeline, the lack of double sampling and no need to update the layer's rendering each frame, the power
+ * <b>Power consumption / battery life</b>: Due to the reduced rendering pipeline, the lack of double sampling and no need to update the layer's rendering each frame, the power
     consumption is expected to be improved.
 
- * <b>Latency</b> Pose sampling for composition layers may occur at the very end of the frame and then certain reprojection techniques could be used to update the layer's pose to
+ * <b>Latency</b>: Pose sampling for composition layers may occur at the very end of the frame and then certain reprojection techniques could be used to update the layer's pose to
     match it with the most recent HMD pose. This may significantly reduce the effective latency for the layers' rendering and as a result improve overall experience.
 
-ISSUE: how to do hit testing? Should it be done by the UA?
+ * <b>Support for more color types</b>: WebXR only supports RGB values. Composition layer will have broader support for color types so authors can use compressed formats or sRGB.
 
 </section>
 
