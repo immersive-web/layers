@@ -5,7 +5,6 @@ Group: immersivewebwg
 Status: ED
 TR: https://www.w3.org/TR/webxrlayers-1/
 ED: https://immersive-web.github.io/layers/
-Previous Version: https://www.w3.org/TR/2020/WD-webxrlayers-1-20210824/
 Repository: immersive-web/layers
 Level: 1
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-immersive-web-wg/
@@ -1995,3 +1994,33 @@ Allocation of layers {#xrlayerallocation}
 --------------------
 
 The user agent MAY put limits on any resource allocation such as the maximum pixel size or the number of layers to reduce the identifiability of the GPU hardware.
+
+
+<h2 id="changes" class="no-num">
+Changes</h2>
+
+<h3 id="changes-from-20201203" class="no-num">
+Changes from the <a href="https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/">First Public Working Draft 3 December 2020</a></h3>
+
+New features:
+
+- Add support for depth testing across layers (<a href="https://github.com/immersive-web/layers/pull/271">GitHub #271</a>)
+- Added support for ignoreDepthValues to XRWebGLBinding (<a href="https://github.com/immersive-web/layers/pull/269">GitHub #269</a>)
+- Allow creation of projection layers if depth support isn't enabled in the context (<a href="https://github.com/immersive-web/layers/pull/250">GitHub #250</a>)
+- Add support to return the number of created mip levels (<a href="https://github.com/immersive-web/layers/pull/245">GitHub #245</a>)
+- Add support for mipmapping (<a href="https://github.com/immersive-web/layers/pull/243">GitHub #243</a>)
+- Texture size attributes (<a href="https://github.com/immersive-web/layers/pull/241">GitHub #241</a>)
+
+Changes:
+
+- fixed small issue in layout algo and in clearing of opaque textures (<a href="https://github.com/immersive-web/layers/pull/257">GitHub #257</a>)
+- Clarify aspectratio (<a href="https://github.com/immersive-web/layers/pull/256">GitHub #256</a>)
+- Added some language about the layer memory allocation (<a href="https://github.com/immersive-web/layers/pull/255">GitHub #255</a>)
+- Removed synchronous GPU allocation in layer creation + added validation in getsubimage/getviewsubimage (<a href="https://github.com/immersive-web/layers/pull/254">GitHub #254</a>)
+- Some fixes in getSubImage and getViewSubImage (<a href="https://github.com/immersive-web/layers/pull/253">GitHub #253</a>)
+- Fix for missing handling of side-by-side textures (<a href="https://github.com/immersive-web/layers/pull/251">GitHub #251</a>)
+- Add default value {} to optional dictionary arguments (<a href="https://github.com/immersive-web/layers/pull/248">GitHub #248</a>)
+- Moved foveation to projection layer (<a href="https://github.com/immersive-web/layers/pull/247">GitHub #247</a>)
+- Rename textureLayers to textureArrayLength (<a href="https://github.com/immersive-web/layers/pull/242">GitHub #242</a>)
+- Clarify that opaque textures are always initialized at the start of the frame (<a href="https://github.com/immersive-web/layers/pull/234">GitHub #234</a>)
+
