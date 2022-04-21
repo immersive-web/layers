@@ -6,9 +6,9 @@
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="Bikeshed version cace53f8c, updated Tue Dec 7 12:12:54 2021 -0800" name="generator">
+  <meta content="Bikeshed version fb1e763a4, updated Tue Mar 1 13:13:50 2022 -0800" name="generator">
   <link href="https://www.w3.org/TR/webxrlayers-1/" rel="canonical">
-  <meta content="a13815d980e8b4fc0d24113b7a3c784327aa2d38" name="document-revision">
+  <meta content="5e02e05c488e0a4e26bd01c4c3b1339428d85c22" name="document-revision">
   <link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
   <link href="favicon-96x96.png" rel="icon" sizes="96x96" type="image/png">
 <style>
@@ -646,7 +646,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-01-05">5 January 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-04-21">21 April 2022</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -655,8 +655,6 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <dd><a class="u-url" href="https://immersive-web.github.io/layers/">https://immersive-web.github.io/layers/</a>
       <dt>Latest published version:
       <dd><a href="https://www.w3.org/TR/webxrlayers-1/">https://www.w3.org/TR/webxrlayers-1/</a>
-      <dt>Previous Versions:
-      <dd><a href="https://www.w3.org/TR/2020/WD-webxrlayers-1-20210824/" rel="prev">https://www.w3.org/TR/2020/WD-webxrlayers-1-20210824/</a>
       <dt>Feedback:
       <dd><a href="https://github.com/immersive-web/layers/issues/">GitHub</a>
       <dd><a href="#issues-index">Inline In Spec</a>
@@ -685,7 +683,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <p> This document was published by the <a href="https://www.w3.org/groups/wg/immersive-web">Immersive Web Working Group</a> as an Editors' Draft. This document is intended to become a W3C Recommendation.
 
     Feedback and comments on this specification are welcome. Please use <a href="https://github.com/immersive-web/layers/issues">Github issues</a>.
-    Discussions may also be found in the <a href="http://lists.w3.org/Archives/Public/public-immersive-web/">public-immersive-web@w3.org archives</a>. </p>
+    Discussions may also be found in the <a href="http://lists.w3.org/Archives/Public/public-immersive-web-wg/">public-immersive-web-wg@w3.org archives</a>. </p>
    <p> Publication as an Editors' Draft does not imply endorsement by <abbr title="World Wide Web Consortium">W3C</abbr> and its Members. This is a draft document and may
     be updated, replaced or obsoleted by other documents at any time. It is inappropriate to cite
     this document as other than work in progress. </p>
@@ -771,6 +769,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <ol class="toc">
       <li><a href="#xrcompositiontiming"><span class="secno">11.1</span> <span class="content">Timing of the composition</span></a>
       <li><a href="#xrlayerallocation"><span class="secno">11.2</span> <span class="content">Allocation of layers</span></a>
+     </ol>
+    <li>
+     <a href="#changes"><span class="secno"></span> <span class="content"> Changes</span></a>
+     <ol class="toc">
+      <li><a href="#changes-from-20201203"><span class="secno"></span> <span class="content"> Changes from the <span>First Public Working Draft 3 December 2020</span></span></a>
      </ol>
     <li>
      <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
@@ -2633,6 +2636,46 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <p>If possible, composition of layers should happen outside the browser to reduce risk of timing attacks or other security vulnerabilities.</p>
    <h3 class="heading settled" data-level="11.2" id="xrlayerallocation"><span class="secno">11.2. </span><span class="content">Allocation of layers</span><a class="self-link" href="#xrlayerallocation"></a></h3>
    <p>The user agent MAY put limits on any resource allocation such as the maximum pixel size or the number of layers to reduce the identifiability of the GPU hardware.</p>
+   <h2 class="no-num heading settled" id="changes"><span class="content"> Changes</span><a class="self-link" href="#changes"></a></h2>
+   <h3 class="no-num heading settled" id="changes-from-20201203"><span class="content"> Changes from the <a href="https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/">First Public Working Draft 3 December 2020</a></span><a class="self-link" href="#changes-from-20201203"></a></h3>
+   <p>New features:</p>
+   <ul>
+    <li data-md>
+     <p>Add support for depth testing across layers (<a href="https://github.com/immersive-web/layers/pull/271">GitHub #271</a>)</p>
+    <li data-md>
+     <p>Added support for ignoreDepthValues to XRWebGLBinding (<a href="https://github.com/immersive-web/layers/pull/269">GitHub #269</a>)</p>
+    <li data-md>
+     <p>Allow creation of projection layers if depth support isn’t enabled in the context (<a href="https://github.com/immersive-web/layers/pull/250">GitHub #250</a>)</p>
+    <li data-md>
+     <p>Add support to return the number of created mip levels (<a href="https://github.com/immersive-web/layers/pull/245">GitHub #245</a>)</p>
+    <li data-md>
+     <p>Add support for mipmapping (<a href="https://github.com/immersive-web/layers/pull/243">GitHub #243</a>)</p>
+    <li data-md>
+     <p>Texture size attributes (<a href="https://github.com/immersive-web/layers/pull/241">GitHub #241</a>)</p>
+   </ul>
+   <p>Changes:</p>
+   <ul>
+    <li data-md>
+     <p>fixed small issue in layout algo and in clearing of opaque textures (<a href="https://github.com/immersive-web/layers/pull/257">GitHub #257</a>)</p>
+    <li data-md>
+     <p>Clarify aspectratio (<a href="https://github.com/immersive-web/layers/pull/256">GitHub #256</a>)</p>
+    <li data-md>
+     <p>Added some language about the layer memory allocation (<a href="https://github.com/immersive-web/layers/pull/255">GitHub #255</a>)</p>
+    <li data-md>
+     <p>Removed synchronous GPU allocation in layer creation + added validation in getsubimage/getviewsubimage (<a href="https://github.com/immersive-web/layers/pull/254">GitHub #254</a>)</p>
+    <li data-md>
+     <p>Some fixes in getSubImage and getViewSubImage (<a href="https://github.com/immersive-web/layers/pull/253">GitHub #253</a>)</p>
+    <li data-md>
+     <p>Fix for missing handling of side-by-side textures (<a href="https://github.com/immersive-web/layers/pull/251">GitHub #251</a>)</p>
+    <li data-md>
+     <p>Add default value {} to optional dictionary arguments (<a href="https://github.com/immersive-web/layers/pull/248">GitHub #248</a>)</p>
+    <li data-md>
+     <p>Moved foveation to projection layer (<a href="https://github.com/immersive-web/layers/pull/247">GitHub #247</a>)</p>
+    <li data-md>
+     <p>Rename textureLayers to textureArrayLength (<a href="https://github.com/immersive-web/layers/pull/242">GitHub #242</a>)</p>
+    <li data-md>
+     <p>Clarify that opaque textures are always initialized at the start of the frame (<a href="https://github.com/immersive-web/layers/pull/234">GitHub #234</a>)</p>
+   </ul>
   </main>
   <div data-fill-with="conformance">
    <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content">Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
@@ -4020,9 +4063,9 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <dt id="biblio-webidl">[WEBIDL]
    <dd>Edgar Chen; Timothy Gu. <a href="https://webidl.spec.whatwg.org/"><cite>Web IDL Standard</cite></a>. Living Standard. URL: <a href="https://webidl.spec.whatwg.org/">https://webidl.spec.whatwg.org/</a>
    <dt id="biblio-webxr">[WEBXR]
-   <dd>Brandon Jones; Manish Goregaokar; Rik Cabanier. <a href="https://www.w3.org/TR/webxr/"><cite>WebXR Device API</cite></a>. 24 December 2021. WD. URL: <a href="https://www.w3.org/TR/webxr/">https://www.w3.org/TR/webxr/</a>
+   <dd>Brandon Jones; Manish Goregaokar; Rik Cabanier. <a href="https://www.w3.org/TR/webxr/"><cite>WebXR Device API</cite></a>. 31 March 2022. CR. URL: <a href="https://www.w3.org/TR/webxr/">https://www.w3.org/TR/webxr/</a>
    <dt id="biblio-webxr-ar-module-1">[WEBXR-AR-MODULE-1]
-   <dd>Brandon Jones; Manish Goregaokar; Rik Cabanier. <a href="https://www.w3.org/TR/webxr-ar-module-1/"><cite>WebXR Augmented Reality Module - Level 1</cite></a>. 24 December 2021. WD. URL: <a href="https://www.w3.org/TR/webxr-ar-module-1/">https://www.w3.org/TR/webxr-ar-module-1/</a>
+   <dd>Brandon Jones; Manish Goregaokar; Rik Cabanier. <a href="https://www.w3.org/TR/webxr-ar-module-1/"><cite>WebXR Augmented Reality Module - Level 1</cite></a>. 17 March 2022. WD. URL: <a href="https://www.w3.org/TR/webxr-ar-module-1/">https://www.w3.org/TR/webxr-ar-module-1/</a>
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
