@@ -444,6 +444,7 @@ Projection layers should be refreshed close to the device's native frame rate.
 
   readonly attribute boolean ignoreDepthValues;
   attribute float? fixedFoveation;
+  attribute XRRigidTransform? deltaPose;
 };
 </pre>
 
@@ -469,6 +470,15 @@ The <dfn attribute for="XRProjectionLayer">ignoreDepthValues</dfn> attribute, if
 [=XR Compositor=] MUST NOT make use of values in the depth buffer attachment when rendering. When the attribute
 is <code>false</code> it indicates that the content of the depth buffer attachment will be used by the
 [=XR Compositor=] and is expected to be representative of the scene rendered into the layer.
+
+ The <dfn attribute for="XRProjectionLayer">deltaPose</dfn> attribute controls the amount of foveation used by the
+[=XR Compositor=]. If the user agent or device does not support this attribute or the
+"<dfn for="feature descriptor">space-warp</dfn>" [=feature descriptor=] was not requested, they
+should return <code>null</code> on getting, and setting should be a <code>no-op</code>. This attribute describes the
+incremental application-applied transform, if any, since the previous frame that affects the view. When artificial
+locomotion happens, the experience transforms the whole world from one application pose to another pose between frames
+and {{XRProjectionLayer/deltaPose}} MUST be populated with the difference in the scene's world position.
+The {{XRProjectionLayer/deltaPose}} should be identity when there is no transformation between the previous and the current {{XRFrames/XRFrame}}.
 
 XRQuadLayer {#xrquadlayertype}
 -----------
@@ -1978,6 +1988,7 @@ To enable [=space warp=] the {{XRSession}} MUST be created with the "<dfn for="f
 If "[=space-warp=]" is enabled, the [=XR Compositor=] MUST make use of depth values and {{XRProjectionLayer/ignoreDepthValues}} and {{XRWebGLBinding/usesDepthValues}} MUST be set to `true`.
 
 The {{XRWebGLSubImage/motionVectorTexture}} MUST be in {{RGBA16F}} format. The author SHOULD fill in the RGB components of this texture with the speed in meters per second of that area with the red pixel corresponding with the x axis, green the y axis and blue the z axis.
+
 
 WebXR Device API Integration {#webxrintegration}
 ============================
