@@ -1985,7 +1985,7 @@ By submitting a {{XRWebGLSubImage/motionVectorTexture}} along with a {{XRWebGLSu
 the [=XR Compositor=] can do high quality frame extrapolation and reprojection which allows the user agent to run at a reduced framerate but still provide a smooth experience to users.
 
 To enable [=space warp=] the {{XRSession}} MUST be created with the "<dfn for="feature descriptor">space-warp</dfn>" [=feature descriptor=].
-If "[=space-warp=]" is enabled, the [=XR Compositor=] MUST make use of depth values and {{XRProjectionLayer/ignoreDepthValues}} and {{XRWebGLBinding/usesDepthValues}} MUST be set to `true`.
+If "[=space-warp=]" is enabled, the [=XR Compositor=] MUST make use of depth values, {{XRProjectionLayer/ignoreDepthValues}} MUST be set to `false` and {{XRWebGLBinding/usesDepthValues}} MUST be set to `true`.
 
 The {{XRWebGLSubImage/motionVectorTexture}} MUST be in {{RGBA16F}} format. The author SHOULD fill in the RGB components of this texture with the speed in meters per second of that area with the red pixel corresponding with the x axis, green the y axis and blue the z axis.
 
