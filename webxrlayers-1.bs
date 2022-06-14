@@ -5,7 +5,6 @@ Group: immersivewebwg
 Status: ED
 TR: https://www.w3.org/TR/webxrlayers-1/
 ED: https://immersive-web.github.io/layers/
-Previous Version: https://www.w3.org/TR/2020/WD-webxrlayers-1-20210824/
 Repository: immersive-web/layers
 Level: 1
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-immersive-web-wg/
@@ -14,7 +13,7 @@ Mailing List Archives: https://lists.w3.org/Archives/Public/public-immersive-web
 !Participate: <a href="https://lists.w3.org/Archives/Public/public-immersive-web-wg/">Mailing list archive</a>
 !Participate: <a href="irc://irc.w3.org:6665/">W3C's #immersive-web IRC</a>
 
-Editor: Rik Cabanier 106988, Facebook https://oculus.com, cabanier@fb.com
+Editor: Rik Cabanier 106988, Meta https://facebook.com, cabanier@fb.com
 
 Abstract: This specification describes support for various layer types used in a WebXR session.
 </pre>
@@ -205,26 +204,26 @@ Introduction {#intro}
 
 <section class="non-normative">
 
-The spec adds support of `composition` layers to the WebXR spec. The benefits of layers are as follows:
+This specification adds support of `composition` layers to the WebXR spec. The benefits of layers are as follows:
 
- * <b>Performance and judder</b> Composition layers are presented at the frame rate of the compositor (i.e. native refresh rate of HMD) rather than at the application frame rate.
+ * <b>Performance and judder</b>: Composition layers are presented at the frame rate of the compositor (i.e. native refresh rate of HMD) rather than at the application frame rate.
     Even when the application is not updating the layer's rendering at the native refresh rate of the compositor, the compositor might be able to re-project the existing
     rendering to the proper pose. This results in smoother rendering and less judder. Another feature of layers is that each of them can have different resolution. This allows the
     application to scale down the main eye buffer resolution on low performance systems, but keeping essential information, such as text or a map, in its own layer at a higher
     resolution.
 
- * <b>Legibility/visual fidelity</b> The resolution for eye-buffers for 3D world rendering can be set to relatively low values especially on low performance systems. It would
-    be impossible to render high fidelity content, such as text, in this case. Each layer may have its own resolution and it will be re-sampled only once by the compositor (in contrary
-    to the traditional approach with rendering layers via WebGL where the layer's content got re-sampled at least twice: once when rendering into WebGL
-    eye-buffer (and losing a lot of details due to limited eye-buffer resolution) and the second time by the compositor).
+ * <b>Legibility/visual fidelity</b>: In regular WebXR, the resolution for eye-buffers might be reduced to relatively low values especially on low performance systems. This makes
+    it harder to render high fidelity content, such as text. With Composition Layers, a static cylinder or quad layer can be drawn once at high resolution and is resampled only once by the compositor. This contrasts with
+    the traditional approach with rendering an {{XRWebGLLayer}} where content is produced at the device's refresh rate and resampled at least twice: once when rendering into WebGL eye-buffer (which can lose details due to
+    lower eye-buffer resolution) and the second time by the compositor.
 
- * <b>Power consumption / battery life</b> Due to reduced rendering pipeline, the lack of double sampling and no need to update the layer's rendering each frame, the power
+ * <b>Power consumption / battery life</b>: Due to the reduced rendering pipeline, the lack of double sampling and no need to update the layer's rendering each frame, the power
     consumption is expected to be improved.
 
- * <b>Latency</b> Pose sampling for composition layers may occur at the very end of the frame and then certain reprojection techniques could be used to update the layer's pose to
+ * <b>Latency</b>: Pose sampling for composition layers may occur at the very end of the frame and then certain reprojection techniques could be used to update the layer's pose to
     match it with the most recent HMD pose. This may significantly reduce the effective latency for the layers' rendering and as a result improve overall experience.
 
-ISSUE: how to do hit testing? Should it be done by the UA?
+ * <b>Support for more color types</b>: WebXR only supports RGB values. Composition layer will have broader support for color types so authors can use compressed formats or sRGB.
 
 </section>
 
@@ -1995,3 +1994,33 @@ Allocation of layers {#xrlayerallocation}
 --------------------
 
 The user agent MAY put limits on any resource allocation such as the maximum pixel size or the number of layers to reduce the identifiability of the GPU hardware.
+
+
+<h2 id="changes" class="no-num">
+Changes</h2>
+
+<h3 id="changes-from-20201203" class="no-num">
+Changes from the <a href="https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/">First Public Working Draft 3 December 2020</a></h3>
+
+New features:
+
+- Add support for depth testing across layers (<a href="https://github.com/immersive-web/layers/pull/271">GitHub #271</a>)
+- Added support for ignoreDepthValues to XRWebGLBinding (<a href="https://github.com/immersive-web/layers/pull/269">GitHub #269</a>)
+- Allow creation of projection layers if depth support isn't enabled in the context (<a href="https://github.com/immersive-web/layers/pull/250">GitHub #250</a>)
+- Add support to return the number of created mip levels (<a href="https://github.com/immersive-web/layers/pull/245">GitHub #245</a>)
+- Add support for mipmapping (<a href="https://github.com/immersive-web/layers/pull/243">GitHub #243</a>)
+- Texture size attributes (<a href="https://github.com/immersive-web/layers/pull/241">GitHub #241</a>)
+
+Changes:
+
+- fixed small issue in layout algo and in clearing of opaque textures (<a href="https://github.com/immersive-web/layers/pull/257">GitHub #257</a>)
+- Clarify aspectratio (<a href="https://github.com/immersive-web/layers/pull/256">GitHub #256</a>)
+- Added some language about the layer memory allocation (<a href="https://github.com/immersive-web/layers/pull/255">GitHub #255</a>)
+- Removed synchronous GPU allocation in layer creation + added validation in getsubimage/getviewsubimage (<a href="https://github.com/immersive-web/layers/pull/254">GitHub #254</a>)
+- Some fixes in getSubImage and getViewSubImage (<a href="https://github.com/immersive-web/layers/pull/253">GitHub #253</a>)
+- Fix for missing handling of side-by-side textures (<a href="https://github.com/immersive-web/layers/pull/251">GitHub #251</a>)
+- Add default value {} to optional dictionary arguments (<a href="https://github.com/immersive-web/layers/pull/248">GitHub #248</a>)
+- Moved foveation to projection layer (<a href="https://github.com/immersive-web/layers/pull/247">GitHub #247</a>)
+- Rename textureLayers to textureArrayLength (<a href="https://github.com/immersive-web/layers/pull/242">GitHub #242</a>)
+- Clarify that opaque textures are always initialized at the start of the frame (<a href="https://github.com/immersive-web/layers/pull/234">GitHub #234</a>)
+
