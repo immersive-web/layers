@@ -2008,9 +2008,9 @@ Changes</h2>
 Changes from the <a href="https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/">First Public Working Draft 3 December 2020</a></h3>
 
 New features:
-
+- Add support for opacity to XRCompositionLayer (<a href="https://github.com/immersive-web/layers/pull/284">GitHub #284</a>
 - Add support for depth testing across layers (<a href="https://github.com/immersive-web/layers/pull/271">GitHub #271</a>)
-- Added support for ignoreDepthValues to XRWebGLBinding (<a href="https://github.com/immersive-web/layers/pull/269">GitHub #269</a>)
+- Add support for usesDepthValues to XRWebGLBinding (<a href="https://github.com/immersive-web/layers/pull/269">GitHub #269</a>)
 - Allow creation of projection layers if depth support isn't enabled in the context (<a href="https://github.com/immersive-web/layers/pull/250">GitHub #250</a>)
 - Add support to return the number of created mip levels (<a href="https://github.com/immersive-web/layers/pull/245">GitHub #245</a>)
 - Add support for mipmapping (<a href="https://github.com/immersive-web/layers/pull/243">GitHub #243</a>)
