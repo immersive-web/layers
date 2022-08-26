@@ -6,9 +6,9 @@
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="Bikeshed version e8a706a4b, updated Fri Jul 15 11:08:03 2022 -0700" name="generator">
+  <meta content="Bikeshed version 44af0bf3e, updated Fri Jul 29 17:05:16 2022 -0700" name="generator">
   <link href="https://www.w3.org/TR/webxrlayers-1/" rel="canonical">
-  <meta content="be036d5feefee4a27c93d4652ac05d728491031b" name="document-revision">
+  <meta content="c813c4b451122f726dedb085eaea81f059b750c8" name="document-revision">
   <link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
   <link href="favicon-96x96.png" rel="icon" sizes="96x96" type="image/png">
 <style>
@@ -646,7 +646,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">WebXR Layers API Level 1</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-07-19">19 July 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2022-08-26">26 August 2022</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -2645,9 +2645,11 @@ Moreover, content in a layer MUST not be observable in other layers.</p>
    <p>New features:</p>
    <ul>
     <li data-md>
+     <p>Add support for opacity to XRCompositionLayer (<a href="https://github.com/immersive-web/layers/pull/284">GitHub #284</a></p>
+    <li data-md>
      <p>Add support for depth testing across layers (<a href="https://github.com/immersive-web/layers/pull/271">GitHub #271</a>)</p>
     <li data-md>
-     <p>Added support for ignoreDepthValues to XRWebGLBinding (<a href="https://github.com/immersive-web/layers/pull/269">GitHub #269</a>)</p>
+     <p>Add support for usesDepthValues to XRWebGLBinding (<a href="https://github.com/immersive-web/layers/pull/269">GitHub #269</a>)</p>
     <li data-md>
      <p>Allow creation of projection layers if depth support isn’t enabled in the context (<a href="https://github.com/immersive-web/layers/pull/250">GitHub #250</a>)</p>
     <li data-md>
