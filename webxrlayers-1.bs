@@ -1989,12 +1989,8 @@ Depth sorting between layers {#depthsorting}
 By default, the {{XRRenderStateInit/layers}} array defines the order of the composition of the layers and each layer is drawn on top of the previous layer.
 If an application wants to have layers that are sorted by depth, it MUST request a session with the "<dfn for="feature descriptor">depth-sorted-layers</dfn>" [=feature descriptor=].
 
-<div class="unstable">
-
 If an {{XRSession}} is created with the "[=depth-sorted-layers=]" [=feature descriptor=], {{XRProjectionLayer}}, {{XRQuadLayer}} and {{XRCylinderLayer}} layers MUST be displayed based on their depth as opposed to the location in the {{XRRenderStateInit/layers}} array.
 Other layers types MUST continue to be sorted as before.
-
-</div>
 
 {{XRQuadLayer}} and {{XRCylinderLayer}} layers MUST be sorted by their dimensions (for instance {{XRQuadLayerInit/width}} or {{XRCylinderLayerInit/centralAngle}}), transform and space.
 
