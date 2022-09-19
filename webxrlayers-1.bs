@@ -158,10 +158,18 @@ spec: compositing-1; urlPrefix: https://www.w3.org/TR/compositing-1/
     border-radius: .5em;
     padding: .5em;
     margin: .5em calc(-0.5em - 1px);
-    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='290'><text transform='rotate(-45)' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='70' y='210' opacity='.1'>Unstable</text></svg>");
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='290'><text transform='rotate(-45)' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='70' y='210' opacity='.1' fill='white'>Unstable</text></svg>");
     background-repeat: repeat;
     background-color: #282828;
   }
+
+  @media (prefers-color-scheme: light) {
+    .unstable {
+      background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='290'><text transform='rotate(-45)' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='70' y='210' opacity='.1'>Unstable</text></svg>");
+      background-color: #FFF4F4;
+    }
+  }
+
   .unstable h3:first-of-type {
     margin-top: 0.5rem;
   }
