@@ -160,7 +160,7 @@ spec: compositing-1; urlPrefix: https://www.w3.org/TR/compositing-1/
     margin: .5em calc(-0.5em - 1px);
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='290'><text transform='rotate(-45)' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='70' y='210' opacity='.1'>Unstable</text></svg>");
     background-repeat: repeat;
-    background-color: #FFF4F4;
+    background-color: #282828;
   }
   .unstable h3:first-of-type {
     margin-top: 0.5rem;
@@ -475,6 +475,8 @@ The <dfn attribute for="XRProjectionLayer">ignoreDepthValues</dfn> attribute, if
 is <code>false</code> it indicates that the content of the depth buffer attachment will be used by the
 [=XR Compositor=] and is expected to be representative of the scene rendered into the layer.
 
+<div class="unstable">
+
  The <dfn attribute for="XRProjectionLayer">deltaPose</dfn> attribute controls the amount of foveation used by the
 [=XR Compositor=]. If the user agent or device does not support this attribute or the
 "[=feature descriptor/space-warp=]" [=feature descriptor=] was not requested, they
@@ -483,6 +485,8 @@ incremental application-applied transform, if any, since the previous frame that
 locomotion happens, the experience transforms the whole world from one application pose to another pose between frames
 and {{XRProjectionLayer/deltaPose}} MUST be populated with the difference in the scene's world position.
 The {{XRProjectionLayer/deltaPose}} should be identity when there is no transformation between the previous and the current {{XRFrame}}.
+
+</div>
 
 XRQuadLayer {#xrquadlayertype}
 -----------
@@ -765,8 +769,12 @@ The <dfn attribute for="XRWebGLSubImage">colorTexture</dfn> attribute returns th
 The <dfn attribute for="XRWebGLSubImage">depthStencilTexture</dfn> attribute returns the depth/stencil [=opaque texture=] for the {{XRCompositionLayer}}.
 If the layer was created without depth/stencil, this attribute returns null.
 
+<div class="unstable">
+
 The <dfn attribute for="XRWebGLSubImage">motionVectorTexture</dfn> attribute returns the motion [=opaque texture=] for the {{XRProjectionLayer}}.
 If the {{XRSession}} was created without the [=feature descriptor/space-warp=] [=feature descriptor=] or the layer is not a {{XRProjectionLayer}}, this attribute MUST return null.
+
+</div>
 
 The <dfn attribute for="XRWebGLSubImage">imageIndex</dfn> attribute returns the offset into the texture array. Valid only for layers
 that were requested with {{texture-array}}.
@@ -774,12 +782,16 @@ that were requested with {{texture-array}}.
 The <dfn attribute for="XRWebGLSubImage">colorTextureWidth</dfn> and <dfn attribute for="XRWebGLSubImage">depthStencilTextureHeight</dfn> attributes
 return the width and height in pixels of the GL depth attachments
 
+<div class="unstable">
+
 The <dfn attribute for="XRWebGLSubImage">depthStencilTextureWidth</dfn> and <dfn attribute for="XRWebGLSubImage">colorTextureHeight</dfn> attributes
 return the width and height in pixels of the GL color attachments. If the layer was created without depth/stencil, this attribute returns null.
 
 The <dfn attribute for="XRWebGLSubImage">motionVectorTextureWidth</dfn> and <dfn attribute for="XRWebGLSubImage">motionVectorTextureHeight</dfn> attributes
 return the width and height in pixels of the GL motion vector attachments.
 If the {{XRSession}} was created without the [=feature descriptor/space-warp=] [=feature descriptor=] or the layer is not a {{XRProjectionLayer}}, these attributes MUST return null.
+
+</div>
 
 XRTextureType {#xrtexturetype}
 -------------
@@ -1972,18 +1984,28 @@ The author SHOULD redraw the content of the layer at the next [=XR animation fra
 
 Depth sorting between layers {#depthsorting}
 ============================
+<div class="unstable">
+
 By default, the {{XRRenderStateInit/layers}} array defines the order of the composition of the layers and each layer is drawn on top of the previous layer.
 If an application wants to have layers that are sorted by depth, it MUST request a session with the "<dfn for="feature descriptor">depth-sorted-layers</dfn>" [=feature descriptor=].
 
+<div class="unstable">
+
 If an {{XRSession}} is created with the "[=depth-sorted-layers=]" [=feature descriptor=], {{XRProjectionLayer}}, {{XRQuadLayer}} and {{XRCylinderLayer}} layers MUST be displayed based on their depth as opposed to the location in the {{XRRenderStateInit/layers}} array.
 Other layers types MUST continue to be sorted as before.
+
+</div>
 
 {{XRQuadLayer}} and {{XRCylinderLayer}} layers MUST be sorted by their dimensions (for instance {{XRQuadLayerInit/width}} or {{XRCylinderLayerInit/centralAngle}}), transform and space.
 
 {{XRProjectionLayer}} layers MUST be sorted according to the values in their {{XRWebGLSubImage/depthStencilTexture}}. This also implies that if "[=depth-sorted-layers=]" is enabled, the [=XR Compositor=] MUST make use of depth values and {{XRProjectionLayer/ignoreDepthValues}} and {{XRWebGLBinding/usesDepthValues}} MUST be set to `true`.
 
+</div>
+
 Space warp {#spacewarp}
 ==========
+<div class="unstable">
+
 <dfn>Space warp</dfn> is a technology that improves the [=XR Compositor=]'s reprojection.
 By submitting a {{XRWebGLSubImage/motionVectorTexture}} along with a {{XRWebGLSubImage/depthStencilTexture}}
 the [=XR Compositor=] can do high quality frame extrapolation and reprojection which allows the user agent to run at a reduced framerate but still provide a smooth experience to users.
@@ -1993,6 +2015,7 @@ If "[=space-warp=]" is enabled, the [=XR Compositor=] MUST make use of depth val
 
 The {{XRWebGLSubImage/motionVectorTexture}} MUST be in {{RGBA16F}} format. The author SHOULD fill in the RGB components of this texture with the speed in meters per second of that area with the red pixel corresponding with the x axis, green the y axis and blue the z axis.
 
+</div>
 
 WebXR Device API Integration {#webxrintegration}
 ============================
@@ -2070,7 +2093,11 @@ If the {{XRSession}} was created with the "[=feature descriptor/space-warp=]" [=
 Each [=view=] MUST also define a <dfn>recommended WebGL depth texture resolution</dfn> which is based on the [=recommended WebGL color texture resolution=] and [=recommended motion vector texture resolution=]. The user agent MAY decide to reduce the
 [=recommended WebGL depth texture resolution=] if "[=feature descriptor/space-warp=]" is enabled.
 
+<div class="unstable">
+
 If the "[=depth-sorted-layers=]" [=feature descriptor=] is enabled, the [=recommended WebGL depth texture resolution=] MUST be equal to the [=recommended WebGL color texture resolution=].
+
+</div>
 
 Animation frames changes {#animationframeschanges}
 ------------------------
