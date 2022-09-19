@@ -477,12 +477,12 @@ is <code>false</code> it indicates that the content of the depth buffer attachme
 
  The <dfn attribute for="XRProjectionLayer">deltaPose</dfn> attribute controls the amount of foveation used by the
 [=XR Compositor=]. If the user agent or device does not support this attribute or the
-"<dfn for="feature descriptor">space-warp</dfn>" [=feature descriptor=] was not requested, they
+"[=feature descriptor/space-warp=]" [=feature descriptor=] was not requested, they
 should return <code>null</code> on getting, and setting should be a <code>no-op</code>. This attribute describes the
 incremental application-applied transform, if any, since the previous frame that affects the view. When artificial
 locomotion happens, the experience transforms the whole world from one application pose to another pose between frames
 and {{XRProjectionLayer/deltaPose}} MUST be populated with the difference in the scene's world position.
-The {{XRProjectionLayer/deltaPose}} should be identity when there is no transformation between the previous and the current {{XRFrames/XRFrame}}.
+The {{XRProjectionLayer/deltaPose}} should be identity when there is no transformation between the previous and the current {{XRFrame}}.
 
 XRQuadLayer {#xrquadlayertype}
 -----------
