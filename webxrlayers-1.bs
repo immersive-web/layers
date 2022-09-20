@@ -286,9 +286,12 @@ The "[=feature descriptor/layers=]" [=feature descriptor=] has a [=feature requi
 NOTE: This means that executing the {{Permissions/request(permissionDesc)}} API with "[=feature descriptor/layers=]" will
 not enable layers support for the current active session.
 
+<div class="unstable">
+
 If an application wants to create [[#domlayer|DOM layers]], the session MUST be requested with an appropriate [=feature descriptor=]. The string "<dfn for="feature descriptor">dom-layers</dfn>" is introduced
 by this module as a new valid [=feature descriptor=] for the WebXR Layers feature.
 
+</div>
 
 Layer types {#xrlayertypes}
 ===========
@@ -1971,13 +1974,15 @@ ISSUE: define how the {{XREquirectLayer}}'s parameters affect the video display.
 DOM layer creation {#domlayer}
 ==================
 
+<div class="unstable">
+
 Description {#xrdomlayerdescription}
 -----------
 DOM Layers allow the display of HTML content within an immersive session.
 They are only enabled when the "[=feature descriptor/dom-layers=]" [=feature descriptor=] is granted to the current {{XRSession}}.
 
 The [=origin=] of the URL MUST be the same as the [=origin=] of the URL that created the immersive session.
-In addition, the `[=child-src=]` and `[=navigate-to=]` Content Security Policies with the document's [=origin=] MUST be applied to the loaded document.
+In addition, the `[=child-src=]` Content Security Policy with the document's [=origin=] MUST be applied to the loaded document.
 
 NOTE: this means that the experience can only open pages from the same [=origin=] and these pages can't open iframes to other origins or navigate to other origins.
 
@@ -2092,6 +2097,8 @@ When this method is invoked, the user agent MUST run the following steps:
   1. |url|
   1. |init|
   1. |result|
+
+</div>
 
 </div>
 
