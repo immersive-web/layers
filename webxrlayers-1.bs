@@ -330,6 +330,7 @@ XRCompositionLayer defines a set of common attributes and behaviors across certa
 
   attribute boolean blendTextureSourceAlpha;
   attribute boolean? chromaticAberrationCorrection;
+  attribute boolean forceMonoPresentation;
   attribute float opacity;
   readonly attribute unsigned long mipLevels;
 
@@ -347,6 +348,11 @@ The <dfn attribute for="XRCompositionLayer">chromaticAberrationCorrection</dfn> 
 enable optical chromatic aberration correction for the layer. If the user agent or device does not support this attribute, they
 should return <code>null</code> on getting, and setting should be a <code>no-op</code>.
 If the {{XRCompositionLayer/chromaticAberrationCorrection}} was changed, it will take effect at the next {{XRFrame}}.
+
+The <dfn attribute for="XRCompositionLayer">forceMonoPresentation</dfn> attribute forces the right eye to use the same layer configuration
+as the left eye. This MAY be used to remove the {{XRLayerLayout/stereo}} effect of a {{XRCompositionLayer}}. Setting this to <code>true</code> on a {{XRLayerLayout/mono}} layer has no effect.
+
+NOTE: this attribute has no other side effects on other information that is returned by the {{XRSession}}. Only the operation of the [=XR Compositor=] is affected by this setting and experiences SHOULD continue to draw to both eyes.
 
 The <dfn attribute for="XRCompositionLayer">opacity</dfn> attribute sets the opacity that is applied to the pixels of the layer. The [=XR Compositor=] MUST multiply each pixel (in premultiplied space) by this value.
 {{XRCompositionLayer/opacity}} is <code>1.0</code> by default. Setting {{XRCompositionLayer/opacity}} to a value less than <code>0</code> will set it to <code>0</code> and setting it to a value higher than <code>1.0</code> will set it to <code>1.0</code>.
