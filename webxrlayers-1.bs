@@ -1850,7 +1850,7 @@ ISSUE: more clarification is needed on how the video is blitted to the layers.
 When an {{XRCompositionLayer}} |layer| with a {{HTMLVideoElement}} |media| needs to be rendered, the user agent
 MUST run the following steps:
   1. Let |usability| be the result of [=check the usability of the image argument|checking the usability of=] |media|.
-  1. If |usability| is <code>bad</code>, then fill the |layer| with opaque black and abort these steps.
+  1. If |usability| is <code>bad</code>, then fill the |layer| with transparent black and abort these steps.
   1. Fill the |layer| with the content of the |media| element.
 
 <!--
