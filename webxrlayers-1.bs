@@ -350,7 +350,7 @@ should return <code>null</code> on getting, and setting should be a <code>no-op<
 If the {{XRCompositionLayer/chromaticAberrationCorrection}} was changed, it will take effect at the next {{XRFrame}}.
 
 The <dfn attribute for="XRCompositionLayer">forceMonoPresentation</dfn> attribute forces the right eye to use the same layer configuration
-as the left eye. This MAY be used to remove the {{XRLayerLayout/stereo}} effect of a {{XRCompositionLayer}}. Setting this to <code>true</code> on a {{XRLayerLayout/mono}} layer has no effect.
+as the left eye. This MUST send a signal to the [=XR Compositor=] to remove the {{XRLayerLayout/stereo}} effect of this {{XRCompositionLayer}}. Setting this to <code>true</code> on a {{XRLayerLayout/mono}} layer has no effect.
 
 NOTE: this attribute has no other side effects on other information that is returned by the {{XRSession}}. Only the operation of the [=XR Compositor=] is affected by this setting and experiences SHOULD continue to draw to both eyes.
 
