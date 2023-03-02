@@ -1,0 +1,6 @@
+*~
+.DS_Store
+node_modules
+npm-debug*.log*
+webxrlayers-1.html
+
