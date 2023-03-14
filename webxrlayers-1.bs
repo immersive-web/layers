@@ -2100,6 +2100,8 @@ Authors should render depth/stencil information separately at the depth/stencil 
 
 The {{XRWebGLSubImage/motionVectorTexture}} MUST be in {{RGBA16F}} format. The author SHOULD fill in the RG components of this texture with the 2D screen-space motion vector for that area, expressed as a delta in <dfn>Normalized Device Coordinates</dfn> (<dfn>NDC</dfn>) between the current frame and the previous frame. The motion vector is computed as `(currentClipPos / currentW) - (prevClipPos / prevW)`, where `currentClipPos` and `prevClipPos` are the <dfn>clip space</dfn> positions of the fragment in the current and previous frames, respectively. The red channel corresponds to the delta in [=NDC=] X (horizontal), and the green channel corresponds to the delta in [=NDC=] Y (vertical). The blue channel MAY contain the delta in [=NDC=] Z (depth), and the alpha channel is unused.
 
+If the {{XRWebGLSubImage/motionVectorTexture}} or {{XRWebGLSubImage/depthStencilTexture}} were not submitted during the processing of the {{XRFrame}}, the [=XR Compositor=] MUST process the {{XRFrame}} as if [=space warp=] was not enabled.
+
 WebXR Device API Integration {#webxrintegration}
 ============================
 
