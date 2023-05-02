@@ -867,7 +867,8 @@ An [=opaque texture=] functions identically to a standard {{WebGLTexture}} with 
 - An [=opaque texture=] MUST behave as though it was allocated with [=texStorage2D=] or [=texStorage3D=], as appropriate, even when using a WebGL 1.0 context.
 - A call to {{deleteTexture}} with an [=opaque texture=] MUST generate an {{INVALID_OPERATION}} error.
 
-The buffers attached to an [=opaque texture=] MUST be cleared to the values in the table below during the processing of the first call to {{XRWebGLBinding/getViewSubImage()}} or {{XRWebGLBinding/getSubImage()}} in each [=XR animation frame=].
+The buffers attached to an [=opaque texture=] MUST be cleared to the values in the table below during the processing of the first call to {{XRWebGLBinding/getViewSubImage()}} or {{XRWebGLBinding/getSubImage()}} in each [=XR animation frame=] when  {{XRProjectionLayerInit/clearOnAccess}} is <code>true</code>.
+If {{XRProjectionLayerInit/clearOnAccess}} is <code>false</code>, the buffers attached to an [=opaque texture=] MUST be cleared the first time that they are accessed. Subsequent accesses in later frames MAY NOT clear the buffers.
 
 <table class="tg">
   <thead>
@@ -919,6 +920,7 @@ dictionary XRProjectionLayerInit {
   GLenum colorFormat = 0x1908; // RGBA
   GLenum depthFormat = 0x1902; // DEPTH_COMPONENT
   double scaleFactor = 1.0;
+  boolean clearOnAccess = true;
 };
 </pre>
 
@@ -962,6 +964,8 @@ For {{WebGL2RenderingContext}} contexts these additional formats are supported:
 The <dfn dict-member for="XRProjectionLayerInit">scaleFactor</dfn> attribute defines the value that the |session|'s
 [=recommended WebGL framebuffer resolution=] MUST be multiplied by determining the resolution of the layer's attachments.
 
+The <dfn dict-member for="XRProjectionLayerInit">clearOnAccess</dfn> attribute defines if the texture associated with this layer should be cleared in the initial frame or on every frame.
+
 NOTE: the {{XRProjectionLayerInit}} dictionary does not have support to configure {{XRLayerInit/mipLevels}} like
 {{XRLayerInit}}. If a user agent wants to support mipmapping on projection layers, it is free to allocate the texture with mips.
 In that case the user agent (and not the author) is responsible for generating all the mip levels.
@@ -981,6 +985,7 @@ dictionary XRLayerInit {
   required unsigned long viewPixelHeight;
   XRLayerLayout layout = "mono";
   boolean isStatic = false;
+  boolean clearOnAccess = true;
 };
 </pre>
 
@@ -1033,6 +1038,8 @@ The <dfn dict-member for="XRLayerInit">viewPixelWidth</dfn> and <dfn dict-member
 the rectangular dimensions of the {{XRCompositionLayer}}.
 
 The <dfn dict-member for="XRLayerInit">layout</dfn> attribute defines the layout of the layer.
+
+The <dfn dict-member for="XRLayerInit">clearOnAccess</dfn> attribute defines if the texture associated with this layer should be cleared in the initial frame or on every frame.
 
 XRQuadLayerInit {#xrquadlayerinit}
 -------------------
