@@ -54,6 +54,7 @@ spec: webxr;
     type: dfn; text: primary view
     type: dfn; text: secondary view
     type: dfn; text: active; for: view
+    type: enum-value; text: local
 spec: html;
     type: dfn; text: check the usability of the image argument
     type: dfn; text: request the xr permission
@@ -460,7 +461,7 @@ XRProjectionLayer {#xrprojectionlayertype}
 An {{XRProjectionLayer}} is a layer that fills the entire view of the observer.
 Projection layers should be refreshed close to the device's native frame rate.
 
-<img alt="representation of a projection layer" src="images/projection-layer.jpg" style="width:50%; height: 50%; border-style: ridge;"/>
+<img alt="representation of a projection layer" src="images/projection-layer.jpg" style="width:50%; height: 50%; border-style: ridge;">
 
 <pre class="idl">
 [Exposed=Window] interface XRProjectionLayer : XRCompositionLayer {
@@ -518,7 +519,7 @@ Only the front of the layer MUST be visible; the back face MUST not be drawn by 
 A XRQuadLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position
 of a quad refers to the center of the quad.
 
-<img alt="representation of a quad layer" src="images/quad-layer.jpg" style="width:50%; height: 50%; border-style: ridge;"/>
+<img alt="representation of a quad layer" src="images/quad-layer.jpg" style="width:50%; height: 50%; border-style: ridge;">
 
 <pre class="idl">
 [Exposed=Window] interface XRQuadLayer : XRCompositionLayer {
@@ -564,7 +565,7 @@ XRCylinderLayer {#xrcylinderayertype}
 An {{XRCylinderLayer}} renders a layer that takes up a curved rectangular space in the virtual environment.
 Only the front of the layer MUST be visible; the back face MUST not be drawn by the [=XR Compositor=].
 
-<img alt="representation of a cylinder layer" src="images/cylinder-layer.png" style="width:50%; height: 50%; border-style: ridge;"/>
+<img alt="representation of a cylinder layer" src="images/cylinder-layer.png" style="width:50%; height: 50%; border-style: ridge;">
 
 A XRCylinderLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position
 of the cylinder refers to the center of the quad.
@@ -595,7 +596,7 @@ It grows symmetrically around the 0 angle.
 
 The <dfn attribute for="XRCylinderLayer">aspectRatio</dfn> attribute controls the ratio of the visible cylinder section. It is the ratio of the width of the visible section of the cylinder divided by its height. The width is calculated by multiplying the {{XRCylinderLayer/radius}} with the {{XRCylinderLayer/centralAngle}}.
 
-<img alt="description of the parameters of a cylinder layer"src="images/cylinder_layer_params.png" style="width: 80%; height: 80%;"/>
+<img alt="description of the parameters of a cylinder layer" src="images/cylinder_layer_params.png" style="width: 80%; height: 80%;">
 
 <div class="algorithm" data-algorithm="initCylinderLayerAlgo">
 When <dfn lt="initialize a cylinder layer">initializing an {{XRCylinderLayer}} |layer| with an {{XRCylinderLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
@@ -620,7 +621,7 @@ XREquirectLayer {#xrequirectlayertype}
 ---------------
 An {{XREquirectLayer}} renders a layer where the [=XR Compositor=] MUST map an equirectangular coded data onto the inside of a sphere.
 
-<img alt="representation of an equirect layer" src="images/equirect-layer.png" style="width:50%; height: 50%; border-style: ridge;"/>
+<img alt="representation of an equirect layer" src="images/equirect-layer.png" style="width:50%; height: 50%; border-style: ridge;">
 
 ISSUE: this section needs clarification
 
@@ -656,7 +657,7 @@ a value higher than 2π will set it to 2π.
 Setting {{XREquirectLayer/upperVerticalAngle}} or {{XREquirectLayer/lowerVerticalAngle}} to a value less than -π/2 will set it
 to -π/2 and setting it to a value higher than π/2 will set it to π/2.
 
-<img alt="description of the parameters of an equirect layer" src="images/equirect.png" style="width:50%; height: 50%;"/>
+<img alt="description of the parameters of an equirect layer" src="images/equirect.png" style="width:50%; height: 50%;">
 
 When assigning an {{XRSpace}} to the {{XREquirectLayer/space}} attribute, first run the following steps.
 
@@ -693,7 +694,7 @@ XRCubeLayer {#xcubelayertype}
 -----------
 A {{XRCubeLayer}} renders a layer where the [=XR Compositor=] renders directly from a cubemap.
 
-<img alt="representation of a cube layer" src="images/cube-layer.jpg" style="width:50%; height: 50%; border-style: ridge;"/>
+<img alt="representation of a cube layer" src="images/cube-layer.jpg" style="width:50%; height: 50%; border-style: ridge;">
 
 ISSUE: this section needs clarification
 
@@ -907,6 +908,11 @@ The <a href="https://www.khronos.org/registry/OpenGL/specs/es/3.0/es_spec_3.0.pd
 section in the OpenGL ES 3.0 spec defines these limitations in more detail.
 
 Allocation of the resources for layers (such as memory) MUST be done through the same mechanism as WebGL.
+
+If an {{XRLayer}} is allocated with the {{RGBA}} or {{RGB}} {{XRLayerInit/colorFormat}}, its [=colorTextures=] MUST be exposed as {{RGBA}} or {{RGB}} to the {{WebGLRenderingContext}} context.
+However, the [=XR Compositor=] MUST treat the [=colorTextures=]'s pixels as if they were in the {{SRGB8_ALPHA8}} or {{SRGB8}} {{XRLayerInit/colorFormat}}.
+
+NOTE: this means that the [=XR Compositor=] MUST not do any gamma conversion from linear {{RGBA}} or {{RGB}} when it processes the [=colorTextures=]. Otherwise, the pixels in the final rendering will appear too bright which will not match the rendering on a regular 2D {{WebGLRenderingContext}} context.
 
 XRProjectionLayerInit {#xrprojectionlayerinittype}
 ---------------------
