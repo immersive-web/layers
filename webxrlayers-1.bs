@@ -276,7 +276,7 @@ navigator.xr.requestSession('immersive-vr', {
 </div>
 
 Layers are only supported for XRSessions created with XRSessionMode of {{XRSessionMode/"immersive-vr"}}
-or {{XRSessionMode/"immersive-ar"}}. {{XRSessionMode/"inline"}} sessions MUST not support layers.
+or {{XRSessionMode/"immersive-ar"}}. {{XRSessionMode/"inline"}} sessions MUST NOT support layers.
 
 The "[=feature descriptor/layers=]" [=feature descriptor=] has a [=feature requirement=] that it cannot be enabled when there is an [=active immersive session=].
 
@@ -514,7 +514,7 @@ The {{XRProjectionLayer/deltaPose}} should be identity when there is no transfor
 XRQuadLayer {#xrquadlayertype}
 -----------
 An {{XRQuadLayer}} renders a layer that takes up a flat rectangular space in the virtual environment.
-Only the front of the layer MUST be visible; the back face MUST not be drawn by the [=XR Compositor=].
+Only the front of the layer MUST be visible; the back face MUST NOT be drawn by the [=XR Compositor=].
 
 A XRQuadLayer has no thicknes. It is a two-dimensional object positioned and oriented in 3D space. The position
 of a quad refers to the center of the quad.
@@ -563,7 +563,7 @@ The <dfn attribute for="XRQuadLayer">onredraw</dfn> attribute is an Event handle
 XRCylinderLayer {#xrcylinderayertype}
 ---------------
 An {{XRCylinderLayer}} renders a layer that takes up a curved rectangular space in the virtual environment.
-Only the front of the layer MUST be visible; the back face MUST not be drawn by the [=XR Compositor=].
+Only the front of the layer MUST be visible; the back face MUST NOT be drawn by the [=XR Compositor=].
 
 <img alt="representation of a cylinder layer" src="images/cylinder-layer.png" style="width:50%; height: 50%; border-style: ridge;">
 
@@ -912,7 +912,7 @@ Allocation of the resources for layers (such as memory) MUST be done through the
 If an {{XRLayer}} is allocated with the {{RGBA}} or {{RGB}} {{XRLayerInit/colorFormat}}, its [=colorTextures=] MUST be exposed as {{RGBA}} or {{RGB}} to the {{WebGLRenderingContext}} context.
 However, the [=XR Compositor=] MUST treat the [=colorTextures=]'s pixels as if they were in the {{SRGB8_ALPHA8}} or {{SRGB8}} {{XRLayerInit/colorFormat}}.
 
-NOTE: this means that the [=XR Compositor=] MUST not do any gamma conversion from linear {{RGBA}} or {{RGB}} when it processes the [=colorTextures=]. Otherwise, the pixels in the final rendering will appear too bright which will not match the rendering on a regular 2D {{WebGLRenderingContext}} context.
+NOTE: this means that the [=XR Compositor=] MUST NOT do any gamma conversion from linear {{RGBA}} or {{RGB}} when it processes the [=colorTextures=]. Otherwise, the pixels in the final rendering will appear too bright which will not match the rendering on a regular 2D {{WebGLRenderingContext}} context.
 
 XRProjectionLayerInit {#xrprojectionlayerinittype}
 ---------------------
@@ -2143,7 +2143,7 @@ Timing of the composition {#xrcompositiontiming}
 -------------------------
 
 Composition timing MUST be independent of the content that is rendered.
-Moreover, content in a layer MUST not be observable in other layers.
+Moreover, content in a layer MUST NOT be observable in other layers.
 
 If possible, composition of layers should happen outside the browser to reduce risk of timing attacks or other security vulnerabilities.
 
