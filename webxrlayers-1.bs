@@ -2012,7 +2012,7 @@ Event Types {#event-types}
 
 The user agent MUST provide the following new events. Registration for and firing of the events must follow the usual behavior of DOM4 Events.
 
-The user agent MAY fire a <dfn event for="XRLayer">redraw</dfn> event on the {{XRLayer}} object when [=the underlying resources of a layer are lost=] or
+The user agent MAY fire a <dfn event for="XRQuadLayer,XRCylinderLayer,XREquirectLayer,XRCubeLayer">redraw</dfn> event on the {{XRLayer}} object when [=the underlying resources of a layer are lost=] or
 when the [=XR Compositor=] can no longer reproject the layer.
 
 The author SHOULD redraw the content of the layer at the next [=XR animation frame=]. The event must be of type {{XRLayerEvent}}.
