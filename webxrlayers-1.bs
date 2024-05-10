@@ -119,14 +119,13 @@ spec: WebGL 2.0; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/
     type: typedef; text: TEXTURE_2D_ARRAY; url: 3.7
     type: dfn; text: texStorage2D; url: 3.7.6
     type: dfn; text: texStorage3D; url: 3.7.6
-    type: typedef; text: RGB8; url: #5.14
-    type: typedef; text: RGBA8; url: #5.14
-    type: typedef; text: RGBA16F; url: #5.14
-    type: typedef; text: SRGB8; url: #5.14
-    type: typedef; text: SRGB8_ALPHA8; url: #5.14
-    type: typedef; text: DEPTH_COMPONENT24; url: #5.14
-    type: typedef; text: DEPTH24_STENCIL8; url: #5.14
-    type: typedef; text: STENCIL_INDEX8; url: #5.14
+    type: typedef; text: RGB8; url: #3.7
+    type: typedef; text: RGBA8; url: #3.7
+    type: typedef; text: RGBA16F; url: #3.7
+    type: typedef; text: SRGB8; url: #3.7
+    type: typedef; text: SRGB8_ALPHA8; url: #3.7
+    type: typedef; text: DEPTH_COMPONENT24; url: #3.7
+    type: typedef; text: DEPTH24_STENCIL8; url: #3.7
 spec: WEBGL_depth_texture; urlPrefix: https://www.khronos.org/registry/webgl/extensions/WEBGL_depth_texture/
     type: typedef; text: WEBGL_depth_texture
     type: typedef; text: UNSIGNED_INT_24_8_WEBGL
