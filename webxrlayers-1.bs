@@ -1127,6 +1127,8 @@ The {{XRWebGLBinding}} object is used to create layers that have a GPU backend.
 
   XRWebGLSubImage getSubImage(XRCompositionLayer layer, XRFrame frame, optional XREye eye = "none");
   XRWebGLSubImage getViewSubImage(XRProjectionLayer layer, XRView view);
+
+  undefined foveateBoundTexture(GLenum target, float fixed_foveation);
 };
 </pre>
 
@@ -1143,12 +1145,12 @@ be used with another instance of {{XRWebGLBinding}} as long as both were created
 [=XRWebGLBinding/context=]. The lifetime of layers or instances of {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLBinding}} that created them.
 
 Each {{XRCompositionLayer}} created through {{XRWebGLBinding}} has an internal <dfn>colorTextures</dfn> array which is an |array| of {{WebGLTexture|WebGLTextures}} for color textures,
-an internal <dfn>depthStencilTextures</dfn> which is an |array| of [=opaque texture|opaque textures=]</dfn> for depth/stencil textures and
-an internal <dfn>motionVectorTextures</dfn> which is an |array| of [=opaque texture|opaque textures=]</dfn> for motion textures.
+an internal <dfn>depthStencilTextures</dfn> which is an |array| of [=opaque texture|opaque textures=] for depth/stencil textures and
+an internal <dfn>motionVectorTextures</dfn> which is an |array| of [=opaque texture|opaque textures=] for motion textures.
 
 Each {{XRProjectionLayer}} created through {{XRWebGLBinding}} has an internal <dfn for="XRProjectionLayer">colorTextures for secondary views</dfn>
 array which is an |array| of [=opaque texture|opaque textures=] for color textures and an internal <dfn for="XRProjectionLayer">depthStencilTextures for secondary views</dfn>
-array which is an |array| of [=opaque texture|opaque textures=]</dfn> for depth/stencil textures that are used to render the [=secondary view|secondary views=].
+array which is an |array| of [=opaque texture|opaque textures=] for depth/stencil textures that are used to render the [=secondary view|secondary views=].
 
 <div class="algorithm" data-algorithm="construct-webgl-layer">
 
@@ -1366,10 +1368,10 @@ To <dfn>allocate color textures</dfn> using an {{XRCompositionLayer}} |layer|, a
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
-          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this |context| created as a {{TEXTURE_2D_ARRAY}} texture with 1 internal texture using |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.</dd>
         <dt> Otherwise
-          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-        <dl>
+          <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.</dd>
+        </dl>
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"stereo"}}:
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
@@ -1656,10 +1658,9 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
   1. Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} as follows:
     <dl class="switch">
       <dt class="switch">If the |layer| was created with a textureType of {{"texture-array"}}
-        <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with |index|.
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with |index|.</dd>
       <dt> Otherwise
-        <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with <code>0</code>.
-      </dl>
+        <dd> Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} with <code>0</code>.</dd>
     </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} as follows:
     <dl class="switch">
@@ -1667,7 +1668,6 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
         <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the element at offset |index| of the |layer|'s [=colorTextures=] array.
       <dt> Otherwise
         <dd> Initialize |subimage|'s {{XRWebGLSubImage/colorTexture}} with the first element of the |layer|'s [=colorTextures=] array.
-      </dl>
     </dl>
   1. Initialize |subimage|'s {{XRWebGLSubImage/depthStencilTexture}} as follows:
     <dl class="switch">
@@ -1763,6 +1763,18 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
   1. return |subimage|
 
 </div>
+
+The <dfn method for="XRWebGLBinding">foveateBoundTexture(GLenum |target|, float |fixed_foveation|)</dfn> applies foveation to the current bound texture or texture array. 
+
+When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the following steps:
+
+  1. If |target| is not of type {{TEXTURE_2D}} or {{TEXTURE_2D_ARRAY}}, throw an {{InvalidStateError}} and abort these steps.
+  1. If the user agent or device does not support foveation, abort these steps.
+  1. If |fixed_foveation| is less than <code>0</code>, set it to <code>0</code>.
+  1. If |fixed_foveation| is more than <code>1</code>, set it to <code>1</code>.
+  1. Apply |fixed_foveation| to |target| using |binding|'s [=XRWebGLBinding/context=].
+
+NOTE: the effect of foveation will take effect immediately.
 
 NOTE: The session should try to defer calls to {{XRWebGLBinding/getSubImage()}} and {{XRWebGLBinding/getViewSubImage()}} to the time that the experience starts drawing using WebGL.
 Typically that would be after the game logic runs. On certain user agents having distinct stages for CPU and GPU dependent code allows them to dynamically optimize system resources.
