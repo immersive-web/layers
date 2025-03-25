@@ -78,6 +78,8 @@ spec: webxr; urlPrefix: https://www.w3.org/TR/webxr/
     type: dfn; text: frame
     type: dfn; text: animationFrame; for: XRFrame
     type: dfn; text: XRSession/requestAnimationFrame()
+    type: dfn; text: shut down the session
+    type: dfn; text: xrsession interface
 spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: interface; text: WebGLFramebuffer; url: WebGLFramebuffer
     type: interface; text: WebGLTexture; url: WebGLTexture
@@ -133,6 +135,7 @@ spec:html; urlPrefix: https://html.spec.whatwg.org/multipage/
     type: dfn; text: current realm; url: webappapis.html#current
 spec: ECMAScript; urlPrefix: https://tc39.github.io/ecma262/#
     type: dfn; text: Realm; url: realm
+    type: dfn; text: WeakSet; url: sec-weakset-objects
 spec: compositing-1; urlPrefix: https://www.w3.org/TR/compositing-1/
     type: dfn; text: source-over; url: porterduffcompositingoperators_srcover
 </pre>
@@ -1140,6 +1143,8 @@ of either a {{WebGLRenderingContext}} or a {{WebGL2RenderingContext}}.
 Each {{XRWebGLBinding}} has an associated <dfn dfn-for="XRWebGLBinding">session</dfn>, which is the
 {{XRSession}} it was created with.
 
+Each {{XRWebGLBinding}} has an internal [=WeakSet=] <dfn dfn-for="XRWebGLBinding">foveatedTextures</dfn> that holds weak references to the textures that were bound to the specified target when calling {{XRWebGLBinding/foveateBoundTexture}}.
+
 NOTE: It is possible to create more than one {{XRWebGLBinding}}. Any layer created with an instance of {{XRWebGLBinding}} can
 be used with another instance of {{XRWebGLBinding}} as long as both were created with the same [=XRWebGLBinding/session=] and the same
 [=XRWebGLBinding/context=]. The lifetime of layers or instances of {{XRWebGLSubImage}} is not tied to the lifetime of the {{XRWebGLBinding}} that created them.
@@ -1164,6 +1169,7 @@ MUST perform the following steps when invoked:
   1. If |context|'s [=XR compatible=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |binding|'s [=XRWebGLBinding/context=] to |context|.
   1. Initialize |binding|'s [=XRWebGLBinding/session=] to |session|.
+  1. Add |binding| to |session|'s [=XRSession/bindings=].
   1. Return |binding|.
 
 </div>
@@ -1772,7 +1778,9 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
   1. If the user agent or device does not support foveation, abort these steps.
   1. If |fixed_foveation| is less than <code>0</code>, set it to <code>0</code>.
   1. If |fixed_foveation| is more than <code>1</code>, set it to <code>1</code>.
+  1. If no texture is bound to |target| in |binding|'s [=XRWebGLBinding/context=], throw an {{InvalidStateError}} and abort these steps.
   1. Apply |fixed_foveation| to |target| using |binding|'s [=XRWebGLBinding/context=].
+  1. Add the texture bound to |target| using |binding|'s [=XRWebGLBinding/context=] to [=XRWebGLBinding/foveatedTextures=].
 
 NOTE: the effect of foveation will take effect immediately.
 
@@ -2151,6 +2159,18 @@ with {{XRSession/renderState}} |state|, the user agent MUST run the following st
   1. If |state|'s {{XRRenderState/baseLayer}} is not <code>null</code>, return <code>true</code>.
   1. If |state|'s {{XRRenderStateInit/layers}} is not empty, return <code>true</code>.
   1. return <code>false</code>.
+
+XRSession changes {#xrsessionchanges}
+-----------------
+This module adds the following to the [=XRSession interface=]:
+
+Each {{XRSession}} has an internal [=WeakSet=] <dfn dfn-for="XRSession">bindings</dfn> that holds weak references to each {{XRWebGLBinding}} that was created with that session.
+
+This module adds a step to the "[=shut down the session=]" from the WebXR specification.
+Add the following to the list:
+  1. For each |binding| in <var ignore=''>session|</var>'s [=XRSession/bindings=]:
+    1. For each |texture| in |binding|'s [=XRWebGLBinding/foveatedTextures=]:
+      1. Remove the foveation from |texture|.
 
 </div>
 
