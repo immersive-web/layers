@@ -1770,6 +1770,9 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
 
 </div>
 
+NOTE: The session should try to defer calls to {{XRWebGLBinding/getSubImage()}} and {{XRWebGLBinding/getViewSubImage()}} to the time that the experience starts drawing using WebGL.
+Typically that would be after the game logic runs. On certain user agents having distinct stages for CPU and GPU dependent code allows them to dynamically optimize system resources.
+
 The <dfn method for="XRWebGLBinding">foveateBoundTexture(GLenum |target|, float |fixed_foveation|)</dfn> applies foveation to the current bound texture or texture array. 
 
 When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the following steps:
@@ -1779,13 +1782,10 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
   1. If |fixed_foveation| is less than <code>0</code>, set it to <code>0</code>.
   1. If |fixed_foveation| is more than <code>1</code>, set it to <code>1</code>.
   1. If no texture is bound to |target| in |binding|'s [=XRWebGLBinding/context=], throw an {{InvalidStateError}} and abort these steps.
-  1. Apply |fixed_foveation| to |target| using |binding|'s [=XRWebGLBinding/context=].
+  1. Apply |fixed_foveation| to |target| using |binding|'s [=XRWebGLBinding/context=] using the same algortihm as {{XRProjectionLayer/fixedFoveation}}.
   1. Add the texture bound to |target| using |binding|'s [=XRWebGLBinding/context=] to [=XRWebGLBinding/foveatedTextures=].
 
 NOTE: the effect of foveation will take effect immediately.
-
-NOTE: The session should try to defer calls to {{XRWebGLBinding/getSubImage()}} and {{XRWebGLBinding/getViewSubImage()}} to the time that the experience starts drawing using WebGL.
-Typically that would be after the game logic runs. On certain user agents having distinct stages for CPU and GPU dependent code allows them to dynamically optimize system resources.
 
 When an {{XRLayer}} is a member of the {{XRRenderState/layers}} array, it MUST be presented to the [=immersive XR device=] immediately after
 an [=XR animation frame=] completes, but only if at least one of the following has occurred since the previous [=XR animation frame=]:
