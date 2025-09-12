@@ -855,7 +855,8 @@ The various layer types are created with the create____Layer series of methods o
 such as whether or not to allocate a depth buffer or alpha channel, are passed in at layer creation time and will be immutable for the lifetime of the layer.
 The method will return the associated XRCompositionLayer type.
 
-Some layer types may not be supported by the {{XRSession}}. If a layer type isn't supported the method will throw an exception. {{XRProjectionLayer}} MUST be supported by all {{XRSession}}s.
+If an {{XRSession}} was created with the "[=feature descriptor/layers=]" [=feature descriptor=], it MUST support all layer types.
+If a layer type isn't supported its creation method MUST throw an exception. {{XRProjectionLayer}} MUST be supported by all {{XRSession}}s, whether it was created with the "[=feature descriptor/layers=]" [=feature descriptor=] or not.
 </section>
 
 Opaque textures {#xropaquetextures}
@@ -1229,6 +1230,7 @@ To <dfn>allocate color textures for projection layers</dfn> using an {{XRProject
         <dt> If |textureType| is {{"texture-array"}}:
           <dd> If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL color texture resolution=] excluding the [=secondary view|secondary views=], throw a {{NotSupportedError}} and abort these steps.
           <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| layers using |context|, |textureFormat|, |width| and |height|.
+          <dd> If the [=opaque texture=] was unable to be created for any reason, throw an {{OperationError}} and abort these steps.
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
           <dd> For each |view| in the |session|'s [=list of views=]:
@@ -1236,12 +1238,14 @@ To <dfn>allocate color textures for projection layers</dfn> using an {{XRProject
             1. Let |width| be the width of |view|'s [=recommended WebGL color texture resolution=] multiplied by |scaleFactor|.
             1. Let |height| be the height of |view|'s [=recommended WebGL color texture resolution=] multiplied by |scaleFactor|.
             1. let |texture| be a [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |textureFormat|, |width| and |height|.
+            1. If the |texture| was unable to be created for any reason, throw an {{OperationError}} and abort these steps.
             1. Append |texture| to |array|.
           <dd> Return |array| and abort these steps.
         </dl>
   1. If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL color texture resolution=] excluding the [=secondary view|secondary views=], throw a {{NotSupportedError}} and abort these steps.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |textureFormat|, |numViews| multiplied by |width| and |height|.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context| , |textureFormat|, |width| and |numViews| multiplied by |height|.
+  1. If the [=opaque texture=] was unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |array|.
 
 </div>
@@ -1263,6 +1267,7 @@ To <dfn>allocate depth textures for projection layers</dfn> using an {{XRProject
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
           <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| layers using |context|, |textureFormat|, |stencil|, |width| and |height|.
+          <dd> If the [=opaque texture=] was unable to be created for any reason, throw an {{OperationError}} and abort these steps.
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
           <dd> For each |view| in the |session|'s [=list of views=]:
@@ -1270,12 +1275,14 @@ To <dfn>allocate depth textures for projection layers</dfn> using an {{XRProject
             1. Let |width| be the width of |view|'s [=recommended WebGL depth texture resolution=] multiplied by |scaleFactor|.
             1. Let |height| be the height of |view|'s [=recommended WebGL depth texture resolution=] multiplied by |scaleFactor|.
             1. let |texture| be a [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |textureFormat|, |stencil|, |width| and |height|.
+            1. If the |texture| was unable to be created for any reason, throw an {{OperationError}} and abort these steps.
             1. Append |texture| to |array|.
           <dd> Return |array| and abort these steps.
         </dl>
   1. If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended WebGL color texture resolution=] excluding the [=secondary view|secondary views=], throw a {{NotSupportedError}} and abort these steps.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context|, |textureFormat|, |stencil|, |numViews| multiplied by |width| and |height|.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context|, |textureFormat|, |stencil|, |width| and |numViews| multiplied by |height|.
+  1. If the [=opaque texture=] was unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |array|.
 
 </div>
@@ -1296,6 +1303,7 @@ To <dfn>allocate motion vector textures for projection layers</dfn> using an {{X
         <dl class="switch">
         <dt> If |textureType| is {{"texture-array"}}:
           <dd> Initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D_ARRAY}} texture with |numViews| layers using |context|, {{RGBA16F}}, |width| and |height|.
+          <dd> If the [=opaque texture=] was unable to be created for any reason, throw an {{OperationError}} and abort these steps.
           <dd> Return |array| and abort these steps.
         <dt> Otherwise
           <dd> For each |view| in the |session|'s [=list of views=]:
@@ -1303,12 +1311,14 @@ To <dfn>allocate motion vector textures for projection layers</dfn> using an {{X
             1. Let |width| be the width of |view|'s [=recommended motion vector texture resolution=] multiplied by |scaleFactor|.
             1. Let |height| be the height of |view|'s [=recommended motion vector texture resolution=] multiplied by |scaleFactor|.
             1. let |texture| be a [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, {{RGBA16F}}, |width| and |height|.
+            1. If the |texture| was unable to be created for any reason, throw an {{OperationError}} and abort these steps.
             1. Append |texture| to |array|.
           <dd> Return |array| and abort these steps.
         </dl>
   1. If the session’s [=view|views=] in the [=list of views=] don't all have the same [=recommended motion vector texture resolution=] excluding the [=secondary view|secondary views=], throw a {{NotSupportedError}} and abort these steps.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-left-right}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context|, {{RGBA16F}}, |numViews| multiplied by |width| and |height|.
   1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/stereo-top-bottom}}, initialize |array| with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a |textureType| texture using |context|, {{RGBA16F}}, |width| and |numViews| multiplied by |height|.
+  1. If the [=opaque texture=] was unable to be created for any reason, throw an {{OperationError}} and abort these steps.
   1. return |array|.
 
 </div>
@@ -1331,6 +1341,7 @@ To <dfn>allocate the color textures for the secondary views</dfn> using an {{XRP
           <dt> Otherwise
             <dd> Let |texture| be a [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of |context| created as a {{TEXTURE_2D}} texture with |context|, |textureFormat|, |width| and |height|.
          </dl>
+    1. If the |texture| was unable to be created for any reason, throw an {{OperationError}} and abort these steps.
     1. Append |texture| to |array|.
   1. Return |array| and abort these steps.
 
