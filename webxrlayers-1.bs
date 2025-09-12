@@ -856,7 +856,7 @@ such as whether or not to allocate a depth buffer or alpha channel, are passed i
 The method will return the associated XRCompositionLayer type.
 
 If an {{XRSession}} was created with the "[=feature descriptor/layers=]" [=feature descriptor=], it MUST support all layer types.
-If a layer type isn't supported its creation method MUST throw an exception. {{XRProjectionLayer}} MUST be supported by all {{XRSession}}s.
+If a layer type isn't supported its creation method MUST throw an exception. {{XRProjectionLayer}} MUST be supported by all {{XRSession}}s, whether it was created with the "[=feature descriptor/layers=]" [=feature descriptor=] or not.
 </section>
 
 Opaque textures {#xropaquetextures}
