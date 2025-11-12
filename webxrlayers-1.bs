@@ -54,6 +54,7 @@ spec: webxr;
     type: dfn; text: primary view
     type: dfn; text: secondary view
     type: dfn; text: active; for: view
+    type: dfn; text: update the pending layers state
     type: enum-value; text: local
 spec: html;
     type: dfn; text: check the usability of the image argument
@@ -2113,7 +2114,7 @@ updateRenderState changes {#updaterenderstatechanges}
 
 <div class="algorithm" data-algorithm="update-layers-state-for-layers">
 
-This module replaces the steps given by "[=update the pending layers state=]" from the WebXR specification. Instead when the user agent will
+This module replaces the steps given by "[=/update the pending layers state=]" from the WebXR specification. Instead when the user agent will
 <dfn dfn-for="layers">update the pending layers state</dfn> with {{XRSession}} |session| and {{XRRenderStateInit}} |newState|, it must run the following steps:
   1. If both |newState|'s {{XRRenderStateInit/baseLayer}} and |newState|'s {{XRRenderStateInit/layers}} are set, throw a {{NotSupportedError}} and abort these steps.
   1. Let |activeState| be |session|'s [=active render state=].
