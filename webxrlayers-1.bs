@@ -55,6 +55,7 @@ spec: webxr;
     type: dfn; text: secondary view
     type: dfn; text: active; for: view
     type: dfn; text: update the pending layers state
+    type: dfn; text: initialize the render state
     type: enum-value; text: local
 spec: html;
     type: dfn; text: check the usability of the image argument
@@ -2102,7 +2103,7 @@ in order of its position in the array using [=source-over=] blending. Unless the
 NOTE: this means that each layer can potentially overwrite the previous layers whether or not the previous layers are virtually closer to the viewer.
 
 <div class="algorithm" data-algorithm="initialize-renderstate-for-layers">
-This module replaces the steps given by [=initialize the render state=]. Instead when an {{XRRenderState}} object |state|
+This module replaces the steps given by [=/initialize the render state=]. Instead when an {{XRRenderState}} object |state|
 is created for an {{XRSession}} |session|, the user agent MUST <dfn dfn-for="layers">initialize the render state</dfn> by running the following steps:
   1. Initialize |state| by running the original steps to [=initialize the render state=].
   1. Initialize |state|'s {{XRRenderState/layers}} with a [=new=] empty array in the [=relevant realm=] of |session|.
