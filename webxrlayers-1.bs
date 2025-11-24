@@ -989,6 +989,7 @@ The {{XRLayerInit}} dictionary represents a set of common configurable values fo
 <pre class="idl">
 dictionary XRLayerInit {
   required XRSpace space;
+  XRTextureType textureType = "texture";
   GLenum colorFormat = 0x1908; // RGBA
   GLenum? depthFormat;
   unsigned long mipLevels = 1;
@@ -1001,6 +1002,12 @@ dictionary XRLayerInit {
 </pre>
 
 The <dfn dict-member for="XRLayerInit">space</dfn> attribute defines the spatial relationship with the user’s physical environment.
+
+The <dfn dict-member for="XRLayerInit">textureType</dfn> attribute defines the type the layer's textures. The [=XR Compositor=] MUST support:
+  - {{"texture"}}
+  
+For {{WebGL2RenderingContext}} these additional types are supported:
+  - {{"texture-array"}}
 
 The <dfn dict-member for="XRLayerInit">colorFormat</dfn> attribute defines the data type of the color texture data.
 
@@ -1059,7 +1066,6 @@ The {{XRQuadLayerInit}} dictionary represents a set of configurable values that 
 
 <pre class="idl">
 dictionary XRQuadLayerInit : XRLayerInit {
-  XRTextureType textureType = "texture";
   XRRigidTransform? transform;
   float width = 1.0;
   float height = 1.0;
@@ -1073,7 +1079,6 @@ The {{XRCylinderLayerInit}} dictionary represents a set of configurable values t
 
 <pre class="idl">
 dictionary XRCylinderLayerInit : XRLayerInit {
-  XRTextureType textureType = "texture";
   XRRigidTransform? transform;
   float radius = 2.0;
   float centralAngle = 0.78539;
@@ -1090,7 +1095,6 @@ The {{XREquirectLayerInit}} dictionary represents a set of configurable values t
 
 <pre class="idl">
 dictionary XREquirectLayerInit : XRLayerInit {
-  XRTextureType textureType = "texture";
   XRRigidTransform? transform;
   float radius = 0;
   float centralHorizontalAngle = 6.28318;
@@ -1498,11 +1502,11 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a [=new=] {{XRQuadLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=intialize a composition layer=] on |layer| with |session| and |context|.
   1. Run [=initialize a quad layer=] with |layer| and |init|.
-  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |init|'s {{XRQuadLayerInit/textureType}}, |context| and |init|'s {{XRLayerInit/layout}}.
+  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |init|'s {{XRLayerInit/textureType}}, |context| and |init|'s {{XRLayerInit/layout}}.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
-  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layer|, |init|'s {{XRQuadLayerInit/textureType}} and |init|.
-  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layer|, |init|'s {{XRQuadLayerInit/textureType}} and |init|.
+  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layer|, |init|'s {{XRLayerInit/textureType}} and |init|.
+  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layer|, |init|'s {{XRLayerInit/textureType}} and |init|.
   1. Let |layer|'s [=motionVectorTextures=] be a [=new=] array in the [=relevant realm=] of |context|.
   1. If the [=XR Compositor=] knows that it will be unable to create the resources for the |layer| for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
@@ -1523,11 +1527,11 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a [=new=] {{XRCylinderLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=intialize a composition layer=] on |layer| with |session| and |context|.
   1. Run [=initialize a cylinder layer=] with |layer| and |init|.
-  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |init|'s {{XRCylinderLayerInit/textureType}}, |context| and |init|'s {{XRLayerInit/layout}}.
+  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |init|'s {{XRLayerInit/textureType}}, |context| and |init|'s {{XRLayerInit/layout}}.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
-  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layer|, |init|'s {{XRCylinderLayerInit/textureType}} and |init|.
-  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layer|, |init|'s {{XRCylinderLayerInit/textureType}} and |init|.
+  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layer|, |init|'s {{XRLayerInit/textureType}} and |init|.
+  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layer|, |init|'s {{XRLayerInit/textureType}} and |init|.
   1. Let |layer|'s [=motionVectorTextures=] be a [=new=] array in the [=relevant realm=] of |context|.
   1. If the [=XR Compositor=] knows that it will be unable to create the resources for the |layer| for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
@@ -1550,11 +1554,11 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |layer| be a [=new=] {{XREquirectLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=intialize a composition layer=] on |layer| with |session| and |context|.
   1. Run [=initialize a equirect layer=] with |layer| and |init|.
-  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |init|'s {{XRCylinderLayerInit/textureType}}, |context| and |init|'s {{XRLayerInit/layout}}.
+  1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |init|'s {{XRLayerInit/textureType}}, |context| and |init|'s {{XRLayerInit/layout}}.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
-  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layer|, |init|'s {{XRCylinderLayerInit/textureType}} and |init|.
-  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layer|, |init|'s {{XRCylinderLayerInit/textureType}} and |init|.
+  1. let |layer|'s [=colorTextures=] be the result of [=allocate color textures|allocating color textures=] with |layer|, |init|'s {{XRLayerInit/textureType}} and |init|.
+  1. let |layer|'s [=depthStencilTextures=] be the result of [=allocate depth textures|allocating depth textures=] with |layer|, |init|'s {{XRLayerInit/textureType}} and |init|.
   1. Let |layer|'s [=motionVectorTextures=] be a [=new=] array in the [=relevant realm=] of |context|.
   1. If the [=XR Compositor=] knows that it will be unable to create the resources for the |layer| for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
@@ -1585,32 +1589,52 @@ When this method is invoked, the user agent MUST run the following steps:
       <dt> Otherwise
       <dd> Let |layer|'s {{XRCubeLayer/orientation}} be a [=new=] {{DOMPointReadOnly}} in the [=relevant realm=] of [=this=].
     </dl>
-  1. let |layout| be |init|'s {{XRLayerInit/layout}}.
+  1. Let |layout| be |init|'s {{XRLayerInit/layout}}.
+  1. Let |textureType| be |init|'s {{XRLayerInit/textureType}}.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
   1. If |layout| is {{XRLayerLayout/"default"}} or {{XRLayerLayout/"stereo-left-right"}} or {{XRLayerLayout/"stereo-top-bottom"}}, throw {{TypeError}} and abort these steps.
   1. Let |layer|'s [=colorTextures=] be a [=new=] array in the [=relevant realm=] of this {{XRCubeLayer}}.
   1. Initialize |layer|'s [=colorTextures=] as follows, based on the value of |layout|:
-    <dl class="switch">
-      <dt> {{XRLayerLayout/"mono"}}:
-        <dd> Initialize [=colorTextures=] with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-      <dt> Otherwise
-        <dd> Initialize [=colorTextures=] with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-    </dl>
+    1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}}:
+        <dl class="switch">
+        <dt> If |textureType| is {{"texture-array"}}:
+          <dd> Initialize [=colorTextures=] with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_2D_ARRAY}} texture with 6 layers using |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.</dd>
+        <dt> Otherwise
+          <dd> Initialize [=colorTextures=] with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+        </dl>
+    1. Otherwise, if |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"stereo"}}:
+        <dl class="switch">
+        <dt> If |textureType| is {{"texture-array"}}:
+          <dd> Initialize [=colorTextures=] with 1 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_2D_ARRAY}} texture with 12 layers using |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+        <dt> Otherwise
+          <dd> Initialize [=colorTextures=] with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/colorFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+        </dl>
   1. Let |layer|'s [=depthStencilTextures=] be a [=new=] array in the [=relevant realm=] of this {{XRCubeLayer}}.
   1. Let |layer|'s [=motionVectorTextures=] be a [=new=] array in the [=relevant realm=] of this {{XRCubeLayer}}.
   1. If |init|'s {{XRLayerInit/depthFormat}} is set, initialize |layer|'s [=depthStencilTextures=] as follows:
-    <dl class="switch">
-      <dt> If |context| is not a {{WebGL2RenderingContext}} and the {{WEBGL_depth_texture}} [=extension=] is not enabled in |context|
-        <dd> Throw {{TypeError}} and abort these steps.
-      <dt> Else if |layout| is {{XRLayerLayout/"mono"}}
-        <dd> Initialize [=depthStencilTextures=] with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-      <dt> Otherwise
-        <dd> Initialize [=depthStencilTextures=] with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
-    </dl>
+    1. If |context| is not a {{WebGL2RenderingContext}} and the {{WEBGL_depth_texture}} [=extension=] is not enabled in |context| throw {{TypeError}} and abort these steps.
+    1. If |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"mono"}}:
+        <dl class="switch">
+        <dt> If |textureType| is {{"texture-array"}}:
+          <dd> Initialize [=depthStencilTextures=] with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_2D_ARRAY}} texture with 6 layers using |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+        <dt> Otherwise
+          <dd> Initialize [=depthStencilTextures=] with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+        </dl>
+    1. Otherwise, if |layer|'s {{XRCompositionLayer/layout}} is {{XRLayerLayout/"stereo"}}:
+        <dl class="switch">
+        <dt> If |textureType| is {{"texture-array"}}:
+          <dd> Initialize [=depthStencilTextures=] with 1 [=new=] instance of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_2D_ARRAY}} texture with 12 layers using |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/mipLevels}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+        <dt> Otherwise
+          <dd> Initialize [=depthStencilTextures=] with 2 [=new=] instances of an [=opaque texture=] in the [=relevant realm=] of this {{XRCubeLayer}} created as a {{TEXTURE_CUBE_MAP}} texture with |context| and |init|'s {{XRLayerInit/depthFormat}}, {{XRLayerInit/viewPixelWidth}} and {{XRLayerInit/viewPixelHeight}} values.
+        </dl>
   1. If the [=XR Compositor=] knows that it will be unable to create the resources for the |layer| for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
 
 </div>
+
+When using a {{XRLayerInit/textureType}} of {{"texture-array"}}, {{XRCubeLayer}}s MUST use 6 texture layers to store the faces of the cube map in the following order: <code>[TEXTURE_CUBE_MAP_POSITIVE_X, TEXTURE_CUBE_MAP_NEGATIVE_X, TEXTURE_CUBE_MAP_POSITIVE_Y, TEXTURE_CUBE_MAP_NEGATIVE_Y, TEXTURE_CUBE_MAP_POSITIVE_Z, TEXTURE_CUBE_MAP_NEGATIVE_Z]</code>
+
+When using a {{XRLayerInit/textureType}} of {{"texture-array"}} and a {{XRCompositionLayer/layout}} of {{XRLayerLayout/"stereo"}}, the left eye's content MUST be stored starting at layer index <code>0</code> and the right eye's content MUST be stored starting at layer index <code>6</code>.
 
 ISSUE: Define how cubemap sizes are determined.
 
@@ -1672,7 +1696,13 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
   1. Let |index| be <code>0</code>.
   1. If |layer|'s {{XRCompositionLayer/layout}} attribute is {{XRLayerLayout/"stereo"}}:
     1. If |eye| is {{XREye/"none"}}, throw a {{TypeError}} and abort these steps.
-    1. If |eye| is {{XREye/"right"}}, set |index| to <code>1</code>.
+    1. If |eye| is {{XREye/"right"}}:
+        <dl class="switch">
+          <dt class="switch">If |layer| is of type {{XRCubeLayer}}
+            <dd> Set |index| to <code>6</code>
+          <dt> Otherwise
+            <dd> Set |index| to <code>1</code>
+        </dl>
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. Initialize |subimage|'s {{XRWebGLSubImage/imageIndex}} as follows:
     <dl class="switch">
