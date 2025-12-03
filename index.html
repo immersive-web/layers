@@ -5,9 +5,9 @@
   <title>WebXR Layers API Level 1</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 86e3be07a, updated Tue Nov 18 16:58:08 2025 +0000" name="generator">
+  <meta content="Bikeshed version 3c53a5b02, updated Thu Nov 27 17:03:30 2025 +0000" name="generator">
   <link href="https://www.w3.org/TR/webxrlayers-1/" rel="canonical">
-  <meta content="92c079c6819429d5b4941b167fd081bfcd34191c" name="revision">
+  <meta content="1995a1dc3aaff2e0e5ea1217832f15ae95144f67" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
   <link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
@@ -806,7 +806,7 @@ var[data-var-color="6"] { --var-vg: #FFBCF2; }
 </p>
    <h1 class="no-ref p-name" id="title">WebXR Layers API Level 1</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2025-11-24">24 November 2025</time></p>
+    <time class="dt-updated" datetime="2025-12-03">3 December 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -877,7 +877,7 @@ var[data-var-color="6"] { --var-vg: #FFBCF2; }
   <div data-fill-with="at-risk"></div>
   <nav data-fill-with="table-of-contents" id="toc">
    <h2 class="no-num no-ref no-toc" id="contents">Table of Contents</h2>
-   <ol class="toc" role="directory">
+   <ol class="toc">
     <li>
      <a href="#intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
      <ol class="toc">
@@ -1150,8 +1150,8 @@ the user agent MUST run the following steps:
     </ol>
    </div>
    <p><code class="idl"><a data-link-type="idl" href="#dom-xrcompositionlayer-destroy" id="ref-for-dom-xrcompositionlayer-destroy">destroy()</a></code> will delete the underlying attachments. If there are no attachments, this function does nothing.</p>
-   <div class="algorithm" data-algorithm="intialization of a composition layer">
-    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="intialize-a-composition-layer">intialize a composition layer</dfn> with a <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession①">XRSession</a></code> <var>session</var> and an optional instance of a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContext" id="ref-for-WebGLRenderingContext">WebGLRenderingContext</a></code>
+   <div class="algorithm" data-algorithm="initialization of a composition layer">
+    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="initialize-a-composition-layer">initialize a composition layer</dfn> with a <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession①">XRSession</a></code> <var>session</var> and an optional instance of a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#WebGLRenderingContext" id="ref-for-WebGLRenderingContext">WebGLRenderingContext</a></code>
 or a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext">WebGL2RenderingContext</a></code> <var>context</var>, the user agent MUST run the following steps:</p>
     <ol>
      <li data-md>
@@ -2338,7 +2338,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding" data-dfn-typ
      <li data-md>
       <p>If <var>context</var> is lost, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror⑨">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>Run <a data-link-type="dfn" href="#intialize-a-composition-layer" id="ref-for-intialize-a-composition-layer">intialize a composition layer</a> on <var>layer</var> with <var>session</var> and <var>context</var>.</p>
+      <p>Run <a data-link-type="dfn" href="#initialize-a-composition-layer" id="ref-for-initialize-a-composition-layer">initialize a composition layer</a> on <var>layer</var> with <var>session</var> and <var>context</var>.</p>
      <li data-md>
       <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-isstatic" id="ref-for-xrcompositionlayer-isstatic④">isStatic</a> to <code>false</code>.</p>
      <li data-md>
@@ -2423,7 +2423,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding" data-dfn-typ
      <li data-md>
       <p>Let <var>layer</var> be a <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#new" id="ref-for-new④③">new</a> <code class="idl"><a data-link-type="idl" href="#xrquadlayer" id="ref-for-xrquadlayer①⓪">XRQuadLayer</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④③">relevant realm</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this①①">this</a>.</p>
      <li data-md>
-      <p>Run <a data-link-type="dfn" href="#intialize-a-composition-layer" id="ref-for-intialize-a-composition-layer①">intialize a composition layer</a> on <var>layer</var> with <var>session</var> and <var>context</var>.</p>
+      <p>Run <a data-link-type="dfn" href="#initialize-a-composition-layer" id="ref-for-initialize-a-composition-layer①">initialize a composition layer</a> on <var>layer</var> with <var>session</var> and <var>context</var>.</p>
      <li data-md>
       <p>Run <a data-link-type="dfn" href="#initialize-a-quad-layer" id="ref-for-initialize-a-quad-layer">initialize a quad layer</a> with <var>layer</var> and <var>init</var>.</p>
      <li data-md>
@@ -2466,7 +2466,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding" data-dfn-typ
      <li data-md>
       <p>Let <var>layer</var> be a <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#new" id="ref-for-new④⑤">new</a> <code class="idl"><a data-link-type="idl" href="#xrcylinderlayer" id="ref-for-xrcylinderlayer⑨">XRCylinderLayer</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④⑤">relevant realm</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this①④">this</a>.</p>
      <li data-md>
-      <p>Run <a data-link-type="dfn" href="#intialize-a-composition-layer" id="ref-for-intialize-a-composition-layer②">intialize a composition layer</a> on <var>layer</var> with <var>session</var> and <var>context</var>.</p>
+      <p>Run <a data-link-type="dfn" href="#initialize-a-composition-layer" id="ref-for-initialize-a-composition-layer②">initialize a composition layer</a> on <var>layer</var> with <var>session</var> and <var>context</var>.</p>
      <li data-md>
       <p>Run <a data-link-type="dfn" href="#initialize-a-cylinder-layer" id="ref-for-initialize-a-cylinder-layer">initialize a cylinder layer</a> with <var>layer</var> and <var>init</var>.</p>
      <li data-md>
@@ -2513,7 +2513,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding" data-dfn-typ
      <li data-md>
       <p>Let <var>layer</var> be a <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#new" id="ref-for-new④⑦">new</a> <code class="idl"><a data-link-type="idl" href="#xrequirectlayer" id="ref-for-xrequirectlayer⑨">XREquirectLayer</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④⑦">relevant realm</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this①⑦">this</a>.</p>
      <li data-md>
-      <p>Run <a data-link-type="dfn" href="#intialize-a-composition-layer" id="ref-for-intialize-a-composition-layer③">intialize a composition layer</a> on <var>layer</var> with <var>session</var> and <var>context</var>.</p>
+      <p>Run <a data-link-type="dfn" href="#initialize-a-composition-layer" id="ref-for-initialize-a-composition-layer③">initialize a composition layer</a> on <var>layer</var> with <var>session</var> and <var>context</var>.</p>
      <li data-md>
       <p>Run <a data-link-type="dfn" href="#initialize-a-equirect-layer" id="ref-for-initialize-a-equirect-layer">initialize a equirect layer</a> with <var>layer</var> and <var>init</var>.</p>
      <li data-md>
@@ -2560,7 +2560,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding" data-dfn-typ
      <li data-md>
       <p>Let <var>layer</var> be a <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#new" id="ref-for-new④⑨">new</a> <code class="idl"><a data-link-type="idl" href="#xrcubelayer" id="ref-for-xrcubelayer⑨">XRCubeLayer</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④⑨">relevant realm</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this②⓪">this</a>.</p>
      <li data-md>
-      <p>Run <a data-link-type="dfn" href="#intialize-a-composition-layer" id="ref-for-intialize-a-composition-layer④">intialize a composition layer</a> on <var>layer</var> with <var>session</var> and <var>context</var>.</p>
+      <p>Run <a data-link-type="dfn" href="#initialize-a-composition-layer" id="ref-for-initialize-a-composition-layer④">initialize a composition layer</a> on <var>layer</var> with <var>session</var> and <var>context</var>.</p>
      <li data-md>
       <p>Let <var>layer</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrcubelayer-space" id="ref-for-dom-xrcubelayer-space④">space</a></code> be the <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrlayerinit-space" id="ref-for-dom-xrlayerinit-space①②">space</a></code>.</p>
      <li data-md>
@@ -3126,7 +3126,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRMediaBinding" data-dfn-typ
      <li data-md>
       <p>Let <var>layer</var> be a <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#new" id="ref-for-new⑥⑦">new</a> <code class="idl"><a data-link-type="idl" href="#xrquadlayer" id="ref-for-xrquadlayer①④">XRQuadLayer</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm⑥⑦">relevant realm</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this②⑨">this</a>.</p>
      <li data-md>
-      <p>Run <a data-link-type="dfn" href="#intialize-a-composition-layer" id="ref-for-intialize-a-composition-layer⑤">intialize a composition layer</a> on <var>layer</var> with <var>session</var>.</p>
+      <p>Run <a data-link-type="dfn" href="#initialize-a-composition-layer" id="ref-for-initialize-a-composition-layer⑤">initialize a composition layer</a> on <var>layer</var> with <var>session</var>.</p>
      <li data-md>
       <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-media" id="ref-for-xrcompositionlayer-media①">media</a> to <var>video</var>.</p>
      <li data-md>
@@ -3165,7 +3165,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRMediaBinding" data-dfn-typ
      <li data-md>
       <p>Let <var>layer</var> be a <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#new" id="ref-for-new⑥⑧">new</a> <code class="idl"><a data-link-type="idl" href="#xrcylinderlayer" id="ref-for-xrcylinderlayer①③">XRCylinderLayer</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm⑥⑧">relevant realm</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this③①">this</a>.</p>
      <li data-md>
-      <p>Run <a data-link-type="dfn" href="#intialize-a-composition-layer" id="ref-for-intialize-a-composition-layer⑥">intialize a composition layer</a> on <var>layer</var> with <var>session</var>.</p>
+      <p>Run <a data-link-type="dfn" href="#initialize-a-composition-layer" id="ref-for-initialize-a-composition-layer⑥">initialize a composition layer</a> on <var>layer</var> with <var>session</var>.</p>
      <li data-md>
       <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-media" id="ref-for-xrcompositionlayer-media②">media</a> to <var>video</var>.</p>
      <li data-md>
@@ -3204,7 +3204,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRMediaBinding" data-dfn-typ
      <li data-md>
       <p>Let <var>layer</var> be a <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#new" id="ref-for-new⑥⑨">new</a> <code class="idl"><a data-link-type="idl" href="#xrequirectlayer" id="ref-for-xrequirectlayer①③">XREquirectLayer</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm⑥⑨">relevant realm</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this③③">this</a>.</p>
      <li data-md>
-      <p>Run <a data-link-type="dfn" href="#intialize-a-composition-layer" id="ref-for-intialize-a-composition-layer⑦">intialize a composition layer</a> on <var>layer</var> with <var>session</var>.</p>
+      <p>Run <a data-link-type="dfn" href="#initialize-a-composition-layer" id="ref-for-initialize-a-composition-layer⑦">initialize a composition layer</a> on <var>layer</var> with <var>session</var>.</p>
      <li data-md>
       <p>Initialize <var>layer</var>’s <a data-link-type="dfn" href="#xrcompositionlayer-media" id="ref-for-xrcompositionlayer-media③">media</a> to <var>video</var>.</p>
      <li data-md>
@@ -3612,12 +3612,12 @@ Changes from the <a href="https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/"
     </ul>
    <li><a href="#dom-xrprojectionlayer-ignoredepthvalues">ignoreDepthValues</a><span>, in § 3.5</span>
    <li><a href="#dom-xrwebglsubimage-imageindex">imageIndex</a><span>, in § 5.2</span>
+   <li><a href="#initialize-a-composition-layer">initialize a composition layer</a><span>, in § 3.4</span>
    <li><a href="#initialize-a-cylinder-layer">initialize a cylinder layer</a><span>, in § 3.7</span>
    <li><a href="#initialize-a-equirect-layer">initialize a equirect layer</a><span>, in § 3.8</span>
    <li><a href="#initialize-a-quad-layer">initialize a quad layer</a><span>, in § 3.6</span>
    <li><a href="#layers-initialize-the-render-state">initialize the render state</a><span>, in § 11.1</span>
    <li><a href="#initialize-the-viewport">initialize the viewport</a><span>, in § 6.9</span>
-   <li><a href="#intialize-a-composition-layer">intialize a composition layer</a><span>, in § 3.4</span>
    <li><a href="#dom-xrmedialayerinit-invertstereo">invertStereo</a><span>, in § 7.1</span>
    <li>
     isStatic
@@ -4780,11 +4780,11 @@ let dfnPanelData = {
 "feature-descriptor-depth-sorted-layers": {"dfnID":"feature-descriptor-depth-sorted-layers","dfnText":"depth-sorted-layers","external":false,"refSections":[{"refs":[{"id":"ref-for-feature-descriptor-depth-sorted-layers"},{"id":"ref-for-feature-descriptor-depth-sorted-layers\u2460"}],"title":"9. Depth sorting between layers"},{"refs":[{"id":"ref-for-feature-descriptor-depth-sorted-layers\u2461"}],"title":"11.1. XRRenderState changes"},{"refs":[{"id":"ref-for-feature-descriptor-depth-sorted-layers\u2462"}],"title":"11.4. XRView changes"}],"url":"#feature-descriptor-depth-sorted-layers"},
 "feature-descriptor-layers": {"dfnID":"feature-descriptor-layers","dfnText":"layers","external":false,"refSections":[{"refs":[{"id":"ref-for-feature-descriptor-layers"},{"id":"ref-for-feature-descriptor-layers\u2460"}],"title":"2. Initialization"},{"refs":[{"id":"ref-for-feature-descriptor-layers\u2461"},{"id":"ref-for-feature-descriptor-layers\u2462"}],"title":"6.1. Overview"},{"refs":[{"id":"ref-for-feature-descriptor-layers\u2463"},{"id":"ref-for-feature-descriptor-layers\u2464"},{"id":"ref-for-feature-descriptor-layers\u2465"},{"id":"ref-for-feature-descriptor-layers\u2466"}],"title":"6.9. XRWebGLBinding"},{"refs":[{"id":"ref-for-feature-descriptor-layers\u2467"},{"id":"ref-for-feature-descriptor-layers\u2468"},{"id":"ref-for-feature-descriptor-layers\u2460\u24ea"}],"title":"7.5. XRMediaBinding"},{"refs":[{"id":"ref-for-feature-descriptor-layers\u2460\u2460"}],"title":"11.2. updateRenderState changes"}],"url":"#feature-descriptor-layers"},
 "feature-descriptor-space-warp": {"dfnID":"feature-descriptor-space-warp","dfnText":"space-warp","external":false,"refSections":[{"refs":[{"id":"ref-for-feature-descriptor-space-warp"}],"title":"3.5. XRProjectionLayer"},{"refs":[{"id":"ref-for-feature-descriptor-space-warp\u2460"},{"id":"ref-for-feature-descriptor-space-warp\u2461"}],"title":"5.2. XRWebGLSubImage"},{"refs":[{"id":"ref-for-feature-descriptor-space-warp\u2462"}],"title":"6.9. XRWebGLBinding"},{"refs":[{"id":"ref-for-feature-descriptor-space-warp\u2463"}],"title":"10. Space warp"},{"refs":[{"id":"ref-for-feature-descriptor-space-warp\u2464"},{"id":"ref-for-feature-descriptor-space-warp\u2465"}],"title":"11.4. XRView changes"}],"url":"#feature-descriptor-space-warp"},
+"initialize-a-composition-layer": {"dfnID":"initialize-a-composition-layer","dfnText":"initialize a composition layer","external":false,"refSections":[{"refs":[{"id":"ref-for-initialize-a-composition-layer"},{"id":"ref-for-initialize-a-composition-layer\u2460"},{"id":"ref-for-initialize-a-composition-layer\u2461"},{"id":"ref-for-initialize-a-composition-layer\u2462"},{"id":"ref-for-initialize-a-composition-layer\u2463"}],"title":"6.9. XRWebGLBinding"},{"refs":[{"id":"ref-for-initialize-a-composition-layer\u2464"},{"id":"ref-for-initialize-a-composition-layer\u2465"},{"id":"ref-for-initialize-a-composition-layer\u2466"}],"title":"7.5. XRMediaBinding"}],"url":"#initialize-a-composition-layer"},
 "initialize-a-cylinder-layer": {"dfnID":"initialize-a-cylinder-layer","dfnText":"initializing an XRCylinderLayer layer with an XRCylinderLayerInit init","external":false,"refSections":[{"refs":[{"id":"ref-for-initialize-a-cylinder-layer"}],"title":"6.9. XRWebGLBinding"},{"refs":[{"id":"ref-for-initialize-a-cylinder-layer\u2460"}],"title":"7.5. XRMediaBinding"}],"url":"#initialize-a-cylinder-layer"},
 "initialize-a-equirect-layer": {"dfnID":"initialize-a-equirect-layer","dfnText":"initializing an XREquirectLayer layer with an XREquirectLayerInit init","external":false,"refSections":[{"refs":[{"id":"ref-for-initialize-a-equirect-layer"}],"title":"6.9. XRWebGLBinding"},{"refs":[{"id":"ref-for-initialize-a-equirect-layer\u2460"}],"title":"7.5. XRMediaBinding"}],"url":"#initialize-a-equirect-layer"},
 "initialize-a-quad-layer": {"dfnID":"initialize-a-quad-layer","dfnText":"initializing an XRQuadLayer layer with an XRQuadLayerInit init","external":false,"refSections":[{"refs":[{"id":"ref-for-initialize-a-quad-layer"}],"title":"6.9. XRWebGLBinding"},{"refs":[{"id":"ref-for-initialize-a-quad-layer\u2460"}],"title":"7.5. XRMediaBinding"}],"url":"#initialize-a-quad-layer"},
 "initialize-the-viewport": {"dfnID":"initialize-the-viewport","dfnText":"initialize the viewport","external":false,"refSections":[{"refs":[{"id":"ref-for-initialize-the-viewport"},{"id":"ref-for-initialize-the-viewport\u2460"}],"title":"6.9. XRWebGLBinding"}],"url":"#initialize-the-viewport"},
-"intialize-a-composition-layer": {"dfnID":"intialize-a-composition-layer","dfnText":"intialize a composition layer","external":false,"refSections":[{"refs":[{"id":"ref-for-intialize-a-composition-layer"},{"id":"ref-for-intialize-a-composition-layer\u2460"},{"id":"ref-for-intialize-a-composition-layer\u2461"},{"id":"ref-for-intialize-a-composition-layer\u2462"},{"id":"ref-for-intialize-a-composition-layer\u2463"}],"title":"6.9. XRWebGLBinding"},{"refs":[{"id":"ref-for-intialize-a-composition-layer\u2464"},{"id":"ref-for-intialize-a-composition-layer\u2465"},{"id":"ref-for-intialize-a-composition-layer\u2466"}],"title":"7.5. XRMediaBinding"}],"url":"#intialize-a-composition-layer"},
 "layers-initialize-the-render-state": {"dfnID":"layers-initialize-the-render-state","dfnText":"initialize the render state","external":false,"refSections":[{"refs":[{"id":"ref-for-layers-initialize-the-render-state"}],"title":"11.1. XRRenderState changes"}],"url":"#layers-initialize-the-render-state"},
 "layers-update-the-pending-layers-state": {"dfnID":"layers-update-the-pending-layers-state","dfnText":"update the pending layers state","external":false,"refSections":[],"url":"#layers-update-the-pending-layers-state"},
 "list-of-color-formats-for-non-projection-layers": {"dfnID":"list-of-color-formats-for-non-projection-layers","dfnText":"list of color formats for non-projection layers","external":false,"refSections":[{"refs":[{"id":"ref-for-list-of-color-formats-for-non-projection-layers"}],"title":"6.9. XRWebGLBinding"}],"url":"#list-of-color-formats-for-non-projection-layers"},
@@ -5349,11 +5349,11 @@ let refsData = {
 "#feature-descriptor-depth-sorted-layers": {"displayText":"depth-sorted-layers","export":true,"for_":["feature descriptor"],"level":"1","normative":true,"shortname":"webxrlayers","spec":"webxrlayers-1","status":"local","text":"depth-sorted-layers","type":"dfn","url":"#feature-descriptor-depth-sorted-layers"},
 "#feature-descriptor-layers": {"displayText":"layers","export":true,"for_":["feature descriptor"],"level":"1","normative":true,"shortname":"webxrlayers","spec":"webxrlayers-1","status":"local","text":"layers","type":"dfn","url":"#feature-descriptor-layers"},
 "#feature-descriptor-space-warp": {"displayText":"space-warp","export":true,"for_":["feature descriptor"],"level":"1","normative":true,"shortname":"webxrlayers","spec":"webxrlayers-1","status":"local","text":"space-warp","type":"dfn","url":"#feature-descriptor-space-warp"},
+"#initialize-a-composition-layer": {"displayText":"initialize a composition layer","export":true,"for_":[],"level":"1","normative":true,"shortname":"webxrlayers","spec":"webxrlayers-1","status":"local","text":"initialize a composition layer","type":"dfn","url":"#initialize-a-composition-layer"},
 "#initialize-a-cylinder-layer": {"displayText":"initialize a cylinder layer","export":true,"for_":[],"level":"1","normative":true,"shortname":"webxrlayers","spec":"webxrlayers-1","status":"local","text":"initialize a cylinder layer","type":"dfn","url":"#initialize-a-cylinder-layer"},
 "#initialize-a-equirect-layer": {"displayText":"initialize a equirect layer","export":true,"for_":[],"level":"1","normative":true,"shortname":"webxrlayers","spec":"webxrlayers-1","status":"local","text":"initialize a equirect layer","type":"dfn","url":"#initialize-a-equirect-layer"},
 "#initialize-a-quad-layer": {"displayText":"initialize a quad layer","export":true,"for_":[],"level":"1","normative":true,"shortname":"webxrlayers","spec":"webxrlayers-1","status":"local","text":"initialize a quad layer","type":"dfn","url":"#initialize-a-quad-layer"},
 "#initialize-the-viewport": {"displayText":"initialize the viewport","export":true,"for_":[],"level":"1","normative":true,"shortname":"webxrlayers","spec":"webxrlayers-1","status":"local","text":"initialize the viewport","type":"dfn","url":"#initialize-the-viewport"},
-"#intialize-a-composition-layer": {"displayText":"intialize a composition layer","export":true,"for_":[],"level":"1","normative":true,"shortname":"webxrlayers","spec":"webxrlayers-1","status":"local","text":"intialize a composition layer","type":"dfn","url":"#intialize-a-composition-layer"},
 "#layers-initialize-the-render-state": {"displayText":"initialize the render state","export":true,"for_":["layers"],"level":"1","normative":true,"shortname":"webxrlayers","spec":"webxrlayers-1","status":"local","text":"initialize the render state","type":"dfn","url":"#layers-initialize-the-render-state"},
 "#list-of-color-formats-for-non-projection-layers": {"displayText":"list of color formats for non-projection layers","export":true,"for_":[],"level":"1","normative":true,"shortname":"webxrlayers","spec":"webxrlayers-1","status":"local","text":"list of color formats for non-projection layers","type":"dfn","url":"#list-of-color-formats-for-non-projection-layers"},
 "#list-of-color-formats-for-projection-layers": {"displayText":"list of color formats for projection layers","export":true,"for_":[],"level":"1","normative":true,"shortname":"webxrlayers","spec":"webxrlayers-1","status":"local","text":"list of color formats for projection layers","type":"dfn","url":"#list-of-color-formats-for-projection-layers"},
