@@ -72,7 +72,7 @@ spec: webxr; urlPrefix: https://www.w3.org/TR/webxr/
     type: dfn; text: native WebGL framebuffer resolution
     type: dfn; text: immersive session
     type: dfn; text: xr compatible
-    type: dfn; text: ended
+    type: attribute; text: ended; for: XRSession; url: xrsession-ended
     type: dfn; text: context
     type: dfn; text: XRFrame/active
     type: dfn; text: XRView/active
@@ -1005,7 +1005,7 @@ The <dfn dict-member for="XRLayerInit">space</dfn> attribute defines the spatial
 
 The <dfn dict-member for="XRLayerInit">textureType</dfn> attribute defines the type the layer's textures. The [=XR Compositor=] MUST support:
   - {{"texture"}}
-  
+
 For {{WebGL2RenderingContext}} these additional types are supported:
   - {{"texture-array"}}
 
@@ -1170,7 +1170,7 @@ The <dfn constructor for="XRWebGLBinding">XRWebGLBinding(|session|, |context|)</
 MUST perform the following steps when invoked:
 
   1. Let |binding| be a [=new=] {{XRWebGLBinding}} in the [=relevant realm=] of |session|.
-  1. If |session|'s [=ended=] value is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw an {{InvalidStateError}} and abort these steps.
   1. If |session| is not an [=immersive session=], throw an {{InvalidStateError}} and abort these steps.
   1. If |context|'s [=XR compatible=] boolean is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
@@ -1449,7 +1449,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |session| be [=this=] [=XRWebGLBinding/session=].
   1. Let |context| be [=this=] [=XRWebGLBinding/context=].
   1. Let |layer| be a [=new=] {{XRProjectionLayer}} in the [=relevant realm=] of [=this=].
-  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. Run [=initialize a composition layer=] on |layer| with |session| and |context|.
   1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to <code>false</code>.
@@ -1496,7 +1496,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |session| be [=this=] [=XRWebGLBinding/session=].
   1. If |session| was not created with "[=feature descriptor/layers=]" enabled, throw a {{NotSupportedError}} and abort these steps.
   1. Let |context| be [=this=] [=XRWebGLBinding/context=].
-  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. If |layout| is {{XRLayerLayout/"default"}}, throw {{TypeError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XRQuadLayer}} in the [=relevant realm=] of [=this=].
@@ -1521,7 +1521,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |session| be [=this=] [=XRWebGLBinding/session=].
   1. If |session| was not created with "[=feature descriptor/layers=]" enabled, throw a {{NotSupportedError}} and abort these steps.
   1. Let |context| be [=this=] [=XRWebGLBinding/context=].
-  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. If |layout| is {{XRLayerLayout/"default"}}, throw {{TypeError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XRCylinderLayer}} in the [=relevant realm=] of [=this=].
@@ -1546,7 +1546,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |session| be [=this=] [=XRWebGLBinding/session=].
   1. If |session| was not created with "[=feature descriptor/layers=]" enabled, throw a {{NotSupportedError}} and abort these steps.
   1. Let |context| be [=this=] [=XRWebGLBinding/context=].
-  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. If |layout| is {{XRLayerLayout/"default"}}, throw {{TypeError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{TypeError}} and abort these steps.
@@ -1573,7 +1573,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Let |session| be [=this=] [=XRWebGLBinding/session=].
   1. If |session| was not created with "[=feature descriptor/layers=]" enabled, throw a {{NotSupportedError}} and abort these steps.
   1. Let |context| be [=this=] [=XRWebGLBinding/context=].
-  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is not a {{WebGL2RenderingContext}} context, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{TypeError}} and abort these steps.
@@ -1816,7 +1816,7 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
 NOTE: The session should try to defer calls to {{XRWebGLBinding/getSubImage()}} and {{XRWebGLBinding/getViewSubImage()}} to the time that the experience starts drawing using WebGL.
 Typically that would be after the game logic runs. On certain user agents having distinct stages for CPU and GPU dependent code allows them to dynamically optimize system resources.
 
-The <dfn method for="XRWebGLBinding">foveateBoundTexture(GLenum |target|, float |fixed_foveation|)</dfn> applies foveation to the current bound texture or texture array. 
+The <dfn method for="XRWebGLBinding">foveateBoundTexture(GLenum |target|, float |fixed_foveation|)</dfn> applies foveation to the current bound texture or texture array.
 
 When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the following steps:
 
@@ -1963,7 +1963,7 @@ ISSUE: add a better algorithm to describe the drawing.
 The <dfn constructor for="XRMediaBinding">XRMediaBinding(XRSession |session|)</dfn> constructor
 MUST perform the following steps when invoked:
 
-  1. If |session|'s [=ended=] value is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
+  1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
   1. If |session| is not an [=immersive session=], throw an {{InvalidStateError}} and abort these steps.
   1. Let |binding| be a [=new=] {{XRMediaBinding}}in the [=relevant realm=] of |session|.
   1. Initialize |binding|'s [=XRMediaBinding/session=] to |session|.
@@ -1988,7 +1988,7 @@ When this method is invoked, the user agent MUST run the following steps:
 
   1. Let |session| be [=this=] [=XRMediaBinding/session=].
   1. If |session| was not created with "[=feature descriptor/layers=]" enabled, throw a {{NotSupportedError}} and abort these steps.
-  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XRQuadLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=initialize a composition layer=] on |layer| with |session|.
@@ -2011,7 +2011,7 @@ When this method is invoked, the user agent MUST run the following steps:
 
   1. Let |session| be [=this=] [=XRMediaBinding/session=].
   1. If |session| was not created with "[=feature descriptor/layers=]" enabled, throw a {{NotSupportedError}} and abort these steps.
-  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XRCylinderLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=initialize a composition layer=] on |layer| with |session|.
@@ -2032,7 +2032,7 @@ When this method is invoked, the user agent MUST run the following steps:
 
   1. Let |session| be [=this=] [=XRMediaBinding/session=].
   1. If |session| was not created with "[=feature descriptor/layers=]" enabled, throw a {{NotSupportedError}} and abort these steps.
-  1. If |session|'s [=ended=] value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
