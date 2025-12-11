@@ -5,9 +5,9 @@
   <title>WebXR Layers API Level 1</title>
   <meta content="ED" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
-  <meta content="Bikeshed version 3c53a5b02, updated Thu Nov 27 17:03:30 2025 +0000" name="generator">
+  <meta content="Bikeshed version ac6b08744, updated Wed Dec 10 23:44:49 2025 +0000" name="generator">
   <link href="https://www.w3.org/TR/webxrlayers-1/" rel="canonical">
-  <meta content="1995a1dc3aaff2e0e5ea1217832f15ae95144f67" name="revision">
+  <meta content="ae99c27d2e7b4d8b8c529f347db426f421535e91" name="revision">
   <meta content="dark light" name="color-scheme">
   <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
   <link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
@@ -806,7 +806,7 @@ var[data-var-color="6"] { --var-vg: #FFBCF2; }
 </p>
    <h1 class="no-ref p-name" id="title">WebXR Layers API Level 1</h1>
    <p id="w3c-state"><a href="https://www.w3.org/standards/types/#ED">Editor’s Draft</a>,
-    <time class="dt-updated" datetime="2025-12-03">3 December 2025</time></p>
+    <time class="dt-updated" datetime="2025-12-11">11 December 2025</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
@@ -1865,7 +1865,7 @@ MUST perform the following steps when invoked:</p>
      <li data-md>
       <p>Let <var>binding</var> be a <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#new" id="ref-for-new⑥">new</a> <code class="idl"><a data-link-type="idl" href="#xrwebglbinding" id="ref-for-xrwebglbinding①⑦">XRWebGLBinding</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm⑥">relevant realm</a> of <var>session</var>.</p>
      <li data-md>
-      <p>If <var>session</var>’s <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#css-end" id="ref-for-css-end">ended</a> value is <code>true</code>, throw an <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror">InvalidStateError</a></code> and abort these steps.</p>
+      <p>If <var>session</var>’s <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/webxr/#xrsession-ended" id="ref-for-xrsession-ended">ended</a></code> value is <code>true</code>, throw an <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>context</var> is lost, throw an <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -2334,7 +2334,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding" data-dfn-typ
      <li data-md>
       <p>Let <var>layer</var> be a <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#new" id="ref-for-new④②">new</a> <code class="idl"><a data-link-type="idl" href="#xrprojectionlayer" id="ref-for-xrprojectionlayer②①">XRProjectionLayer</a></code> in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm④②">relevant realm</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this⑧">this</a>.</p>
      <li data-md>
-      <p>If <var>session</var>’s <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#css-end" id="ref-for-css-end①">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror⑧">InvalidStateError</a></code> and abort these steps.</p>
+      <p>If <var>session</var>’s <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/webxr/#xrsession-ended" id="ref-for-xrsession-ended①">ended</a></code> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror⑧">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>context</var> is lost, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror⑨">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -2415,7 +2415,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding" data-dfn-typ
      <li data-md>
       <p>Let <var>context</var> be <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this①⓪">this</a> <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context③">context</a>.</p>
      <li data-md>
-      <p>If <var>session</var>’s <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#css-end" id="ref-for-css-end②">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①⓪">InvalidStateError</a></code> and abort these steps.</p>
+      <p>If <var>session</var>’s <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/webxr/#xrsession-ended" id="ref-for-xrsession-ended②">ended</a></code> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①⓪">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>context</var> is lost, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①①">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -2458,7 +2458,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding" data-dfn-typ
      <li data-md>
       <p>Let <var>context</var> be <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this①③">this</a> <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context④">context</a>.</p>
      <li data-md>
-      <p>If <var>session</var>’s <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#css-end" id="ref-for-css-end③">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①②">InvalidStateError</a></code> and abort these steps.</p>
+      <p>If <var>session</var>’s <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/webxr/#xrsession-ended" id="ref-for-xrsession-ended③">ended</a></code> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①②">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>context</var> is lost, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①③">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -2501,7 +2501,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding" data-dfn-typ
      <li data-md>
       <p>Let <var>context</var> be <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this①⑥">this</a> <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context⑤">context</a>.</p>
      <li data-md>
-      <p>If <var>session</var>’s <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#css-end" id="ref-for-css-end④">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①④">InvalidStateError</a></code> and abort these steps.</p>
+      <p>If <var>session</var>’s <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/webxr/#xrsession-ended" id="ref-for-xrsession-ended④">ended</a></code> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①④">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>context</var> is lost, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①⑤">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -2548,7 +2548,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRWebGLBinding" data-dfn-typ
      <li data-md>
       <p>Let <var>context</var> be <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this①⑨">this</a> <a data-link-type="dfn" href="#xrwebglbinding-context" id="ref-for-xrwebglbinding-context⑥">context</a>.</p>
      <li data-md>
-      <p>If <var>session</var>’s <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#css-end" id="ref-for-css-end⑤">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①⑥">InvalidStateError</a></code> and abort these steps.</p>
+      <p>If <var>session</var>’s <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/webxr/#xrsession-ended" id="ref-for-xrsession-ended⑤">ended</a></code> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①⑥">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>context</var> is not a <code class="idl"><a data-link-type="idl" href="https://www.khronos.org/registry/webgl/specs/latest/2.0/#WebGL2RenderingContext" id="ref-for-WebGL2RenderingContext⑦">WebGL2RenderingContext</a></code> context, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①⑦">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -3080,7 +3080,7 @@ MUST run the following steps:
 MUST perform the following steps when invoked:</p>
     <ol>
      <li data-md>
-      <p>If <var>session</var>’s <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#css-end" id="ref-for-css-end⑥">ended</a> value is <code>true</code>, throw an <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror②④">InvalidStateError</a></code> and abort these steps.</p>
+      <p>If <var>session</var>’s <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/webxr/#xrsession-ended" id="ref-for-xrsession-ended⑥">ended</a></code> value is <code>true</code>, throw an <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror②④">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>session</var> is not an <a data-link-type="dfn" href="https://www.w3.org/TR/webxr/#immersive-session" id="ref-for-immersive-session①">immersive session</a>, throw an <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror②⑤">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
@@ -3120,7 +3120,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRMediaBinding" data-dfn-typ
      <li data-md>
       <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑧">layers</a>" enabled, throw a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notsupportederror" id="ref-for-notsupportederror①⑤">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>If <var>session</var>’s <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#css-end" id="ref-for-css-end⑦">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror②⑥">InvalidStateError</a></code> and abort these steps.</p>
+      <p>If <var>session</var>’s <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/webxr/#xrsession-ended" id="ref-for-xrsession-ended⑦">ended</a></code> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror②⑥">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrmedialayerinit-layout" id="ref-for-dom-xrmedialayerinit-layout①">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-default" id="ref-for-dom-xrlayerlayout-default①⑥">"default"</a></code>, throw a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②①">TypeError</a></code> and abort these steps.</p>
      <li data-md>
@@ -3159,7 +3159,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRMediaBinding" data-dfn-typ
      <li data-md>
       <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers⑨">layers</a>" enabled, throw a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notsupportederror" id="ref-for-notsupportederror①⑥">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>If <var>session</var>’s <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#css-end" id="ref-for-css-end⑧">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror②⑦">InvalidStateError</a></code> and abort these steps.</p>
+      <p>If <var>session</var>’s <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/webxr/#xrsession-ended" id="ref-for-xrsession-ended⑧">ended</a></code> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror②⑦">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrmedialayerinit-layout" id="ref-for-dom-xrmedialayerinit-layout③">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-default" id="ref-for-dom-xrlayerlayout-default①⑦">"default"</a></code>, throw a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②②">TypeError</a></code> and abort these steps.</p>
      <li data-md>
@@ -3194,7 +3194,7 @@ The <dfn class="dfn-paneled idl-code" data-dfn-for="XRMediaBinding" data-dfn-typ
      <li data-md>
       <p>If <var>session</var> was not created with "<a data-link-type="dfn" href="#feature-descriptor-layers" id="ref-for-feature-descriptor-layers①⓪">layers</a>" enabled, throw a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notsupportederror" id="ref-for-notsupportederror①⑦">NotSupportedError</a></code> and abort these steps.</p>
      <li data-md>
-      <p>If <var>session</var>’s <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#css-end" id="ref-for-css-end⑨">ended</a> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror②⑧">InvalidStateError</a></code> and abort these steps.</p>
+      <p>If <var>session</var>’s <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/webxr/#xrsession-ended" id="ref-for-xrsession-ended⑨">ended</a></code> value is <code>true</code>, throw <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror②⑧">InvalidStateError</a></code> and abort these steps.</p>
      <li data-md>
       <p>If <var>init</var>’s <code class="idl"><a data-link-type="idl" href="#dom-xrmedialayerinit-layout" id="ref-for-dom-xrmedialayerinit-layout⑤">layout</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-xrlayerlayout-default" id="ref-for-dom-xrlayerlayout-default①⑧">"default"</a></code>, throw a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror②③">TypeError</a></code> and abort these steps.</p>
      <li data-md>
@@ -3832,11 +3832,6 @@ Changes from the <a href="https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/"
      <li><span class="dfn-paneled" id="08aa11ab">source-over</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[CSS-WRITING-MODES-4]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="7bc19a34">end</span>
-    </ul>
-   <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="129bdae8">Event</span>
@@ -3957,6 +3952,7 @@ Changes from the <a href="https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/"
      <li><span class="dfn-paneled" id="56c741ec">animationFrame</span>
      <li><span class="dfn-paneled" id="bece2296">baseLayer <small>(for XRRenderState)</small></span>
      <li><span class="dfn-paneled" id="9f4ad927">baseLayer <small>(for XRRenderStateInit)</small></span>
+     <li><span class="dfn-paneled" id="41384e5e">ended</span>
      <li><span class="dfn-paneled" id="6779156f">feature descriptor</span>
      <li><span class="dfn-paneled" id="010bb3c9">feature requirements</span>
      <li><span class="dfn-paneled" id="6d3bd432">height</span>
@@ -4007,8 +4003,6 @@ Changes from the <a href="https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/"
   <dl>
    <dt id="biblio-compositing-1">[COMPOSITING-1]
    <dd>Chris Harrelson. <a href="https://drafts.fxtf.org/compositing-1/"><cite>Compositing and Blending Level 1</cite></a>. URL: <a href="https://drafts.fxtf.org/compositing-1/">https://drafts.fxtf.org/compositing-1/</a>
-   <dt id="biblio-css-writing-modes-4">[CSS-WRITING-MODES-4]
-   <dd>Elika Etemad; Koji Ishii. <a href="https://drafts.csswg.org/css-writing-modes-4/"><cite>CSS Writing Modes Level 4</cite></a>. URL: <a href="https://drafts.csswg.org/css-writing-modes-4/">https://drafts.csswg.org/css-writing-modes-4/</a>
    <dt id="biblio-dom">[DOM]
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/"><cite>DOM Standard</cite></a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-ecmascript">[ECMASCRIPT]
@@ -4498,6 +4492,7 @@ let dfnPanelData = {
 "3e104f9e": {"dfnID":"3e104f9e","dfnText":"XREye","external":true,"refSections":[{"refs":[{"id":"ref-for-enumdef-xreye"}],"title":"6.9. XRWebGLBinding"},{"refs":[{"id":"ref-for-enumdef-xreye\u2460"},{"id":"ref-for-enumdef-xreye\u2461"}],"title":"11.3. XRCompositor changes"}],"url":"https://immersive-web.github.io/webxr/#enumdef-xreye"},
 "3f9ada5b": {"dfnID":"3f9ada5b","dfnText":"XR device","external":true,"refSections":[{"refs":[{"id":"ref-for-xr-device"}],"title":"7.5. XRMediaBinding"}],"url":"https://immersive-web.github.io/webxr/#xr-device"},
 "4013a022": {"dfnID":"4013a022","dfnText":"this","external":true,"refSections":[{"refs":[{"id":"ref-for-this"},{"id":"ref-for-this\u2460"},{"id":"ref-for-this\u2461"},{"id":"ref-for-this\u2462"},{"id":"ref-for-this\u2463"},{"id":"ref-for-this\u2464"}],"title":"3.4. XRCompositionLayer"},{"refs":[{"id":"ref-for-this\u2465"},{"id":"ref-for-this\u2466"},{"id":"ref-for-this\u2467"},{"id":"ref-for-this\u2468"},{"id":"ref-for-this\u2460\u24ea"},{"id":"ref-for-this\u2460\u2460"},{"id":"ref-for-this\u2460\u2461"},{"id":"ref-for-this\u2460\u2462"},{"id":"ref-for-this\u2460\u2463"},{"id":"ref-for-this\u2460\u2464"},{"id":"ref-for-this\u2460\u2465"},{"id":"ref-for-this\u2460\u2466"},{"id":"ref-for-this\u2460\u2467"},{"id":"ref-for-this\u2460\u2468"},{"id":"ref-for-this\u2461\u24ea"},{"id":"ref-for-this\u2461\u2460"},{"id":"ref-for-this\u2461\u2461"},{"id":"ref-for-this\u2461\u2462"},{"id":"ref-for-this\u2461\u2463"},{"id":"ref-for-this\u2461\u2464"},{"id":"ref-for-this\u2461\u2465"},{"id":"ref-for-this\u2461\u2466"}],"title":"6.9. XRWebGLBinding"},{"refs":[{"id":"ref-for-this\u2461\u2467"},{"id":"ref-for-this\u2461\u2468"},{"id":"ref-for-this\u2462\u24ea"},{"id":"ref-for-this\u2462\u2460"},{"id":"ref-for-this\u2462\u2461"},{"id":"ref-for-this\u2462\u2462"}],"title":"7.5. XRMediaBinding"}],"url":"https://webidl.spec.whatwg.org/#this"},
+"41384e5e": {"dfnID":"41384e5e","dfnText":"ended","external":true,"refSections":[{"refs":[{"id":"ref-for-xrsession-ended"},{"id":"ref-for-xrsession-ended\u2460"},{"id":"ref-for-xrsession-ended\u2461"},{"id":"ref-for-xrsession-ended\u2462"},{"id":"ref-for-xrsession-ended\u2463"},{"id":"ref-for-xrsession-ended\u2464"}],"title":"6.9. XRWebGLBinding"},{"refs":[{"id":"ref-for-xrsession-ended\u2465"},{"id":"ref-for-xrsession-ended\u2466"},{"id":"ref-for-xrsession-ended\u2467"},{"id":"ref-for-xrsession-ended\u2468"}],"title":"7.5. XRMediaBinding"}],"url":"https://www.w3.org/TR/webxr/#xrsession-ended"},
 "418110ce": {"dfnID":"418110ce","dfnText":"COMPRESSED_RGB8_ETC2","external":true,"refSections":[{"refs":[{"id":"ref-for-compressed_rgb8_etc2"}],"title":"6.4. XRLayerInit"}],"url":"https://www.khronos.org/registry/webgl/extensions/WEBGL_compressed_texture_etc/#compressed_rgb8_etc2"},
 "42894336": {"dfnID":"42894336","dfnText":"xr compatible","external":true,"refSections":[{"refs":[{"id":"ref-for-xr-compatible"}],"title":"6.9. XRWebGLBinding"}],"url":"https://www.w3.org/TR/webxr/#xr-compatible"},
 "44a7708c": {"dfnID":"44a7708c","dfnText":"EventInit","external":true,"refSections":[{"refs":[{"id":"ref-for-dictdef-eventinit"}],"title":"8.1. XRLayerEvent"}],"url":"https://dom.spec.whatwg.org/#dictdef-eventinit"},
@@ -4533,7 +4528,6 @@ let dfnPanelData = {
 "797018a7": {"dfnID":"797018a7","dfnText":"InvalidStateError","external":true,"refSections":[{"refs":[{"id":"ref-for-invalidstateerror"},{"id":"ref-for-invalidstateerror\u2460"},{"id":"ref-for-invalidstateerror\u2461"},{"id":"ref-for-invalidstateerror\u2462"},{"id":"ref-for-invalidstateerror\u2463"},{"id":"ref-for-invalidstateerror\u2464"},{"id":"ref-for-invalidstateerror\u2465"},{"id":"ref-for-invalidstateerror\u2466"},{"id":"ref-for-invalidstateerror\u2467"},{"id":"ref-for-invalidstateerror\u2468"},{"id":"ref-for-invalidstateerror\u2460\u24ea"},{"id":"ref-for-invalidstateerror\u2460\u2460"},{"id":"ref-for-invalidstateerror\u2460\u2461"},{"id":"ref-for-invalidstateerror\u2460\u2462"},{"id":"ref-for-invalidstateerror\u2460\u2463"},{"id":"ref-for-invalidstateerror\u2460\u2464"},{"id":"ref-for-invalidstateerror\u2460\u2465"},{"id":"ref-for-invalidstateerror\u2460\u2466"},{"id":"ref-for-invalidstateerror\u2460\u2467"},{"id":"ref-for-invalidstateerror\u2460\u2468"},{"id":"ref-for-invalidstateerror\u2461\u24ea"},{"id":"ref-for-invalidstateerror\u2461\u2460"},{"id":"ref-for-invalidstateerror\u2461\u2461"},{"id":"ref-for-invalidstateerror\u2461\u2462"}],"title":"6.9. XRWebGLBinding"},{"refs":[{"id":"ref-for-invalidstateerror\u2461\u2463"},{"id":"ref-for-invalidstateerror\u2461\u2464"},{"id":"ref-for-invalidstateerror\u2461\u2465"},{"id":"ref-for-invalidstateerror\u2461\u2466"},{"id":"ref-for-invalidstateerror\u2461\u2467"},{"id":"ref-for-invalidstateerror\u2461\u2468"},{"id":"ref-for-invalidstateerror\u2462\u24ea"}],"title":"7.5. XRMediaBinding"}],"url":"https://webidl.spec.whatwg.org/#invalidstateerror"},
 "79de2318": {"dfnID":"79de2318","dfnText":"TEXTURE_CUBE_MAP","external":true,"refSections":[{"refs":[{"id":"ref-for-5.14"}],"title":"5.3. XRTextureType"},{"refs":[{"id":"ref-for-5.14\u2460"},{"id":"ref-for-5.14\u2461"},{"id":"ref-for-5.14\u2462"},{"id":"ref-for-5.14\u2463"},{"id":"ref-for-5.14\u2464"},{"id":"ref-for-5.14\u2465"}],"title":"6.2. Opaque textures"},{"refs":[{"id":"ref-for-5.14\u2466"},{"id":"ref-for-5.14\u2467"}],"title":"6.3. XRProjectionLayerInit"},{"refs":[{"id":"ref-for-5.14\u2468"},{"id":"ref-for-5.14\u2460\u24ea"}],"title":"6.4. XRLayerInit"},{"refs":[{"id":"ref-for-5.14\u2460\u2460"},{"id":"ref-for-5.14\u2460\u2461"},{"id":"ref-for-5.14\u2460\u2462"},{"id":"ref-for-5.14\u2460\u2463"},{"id":"ref-for-5.14\u2460\u2464"},{"id":"ref-for-5.14\u2460\u2465"},{"id":"ref-for-5.14\u2460\u2466"},{"id":"ref-for-5.14\u2460\u2467"},{"id":"ref-for-5.14\u2460\u2468"},{"id":"ref-for-5.14\u2461\u24ea"},{"id":"ref-for-5.14\u2461\u2460"},{"id":"ref-for-5.14\u2461\u2461"},{"id":"ref-for-5.14\u2461\u2462"},{"id":"ref-for-5.14\u2461\u2463"}],"title":"6.9. XRWebGLBinding"}],"url":"https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14"},
 "7a030114": {"dfnID":"7a030114","dfnText":"XRFrame","external":true,"refSections":[{"refs":[{"id":"ref-for-xrframe"},{"id":"ref-for-xrframe\u2460"},{"id":"ref-for-xrframe\u2461"}],"title":"3.4. XRCompositionLayer"},{"refs":[{"id":"ref-for-xrframe\u2462"},{"id":"ref-for-xrframe\u2463"}],"title":"3.5. XRProjectionLayer"},{"refs":[{"id":"ref-for-xrframe\u2464"},{"id":"ref-for-xrframe\u2465"}],"title":"6.9. XRWebGLBinding"}],"url":"https://immersive-web.github.io/webxr/#xrframe"},
-"7bc19a34": {"dfnID":"7bc19a34","dfnText":"end","external":true,"refSections":[{"refs":[{"id":"ref-for-css-end"},{"id":"ref-for-css-end\u2460"},{"id":"ref-for-css-end\u2461"},{"id":"ref-for-css-end\u2462"},{"id":"ref-for-css-end\u2463"},{"id":"ref-for-css-end\u2464"}],"title":"6.9. XRWebGLBinding"},{"refs":[{"id":"ref-for-css-end\u2465"},{"id":"ref-for-css-end\u2466"},{"id":"ref-for-css-end\u2467"},{"id":"ref-for-css-end\u2468"}],"title":"7.5. XRMediaBinding"}],"url":"https://drafts.csswg.org/css-writing-modes-4/#css-end"},
 "7c7eccf9": {"dfnID":"7c7eccf9","dfnText":"session (for XRFrame)","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-xrframe-session"}],"title":"6.9. XRWebGLBinding"}],"url":"https://immersive-web.github.io/webxr/#dom-xrframe-session"},
 "7dc19aa3": {"dfnID":"7dc19aa3","dfnText":"\"unbounded\"","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-xrreferencespacetype-unbounded"},{"id":"ref-for-dom-xrreferencespacetype-unbounded\u2460"}],"title":"4. Spaces"}],"url":"https://immersive-web.github.io/webxr/#dom-xrreferencespacetype-unbounded"},
 "7f015562": {"dfnID":"7f015562","dfnText":"SRGB_EXT","external":true,"refSections":[{"refs":[{"id":"ref-for-srgb_ext"}],"title":"6.3. XRProjectionLayerInit"},{"refs":[{"id":"ref-for-srgb_ext\u2460"}],"title":"6.4. XRLayerInit"}],"url":"https://www.khronos.org/registry/webgl/extensions/EXT_sRGB/#srgb_ext"},
@@ -5406,7 +5400,6 @@ let refsData = {
 "https://dom.spec.whatwg.org/#concept-event-fire": {"displayText":"fire an event","export":true,"for_":[],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"fire an event","type":"dfn","url":"https://dom.spec.whatwg.org/#concept-event-fire"},
 "https://dom.spec.whatwg.org/#dictdef-eventinit": {"displayText":"EventInit","export":true,"for_":[],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"EventInit","type":"dictionary","url":"https://dom.spec.whatwg.org/#dictdef-eventinit"},
 "https://dom.spec.whatwg.org/#event": {"displayText":"Event","export":true,"for_":[],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"Event","type":"interface","url":"https://dom.spec.whatwg.org/#event"},
-"https://drafts.csswg.org/css-writing-modes-4/#css-end": {"displayText":"end","export":true,"for_":["CSS"],"level":"4","normative":true,"shortname":"css-writing-modes","spec":"css-writing-modes-4","status":"current","text":"end","type":"dfn","url":"https://drafts.csswg.org/css-writing-modes-4/#css-end"},
 "https://drafts.fxtf.org/geometry-1/#dictdef-dompointinit": {"displayText":"DOMPointInit","export":true,"for_":[],"level":"1","normative":true,"shortname":"geometry","spec":"geometry-1","status":"current","text":"DOMPointInit","type":"dictionary","url":"https://drafts.fxtf.org/geometry-1/#dictdef-dompointinit"},
 "https://drafts.fxtf.org/geometry-1/#dom-dompointreadonly-frompoint": {"displayText":"fromPoint()","export":true,"for_":["DOMPointReadOnly"],"level":"1","normative":true,"shortname":"geometry","spec":"geometry-1","status":"current","text":"fromPoint()","type":"method","url":"https://drafts.fxtf.org/geometry-1/#dom-dompointreadonly-frompoint"},
 "https://drafts.fxtf.org/geometry-1/#dompointreadonly": {"displayText":"DOMPointReadOnly","export":true,"for_":[],"level":"1","normative":true,"shortname":"geometry","spec":"geometry-1","status":"current","text":"DOMPointReadOnly","type":"interface","url":"https://drafts.fxtf.org/geometry-1/#dompointreadonly"},
@@ -5530,6 +5523,7 @@ let refsData = {
 "https://www.w3.org/TR/webxr/#shut-down-the-session": {"displayText":"shut down the session","export":true,"for_":[],"level":"","normative":true,"shortname":"webxr","spec":"webxr","status":"anchor-block","text":"shut down the session","type":"dfn","url":"https://www.w3.org/TR/webxr/#shut-down-the-session"},
 "https://www.w3.org/TR/webxr/#xr-compatible": {"displayText":"xr compatible","export":true,"for_":[],"level":"","normative":true,"shortname":"webxr","spec":"webxr","status":"anchor-block","text":"xr compatible","type":"dfn","url":"https://www.w3.org/TR/webxr/#xr-compatible"},
 "https://www.w3.org/TR/webxr/#xr-compositor": {"displayText":"xr compositor","export":true,"for_":[],"level":"","normative":true,"shortname":"webxr","spec":"webxr","status":"anchor-block","text":"xr compositor","type":"dfn","url":"https://www.w3.org/TR/webxr/#xr-compositor"},
+"https://www.w3.org/TR/webxr/#xrsession-ended": {"displayText":"ended","export":true,"for_":["XRSession"],"level":"","normative":true,"shortname":"webxr","spec":"webxr","status":"anchor-block","text":"ended","type":"attribute","url":"https://www.w3.org/TR/webxr/#xrsession-ended"},
 "https://www.w3.org/TR/webxr/#xrsession-interface": {"displayText":"xrsession interface","export":true,"for_":[],"level":"","normative":true,"shortname":"webxr","spec":"webxr","status":"anchor-block","text":"xrsession interface","type":"dfn","url":"https://www.w3.org/TR/webxr/#xrsession-interface"},
 };
 
