@@ -304,3 +304,38 @@ const layer = xrMediaBinding.createQuadLayer(video, { layout: 'stereo-top-bottom
 ```
 
 This will then cause only the top half of the video to show to the left eye and the bottom half of the video to show to the right eye. If more complex layouts are required than are described by the `XRLayerLayout` enum then the video must be manually rendered using an `XRWebGLBinding` layer instead.
+
+## DOM layers
+WebXR and WebXR Layers are very flexible because they give you complete control over every pixel.
+However, this loses the feature set of HTML which makes it much harder to create 2D UI, provide interactivity and accessible content.
+
+To give developers this ability back, this spec will introduce the notion of `DOM Layers`.
+Much like Media and WebGL Layers, these layers are defined as a 2D plane that is composited in the scene by the system Compositor.
+However, the content of this layer will be drawn by the browser itself as if it was another browser window. You pass a URL to the layer creation function and the layer will be drawn as if it was a popup window.
+
+To mitigate security concerns the following limitations are applied:
+- The URL has to be same origin as the your session
+- The layer is not allowed to navigate to a different origin
+- The layer is not allowed to create nested context (ie no \<iframe>)
+
+Because layer content is only accessible to the system compositor,
+the author will not be able to read any pixel data from the layer
+(just like with media layers).
+
+Creating the layer will immediately start its browser session. The session won't be released until the layer's `destroy()` method is called.
+
+Hit testing is done according to the `targetRayMode` of the current session. Layers that do not have a `blendTextureSourceAlpha` will block hit testing of DOM layers.
+
+To create DOM layers, an XRDOMBinding must be created, similar to the XRWebGLBinding:
+```js
+const xrDOMBinding = new XRMDOMBinding(xrSession);
+```
+
+Use this factory object to create DOM Layers:
+
+```js
+const domlayer = xrDOMBinding.createCylinderLayer
+  ("https://mysite.html/layercontent.html",
+  { referenceSpace: xrReferenceSpace,
+    transform:  new XRRigidTransform({z: -2})});
+```
