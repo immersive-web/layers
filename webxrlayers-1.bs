@@ -2097,7 +2097,6 @@ Other layers types MUST continue to be sorted as before.
 
 Space warp {#spacewarp}
 ==========
-<div class="unstable">
 
 <dfn>Space warp</dfn> is a technology that improves the [=XR Compositor=]'s reprojection.
 By submitting a {{XRWebGLSubImage/motionVectorTexture}} along with a {{XRWebGLSubImage/depthStencilTexture}}
@@ -2108,7 +2107,7 @@ If "[=space-warp=]" is enabled, the [=XR Compositor=] MUST make use of depth val
 
 The {{XRWebGLSubImage/motionVectorTexture}} MUST be in {{RGBA16F}} format. The author SHOULD fill in the RGB components of this texture with the speed in meters per second of that area with the red pixel corresponding with the x axis, green the y axis and blue the z axis.
 
-</div>
+If the {{XRWebGLSubImage/motionVectorTexture}} or {{XRWebGLSubImage/depthStencilTexture}} were not submitted during the processing of the {{XRFrame}}, the [=XR Compositor=] MUST process the {{XRFrame}} as if [=space warp=] was not enabled.
 
 WebXR Device API Integration {#webxrintegration}
 ============================
