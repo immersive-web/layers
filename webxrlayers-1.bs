@@ -2214,7 +2214,9 @@ This module extends and adds the following to the [=XRSession interface=]:
 };
 </pre>
 
-The <dfn attribute for="XRSession">maxRenderLayers</dfn> represents the maximum amount of layers that a session can render at a given time. It SHOULD be possible to create more than this number of layers at a given time, but they may not all be set via {{XRSession/updateRenderState()}} at once.
+The <dfn attribute for="XRSession">maxRenderLayers</dfn> represents the maximum number of layers that the compositor can handle, and thus the maximum size of any {{XRRenderStateInit}}'s {{XRRenderStateInit/layers}} array . It SHOULD be possible to create more than this number of layers at a given time.
+
+NOTE: This guidance is not intended to provide a limit on the number of layers allocatable by the user agent, as described in [[#xrlayerallocation | Allocation of layers]]. User Agents may allow e.g. for 20 layers to be created, while only allowing 10 at a time to be set via {{XRSession/updateRenderState()}}.
 
 Each {{XRSession}} has an internal [=WeakSet=] <dfn dfn-for="XRSession">bindings</dfn> that holds weak references to each {{XRWebGLBinding}} that was created with that session.
 
