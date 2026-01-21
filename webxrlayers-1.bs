@@ -2154,6 +2154,7 @@ This module replaces the steps given by "[=/update the pending layers state=]" f
     1. Set |session|'s [=pending render state=]'s {{XRRenderState/layers}} to <code>null</code>.
   1. If |newState|'s {{XRRenderStateInit/layers}} is set:
     1. If |session| was not created with "[=feature descriptor/layers=]" enabled and |newState|'s {{XRRenderStateInit/layers}} contains more than <code>1</code> instance, throw a {{NotSupportedError}} and abort these steps.
+    1. If |newState|'s {{XRRenderState/layers}} contains more than {{XRSession/maxRenderLayers}} entries, throw a {{NotSupportedError}} and abort these steps.
     1. If |session|'s [=pending render state=] is <code>null</code>, set it to a copy of |activeState|.
     1. If |newState|'s {{XRRenderStateInit/layers}} contains duplicate instances, throw a {{TypeError}} and abort these steps.
     1. For each |layer| in |newState|'s {{XRRenderStateInit/layers}}:
@@ -2205,7 +2206,15 @@ with {{XRSession/renderState}} |state|, the user agent MUST run the following st
 
 XRSession changes {#xrsessionchanges}
 -----------------
-This module adds the following to the [=XRSession interface=]:
+This module extends and adds the following to the [=XRSession interface=]:
+
+<pre class="idl">
+[SecureContext, Exposed=Window] partial interface XRSession {
+  readonly attribute unsigned long maxRenderLayers;
+};
+</pre>
+
+The <dfn attribute for="XRSession">maxRenderLayers</dfn> represents the maximum amount of layers that a session can render at a given time. It SHOULD be possible to create more than this number of layers at a given time, but they may not all be set via {{XRSession/updateRenderState()}} at once.
 
 Each {{XRSession}} has an internal [=WeakSet=] <dfn dfn-for="XRSession">bindings</dfn> that holds weak references to each {{XRWebGLBinding}} that was created with that session.
 
