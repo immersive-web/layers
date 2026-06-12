@@ -753,7 +753,7 @@ Rendering {#rendering}
 
 XRSubImage {#xrsubimagetype}
 ----------
-The {{XRSubImage}} object represents what viewport of the GPU texture to use.
+The {{XRSubImage}} object represents what viewport of the color GPU texture to use.
 
 <pre class="idl">
 [Exposed=Window] interface XRSubImage {
@@ -763,7 +763,7 @@ The {{XRSubImage}} object represents what viewport of the GPU texture to use.
 
 NOTE: this class is designed to accomodate future extensions
 
-The <dfn attribute for="XRSubImage">viewport</dfn> attribute returns the {{XRViewport}} to use when rendering the sub image.
+The <dfn attribute for="XRSubImage">viewport</dfn> attribute returns the {{XRViewport}} to use when rendering the sub image's color attachment.
 
 XRWebGLSubImage {#xrwebglsubimagetype}
 ---------------
@@ -784,6 +784,7 @@ The {{XRWebGLSubImage}} object is used during rendering of the layer.
 </pre>
 
 The <dfn attribute for="XRWebGLSubImage">colorTexture</dfn> attribute returns the color [=opaque texture=] for the {{XRCompositionLayer}}.
+The {{XRSubImage/viewport}} describes the region of the {{XRWebGLSubImage/colorTexture}} that corresponds to the requested view. It does not describe the region of the {{XRWebGLSubImage/depthStencilTexture}} or {{XRWebGLSubImage/motionVectorTexture}}.
 
 The <dfn attribute for="XRWebGLSubImage">depthStencilTexture</dfn> attribute returns the depth/stencil [=opaque texture=] for the {{XRCompositionLayer}}.
 If the layer was created without depth/stencil, this attribute returns null.
@@ -2094,9 +2095,10 @@ If "[=space-warp=]" is enabled, the [=XR Compositor=] MUST make use of depth val
 When the [=feature descriptor/space-warp=] [=feature descriptor=] is enabled, the experience should render representative depth values into the {{XRWebGLSubImage/depthStencilTexture}} for each {{XRProjectionLayer}} it submits.
 The {{XRWebGLSubImage/depthStencilTexture}} and {{XRWebGLSubImage/motionVectorTexture}} will have the same dimensions, which may be different from the dimensions of the {{XRWebGLSubImage/colorTexture}}.
 Authors can use {{XRWebGLSubImage/depthStencilTextureWidth}} and {{XRWebGLSubImage/depthStencilTextureHeight}} to determine the dimensions of both the depth/stencil and motion vector attachments.
+Authors should render depth/stencil and motion vector information to the full extent of those attachments, rather than to the {{XRSubImage/viewport}}.
 
-NOTE: Since the depth/stencil attachment can have different dimensions than the color attachment, it is not intended to be attached to the framebuffer used to render into the {{XRWebGLSubImage/colorTexture}}.
-Authors should render depth/stencil information separately at the depth/stencil attachment dimensions.
+NOTE: Since the depth/stencil and motion vector attachments can have different dimensions than the color attachment, they are not intended to be attached to the framebuffer used to render into the {{XRWebGLSubImage/colorTexture}}.
+Authors should render depth/stencil and motion vector information separately at their attachment dimensions.
 
 The {{XRWebGLSubImage/motionVectorTexture}} MUST be in {{RGBA16F}} format. The author SHOULD fill in the RG components of this texture with the 2D screen-space motion vector for that area, expressed as a delta in <dfn>Normalized Device Coordinates</dfn> (<dfn>NDC</dfn>) between the current frame and the previous frame. The motion vector is computed as `(currentClipPos / currentW) - (prevClipPos / prevW)`, where `currentClipPos` and `prevClipPos` are the <dfn>clip space</dfn> positions of the fragment in the current and previous frames, respectively. The red channel corresponds to the delta in [=NDC=] X (horizontal), and the green channel corresponds to the delta in [=NDC=] Y (vertical). The blue channel MAY contain the delta in [=NDC=] Z (depth), and the alpha channel is unused.
 
