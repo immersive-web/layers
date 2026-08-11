@@ -396,7 +396,30 @@ the user agent MUST run the following steps:
 
 </div>
 
-{{destroy()}} will delete the underlying attachments. If there are no attachments, this function does nothing.
+Each {{XRCompositionLayer}} has an associated <dfn export for="XRCompositionLayer">destroyed</dfn> boolean, initially <code>false</code>.
+
+{{destroy()}} immediately marks the layer as [=XRCompositionLayer/destroyed=] and makes its graphics resources unavailable for future rendering.
+Calling {{destroy()}} on a layer that is already [=XRCompositionLayer/destroyed=] does nothing.
+A [=XRCompositionLayer/destroyed=] layer MUST NOT be presented by the [=XR Compositor=], even if the layer is still present in the {{XRRenderState/layers}} array while a pending render state update is applied.
+
+If a method is invoked to obtain an {{XRSubImage}} for a [=XRCompositionLayer/destroyed=] layer, the method MUST throw an {{InvalidStateError}}.
+
+Previously returned {{XRSubImage}} objects are not themselves destroyed when their layer is destroyed. Their attributes continue to return the same objects and values, but any graphics resources exposed by those objects MUST be invalidated for future rendering operations. GPU work queued before the resources were invalidated MAY complete.
+
+<div class="algorithm" data-algorithm="destroy the resources for a layer">
+
+To <dfn export>destroy the resources for a layer</dfn> with an {{XRCompositionLayer}} |layer|, the user agent MUST run the following steps:
+  1. For each [=opaque texture=] in any of |layer|'s [=colorTextures=], [=depthStencilTextures=], or [=motionVectorTextures=] arrays that exist, mark the texture for deletion as though {{deleteTexture}} had been called with the texture on |layer|'s [=XRCompositionLayer/context=]. This is an internal user-agent operation and MUST NOT generate an {{INVALID_OPERATION}} error.
+  1. If |layer| is an {{XRProjectionLayer}}:
+    1. If |layer|'s [=XRProjectionLayer/colorTextures for secondary views=] is not <code>null</code>, for each [=opaque texture=] in that array, mark the texture for deletion in the same manner.
+    1. If |layer|'s [=XRProjectionLayer/depthStencilTextures for secondary views=] is not <code>null</code>, for each [=opaque texture=] in that array, mark the texture for deletion in the same manner.
+  1. If |layer| has a [=colorTextures=] array, set it to an empty array.
+  1. If |layer| has a [=depthStencilTextures=] array, set it to an empty array.
+  1. If |layer| has a [=motionVectorTextures=] array, set it to an empty array.
+  1. If |layer| is an {{XRProjectionLayer}}, set its [=XRProjectionLayer/colorTextures for secondary views=] and [=XRProjectionLayer/depthStencilTextures for secondary views=] to empty arrays.
+  1. For each of |layer|'s underlying resources, once all GPU work queued before the resource was invalidated has completed and the [=XR Compositor=] no longer accesses the resource, the user agent MAY physically release it.
+
+</div>
 
 <div class="algorithm" data-algorithm="initialization of a composition layer">
 
@@ -404,6 +427,7 @@ To <dfn>initialize a composition layer</dfn> with a {{XRSession}} |session| and 
 or a {{WebGL2RenderingContext}} |context|, the user agent MUST run the following steps:
   1. Set [=this=] [=XRCompositionLayer/session=] to |session|.
   1. If |context| is defined, set [=this=] [=XRCompositionLayer/context=] to |context|.
+  1. Set [=this=] [=XRCompositionLayer/destroyed=] to <code>false</code>.
   1. Set [=this=] {{XRCompositionLayer/blendTextureSourceAlpha}} to <code>true</code>.
   1. Set [=this=] {{XRCompositionLayer/opacity}} to <code>1.0</code>.
 
@@ -411,10 +435,17 @@ or a {{WebGL2RenderingContext}} |context|, the user agent MUST run the following
 
 <div class="algorithm" data-algorithm="calling destroy on a layer">
 
-When calling {{destroy()}}, the user agent MUST run the following steps:
-  1. Set [=this=] [=colorTextures=] array to an empty array.
-  1. Set [=this=] [=depthStencilTextures=] array to an empty array.
-  1. Destroy the underlying GL attachments.
+When calling {{destroy()}} on an {{XRCompositionLayer}} |layer|, the user agent MUST run the following steps:
+  1. If |layer|'s [=XRCompositionLayer/destroyed=] is <code>true</code>, return.
+  1. Set |layer|'s [=XRCompositionLayer/destroyed=] to <code>true</code>.
+  1. Run [=destroy the resources for a layer=] with |layer|.
+  1. Let |session| be |layer|'s [=XRCompositionLayer/session=].
+  1. If |session|'s [=pending render state=] is <code>null</code>:
+    1. If |session|'s [=active render state=]'s {{XRRenderState/layers}} does not contain |layer|, return.
+    1. Set |session|'s [=pending render state=] to a copy of |session|'s [=active render state=].
+  1. Let |state| be |session|'s [=pending render state=].
+  1. If |state|'s {{XRRenderState/layers}} is <code>null</code> or does not contain |layer|, return.
+  1. Set |state|'s {{XRRenderState/layers}} to a new frozen array containing, in order, each entry in |state|'s {{XRRenderState/layers}} other than |layer|.
 
 </div>
 
@@ -1678,6 +1709,7 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
         <dd> Let |subimage|'s {{XRSubImage/viewport}} be a [=new=] {{XRViewport}} in the [=relevant realm=] of [=this=].
     </dl>
   1. Let |session| be [=this=] [=XRWebGLBinding/session=].
+  1. If |layer|'s [=XRCompositionLayer/destroyed=] is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
   1. If |layer| is not in the |session|'s {{XRRenderState/layers}} array, throw a {{TypeError}} and abort these steps.
   1. If |layer|'s type is {{XRProjectionLayer}}, throw a {{TypeError}} and abort these steps.
   1. If |layer|'s {{XRCompositionLayer/layout}} attribute is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
@@ -1743,6 +1775,7 @@ When this method is invoked on an {{XRWebGLBinding}} |binding|, it MUST run the 
     </dl>
   1. Let |frame| be |view|'s {{frame}}.
   1. Let |session| be [=this=] [=XRWebGLBinding/session=].
+  1. If |layer|'s [=XRCompositionLayer/destroyed=] is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
   1. If [=validate the state of the XRWebGLSubImage creation function=] with |layer| and |frame| is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
   1. If |layer| is not in the |session|'s {{XRRenderState/layers}} array, throw a {{TypeError}} and abort these steps.
   1. If |view|'s [=view/active=] flag is <code>false</code>, throw an {{InvalidStateError}} and abort these steps.
@@ -2147,6 +2180,7 @@ This module replaces the steps given by "[=/update the pending layers state=]" f
     1. If |session|'s [=pending render state=] is <code>null</code>, set it to a copy of |activeState|.
     1. Set |session|'s [=pending render state=]'s {{XRRenderState/layers}} to <code>null</code>.
   1. If |newState|'s {{XRRenderStateInit/layers}} is set:
+    1. If |newState|'s {{XRRenderStateInit/layers}} contains an {{XRCompositionLayer}} whose [=XRCompositionLayer/destroyed=] boolean is <code>true</code>, throw an {{InvalidStateError}} and abort these steps.
     1. If |session| was not created with "[=feature descriptor/layers=]" enabled and |newState|'s {{XRRenderStateInit/layers}} contains more than <code>1</code> instance, throw a {{NotSupportedError}} and abort these steps.
     1. If |newState|'s {{XRRenderState/layers}} contains more than {{XRSession/maxRenderLayers}} entries, throw a {{NotSupportedError}} and abort these steps.
     1. If |session|'s [=pending render state=] is <code>null</code>, set it to a copy of |activeState|.
@@ -2196,7 +2230,8 @@ This module replaces the steps given by "[=check the layers state=]" from the We
 with {{XRSession/renderState}} |state|, the user agent MUST run the following steps:
 
   1. If |state|'s {{XRRenderState/baseLayer}} is not <code>null</code>, return <code>true</code>.
-  1. If |state|'s {{XRRenderStateInit/layers}} is not empty, return <code>true</code>.
+  1. For each |layer| in |state|'s {{XRRenderState/layers}}:
+    1. If |layer| is not an {{XRCompositionLayer}} or |layer|'s [=XRCompositionLayer/destroyed=] boolean is <code>false</code>, return <code>true</code>.
   1. return <code>false</code>.
 
 XRSession changes {#xrsessionchanges}
