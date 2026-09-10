@@ -6,7 +6,7 @@ The [WebXR Layers Specification](https://immersive-web.github.io/layers) exposes
 
 ## Taking Part
 
-1. Read the [code of conduct](https://www.w3.org/Consortium/cepc/cepc-20200716/)
+1. Read the [code of conduct](https://www.w3.org/policies/code-of-conduct/)
 2. See if your issue is being discussed in the [issues](https://github.com/immersive-web/layers/issues), or if your idea is being discussed in the [proposals repo][cgproposals].
 3. We will be publishing the minutes from the bi-weekly calls.
 4. You can also join the working group to participate in these discussions.
@@ -18,7 +18,7 @@ The [WebXR Layers Specification](https://immersive-web.github.io/layers) exposes
 
 
 ### Related specifications
-* [WebXR Device API - Level 1][webxrspec]: Main specification for JavaScript API for accessing VR and AR devices, including sensors and head-mounted displays.
+* [WebXR Device API][webxrspec]: Main specification for JavaScript API for accessing VR and AR devices, including sensors and head-mounted displays.
 
 See also [list of all specifications with detailed status in Working Group and Community Group](https://www.w3.org/immersive-web/list_spec.html). 
 
@@ -63,12 +63,11 @@ Per the [`LICENSE.md`](LICENSE.md) file:
 For more information about this proposal, please read the [explainer](explainer.md) and issues/PRs.
 
 <!-- Links -->
-[CoC]: https://immersive-web.github.io/homepage/code-of-conduct.html
 [webxrwg]: https://w3.org/immersive-web
 [cgproposals]: https://github.com/immersive-web/proposals
 [webxrspec]: https://immersive-web.github.io/webxr/
 [webxrcg]: https://www.w3.org/community/immersive-web/
-[wgcharter]: https://www.w3.org/2020/05/immersive-Web-wg-charter.html
+[wgcharter]: https://www.w3.org/groups/wg/immersive-web/charters/active/
 [webxrref]: https://immersive-web.github.io/webxr-reference/
 [publiclist]: https://lists.w3.org/Archives/Public/public-immersive-web-wg/
 [bikeshed]: https://github.com/tabatkins/bikeshed
