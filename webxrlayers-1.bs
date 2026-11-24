@@ -756,12 +756,227 @@ When <var ignore>setting the space on an cube layer</var> with {{XRSpace}} |spac
 
 The <dfn attribute for="XRCubeLayer">onredraw</dfn> attribute is an Event handler IDL attribute for the {{redraw}} event type.
 
+XRFisheyeLayer {#xrfisheyelayertype}
+--------------
+An {{XRFisheyeLayer}} renders a layer containing an image that was captured through a fisheye lens. The [=XR Compositor=] MUST
+map the image onto the inside of a sphere of infinite radius, as described by the layer's [=XRFisheyeLayer/lens=] and the
+[=fisheye projection=].
+
+An {{XRFisheyeLayer}} can only be created with {{XRMediaBinding/createFisheyeLayer()}}.
+
+<pre class="idl">
+[Exposed=Window] interface XRFisheyeLayer : XRCompositionLayer {
+  attribute XRSpace space;
+  attribute XRRigidTransform transform;
+
+  attribute float visibleFieldOfView;
+
+  // Events
+  attribute EventHandler onredraw;
+};
+</pre>
+
+The <dfn attribute for="XRFisheyeLayer">transform</dfn> attribute sets and returns the offset and orientation relative to
+the <dfn attribute for="XRFisheyeLayer">space</dfn> attribute. The {{XRFisheyeLayer/transform}} and {{XRFisheyeLayer/space}} attributes
+establish the spatial relationship of the layer within the user’s physical environment. The optical axis of the lens points along the
+negative Z axis of this coordinate system, the positive X axis points to the right of the image and the positive Y axis points to the
+top of the image.
+
+Because the layer is rendered at an infinite distance, only the orientation of the {{XRFisheyeLayer/transform}} and
+{{XRFisheyeLayer/space}} is considered. The fisheye layer will always be rendered with the view point at the center.
+
+Each {{XRFisheyeLayer}} has an associated <dfn for="XRFisheyeLayer">lens</dfn>, which is an {{XRFisheyeLens}} describing how the
+image shown to the left eye, or to both eyes for a {{XRLayerLayout/"mono"}} layer, was captured.
+
+Each {{XRFisheyeLayer}} has an associated <dfn for="XRFisheyeLayer">right lens</dfn>, which is either <code>null</code> or an
+{{XRFisheyeLens}} describing how the image shown to the right eye was captured. If it is <code>null</code>, the
+[=XRFisheyeLayer/lens=] is used for both eyes.
+
+The [=XRFisheyeLayer/lens=] and [=XRFisheyeLayer/right lens=] are set when the layer is created and can't be changed.
+
+The <dfn>maximum field of view</dfn> of an {{XRFisheyeLayer}} |layer| is the {{XRFisheyeLens/fieldOfView}} of |layer|'s
+[=XRFisheyeLayer/lens=], or the smaller of the {{XRFisheyeLens/fieldOfView}}s of |layer|'s [=XRFisheyeLayer/lens=] and
+[=XRFisheyeLayer/right lens=] if the latter is not <code>null</code>.
+
+The <dfn attribute for="XRFisheyeLayer">visibleFieldOfView</dfn> attribute sets and returns the angle in radians of the cone, centered
+on the optical axis, in which the layer is visible. Parts of the image outside this cone are not displayed.
+Setting {{XRFisheyeLayer/visibleFieldOfView}} to a value less than <code>0</code> will set it to <code>0</code> and setting it to
+a value higher than the layer's [=maximum field of view=] will set it to the [=maximum field of view=].
+
+NOTE: {{XRFisheyeLayer/visibleFieldOfView}} can be used to hide the edge of the lens' image circle or to reveal the layer gradually.
+
+When assigning an {{XRSpace}} to the {{XRFisheyeLayer/space}} attribute, first run the following steps.
+
+<div class="algorithm" data-algorithm="setting the space on a fisheye layer">
+
+When <var ignore>setting the space on a fisheye layer</var> with {{XRSpace}} |space| and {{XRFisheyeLayer}} |layer|, the user agent MUST run the following steps to validate if the |space| is valid:
+  1. If |space| is not an instance of type {{XRReferenceSpace}}, throw {{TypeError}} and abort these steps.
+  1. If |space| has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{TypeError}} and abort these steps.
+  1. Run [=setting the space on a layer=] with |space| and |layer|.
+
+</div>
+
+The <dfn attribute for="XRFisheyeLayer">onredraw</dfn> attribute is an Event handler IDL attribute for the {{redraw}} event type.
+
+NOTE: An [=XR Compositor=] that can't display fisheye images directly can still support {{XRFisheyeLayer}}, for instance by having the
+user agent resample each frame of the layer into a cube map or an equirectangular image using the [=fisheye projection=].
+
+### XRFisheyeLens ### {#xrfisheyelenstype}
+An {{XRFisheyeLens}} describes how a fisheye lens maps directions in the world onto an image.
+
+<pre class="idl">
+enum XRFisheyeModel {
+  "equidistant",
+  "equisolid",
+  "polynomial",
+  "omnidirectional"
+};
+
+dictionary XRFisheyeLens {
+  XRFisheyeModel model = "equidistant";
+  required float fieldOfView;
+
+  float focalX;
+  float focalY;
+  float centerX = 0.5;
+  float centerY = 0.5;
+  float skew = 0.0;
+
+  sequence&lt;float> coefficients = [];
+
+  float xi;
+  sequence&lt;float> radialDistortion = [];
+  sequence&lt;float> tangentialDistortion = [];
+};
+</pre>
+
+The <dfn dict-member for="XRFisheyeLens">model</dfn> member defines the lens model that maps the angle between a direction and the
+optical axis onto the image:
+ - A model of <dfn enum-value for="XRFisheyeModel">equidistant</dfn> indicates an ideal lens where the distance from the image center is
+    proportional to the angle.
+ - A model of <dfn enum-value for="XRFisheyeModel">equisolid</dfn> indicates an ideal lens where the distance from the image center is
+    proportional to the sine of half the angle.
+ - A model of <dfn enum-value for="XRFisheyeModel">polynomial</dfn> indicates a lens where the distance from the image center is a
+    polynomial in the angle, as in the Kannala–Brandt camera model.
+ - A model of <dfn enum-value for="XRFisheyeModel">omnidirectional</dfn> indicates the unified omnidirectional camera model of Mei and Rives,
+    with radial and tangential distortion.
+
+The <dfn dict-member for="XRFisheyeLens">fieldOfView</dfn> member is the full angle in radians of the cone, centered on the optical
+axis, that was captured by the lens. For instance, a lens that captures a hemisphere has a {{XRFisheyeLens/fieldOfView}} of π.
+
+The <dfn dict-member for="XRFisheyeLens">focalX</dfn>, <dfn dict-member for="XRFisheyeLens">focalY</dfn>,
+<dfn dict-member for="XRFisheyeLens">centerX</dfn>, <dfn dict-member for="XRFisheyeLens">centerY</dfn> and
+<dfn dict-member for="XRFisheyeLens">skew</dfn> members map the lens' image plane onto the image. {{XRFisheyeLens/focalX}} and
+{{XRFisheyeLens/focalY}} are the focal lengths, {{XRFisheyeLens/centerX}} and {{XRFisheyeLens/centerY}} are the position of the
+optical axis in the image and {{XRFisheyeLens/skew}} is the skew between the image axes.
+These values are expressed in normalized coordinates of the image where (0, 0) is the top left corner and (1, 1) is the bottom right
+corner, so they don't depend on the resolution of the image.
+
+NOTE: Camera calibration tools usually report these values in pixels. To convert them, divide horizontal values by the width of the
+image, vertical values by its height and {{XRFisheyeLens/skew}} by the width.
+
+For the {{XRFisheyeModel/"equidistant"}} and {{XRFisheyeModel/"equisolid"}} models, {{XRFisheyeLens/focalX}} and {{XRFisheyeLens/focalY}}
+are optional. By default, the image circle is centered in the image and touches its edges.
+
+The <dfn dict-member for="XRFisheyeLens">coefficients</dfn> member contains the coefficients of the polynomial of the
+{{XRFisheyeModel/"polynomial"}} model, starting with the coefficient of the linear term. It MUST NOT contain more than
+<code>16</code> coefficients.
+
+The <dfn dict-member for="XRFisheyeLens">xi</dfn> member is the offset between the center of projection and the center of the unit sphere
+of the {{XRFisheyeModel/"omnidirectional"}} model.
+
+The <dfn dict-member for="XRFisheyeLens">radialDistortion</dfn> and <dfn dict-member for="XRFisheyeLens">tangentialDistortion</dfn> members
+contain the two radial and the two tangential distortion coefficients of the {{XRFisheyeModel/"omnidirectional"}} model. If a
+member is empty, its coefficients are <code>0</code>.
+
+<div class="algorithm" data-algorithm="validate a fisheye lens">
+
+To <dfn>validate a fisheye lens</dfn> with an {{XRFisheyeLens}} |lens|, the user agent MUST run the following steps:
+  1. If |lens|'s {{XRFisheyeLens/fieldOfView}} is less than or equal to <code>0</code> or greater than 2π, throw a {{TypeError}} and abort these steps.
+  1. If |lens|'s {{XRFisheyeLens/focalX}} or {{XRFisheyeLens/focalY}} is <code>0</code>, throw a {{TypeError}} and abort these steps.
+  1. Let |result| be a copy of |lens|.
+  1. Run the steps for |lens|'s {{XRFisheyeLens/model}}:
+    <dl class="switch">
+      <dt class="switch">{{XRFisheyeModel/"equidistant"}}
+      <dd> If |lens|'s {{XRFisheyeLens/focalX}} is not present, set |result|'s {{XRFisheyeLens/focalX}} to 0.5 divided by half of |lens|'s {{XRFisheyeLens/fieldOfView}}.
+      <dd> If |lens|'s {{XRFisheyeLens/focalY}} is not present, set |result|'s {{XRFisheyeLens/focalY}} to 0.5 divided by half of |lens|'s {{XRFisheyeLens/fieldOfView}}.
+      <dt class="switch">{{XRFisheyeModel/"equisolid"}}
+      <dd> If |lens|'s {{XRFisheyeLens/focalX}} is not present, set |result|'s {{XRFisheyeLens/focalX}} to 0.5 divided by (2 × sin(|lens|'s {{XRFisheyeLens/fieldOfView}} / 4)).
+      <dd> If |lens|'s {{XRFisheyeLens/focalY}} is not present, set |result|'s {{XRFisheyeLens/focalY}} to 0.5 divided by (2 × sin(|lens|'s {{XRFisheyeLens/fieldOfView}} / 4)).
+      <dt class="switch">{{XRFisheyeModel/"polynomial"}}
+      <dd> If |lens|'s {{XRFisheyeLens/focalX}} or {{XRFisheyeLens/focalY}} is not present, throw a {{TypeError}} and abort these steps.
+      <dd> If |lens|'s {{XRFisheyeLens/coefficients}} is empty or has more than <code>16</code> elements, throw a {{TypeError}} and abort these steps.
+      <dt class="switch">{{XRFisheyeModel/"omnidirectional"}}
+      <dd> If |lens|'s {{XRFisheyeLens/focalX}}, {{XRFisheyeLens/focalY}} or {{XRFisheyeLens/xi}} is not present, throw a {{TypeError}} and abort these steps.
+      <dd> If |lens|'s {{XRFisheyeLens/radialDistortion}} is not empty and doesn't have <code>2</code> elements, throw a {{TypeError}} and abort these steps.
+      <dd> If |lens|'s {{XRFisheyeLens/tangentialDistortion}} is not empty and doesn't have <code>2</code> elements, throw a {{TypeError}} and abort these steps.
+    </dl>
+  1. Return |result|.
+
+</div>
+
+### Fisheye projection ### {#fisheyeprojection}
+When rendering an {{XRFisheyeLayer}} |layer| to a [=view=] |view|, for each pixel of |view| the [=XR Compositor=] MUST run the following steps:
+  1. Let |d| be the unit vector, expressed in the coordinate system of |layer|'s {{XRFisheyeLayer/space}} and {{XRFisheyeLayer/transform}},
+     that points from the origin of |view| through the pixel.
+  1. Let |coordinate| be the result of the [=fisheye projection=] with |layer|, |view| and |d|.
+  1. If |coordinate| is <code>failure</code>, |layer| doesn't contribute to the pixel.
+  1. Otherwise, sample the part of |layer| that is shown to |view| at |coordinate|, where (0, 0) is the top left corner and (1, 1) is the
+     bottom right corner of that part.
+
+NOTE: For a {{XRLayerLayout/"stereo-left-right"}} layer, the part that is shown to the left eye is the left half of the layer.
+For a {{XRLayerLayout/"stereo-top-bottom"}} layer, it is the top half.
+
+<div class="algorithm" data-algorithm="fisheye projection">
+
+The <dfn>fisheye projection</dfn> with an {{XRFisheyeLayer}} |layer|, a [=view=] |view| and a unit vector |d| with components
+(|dx|, |dy|, |dz|) returns a coordinate in the image, or <code>failure</code>. It runs the following steps:
+  1. Let |lens| be |layer|'s [=XRFisheyeLayer/lens=].
+  1. If all of the following are true, set |lens| to |layer|'s [=XRFisheyeLayer/right lens=]:
+     - |layer|'s {{XRCompositionLayer/layout}} is not {{XRLayerLayout/"mono"}}.
+     - |view|'s [=XRView/eye=] is {{XREye/"right"}}.
+     - |layer|'s {{XRCompositionLayer/forceMonoPresentation}} is <code>false</code>.
+     - |layer|'s [=XRFisheyeLayer/right lens=] is not <code>null</code>.
+  1. Let |θ| be arccos(−|dz|). This is the angle between |d| and the optical axis.
+  1. If |θ| is greater than half of |layer|'s {{XRFisheyeLayer/visibleFieldOfView}} or greater than half of |lens|'s {{XRFisheyeLens/fieldOfView}}, return <code>failure</code>.
+  1. Let |s| be √(|dx|² + |dy|²).
+  1. If |s| is <code>0</code>, let |ax| and |ay| be <code>0</code>. Otherwise, let |ax| be |dx| / |s| and |ay| be −|dy| / |s|.
+
+     NOTE: (|ax|, |ay|) is the direction of |d| around the optical axis in image coordinates, where the Y axis points down.
+  1. Compute the position (|x|, |y|) on the lens' image plane for |lens|'s {{XRFisheyeLens/model}}:
+    <dl class="switch">
+      <dt class="switch">{{XRFisheyeModel/"equidistant"}}
+      <dd> Let |ρ| be |θ|.
+      <dd> Let |x| be |ρ| × |ax| and |y| be |ρ| × |ay|.
+      <dt class="switch">{{XRFisheyeModel/"equisolid"}}
+      <dd> Let |ρ| be 2 × sin(|θ| / 2).
+      <dd> Let |x| be |ρ| × |ax| and |y| be |ρ| × |ay|.
+      <dt class="switch">{{XRFisheyeModel/"polynomial"}}
+      <dd> Let |c| be |lens|'s {{XRFisheyeLens/coefficients}} and |n| be the number of elements in |c|.
+      <dd> Let |ρ| be the sum of |c|[|i|] × |θ|<sup>|i| + 1</sup> for each |i| from <code>0</code> to |n| − 1.
+      <dd> Let |x| be |ρ| × |ax| and |y| be |ρ| × |ay|.
+      <dt class="switch">{{XRFisheyeModel/"omnidirectional"}}
+      <dd> Let |w| be −|dz| + |lens|'s {{XRFisheyeLens/xi}}. If |w| is less than or equal to <code>0</code>, return <code>failure</code>.
+      <dd> Let |mx| be |dx| / |w| and |my| be −|dy| / |w|.
+      <dd> Let |k1| and |k2| be the elements of |lens|'s {{XRFisheyeLens/radialDistortion}}, or <code>0</code> if it is empty.
+      <dd> Let |p1| and |p2| be the elements of |lens|'s {{XRFisheyeLens/tangentialDistortion}}, or <code>0</code> if it is empty.
+      <dd> Let |r2| be |mx|² + |my|² and |g| be 1 + |k1| × |r2| + |k2| × |r2|².
+      <dd> Let |x| be |g| × |mx| + 2 × |p1| × |mx| × |my| + |p2| × (|r2| + 2 × |mx|²).
+      <dd> Let |y| be |g| × |my| + |p1| × (|r2| + 2 × |my|²) + 2 × |p2| × |mx| × |my|.
+    </dl>
+  1. Let |u| be |lens|'s {{XRFisheyeLens/focalX}} × |x| + |lens|'s {{XRFisheyeLens/skew}} × |y| + |lens|'s {{XRFisheyeLens/centerX}}.
+  1. Let |v| be |lens|'s {{XRFisheyeLens/focalY}} × |y| + |lens|'s {{XRFisheyeLens/centerY}}.
+  1. If |u| or |v| is less than <code>0</code> or greater than <code>1</code>, return <code>failure</code>.
+  1. Return (|u|, |v|).
+
+</div>
+
 Spaces {#spaces}
 ======
 
 {{XRProjectionLayer}} and {{XRWebGLLayer}} don't have associated an {{XRSpace}} because they render to the full frame.
 
-{{XRCubeLayer}} and {{XREquirectLayer}} MUST only support {{XRReferenceSpace|XRReferenceSpaces}} that are not of type {{"viewer"}}.
+{{XRCubeLayer}}, {{XREquirectLayer}} and {{XRFisheyeLayer}} MUST only support {{XRReferenceSpace|XRReferenceSpaces}} that are not of type {{"viewer"}}.
 
 {{XRQuadLayer}} and {{XRCylinderLayer}} MUST support all {{XRSpace}} types.
 
@@ -776,6 +991,7 @@ Following are some best practices of spaces to use with a layer type:
   - {{XRQuadLayer}} or {{XRCylinderLayer}} in {{"local"}}, {{"unbounded"}} space: springy body-locked UI.
   - {{XRQuadLayer}} or {{XRCylinderLayer}} in {{"local"}}, {{"local-floor"}}, {{"unbounded"}}, {{"bounded-floor"}} or anchor space: world-locked video, placed by the user.
   - {{XREquirectLayer}} or {{XRCubeLayer}} in {{"local"}} space: 360-degree video or skybox.
+  - {{XRFisheyeLayer}} in {{"local"}} space: 180-degree video captured with fisheye lenses.
 
 </section>
 
@@ -1924,6 +2140,34 @@ dictionary XRMediaEquirectLayerInit : XRMediaLayerInit {
 };
 </pre>
 
+XRMediaFisheyeLayerInit {#xrmediafisheyelayerinittype}
+-----------------------
+The {{XRMediaFisheyeLayerInit}} dictionary represents a set of configurable values that describe how an {{XRFisheyeLayer}} containing a video
+is initialized.
+
+<pre class="idl">
+dictionary XRMediaFisheyeLayerInit : XRMediaLayerInit {
+  XRRigidTransform? transform;
+  required XRFisheyeLens lens;
+  XRFisheyeLens rightLens;
+  float visibleFieldOfView;
+};
+</pre>
+
+The <dfn dict-member for="XRMediaFisheyeLayerInit">transform</dfn> member defines the initial {{XRFisheyeLayer/transform}} of the layer.
+
+The <dfn dict-member for="XRMediaFisheyeLayerInit">lens</dfn> member describes the lens that captured the video. For a stereo
+{{XRMediaLayerInit/layout}}, it describes the lens that captured the part of the video that is shown to the left eye.
+
+The <dfn dict-member for="XRMediaFisheyeLayerInit">rightLens</dfn> member describes the lens that captured the part of the video that is
+shown to the right eye. If it is not present, {{XRMediaFisheyeLayerInit/lens}} is used for both eyes. It is ignored if the
+{{XRMediaLayerInit/layout}} is {{XRLayerLayout/"mono"}}.
+
+NOTE: {{XRMediaFisheyeLayerInit/rightLens}} is useful for stereo cameras where each lens was calibrated separately.
+
+The <dfn dict-member for="XRMediaFisheyeLayerInit">visibleFieldOfView</dfn> member defines the initial {{XRFisheyeLayer/visibleFieldOfView}}
+of the layer. If it is not present, the layer's [=maximum field of view=] is used.
+
 XRMediaBinding {#xrmediabindingtype}
 --------------
 The {{XRMediaBinding}} object is used to create layers that display the content of an {{HTMLVideoElement}}.
@@ -1935,6 +2179,7 @@ The {{XRMediaBinding}} object is used to create layers that display the content 
   XRQuadLayer createQuadLayer(HTMLVideoElement video, optional XRMediaQuadLayerInit init = {});
   XRCylinderLayer createCylinderLayer(HTMLVideoElement video, optional XRMediaCylinderLayerInit init = {});
   XREquirectLayer createEquirectLayer(HTMLVideoElement video, optional XRMediaEquirectLayerInit init = {});
+  XRFisheyeLayer createFisheyeLayer(HTMLVideoElement video, XRMediaFisheyeLayerInit init);
 };
 </pre>
 
@@ -2067,6 +2312,48 @@ When this method is invoked, the user agent MUST run the following steps:
 </div>
 
 ISSUE: define how the {{XREquirectLayer}}'s parameters affect the video display.
+
+<div class="algorithm" data-algorithm="createMediaFisheyeLayerAlgo">
+The <dfn method for="XRMediaBinding">createFisheyeLayer(HTMLVideoElement |video|, XRMediaFisheyeLayerInit |init|)</dfn> method creates a new {{XRFisheyeLayer}} |layer|.
+
+When this method is invoked, the user agent MUST run the following steps:
+
+  1. Let |session| be [=this=] [=XRMediaBinding/session=].
+  1. If |session| was not created with "[=feature descriptor/layers=]" enabled, throw a {{NotSupportedError}} and abort these steps.
+  1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
+  1. If |init|'s {{XRMediaLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{TypeError}} and abort these steps.
+  1. If |init|'s {{XRMediaLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{TypeError}} and abort these steps.
+  1. If |init|'s {{XRMediaLayerInit/space}}'s [=XRSpace/session=] is not equal to |session|, throw {{TypeError}} and abort these steps.
+  1. Let |lens| be the result of [=validate a fisheye lens|validating=] |init|'s {{XRMediaFisheyeLayerInit/lens}}. If an exception was thrown, rethrow it and abort these steps.
+  1. Let |rightLens| be <code>null</code>.
+  1. If |init|'s {{XRMediaFisheyeLayerInit/rightLens}} is present and |init|'s {{XRMediaLayerInit/layout}} is not {{XRLayerLayout/"mono"}}, set |rightLens| to the result of [=validate a fisheye lens|validating=] |init|'s {{XRMediaFisheyeLayerInit/rightLens}}. If an exception was thrown, rethrow it and abort these steps.
+  1. Let |layer| be a [=new=] {{XRFisheyeLayer}} in the [=relevant realm=] of [=this=].
+  1. Run [=initialize a composition layer=] on |layer| with |session|.
+  1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
+  1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
+  1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |init|'s {{XRMediaLayerInit/layout}}.
+  1. Initialize |layer|'s [=XRFisheyeLayer/lens=] to |lens|.
+  1. Initialize |layer|'s [=XRFisheyeLayer/right lens=] to |rightLens|.
+  1. Let |layer|'s {{XRFisheyeLayer/space}} be |init|'s {{XRMediaLayerInit/space}}.
+  1. Initialize |layer|'s {{XRFisheyeLayer/transform}} as follows:
+    <dl class="switch">
+      <dt class="switch">If |init|'s {{XRMediaFisheyeLayerInit/transform}} is set
+      <dd> Let |layer|'s {{XRFisheyeLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of |layer| initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XRMediaFisheyeLayerInit/transform}}.
+      <dt> Otherwise
+      <dd> Let |layer|'s {{XRFisheyeLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of |layer|.
+    </dl>
+  1. Initialize |layer|'s {{XRFisheyeLayer/visibleFieldOfView}} as follows:
+    <dl class="switch">
+      <dt class="switch">If |init|'s {{XRMediaFisheyeLayerInit/visibleFieldOfView}} is present
+      <dd> Set |layer|'s {{XRFisheyeLayer/visibleFieldOfView}} to |init|'s {{XRMediaFisheyeLayerInit/visibleFieldOfView}}, clamped to the range from <code>0</code> to |layer|'s [=maximum field of view=].
+      <dt> Otherwise
+      <dd> Set |layer|'s {{XRFisheyeLayer/visibleFieldOfView}} to |layer|'s [=maximum field of view=].
+    </dl>
+  1. If the [=XR Compositor=] knows that it will be unable to create the resources for the |layer| for any reason, throw an {{OperationError}} and abort these steps.
+  1. return |layer|.
+
+</div>
 
 Events {#events}
 ======
@@ -2282,6 +2569,7 @@ Changes</h2>
 Changes from the <a href="https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/">First Public Working Draft 3 December 2020</a></h3>
 
 New features:
+- Add fisheye media layers
 - Add support for opacity to XRCompositionLayer (<a href="https://github.com/immersive-web/layers/pull/284">GitHub #284</a>
 - Add support for depth testing across layers (<a href="https://github.com/immersive-web/layers/pull/271">GitHub #271</a>)
 - Add support for usesDepthValues to XRWebGLBinding (<a href="https://github.com/immersive-web/layers/pull/269">GitHub #269</a>)
