@@ -50,7 +50,6 @@ spec: webxr;
     type: dfn; text: updateRenderState; for: XRSession
     type: dfn; text: session; for: XRWebGLLayer
     type: dfn; text: layers; for: XRRenderStateInit
-    type: dfn; text: secondary-views; for: secondary view
     type: dfn; text: primary view
     type: dfn; text: secondary view
     type: dfn; text: active; for: view
@@ -82,6 +81,7 @@ spec: webxr; urlPrefix: https://www.w3.org/TR/webxr/
     type: dfn; text: XRSession/requestAnimationFrame()
     type: dfn; text: shut down the session
     type: dfn; text: xrsession interface
+    type: dfn; text: secondary-views; for: feature descriptor; url: feature-descriptor-secondary-views
 spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: interface; text: WebGLFramebuffer; url: WebGLFramebuffer
     type: interface; text: WebGLTexture; url: WebGLTexture
@@ -1490,14 +1490,14 @@ When this method is invoked, the user agent MUST run the following steps:
   1. let |layer|'s [=motionVectorTextures=] be the result of [=allocate motion vector textures for projection layers|allocating motion vector textures for projection layers=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
   1. Initialize the [=XRProjectionLayer/colortextures for secondary views=] as follows:
       <dl class="switch">
-        <dt> If the |session| was created with "[=secondary view/secondary-views=]" enabled
+        <dt> If the |session| was created with "[=feature descriptor/secondary-views=]" enabled
           <dd> Let [=XRProjectionLayer/colortextures for secondary views=] be the result of [=allocate the color textures for the secondary views=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}}, |init|'s {{XRProjectionLayerInit/colorFormat}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
         <dt> Otherwise
           <dd> Let [=XRProjectionLayer/colortextures for secondary views=] be <code>null</code>.
       </dl>
   1. Initialize the [=XRProjectionLayer/depthstenciltextures for secondary views=] as follows:
       <dl class="switch">
-        <dt> If the |session| was created with "[=secondary view/secondary-views=]" enabled
+        <dt> If the |session| was created with "[=feature descriptor/secondary-views=]" enabled
           <dd> Let [=XRProjectionLayer/depthstenciltextures for secondary views=] be the result of [=allocate the depth textures for the secondary views=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}}, |init|'s {{XRProjectionLayerInit/depthFormat}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
         <dt> Otherwise
           <dd> Let [=XRProjectionLayer/depthstenciltextures for secondary views=] be <code>null</code>.
@@ -2154,7 +2154,7 @@ Authors should render depth/stencil and motion vector information to the full ex
 NOTE: Since the depth/stencil and motion vector attachments can have different dimensions than the color attachment, they are not intended to be attached to the framebuffer used to render into the {{XRWebGLSubImage/colorTexture}}.
 Authors should render depth/stencil and motion vector information separately at their attachment dimensions.
 
-The {{XRWebGLSubImage/motionVectorTexture}} MUST be in {{RGBA16F}} format. The author SHOULD fill in the RG components of this texture with the 2D screen-space motion vector for that area, expressed as a delta in <dfn>Normalized Device Coordinates</dfn> (<dfn>NDC</dfn>) between the current frame and the previous frame. The motion vector is computed as `(currentClipPos / currentW) - (prevClipPos / prevW)`, where `currentClipPos` and `prevClipPos` are the <dfn>clip space</dfn> positions of the fragment in the current and previous frames, respectively. The red channel corresponds to the delta in [=NDC=] X (horizontal), and the green channel corresponds to the delta in [=NDC=] Y (vertical). The blue channel MAY contain the delta in [=NDC=] Z (depth), and the alpha channel is unused.
+The {{XRWebGLSubImage/motionVectorTexture}} MUST be in {{RGBA16F}} format. The author SHOULD fill in the RG components of this texture with the 2D screen-space motion vector for that area, expressed as a delta in <dfn lt="Normalized Device Coordinates|NDC">Normalized Device Coordinates</dfn> (NDC) between the current frame and the previous frame. The motion vector is computed as `(currentClipPos / currentW) - (prevClipPos / prevW)`, where `currentClipPos` and `prevClipPos` are the clip space positions of the fragment in the current and previous frames, respectively. The red channel corresponds to the delta in [=NDC=] X (horizontal), and the green channel corresponds to the delta in [=NDC=] Y (vertical). The blue channel MAY contain the delta in [=NDC=] Z (depth), and the alpha channel is unused.
 
 If the {{XRWebGLSubImage/motionVectorTexture}} or {{XRWebGLSubImage/depthStencilTexture}} were not submitted during the processing of the {{XRFrame}}, the [=XR Compositor=] MUST process the {{XRFrame}} as if [=space warp=] was not enabled.
 
@@ -2194,7 +2194,7 @@ updateRenderState changes {#updaterenderstatechanges}
 <div class="algorithm" data-algorithm="update-layers-state-for-layers">
 
 This module replaces the steps given by "[=/update the pending layers state=]" from the WebXR specification. Instead when the user agent will
-<dfn dfn-for="layers">update the pending layers state</dfn> with {{XRSession}} |session| and {{XRRenderStateInit}} |newState|, it must run the following steps:
+<dfn noexport dfn-for="layers">update the pending layers state</dfn> with {{XRSession}} |session| and {{XRRenderStateInit}} |newState|, it must run the following steps:
   1. If both |newState|'s {{XRRenderStateInit/baseLayer}} and |newState|'s {{XRRenderStateInit/layers}} are set, throw a {{NotSupportedError}} and abort these steps.
   1. Let |activeState| be |session|'s [=active render state=].
   1. If |newState|'s {{XRRenderStateInit/baseLayer}} is set:
