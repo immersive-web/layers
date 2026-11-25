@@ -50,7 +50,6 @@ spec: webxr;
     type: dfn; text: updateRenderState; for: XRSession
     type: dfn; text: session; for: XRWebGLLayer
     type: dfn; text: layers; for: XRRenderStateInit
-    type: dfn; text: secondary-views; for: secondary view
     type: dfn; text: primary view
     type: dfn; text: secondary view
     type: dfn; text: active; for: view
@@ -82,6 +81,7 @@ spec: webxr; urlPrefix: https://www.w3.org/TR/webxr/
     type: dfn; text: XRSession/requestAnimationFrame()
     type: dfn; text: shut down the session
     type: dfn; text: xrsession interface
+    type: dfn; text: secondary-views; for: feature descriptor; url: feature-descriptor-secondary-views
 spec: WebGL; urlPrefix: https://www.khronos.org/registry/webgl/specs/latest/1.0/
     type: interface; text: WebGLFramebuffer; url: WebGLFramebuffer
     type: interface; text: WebGLTexture; url: WebGLTexture
@@ -368,7 +368,7 @@ The <dfn attribute for="XRCompositionLayer">layout</dfn> attribute returns the l
 The <dfn attribute for="XRCompositionLayer">blendTextureSourceAlpha</dfn> attribute enables the layer’s texture alpha channel.
 
 The <dfn attribute for="XRCompositionLayer">forceMonoPresentation</dfn> attribute forces the right eye to use the same layer configuration
-as the left eye. This MUST send a signal to the [=XR Compositor=] to remove the {{XRLayerLayout/stereo}} effect of this {{XRCompositionLayer}}. Setting this to <code>true</code> on a {{XRLayerLayout/mono}} layer has no effect.
+as the left eye. This MUST send a signal to the [=XR Compositor=] to remove the {{XRLayerLayout/stereo}} effect of this {{XRCompositionLayer}}. Setting this to <code>true</code> on a {{XRLayerLayout/mono}} layer has no effect, except that the [=XR Compositor=] MUST NOT spatialize a layer whose [=XRCompositionLayer/spatialize=] is <code>true</code>.
 
 NOTE: this attribute has no other side effects on other information that is returned by the {{XRSession}}. Only the operation of the [=XR Compositor=] is affected by this setting and experiences SHOULD continue to draw to both eyes.
 
@@ -1490,14 +1490,14 @@ When this method is invoked, the user agent MUST run the following steps:
   1. let |layer|'s [=motionVectorTextures=] be the result of [=allocate motion vector textures for projection layers|allocating motion vector textures for projection layers=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
   1. Initialize the [=XRProjectionLayer/colortextures for secondary views=] as follows:
       <dl class="switch">
-        <dt> If the |session| was created with "[=secondary view/secondary-views=]" enabled
+        <dt> If the |session| was created with "[=feature descriptor/secondary-views=]" enabled
           <dd> Let [=XRProjectionLayer/colortextures for secondary views=] be the result of [=allocate the color textures for the secondary views=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}}, |init|'s {{XRProjectionLayerInit/colorFormat}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
         <dt> Otherwise
           <dd> Let [=XRProjectionLayer/colortextures for secondary views=] be <code>null</code>.
       </dl>
   1. Initialize the [=XRProjectionLayer/depthstenciltextures for secondary views=] as follows:
       <dl class="switch">
-        <dt> If the |session| was created with "[=secondary view/secondary-views=]" enabled
+        <dt> If the |session| was created with "[=feature descriptor/secondary-views=]" enabled
           <dd> Let [=XRProjectionLayer/depthstenciltextures for secondary views=] be the result of [=allocate the depth textures for the secondary views=] with |layer|, |init|'s {{XRProjectionLayerInit/textureType}}, |init|'s {{XRProjectionLayerInit/depthFormat}} and |init|'s {{XRProjectionLayerInit/scaleFactor}}.
         <dt> Otherwise
           <dd> Let [=XRProjectionLayer/depthstenciltextures for secondary views=] be <code>null</code>.
@@ -1872,6 +1872,7 @@ dictionary XRMediaLayerInit {
   required XRSpace space;
   XRLayerLayout layout = "mono";
   boolean invertStereo = false;
+  boolean spatialize = false;
 };
 </pre>
 
@@ -1881,6 +1882,17 @@ The <dfn dict-member for="XRMediaLayerInit">layout</dfn> attribute defines the l
 
 The <dfn dict-member for="XRMediaLayerInit">invertStereo</dfn> attribute defines if the natural location of each view in the video
 should be inverted.
+
+The <dfn dict-member for="XRMediaLayerInit">spatialize</dfn> attribute is a hint that the [=XR Compositor=] should present a monoscopic video
+stereoscopically, by synthesizing a view for each eye from depth that is estimated from the video's frames.
+This member has no effect on layers whose {{XRMediaLayerInit/layout}} is not {{XRLayerLayout/"mono"}}.
+
+The user agent MAY ignore {{XRMediaLayerInit/spatialize}} for any reason, including lack of platform support, user preference,
+resource constraints, or the nature of the content, and MAY start or stop spatializing a layer at any time.
+Whether a layer is being spatialized MUST NOT be observable by the page.
+
+NOTE: User agents are encouraged to transition gradually between spatialized and monoscopic presentation so that the perceived
+depth doesn't change abruptly.
 
 XRMediaQuadLayerInit {#xrmediaquadlayerinittype}
 ------------------------
@@ -1950,6 +1962,9 @@ Each layer created through {{XRMediaBinding}} has an internal {{HTMLVideoElement
 If the layer is part of the session's {{XRSession/renderState}}, it will display the current frame of the video. The
 layer is update at the native framerate of the [=/XR device=] or the video, whichever is less.
 
+Each layer created through {{XRMediaBinding}} also has an internal boolean <dfn for="XRCompositionLayer">spatialize</dfn>, initially <code>false</code>,
+that indicates whether the [=XR Compositor=] may spatialize the video as described by {{XRMediaLayerInit/spatialize}}.
+
 NOTE: only the video frames will be displayed in the layer. Video controls should be implemented by the author and must
 be drawn in another layer.
 
@@ -1961,6 +1976,9 @@ MUST run the following steps:
   1. Let |usability| be the result of [=check the usability of the image argument|checking the usability of=] |media|.
   1. If |usability| is <code>bad</code>, then fill the |layer| with transparent black and abort these steps.
   1. Fill the |layer| with the content of the |media| element.
+  1. If |layer|'s [=XRCompositionLayer/spatialize=] is <code>true</code> and |layer|'s {{XRCompositionLayer/forceMonoPresentation}} is <code>false</code>,
+     the user agent MAY present |layer| stereoscopically by presenting to each eye a view that is synthesized from |media|'s current frame
+     and depth estimated from that frame.
 
 <!--
 -> maybe this is needed later
@@ -2014,6 +2032,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Run [=initialize a composition layer=] on |layer| with |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
+  1. If |init|'s {{XRMediaLayerInit/spatialize}} is <code>true</code> and |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"mono"}}, initialize |layer|'s [=XRCompositionLayer/spatialize=] to <code>true</code>.
   1. Let |aspectRatio| be the result of [=calculate the aspect ratio=] with |video| and |init|'s {{XRMediaLayerInit/layout}}.
   1. If |init|'s {{XRMediaQuadLayerInit/width}} and {{XRMediaQuadLayerInit/height}} are <code>undefined</code>, set {{XRMediaQuadLayerInit/width}} to <code>1</code>.
   1. If |init|'s {{XRMediaQuadLayerInit/height}} is <code>undefined</code>, set {{XRMediaQuadLayerInit/height}} to {{XRMediaQuadLayerInit/width}} divided by |aspectRatio|.
@@ -2037,6 +2056,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Run [=initialize a composition layer=] on |layer| with |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
+  1. If |init|'s {{XRMediaLayerInit/spatialize}} is <code>true</code> and |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"mono"}}, initialize |layer|'s [=XRCompositionLayer/spatialize=] to <code>true</code>.
   1. Let |aspectRatio| be the result of [=calculate the aspect ratio=] with |video| and |init|'s {{XRMediaLayerInit/layout}}.
   1. If |init|'s {{XRMediaCylinderLayerInit/aspectRatio}} is <code>undefined</code>, set {{XRMediaCylinderLayerInit/aspectRatio}} to |aspectRatio|.
   1. Run [=initialize a cylinder layer=] with |layer| and |init|.
@@ -2060,6 +2080,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. Run [=initialize a composition layer=] on |layer| with |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
+  1. If |init|'s {{XRMediaLayerInit/spatialize}} is <code>true</code> and |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"mono"}}, initialize |layer|'s [=XRCompositionLayer/spatialize=] to <code>true</code>.
   1. Run [=initialize a equirect layer=] with |layer| and |init|.
   1. If the [=XR Compositor=] knows that it will be unable to create the resources for the |layer| for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
@@ -2133,7 +2154,7 @@ Authors should render depth/stencil and motion vector information to the full ex
 NOTE: Since the depth/stencil and motion vector attachments can have different dimensions than the color attachment, they are not intended to be attached to the framebuffer used to render into the {{XRWebGLSubImage/colorTexture}}.
 Authors should render depth/stencil and motion vector information separately at their attachment dimensions.
 
-The {{XRWebGLSubImage/motionVectorTexture}} MUST be in {{RGBA16F}} format. The author SHOULD fill in the RG components of this texture with the 2D screen-space motion vector for that area, expressed as a delta in <dfn>Normalized Device Coordinates</dfn> (<dfn>NDC</dfn>) between the current frame and the previous frame. The motion vector is computed as `(currentClipPos / currentW) - (prevClipPos / prevW)`, where `currentClipPos` and `prevClipPos` are the <dfn>clip space</dfn> positions of the fragment in the current and previous frames, respectively. The red channel corresponds to the delta in [=NDC=] X (horizontal), and the green channel corresponds to the delta in [=NDC=] Y (vertical). The blue channel MAY contain the delta in [=NDC=] Z (depth), and the alpha channel is unused.
+The {{XRWebGLSubImage/motionVectorTexture}} MUST be in {{RGBA16F}} format. The author SHOULD fill in the RG components of this texture with the 2D screen-space motion vector for that area, expressed as a delta in <dfn lt="Normalized Device Coordinates|NDC">Normalized Device Coordinates</dfn> (NDC) between the current frame and the previous frame. The motion vector is computed as `(currentClipPos / currentW) - (prevClipPos / prevW)`, where `currentClipPos` and `prevClipPos` are the clip space positions of the fragment in the current and previous frames, respectively. The red channel corresponds to the delta in [=NDC=] X (horizontal), and the green channel corresponds to the delta in [=NDC=] Y (vertical). The blue channel MAY contain the delta in [=NDC=] Z (depth), and the alpha channel is unused.
 
 If the {{XRWebGLSubImage/motionVectorTexture}} or {{XRWebGLSubImage/depthStencilTexture}} were not submitted during the processing of the {{XRFrame}}, the [=XR Compositor=] MUST process the {{XRFrame}} as if [=space warp=] was not enabled.
 
@@ -2173,7 +2194,7 @@ updateRenderState changes {#updaterenderstatechanges}
 <div class="algorithm" data-algorithm="update-layers-state-for-layers">
 
 This module replaces the steps given by "[=/update the pending layers state=]" from the WebXR specification. Instead when the user agent will
-<dfn dfn-for="layers">update the pending layers state</dfn> with {{XRSession}} |session| and {{XRRenderStateInit}} |newState|, it must run the following steps:
+<dfn noexport dfn-for="layers">update the pending layers state</dfn> with {{XRSession}} |session| and {{XRRenderStateInit}} |newState|, it must run the following steps:
   1. If both |newState|'s {{XRRenderStateInit/baseLayer}} and |newState|'s {{XRRenderStateInit/layers}} are set, throw a {{NotSupportedError}} and abort these steps.
   1. Let |activeState| be |session|'s [=active render state=].
   1. If |newState|'s {{XRRenderStateInit/baseLayer}} is set:
@@ -2204,6 +2225,9 @@ as if the [=view=] had an {{XREye}} of {{XREye/"left"}}.
 
 NOTE: This means that the side for the right eye of the layer is ignored. This enables authors to use the same assets for stereoscopic and
 monoscopic devices.
+
+If the [=XR Compositor=] is rendering to a [=view=] with an {{XREye}} of {{XREye/"none"}}, it MUST present layers whose
+[=XRCompositionLayer/spatialize=] is <code>true</code> without spatializing them.
 
 XRView changes {#xrviewchanges}
 --------------
@@ -2267,6 +2291,9 @@ Timing of the composition {#xrcompositiontiming}
 Composition timing MUST be independent of the content that is rendered.
 Moreover, content in a layer MUST NOT be observable in other layers.
 
+If the user agent spatializes a media layer (see {{XRMediaLayerInit/spatialize}}), the estimated depth and whether the layer
+is being spatialized MUST NOT be observable by the page, including through composition timing.
+
 If possible, composition of layers should happen outside the browser to reduce risk of timing attacks or other security vulnerabilities.
 
 Allocation of layers {#xrlayerallocation}
@@ -2282,6 +2309,7 @@ Changes</h2>
 Changes from the <a href="https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/">First Public Working Draft 3 December 2020</a></h3>
 
 New features:
+- Add a spatialize hint for media layers
 - Add support for opacity to XRCompositionLayer (<a href="https://github.com/immersive-web/layers/pull/284">GitHub #284</a>
 - Add support for depth testing across layers (<a href="https://github.com/immersive-web/layers/pull/271">GitHub #271</a>)
 - Add support for usesDepthValues to XRWebGLBinding (<a href="https://github.com/immersive-web/layers/pull/269">GitHub #269</a>)
