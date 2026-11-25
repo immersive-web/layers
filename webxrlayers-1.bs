@@ -627,20 +627,30 @@ The <dfn attribute for="XRCylinderLayer">aspectRatio</dfn> attribute controls th
 
 <img alt="description of the parameters of a cylinder layer" src="images/cylinder_layer_params.png" style="width: 80%; height: 80%;">
 
+<div class="algorithm" data-algorithm="validate cylinder layer parameters">
+
+To <dfn>validate cylinder layer parameters</dfn> given a float |radius|, a float |centralAngle|, and a float |aspectRatio|, the user agent MUST run the following steps:
+  1. If |radius|, |centralAngle|, or |aspectRatio| is not finite, throw a {{TypeError}} and abort these steps.
+  1. If |radius| is less than <code>0</code>, throw a {{TypeError}} and abort these steps.
+  1. If |centralAngle| is less than <code>0</code> or greater than 2π, throw a {{TypeError}} and abort these steps.
+  1. If |aspectRatio| is less than or equal to <code>0</code>, throw a {{TypeError}} and abort these steps.
+
+</div>
+
 <div class="algorithm" data-algorithm="initCylinderLayerAlgo">
-When <dfn lt="initialize a cylinder layer">initializing an {{XRCylinderLayer}} |layer| with an {{XRCylinderLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
-  1. Initialize |layer|'s {{XRCylinderLayer/radius}} to |init|'s {{XRCylinderLayerInit/radius}}.
-  1. Initialize |layer|'s {{XRCylinderLayer/centralAngle}} to |init|'s {{XRCylinderLayerInit/centralAngle}}.
-  1. Initialize |layer|'s {{XRCylinderLayer/aspectRatio}} to |init|'s {{XRCylinderLayerInit/aspectRatio}}.
-  1. Let |layer|'s {{XRCylinderLayer/space}} be the |init|'s {{XRLayerInit/space}}.
+When <dfn lt="initialize a cylinder layer">initializing an {{XRCylinderLayer}} |layer|</dfn> with an {{XRSpace}} |space|, an {{XRRigidTransform}} or <code>null</code> |transform|, floats |radius|, |centralAngle|, and |aspectRatio|, and a boolean |isStatic|, the user agent MUST run the following steps:
+  1. Initialize |layer|'s {{XRCylinderLayer/radius}} to |radius|.
+  1. Initialize |layer|'s {{XRCylinderLayer/centralAngle}} to |centralAngle|.
+  1. Initialize |layer|'s {{XRCylinderLayer/aspectRatio}} to |aspectRatio|.
+  1. Let |layer|'s {{XRCylinderLayer/space}} be |space|.
   1. Initialize |layer|'s {{XRCylinderLayer/transform}} as follows:
     <dl class="switch">
-      <dt class="switch">If |init|'s {{XRCylinderLayerInit/transform}} is set
-      <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of |layer| initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XRCylinderLayerInit/transform}}.
+      <dt class="switch">If |transform| is not null
+      <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of |layer| initialized with |transform|'s {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}}.
       <dt> Otherwise
       <dd> Let |layer|'s {{XRCylinderLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of |layer| initialized with a {{DOMPointInit}} position of <code>{ x: 0.0, y: 0.0, z: 0.0, w: 1.0 }</code>.
     </dl>
-  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRLayerInit/isStatic}}
+  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |isStatic|.
 
 </div>
 
@@ -673,7 +683,7 @@ The <dfn attribute for="XREquirectLayer">transform</dfn> attribute sets and retu
 {{XREquirectLayer/space}}. The {{XREquirectLayer/transform}} attribute and the {{XREquirectLayer/space}}
 establish the spatial relationship of the layer within the user’s physical environment.
 
-The <dfn attribute for="XREquirectLayer">radius</dfn> attribute is the non-negative radius in meters of the sphere. Values of <code>zero</code> or <code>infinity</code> are treated as an infinite sphere.
+The <dfn attribute for="XREquirectLayer">radius</dfn> attribute is the non-negative radius in meters of the sphere. A value of <code>zero</code> is treated as an infinite sphere.
 
 Setting {{XREquirectLayer/radius}} to a value less than <code>0</code> will set it to <code>0</code>.
 
@@ -700,20 +710,27 @@ When <var ignore>setting the space on an equirect layer</var> with {{XRSpace}} |
 </div>
 
 <div class="algorithm" data-algorithm="initEquirectLayerAlgo">
-When <dfn lt="initialize a equirect layer">initializing an {{XREquirectLayer}} |layer| with an {{XREquirectLayerInit}} |init|</dfn>, the user agent MUST run the following steps:
-  1. Initialize |layer|'s {{XREquirectLayer/radius}} to |init|'s {{XREquirectLayerInit/radius}}.
-  1. Initialize |layer|'s {{XREquirectLayer/centralHorizontalAngle}} to |init|'s {{XREquirectLayerInit/centralHorizontalAngle}}.
-  1. Initialize |layer|'s {{XREquirectLayer/upperVerticalAngle}} to |init|'s {{XREquirectLayerInit/upperVerticalAngle}}.
-  1. Initialize |layer|'s {{XREquirectLayer/lowerVerticalAngle}} to |init|'s {{XREquirectLayerInit/lowerVerticalAngle}}.
-  1. Let |layer|'s {{XREquirectLayer/space}} be the |init|'s {{XRLayerInit/space}}.
+When <dfn lt="initialize a equirect layer">initializing an {{XREquirectLayer}} |layer|</dfn> with an {{XRSpace}} |space|, an {{XRRigidTransform}} or <code>null</code> |transform|, floats |radius|, |centralHorizontalAngle|, |upperVerticalAngle|, and |lowerVerticalAngle|, and a boolean |isStatic|, the user agent MUST run the following steps:
+  1. Initialize |layer|'s {{XREquirectLayer/radius}} to |radius|.
+  1. If |layer|'s {{XREquirectLayer/radius}} is less than <code>0</code>, set it to <code>0</code>.
+  1. Initialize |layer|'s {{XREquirectLayer/centralHorizontalAngle}} to |centralHorizontalAngle|.
+  1. If |layer|'s {{XREquirectLayer/centralHorizontalAngle}} is less than <code>0</code>, set it to <code>0</code>.
+  1. If |layer|'s {{XREquirectLayer/centralHorizontalAngle}} is greater than 2π, set it to 2π.
+  1. Initialize |layer|'s {{XREquirectLayer/upperVerticalAngle}} to |upperVerticalAngle|.
+  1. If |layer|'s {{XREquirectLayer/upperVerticalAngle}} is less than -π/2, set it to -π/2.
+  1. If |layer|'s {{XREquirectLayer/upperVerticalAngle}} is greater than π/2, set it to π/2.
+  1. Initialize |layer|'s {{XREquirectLayer/lowerVerticalAngle}} to |lowerVerticalAngle|.
+  1. If |layer|'s {{XREquirectLayer/lowerVerticalAngle}} is less than -π/2, set it to -π/2.
+  1. If |layer|'s {{XREquirectLayer/lowerVerticalAngle}} is greater than π/2, set it to π/2.
+  1. Let |layer|'s {{XREquirectLayer/space}} be |space|.
   1. Initialize |layer|'s {{XREquirectLayer/transform}} as follows:
     <dl class="switch">
-      <dt class="switch">If |init|'s {{XREquirectLayerInit/transform}} is set
-      <dd> Let |layer|'s {{XREquirectLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of |layer| initialized with {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}} of |init|'s {{XREquirectLayerInit/transform}}.
+      <dt class="switch">If |transform| is not null
+      <dd> Let |layer|'s {{XREquirectLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of |layer| initialized with |transform|'s {{XRRigidTransform/position}} and {{XRRigidTransform/orientation}}.
       <dt> Otherwise
       <dd> Let |layer|'s {{XREquirectLayer/transform}} be a [=new=] {{XRRigidTransform}} in the [=relevant realm=] of |layer|.
     </dl>
-  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |init|'s {{XRLayerInit/isStatic}}
+  1. Initialize |layer|'s [=XRCompositionLayer/isStatic=] to |isStatic|.
 
 </div>
 
@@ -1543,9 +1560,10 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |context| is lost, throw {{InvalidStateError}} and abort these steps.
   1. If |layout| is {{XRLayerLayout/"default"}}, throw {{TypeError}} and abort these steps.
+  1. Run [=validate cylinder layer parameters=] with |init|'s {{XRCylinderLayerInit/radius}}, {{XRCylinderLayerInit/centralAngle}}, and {{XRCylinderLayerInit/aspectRatio}}.
   1. Let |layer| be a [=new=] {{XRCylinderLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=initialize a composition layer=] on |layer| with |session| and |context|.
-  1. Run [=initialize a cylinder layer=] with |layer| and |init|.
+  1. Run [=initialize a cylinder layer=] with |layer|, |init|'s {{XRLayerInit/space}}, {{XRCylinderLayerInit/transform}}, {{XRCylinderLayerInit/radius}}, {{XRCylinderLayerInit/centralAngle}}, {{XRCylinderLayerInit/aspectRatio}}, and {{XRLayerInit/isStatic}}.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |init|'s {{XRLayerInit/textureType}}, |context| and |init|'s {{XRLayerInit/layout}}.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
@@ -1572,7 +1590,7 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{TypeError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XREquirectLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=initialize a composition layer=] on |layer| with |session| and |context|.
-  1. Run [=initialize a equirect layer=] with |layer| and |init|.
+  1. Run [=initialize a equirect layer=] with |layer|, |init|'s {{XRLayerInit/space}}, {{XREquirectLayerInit/transform}}, {{XREquirectLayerInit/radius}}, {{XREquirectLayerInit/centralHorizontalAngle}}, {{XREquirectLayerInit/upperVerticalAngle}}, {{XREquirectLayerInit/lowerVerticalAngle}}, and {{XRLayerInit/isStatic}}.
   1. let |layout| be the result of [=determine the layout attribute|determining the layout attribute=] with |init|'s {{XRLayerInit/textureType}}, |context| and |init|'s {{XRLayerInit/layout}}.
   1. Initialize |layer|'s {{XRCompositionLayer/layout}} to |layout|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>true</code>.
@@ -2033,13 +2051,13 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If |session| was not created with "[=feature descriptor/layers=]" enabled, throw a {{NotSupportedError}} and abort these steps.
   1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
+  1. Let |aspectRatio| be |init|'s {{XRMediaCylinderLayerInit/aspectRatio}} if the member is present and not <code>null</code>; otherwise, let |aspectRatio| be the result of [=calculate the aspect ratio=] with |video| and |init|'s {{XRMediaLayerInit/layout}}.
+  1. Run [=validate cylinder layer parameters=] with |init|'s {{XRMediaCylinderLayerInit/radius}}, {{XRMediaCylinderLayerInit/centralAngle}}, and |aspectRatio|.
   1. Let |layer| be a [=new=] {{XRCylinderLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=initialize a composition layer=] on |layer| with |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
-  1. Let |aspectRatio| be the result of [=calculate the aspect ratio=] with |video| and |init|'s {{XRMediaLayerInit/layout}}.
-  1. If |init|'s {{XRMediaCylinderLayerInit/aspectRatio}} is <code>undefined</code>, set {{XRMediaCylinderLayerInit/aspectRatio}} to |aspectRatio|.
-  1. Run [=initialize a cylinder layer=] with |layer| and |init|.
+  1. Run [=initialize a cylinder layer=] with |layer|, |init|'s {{XRMediaLayerInit/space}}, {{XRMediaCylinderLayerInit/transform}}, {{XRMediaCylinderLayerInit/radius}}, {{XRMediaCylinderLayerInit/centralAngle}}, |aspectRatio|, and <code>false</code>.
   1. If the [=XR Compositor=] knows that it will be unable to create the resources for the |layer| for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
 
@@ -2054,13 +2072,13 @@ When this method is invoked, the user agent MUST run the following steps:
   1. If |session| was not created with "[=feature descriptor/layers=]" enabled, throw a {{NotSupportedError}} and abort these steps.
   1. If |session|'s {{XRSession/ended}} value is <code>true</code>, throw {{InvalidStateError}} and abort these steps.
   1. If |init|'s {{XRMediaLayerInit/layout}} is {{XRLayerLayout/"default"}}, throw a {{TypeError}} and abort these steps.
-  1. If |init|'s {{XRLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
-  1. If |init|'s {{XRLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRMediaLayerInit/space}} is not an instance of type {{XRReferenceSpace}}, throw {{InvalidStateError}} and abort these steps.
+  1. If |init|'s {{XRMediaLayerInit/space}} has a [=XRReferenceSpace/type=] of {{XRReferenceSpaceType/"viewer"}}, throw {{InvalidStateError}} and abort these steps.
   1. Let |layer| be a [=new=] {{XREquirectLayer}} in the [=relevant realm=] of [=this=].
   1. Run [=initialize a composition layer=] on |layer| with |session|.
   1. Initialize |layer|'s [=XRCompositionLayer/media=] to |video|.
   1. Initialize |layer|'s {{XRCompositionLayer/needsRedraw}} to <code>false</code>.
-  1. Run [=initialize a equirect layer=] with |layer| and |init|.
+  1. Run [=initialize a equirect layer=] with |layer|, |init|'s {{XRMediaLayerInit/space}}, {{XRMediaEquirectLayerInit/transform}}, {{XRMediaEquirectLayerInit/radius}}, {{XRMediaEquirectLayerInit/centralHorizontalAngle}}, {{XRMediaEquirectLayerInit/upperVerticalAngle}}, {{XRMediaEquirectLayerInit/lowerVerticalAngle}}, and <code>false</code>.
   1. If the [=XR Compositor=] knows that it will be unable to create the resources for the |layer| for any reason, throw an {{OperationError}} and abort these steps.
   1. return |layer|.
 
@@ -2292,6 +2310,7 @@ New features:
 
 Changes:
 
+- Define initialization validation for cylinder and equirect layers (<a href="https://github.com/immersive-web/layers/issues/333">GitHub #333</a>)
 - fixed small issue in layout algo and in clearing of opaque textures (<a href="https://github.com/immersive-web/layers/pull/257">GitHub #257</a>)
 - Clarify aspectratio (<a href="https://github.com/immersive-web/layers/pull/256">GitHub #256</a>)
 - Added some language about the layer memory allocation (<a href="https://github.com/immersive-web/layers/pull/255">GitHub #255</a>)
