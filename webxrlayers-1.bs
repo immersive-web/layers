@@ -1897,9 +1897,20 @@ The <dfn dict-member for="XRMediaLayerInit">space</dfn> attribute defines the sp
 
 The <dfn dict-member for="XRMediaLayerInit">layout</dfn> attribute defines the layout of the video in the {{XRCompositionLayer}}.
 
+For a {{XRLayerLayout/"mono"}} layout, the video frame is shown to both eyes. If the video contains more than one view, its primary view is used.
+
+For a {{XRLayerLayout/"stereo"}} layout, each eye is shown its own view of a video that contains a separate view for each eye, such as a multiview
+video. Each eye is shown the view that the video assigns to it. If the video doesn't assign views to eyes, its primary view is shown to the left eye
+and its second view to the right eye. If the video contains a single view, or the user agent can't present the views separately, the user agent MUST
+show the video's primary view to both eyes.
+
+NOTE: The {{XRCompositionLayer/layout}} of the layer is the layout that was requested, even if the user agent shows the same view to both eyes.
+This allows authors to request {{XRLayerLayout/"stereo"}} for any video that might contain multiple views.
+
 The <dfn dict-member for="XRMediaLayerInit">invertStereo</dfn> attribute defines whether the views for the left and right eyes in the video are swapped when presented.
 For {{XRLayerLayout/"stereo-left-right"}}, a value of <code>true</code> presents the right half to the left eye and the left half to the right eye.
 For {{XRLayerLayout/"stereo-top-bottom"}}, a value of <code>true</code> presents the bottom half to the left eye and the top half to the right eye.
+For {{XRLayerLayout/"stereo"}}, a value of <code>true</code> presents the view for the right eye to the left eye and the view for the left eye to the right eye.
 This member has no effect on {{XRLayerLayout/"mono"}} layers.
 
 XRMediaQuadLayerInit {#xrmediaquadlayerinittype}
@@ -1982,7 +1993,7 @@ When an {{XRCompositionLayer}} |layer| with a {{HTMLVideoElement}} |media| needs
 MUST run the following steps:
   1. Let |usability| be the result of [=check the usability of the image argument|checking the usability of=] |media|.
   1. If |usability| is <code>bad</code>, then fill the |layer| with transparent black and abort these steps.
-  1. Fill |layer| with the content of |media| according to |layer|'s {{XRCompositionLayer/layout}}, using the eye assignments defined by {{XRLayerLayout}} for {{XRLayerLayout/"stereo-left-right"}} and {{XRLayerLayout/"stereo-top-bottom"}} layouts. If |layer|'s [=XRCompositionLayer/invertStereo=] is <code>true</code> and |layer|'s {{XRCompositionLayer/layout}} is not {{XRLayerLayout/"mono"}}, swap the left and right eye assignments when filling |layer|.
+  1. Fill |layer| with the content of |media| according to |layer|'s {{XRCompositionLayer/layout}}, using the eye assignments defined by {{XRLayerLayout}} for {{XRLayerLayout/"stereo-left-right"}} and {{XRLayerLayout/"stereo-top-bottom"}} layouts and by {{XRMediaLayerInit/layout}} for {{XRLayerLayout/"stereo"}} layouts. If |layer|'s [=XRCompositionLayer/invertStereo=] is <code>true</code> and |layer|'s {{XRCompositionLayer/layout}} is not {{XRLayerLayout/"mono"}}, swap the left and right eye assignments when filling |layer|.
 
 <!--
 -> maybe this is needed later
@@ -2310,6 +2321,7 @@ Changes</h2>
 Changes from the <a href="https://www.w3.org/TR/2020/WD-webxrlayers-1-20201203/">First Public Working Draft 3 December 2020</a></h3>
 
 New features:
+- Define the "stereo" layout for media layers, for videos with a separate view for each eye
 - Add support for opacity to XRCompositionLayer (<a href="https://github.com/immersive-web/layers/pull/284">GitHub #284</a>
 - Add support for depth testing across layers (<a href="https://github.com/immersive-web/layers/pull/271">GitHub #271</a>)
 - Add support for usesDepthValues to XRWebGLBinding (<a href="https://github.com/immersive-web/layers/pull/269">GitHub #269</a>)
